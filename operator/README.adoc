@@ -1,0 +1,24 @@
+= OS Migrate Operator Guide
+
+This guide provides comprehensive information for operators planning and executing OpenStack cloud migrations using OS Migrate.
+
+:toc:
+:toclevels: 2
+
+include::chapter_os-migrate-overview.adoc[leveloffset=+1]
+
+include::chapter_os-migrate-walkthrough.adoc[leveloffset=+1]
+
+include::chapter_os-migrate-process-summary.adoc[leveloffset=+1]
+
+include::chapter_os-migrate-capacity-planning.adoc[leveloffset=+1]
+
+include::chapter_os-migrate-performance-expectations.adoc[leveloffset=+1]
+
+include::chapter_os-migrate-quickstart-guide.adoc[leveloffset=+1]
+
+include::chapter_os-migrate-vmware-guide.adoc[leveloffset=+1]
+
+include::chapter_os-migrate-glossary.adoc[leveloffset=+1]
+
+include::chapter_os-migrate-contributing.adoc[leveloffset=+1]
