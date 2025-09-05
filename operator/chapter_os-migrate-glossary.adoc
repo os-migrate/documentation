@@ -1,7 +1,207 @@
-ifdev::context[:parent-context: {context}]
+= OS Migrate Glossary
+:toc:
+:toc-placement: preamble
 
-[id="os-migrate-glossary_{context}]
+A comprehensive glossary of terms for operators learning about the OS Migrate project.
 
-:context: planning
+== Core Concepts
 
-= OS Migrate Glossary of Terms
+*OS Migrate Collection*::
+An Ansible collection (`os_migrate.os_migrate`) that provides modules, roles, and playbooks for migrating OpenStack resources between clouds.
+
+*Resource*::
+An OpenStack entity that can be migrated (networks, instances, flavors, images, etc.). Each resource type has its own export/import workflow.
+
+*Export Phase*::
+The process of extracting resource definitions from a source OpenStack cloud and serializing them to YAML files.
+
+*Import Phase*::
+The process of reading YAML resource files and creating corresponding resources in a destination OpenStack cloud.
+
+*Parallel Migration*::
+A modernization strategy where a new OpenStack deployment runs alongside an existing one, with tenant resources migrated between them.
+
+*Idempotent Operations*::
+All playbooks can be re-run safely; they won't duplicate resources or cause conflicts.
+
+== Resource Types
+
+*Workloads*::
+Running instances/VMs that are migrated from source to destination cloud, including their attached storage and network configuration.
+
+*Detached Volumes*::
+Storage volumes not currently attached to any instance.
+
+*Flavors*::
+Virtual machine templates that define CPU, memory, and disk specifications.
+
+*Images*::
+Disk images used as templates for creating instances.
+
+*Networks*::
+Virtual networks that provide connectivity between instances.
+
+*Subnets*::
+IP address ranges within networks that define available IP addresses.
+
+*Routers*::
+Virtual routers that provide connectivity between networks and external networks.
+
+*Router Interfaces*::
+Connections between routers and subnets.
+
+*Security Groups*::
+Firewall rule sets that control network traffic to instances.
+
+*Security Group Rules*::
+Individual firewall rules within security groups.
+
+*Projects*::
+OpenStack tenants that contain and isolate resources.
+
+*Users*::
+OpenStack user accounts with authentication credentials.
+
+*Keypairs*::
+SSH key pairs used for secure instance access.
+
+*User Project Role Assignments*::
+Mappings that grant users specific roles within projects.
+
+== Migration Infrastructure
+
+*Conversion Host*::
+A temporary VM created in the destination cloud to facilitate workload migration, particularly for disk image transfer.
+
+*Conversion Host Content*::
+Software and configuration deployed on conversion hosts to enable migration functionality.
+
+*Migrator Host*::
+The system where OS Migrate playbooks are executed, coordinating the migration process.
+
+== Data Management
+
+*Data Directory* (`os_migrate_data_dir`)::
+Local filesystem location where exported YAML resource files are stored during migration.
+
+*Resource Filter* (`os_migrate_<resource>_filter`)::
+Name-based filtering to selectively export/import specific resources rather than all resources of a type.
+
+*Serialization*::
+The process of converting OpenStack SDK objects into OS Migrate's standardized YAML format.
+
+*Resource Validation*::
+Checking that imported YAML files contain valid resource definitions before attempting import.
+
+*File Validation* (`import_<resource>_validate_file`)::
+Optional validation step that verifies resource data integrity before import operations.
+
+== Resource Structure
+
+*params_from_sdk*::
+Resource properties that are copied to the destination cloud (configuration, settings).
+
+*info_from_sdk*::
+Resource properties that are NOT copied (UUIDs, timestamps, read-only data).
+
+*Migration Parameters*::
+OS Migrate-specific settings that control migration behavior for each resource.
+
+*SDK Parameters*::
+Parameters used when making OpenStack API calls to create or update resources.
+
+*Readonly SDK Parameters*::
+Parameters that are allowed during resource creation but not during updates.
+
+== Authentication & Configuration
+
+*Source Auth* (`os_migrate_src_auth`)::
+OpenStack authentication credentials for the source cloud.
+
+*Destination Auth* (`os_migrate_dst_auth`)::
+OpenStack authentication credentials for the destination cloud.
+
+*clouds.yaml*::
+OpenStack client configuration file containing cloud authentication details.
+
+*Source Cloud* (`SRC_CLOUD`)::
+Environment variable identifying the source cloud configuration in clouds.yaml.
+
+*Destination Cloud* (`DST_CLOUD`)::
+Environment variable identifying the destination cloud configuration in clouds.yaml.
+
+== Ansible Components
+
+*Export Roles*::
+Ansible roles that call export modules and handle resource filtering (e.g., `export_networks`, `export_workloads`).
+
+*Import Roles*::
+Ansible roles that validate data files and call import modules (e.g., `import_networks`, `import_workloads`).
+
+*Export Modules*::
+Ansible modules that retrieve resources from source cloud and serialize to YAML (e.g., `export_flavor.py`).
+
+*Import Modules*::
+Ansible modules that read YAML files and create resources in destination cloud (e.g., `import_flavor.py`).
+
+*Prelude Roles*::
+Setup roles that prepare the environment:
+- `prelude_src` - Source cloud preparation
+- `prelude_dst` - Destination cloud preparation  
+- `prelude_common` - Common setup tasks
+
+*Resource Class*::
+Python class that defines how OpenStack SDK objects are converted to/from OS Migrate format. All inherit from the base `Resource` class.
+
+== Development & Testing
+
+*Role Skeleton*::
+Template structure for creating new export/import roles using the role-addition script.
+
+*Unit Tests*::
+Tests that verify module logic and resource class behavior in isolation.
+
+*Functional Tests*::
+Tests that verify roles and modules work correctly in integration scenarios.
+
+*End-to-End Tests* (E2E)::
+Full migration workflow tests that validate complete export/import cycles.
+
+*Sanity Tests*::
+Ansible collection sanity checks that verify code quality and standards compliance.
+
+== Container Environment
+
+*Container Engine*::
+Configurable container runtime (Podman/Docker) used for development environment via `CONTAINER_ENGINE` variable.
+
+*Development Container*::
+CentOS Stream 10 container with Python 3.12 where all OS Migrate commands execute.
+
+*Source Mount*::
+The `/code` directory inside the container where the OS Migrate source code is mounted.
+
+== Build & Deployment
+
+*Collection Build*::
+Process of packaging OS Migrate into an Ansible collection archive for distribution.
+
+*Galaxy Installation*::
+Installing the OS Migrate collection via `ansible-galaxy collection install os_migrate.os_migrate`.
+
+*Dependencies*::
+Required Ansible collections (`community.crypto`, `community.general`, `openstack.cloud`) and Python packages.
+
+== Migration Process
+
+*Three-Phase Migration*::
+The standard workflow: Export → Transfer → Import.
+
+*Transfer Phase*::
+Moving exported YAML data files from source environment to destination environment.
+
+*Validation Phase*::
+Verifying that resources were created correctly and handling any migration errors.
+
+*Resource References*::
+Cross-references between resources (e.g., instances referencing networks) that must be resolved during import.
