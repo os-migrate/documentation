@@ -13,6 +13,8 @@ include::chapter_os-migrate-process-summary.adoc[leveloffset=+1]
 
 include::chapter_os-migrate-capacity-planning.adoc[leveloffset=+1]
 
+include::chapter_os-migrate-migrator-host.adoc[leveloffset=+1]
+
 include::chapter_os-migrate-performance-expectations.adoc[leveloffset=+1]
 
 include::chapter_os-migrate-quickstart-guide.adoc[leveloffset=+1]

@@ -1,0 +1,133 @@
+ifdef::context[:parent-context: {context}]
+
+[id="os-migrate-migrator-host_{context}"]
+
+:context: migrator-host
+
+= Migrator Host Requirements
+
+== Overview
+
+The migrator host is the machine that executes OS Migrate Ansible playbooks and serves as the orchestration point for OpenStack cloud migrations. It can be deployed as:
+
+* A source cloud instance
+* A third-party machine (physical/virtual)
+* An Ansible Execution Environment (container)
+
+== System Requirements
+
+=== Operating System
+
+* Recommended: CentOS Stream 10 or RHEL 9.5+
+* Alternative: Any Linux distribution with virtio-win package ≥1.40 (for workload migrations)
+* Container environments supported for Ansible Execution Environments
+
+=== Software Dependencies
+
+==== Core Requirements
+
+* Python: 3.7+ (badges show 3.7+, container uses 3.12)
+* Ansible: 2.9+ minimum (current: 11.7.0)
+
+==== Python Packages
+
+[source,text]
+----
+ansible==11.7.0
+ansible-lint==25.6.1
+openstacksdk==1.5.1
+python-openstackclient==6.3.0
+passlib==1.7.4
+PyYAML==6.0.2
+----
+
+==== Ansible Collections
+
+[source,text]
+----
+community.crypto: ">=1.4.0"
+community.general: "<5.0.0"
+openstack.cloud: ">=2.3.0,<2.4.0"
+----
+
+=== Storage Requirements
+
+* Sufficient disk space in os_migrate_data_dir (default: /home/migrator/os-migrate-data)
+* Separate data directories required for each source project migration
+* Additional space for volume conversion during workload migrations
+
+=== Network Access
+
+* Outbound: HTTPS access to both source and destination OpenStack APIs
+* Inbound: SSH access if used as remote conversion host
+* Bandwidth: Adequate for volume/image data transfer during migrations
+
+== Configuration Requirements
+
+=== Authentication
+
+* Valid OpenStack credentials for both source and destination clouds
+* clouds.yaml configuration or environment variables
+* Support for Keystone v2/v3 authentication types
+
+=== Inventory Configuration
+
+[source,yaml]
+----
+migrator:
+  hosts:
+    localhost:
+      ansible_connection: local
+      ansible_python_interpreter: "{{ ansible_playbook_python }}"
+----
+
+=== Required Variables
+
+* os_migrate_src_auth: Source cloud authentication
+* os_migrate_dst_auth: Destination cloud authentication
+* os_migrate_data_dir: Migration data storage location
+* Region and API version configurations as needed
+
+== Deployment Options
+
+=== 1. Source Cloud Instance
+
+* Pros: Close network proximity to source resources
+* Cons: Resource consumption on source cloud
+* Use case: When destination cloud has limited external access
+
+=== 2. Third-Party Machine
+
+* Pros: Independent resource allocation, flexible placement
+* Cons: Network latency considerations
+* Use case: Large migrations, dedicated migration infrastructure
+
+=== 3. Ansible Execution Environment
+
+* Pros: Consistent, portable, containerized execution
+* Cons: Container orchestration complexity
+* Use case: CI/CD pipelines, automated migrations
+
+== Special Considerations
+
+=== Workload Migration
+
+* Additional conversion host may be required for instance migrations
+* SSH key access to conversion hosts
+* Volume attachment/detachment capabilities
+
+=== Multi-Project Migrations
+
+* Separate data directories for each source project
+* Proper isolation of migration data
+* Sequential or parallel execution planning
+
+=== Security
+
+* No direct database access (API-only operations)
+* Secure credential management
+* Network security between clouds
+
+ifdef::parent-context[:context: {parent-context}]
+ifndef::parent-context[:!context:]
+
