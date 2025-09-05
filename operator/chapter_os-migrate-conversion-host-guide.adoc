@@ -1,0 +1,420 @@
+ifdev::context[:parent-context: {context}]
+
+[id="os-migrate-conversion-host-guide_{context}"]
+
+:context: conversion-host
+
+= Conversion Host Guide
+
+The conversion host role is a critical component of OS Migrate for migrating OpenStack workloads (instances) and their associated volumes between OpenStack clouds. It deploys dedicated compute instances that act as intermediary hosts for data transfer and conversion operations during workload migration.
+
+== Purpose
+
+Conversion hosts serve as temporary staging instances that:
+
+* *Data Transfer*: Facilitate the transfer of workload disk data between source and destination clouds
+* *Format Conversion*: Handle disk format conversions if needed between different storage backends
+* *Network Bridging*: Provide network connectivity between source and destination environments
+* *Migration Orchestration*: Execute the complex multi-step process of workload migration
+
+== Architecture
+
+The conversion host system consists of two main Ansible roles:
+
+=== `conversion_host` Role
+
+*Location*: `/roles/conversion_host/`
+
+*Purpose*: Deploys the infrastructure and compute instances needed for conversion hosts.
+
+*Key Responsibilities*:
+
+* Creates networking infrastructure (networks, subnets, routers, security groups)
+* Generates SSH keypairs for secure communication
+* Deploys conversion host instances in both source and destination clouds
+* Configures floating IPs for external connectivity
+* Sets up security group rules for SSH and ICMP access
+
+=== `conversion_host_content` Role
+
+*Location*: `/roles/conversion_host_content/`
+
+*Purpose*: Installs and configures software packages on the conversion hosts.
+
+*Key Responsibilities*:
+
+* Installs OS-specific packages (supports CentOS and RHEL)
+* Configures RHEL subscription management if needed
+* Sets up SSH keys for inter-host communication
+* Enables password access if required
+* Runs pre/post installation hooks
+
+== How It Works
+
+=== Deployment Process
+
+. *Infrastructure Setup* (`conversion_host` role):
++
+[source,yaml]
+----
+# Network Infrastructure
+- Creates conversion network (default: os_migrate_conv)
+- Creates subnet with CIDR 192.168.10.0/24
+- Creates router connected to external network
+- Creates security group with SSH/ICMP rules
+----
+
+. *Instance Deployment*:
++
+[source,yaml]
+----
+# Source Cloud Instance
+os_migrate_src_conversion_host_name: os_migrate_conv_src
+
+# Destination Cloud Instance  
+os_migrate_dst_conversion_host_name: os_migrate_conv_dst
+----
+
+. *SSH Key Configuration*:
+* Generates keypair for conversion host access
+* Configures authorized keys on source host
+* Installs private key on destination host for src→dst communication
+
+. *Software Installation* (`conversion_host_content` role):
+* Installs required packages based on OS distribution
+* Configures any RHEL subscriptions
+* Sets up conversion tools and dependencies
+
+=== Migration Workflow Integration
+
+During workload migration, conversion hosts are used in the following workflow:
+
+. *Volume Export*: Source conversion host exports volumes from source cloud storage
+. *Data Transfer*: Volumes are transferred from source to destination conversion host
+. *Volume Import*: Destination conversion host imports volumes to destination storage
+. *Instance Creation*: New instance is created using imported volumes
+
+=== Network Architecture
+
+....
+Source Cloud                 Destination Cloud
++------------------+        +------------------+
+| Conversion Host  |        | Conversion Host  |
+| (os_migrate_conv)|   SSH  | (os_migrate_conv)|
+| 192.168.10.x     |<------>| 192.168.10.x     |
++------------------+        +------------------+
+         |                           |
+    [Floating IP]              [Floating IP]
+         |                           |
+    [External Net]             [External Net]
+....
+
+== Configuration
+
+=== Required Variables
+
+[source,yaml]
+----
+# Must be defined
+os_migrate_conversion_flavor_name: m1.large
+os_migrate_conversion_external_network_name: public
+----
+
+=== Network Configuration
+
+[source,yaml]
+----
+# Network settings (with defaults)
+os_migrate_conversion_net_name: os_migrate_conv
+os_migrate_conversion_subnet_name: os_migrate_conv  
+os_migrate_conversion_subnet_cidr: 192.168.10.0/24
+os_migrate_conversion_subnet_alloc_start: 192.168.10.10
+os_migrate_conversion_subnet_alloc_end: 192.168.10.99
+os_migrate_conversion_router_name: os_migrate_conv
+os_migrate_conversion_router_ip: 192.168.10.1
+----
+
+=== Host Configuration
+
+[source,yaml]
+----
+# Instance settings
+os_migrate_src_conversion_host_name: os_migrate_conv_src
+os_migrate_dst_conversion_host_name: os_migrate_conv_dst
+os_migrate_conversion_image_name: os_migrate_conv
+os_migrate_conversion_host_ssh_user: cloud-user
+
+# Boot from volume options
+os_migrate_src_conversion_host_boot_from_volume: false
+os_migrate_dst_conversion_host_boot_from_volume: false
+os_migrate_src_conversion_host_volume_size: 20
+os_migrate_dst_conversion_host_volume_size: 20
+----
+
+=== Security Configuration
+
+[source,yaml]
+----
+# SSH and security
+os_migrate_conversion_keypair_name: os_migrate_conv
+os_migrate_conversion_keypair_private_path: "{{ os_migrate_data_dir }}/conversion/ssh.key"
+os_migrate_conversion_secgroup_name: os_migrate_conv
+
+# Password access (disabled by default)
+os_migrate_conversion_host_ssh_user_enable_password_access: false
+----
+
+=== Management Options
+
+[source,yaml]
+----
+# Infrastructure management  
+os_migrate_conversion_manage_network: true
+os_migrate_conversion_manage_fip: true
+os_migrate_conversion_delete_fip: true
+
+# Content installation
+os_migrate_conversion_host_content_install: true
+
+# Deployment control
+os_migrate_deploy_src_conversion_host: true
+os_migrate_deploy_dst_conversion_host: true
+os_migrate_link_conversion_hosts: true
+os_migrate_reboot_conversion_hosts: false
+----
+
+== Usage
+
+=== Deploy Conversion Hosts
+
+Use the provided playbook to deploy conversion hosts:
+
+[source,bash]
+----
+ansible-playbook os_migrate.os_migrate.deploy_conversion_hosts
+----
+
+This playbook will:
+
+. Deploy source conversion host infrastructure and instance
+. Deploy destination conversion host infrastructure and instance  
+. Configure SSH linking between hosts
+. Install required software packages
+. Perform health checks
+
+=== Delete Conversion Hosts
+
+Clean up conversion hosts and their infrastructure:
+
+[source,bash]
+----
+ansible-playbook os_migrate.os_migrate.delete_conversion_hosts
+----
+
+=== Manual Role Usage
+
+You can also use the roles directly for more control:
+
+[source,yaml]
+----
+# Deploy source conversion host
+- name: Deploy source conversion host
+  include_role:
+    name: os_migrate.os_migrate.conversion_host
+  vars:
+    os_migrate_conversion_cloud: src
+    os_migrate_conversion_host_name: "{{ os_migrate_src_conversion_host_name }}"
+    # ... other source-specific variables
+
+# Deploy destination conversion host  
+- name: Deploy destination conversion host
+  include_role:
+    name: os_migrate.os_migrate.conversion_host
+  vars:
+    os_migrate_conversion_cloud: dst
+    os_migrate_conversion_host_name: "{{ os_migrate_dst_conversion_host_name }}"
+    # ... other destination-specific variables
+----
+
+== Integration with Workload Migration
+
+Conversion hosts are automatically used during workload migration when:
+
+. *Workload Export/Import*: The `import_workloads` role checks conversion host status
+. *Data Copy Operations*: Volume data is transferred via conversion hosts
+. *Health Checks*: Ensures conversion hosts are active and reachable before migration
+
+The `os_conversion_host_info` module provides runtime information about conversion hosts:
+
+[source,yaml]
+----
+- name: Get conversion host info
+  os_migrate.os_migrate.os_conversion_host_info:
+    cloud: src
+    server: "{{ os_migrate_src_conversion_host_name }}"
+  register: conversion_host_info
+----
+
+== Prerequisites
+
+=== Cloud Requirements
+
+* *Flavor*: Adequate flavor for conversion operations (recommended: >= 2 vCPU, 4GB RAM)
+* *Image*: Compatible base image (CentOS/RHEL with cloud-init)
+* *Network*: External network for floating IP assignment
+* *Quotas*: Sufficient quota for additional instances, networks, and floating IPs
+
+=== Permissions
+
+The deployment requires OpenStack permissions for:
+
+* Instance creation/deletion
+* Network resource management (networks, subnets, routers)
+* Security group management
+* Keypair management
+* Floating IP allocation
+
+== Troubleshooting
+
+=== Common Issues
+
+*1. Conversion Host Not Reachable*
+
+----
+# Check conversion host status
+- os_conversion_host_info module will fail if host is not ACTIVE
+- Verify floating IP assignment
+- Check security group rules allow SSH (port 22)
+----
+
+*2. Network Connectivity Issues*
+
+----
+# Verify network configuration
+- External network name is correct
+- Router has gateway set to external network
+- DNS nameservers are accessible (default: 8.8.8.8)
+----
+
+*3. SSH Key Problems*
+
+----
+# Key file permissions
+- Private key must have 0600 permissions
+- Public key must be accessible to Ansible
+- Verify keypair exists in OpenStack
+----
+
+*4. Package Installation Failures*
+
+----
+# RHEL subscription issues
+- Check RHEL subscription configuration
+- Verify repository access
+- Review pre/post content hooks
+----
+
+=== Debugging Steps
+
+. *Check Conversion Host Status*:
++
+[source,yaml]
+----
+- name: Debug conversion host
+  os_migrate.os_migrate.os_conversion_host_info:
+    cloud: src
+    server: "{{ os_migrate_src_conversion_host_name }}"
+  register: debug_info
+
+- debug: var=debug_info
+----
+
+. *Verify Network Connectivity*:
++
+[source,yaml]
+----
+- name: Test SSH connectivity
+  wait_for:
+    port: 22
+    host: "{{ conversion_host_ip }}"
+    timeout: 60
+----
+
+. *Check Infrastructure*:
++
+[source,bash]
+----
+# Verify OpenStack resources exist
+openstack server list --name os_migrate_conv
+openstack network list --name os_migrate_conv
+openstack security group list --name os_migrate_conv
+----
+
+== Best Practices
+
+=== Security
+
+* Use dedicated keypairs for conversion hosts
+* Limit security group rules to necessary ports only
+* Consider using specific subnets for conversion traffic
+* Disable password authentication unless specifically required
+
+=== Performance
+
+* Choose appropriate flavors with sufficient CPU and memory
+* Consider boot-from-volume for larger disk operations
+* Use local storage-optimized flavors when available
+* Monitor network bandwidth during large migrations
+
+=== Cleanup
+
+* Always clean up conversion hosts after migration
+* Set `os_migrate_conversion_delete_fip: true` to clean floating IPs
+* Use the delete playbook to ensure complete cleanup
+* Monitor for orphaned resources after deletion
+
+=== Testing
+
+* Test conversion host deployment in development environment first
+* Verify connectivity between source and destination hosts
+* Test package installation and configuration
+* Validate migration workflow with small test instances
+
+== Related Components
+
+* *`import_workloads` role*: Uses conversion hosts for actual migration operations
+* *`os_conversion_host_info` module*: Provides runtime host information
+* *Volume migration modules*: Transfer data via conversion hosts
+* *Workload migration utilities*: Coordinate conversion host operations
+
+== Examples
+
+=== Basic Deployment
+
+[source,yaml]
+----
+# Minimal configuration for conversion host deployment
+os_migrate_conversion_flavor_name: m1.large
+os_migrate_conversion_external_network_name: public
+os_migrate_src_conversion_image_name: centos-stream-9
+os_migrate_dst_conversion_image_name: centos-stream-9
+----
+
+=== Advanced Configuration
+
+[source,yaml]
+----
+# Advanced configuration with custom networks
+os_migrate_conversion_flavor_name: m1.xlarge
+os_migrate_conversion_external_network_name: external
+os_migrate_src_conversion_net_name: migration_src_net
+os_migrate_dst_conversion_net_name: migration_dst_net
+os_migrate_conversion_subnet_cidr: 10.10.10.0/24
+os_migrate_src_conversion_host_boot_from_volume: true
+os_migrate_dst_conversion_host_boot_from_volume: true
+os_migrate_src_conversion_host_volume_size: 50
+os_migrate_dst_conversion_host_volume_size: 50
+----
+
+ifdef::parent-context[:context: {parent-context}]
+ifndef::parent-context[:!context:]
