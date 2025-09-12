@@ -1,33 +1,34 @@
-# OS Migrate AsciiDoc Documentation
+# OS Migrate Documentation
 
-This directory contains the OS Migrate documentation in AsciiDoc format.
+This is the documentation repository for OS Migrate, an open source toolbox for parallel OpenStack cloud migration. The repository contains AsciiDoc-formatted documentation.
 
 ## Structure
 
 - `index.adoc` - Main documentation entry point
 - `user/` - User documentation (installation, usage, troubleshooting)
+- `operator/` - Operator documentation (capacity planning, guides, walkthrough)
 - `devel/` - Developer documentation (contributing, design, development setup)
 - `modules/` - Ansible module documentation
 - `roles/` - Ansible role documentation  
-- `images/` - Images and diagrams (including PlantUML sources)
+- `images/plantuml/` - PlantUML diagram sources
 
 ## Building Documentation
 
 ### Prerequisites
 
-Install AsciiDoctor and required plugins:
+Install Ruby dependencies using bundler:
 
 ```bash
 # Install Ruby gems
-gem install asciidoctor asciidoctor-pdf asciidoctor-diagram rouge
-
-# Or using bundler (if Gemfile exists)
 bundle install
 ```
 
 ### Build Commands
 
 ```bash
+# Navigate to documentation directory first
+cd asciidoc/
+
 # Build HTML documentation
 make html
 
@@ -37,26 +38,25 @@ make pdf
 # Build both formats
 make all
 
-# Build diagrams only
+# Build PlantUML diagrams only
 make diagrams
 
 # Clean build artifacts
 make clean
+
+# Show available build targets
+make help
 ```
 
 ### Output
 
 Built documentation will be available in:
-- HTML: `_build/html/index.html`
-- PDF: `_build/pdf/index.pdf`
-
-## Original Source
-
-This documentation was converted from the original Sphinx/RST format located in `docs/src/`.
+- HTML: `asciidoc/_build/html/index.html`
+- PDF: `asciidoc/_build/pdf/index.pdf`
 
 ## Features
 
-- **AsciiDoc format**: More readable source format than RST
+- **AsciiDoc format**: Human-readable documentation source format
 - **PlantUML diagrams**: Automatic diagram generation from source
 - **Multiple output formats**: HTML and PDF generation
 - **Cross-references**: Maintained document linking

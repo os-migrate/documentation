@@ -9,6 +9,3 @@ _build/
 # Ruby
 Gemfile.lock
 .bundle/
-
-# AI Helper
-CLAUDE.md
