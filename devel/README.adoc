@@ -11,6 +11,8 @@ include::contributing-code.adoc[]
 
 include::contributing-docs.adoc[]
 
+include::aee.adoc[]
+
 include::releasing.adoc[]
 
 include::dev-env-vagrant-non-containerized.adoc[]
