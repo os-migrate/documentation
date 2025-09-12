@@ -1,0 +1,1031 @@
+= Ansible Execution Environment (AEE) Images
+
+os-migrate and vmware-migration-kit provide containerized Ansible Execution Environment (AEE) images that encapsulate all necessary dependencies for running migration playbooks in a consistent, isolated environment.
+
+== Overview
+
+Ansible Execution Environments are container images that provide a standardized runtime environment for Ansible automation. They include:
+
+* Ansible Core and Ansible Runner
+* Python runtime and required packages
+* os-migrate and vmware-migration-kit collections
+* All necessary dependencies and tools
+
+This approach ensures consistent behavior across different environments and simplifies deployment and maintenance.
+
+== Available AEE Images
+
+=== os-migrate AEE
+
+The os-migrate AEE image contains:
+
+* Ansible Core
+* os-migrate Ansible collection
+* OpenStack SDK and related Python packages
+* All required dependencies for OpenStack resource migration
+
+=== vmware-migration-kit AEE
+
+The vmware-migration-kit AEE image contains:
+
+* Ansible Core
+* vmware-migration-kit Ansible collection
+* VMware SDK and related Python packages
+* All required dependencies for VMware to OpenStack migration
+
+== Building AEE Images
+
+=== Prerequisites
+
+Before building AEE images, ensure you have the following tools installed:
+
+* `ansible-builder` - Tool for building execution environments
+* `podman` or `docker` - Container runtime
+* `git` - Version control system
+* `python3` - Python runtime (version 3.8 or higher)
+
+==== Setting Up a Virtual Environment
+
+It's recommended to use a Python virtual environment to isolate dependencies and avoid conflicts with system packages.
+
+Create and activate a virtual environment:
+
+[source,bash]
+----
+# Create virtual environment
+python3 -m venv .venv
+
+# Activate virtual environment (Linux/macOS)
+source .venv/bin/activate
+
+# Activate virtual environment (Windows)
+.venv\Scripts\activate
+----
+
+==== Installing Dependencies
+
+Install the required dependencies using the project-specific requirements files:
+
+**For os-migrate:**
+
+[source,bash]
+----
+# Clone the repository
+git clone https://github.com/os-migrate/os-migrate.git
+cd os-migrate
+
+# Create and activate virtual environment
+python3 -m venv .venv
+source .venv/bin/activate
+
+# Install build dependencies
+pip install -r requirements-build.txt
+----
+
+**For vmware-migration-kit:**
+
+[source,bash]
+----
+# Clone the repository
+git clone https://github.com/os-migrate/vmware-migration-kit.git
+cd vmware-migration-kit
+
+# Create and activate virtual environment
+python3 -m venv .venv
+source .venv/bin/activate
+
+# Install build dependencies
+pip install -r requirements-build.txt
+----
+
+==== Requirements Files
+
+Both repositories provide `requirements-build.txt` files that contain all necessary dependencies for building AEE images:
+
+* **os-migrate requirements**: https://github.com/os-migrate/os-migrate/blob/main/requirements-build.txt
+* **vmware-migration-kit requirements**: https://github.com/os-migrate/vmware-migration-kit/blob/main/requirements-build.txt
+
+These files include:
+* `ansible-builder` - Core tool for building execution environments
+* `ansible-core` - Ansible runtime
+* `ansible-runner` - Execution environment runner
+* Additional Python packages required for the build process
+
+==== Collection Requirements in AEE
+
+The AEE images use `requirements.yml` files to specify which Ansible collections to install. The collection installation method depends on the build context:
+
+**For main branch builds (development):**
+
+Install collections directly from Git repositories using the main branch:
+
+[source,yaml]
+----
+# requirements.yml for main branch builds
+collections:
+  - name: https://github.com/os-migrate/os-migrate.git
+    type: git
+    version: main
+  - name: https://github.com/os-migrate/vmware-migration-kit.git
+    type: git
+    version: main
+----
+
+**For stable/tagged builds (production):**
+
+Install collections from Ansible Galaxy using specific version tags:
+
+[source,yaml]
+----
+# requirements.yml for stable/tagged builds
+collections:
+  - name: os_migrate.os_migrate
+    version: "1.0.1"
+  - name: os_migrate.vmware_migration_kit
+    version: "2.0.4"
+----
+
+**Benefits of this approach:**
+
+* **Main branch builds**: Always get the latest development code with latest features and fixes
+* **Stable builds**: Use tested, released versions for production stability
+* **Version consistency**: AEE image tags match the collection versions they contain
+* **Reproducible builds**: Same collection versions produce identical AEE images
+
+==== Alternative Installation Methods
+
+If you prefer not to use virtual environments, you can install ansible-builder globally:
+
+[source,bash]
+----
+# Install ansible-builder globally
+pip install ansible-builder
+
+# Or install from requirements file
+pip install -r requirements-build.txt
+----
+
+**Note**: Global installation may cause dependency conflicts with other Python projects on your system.
+
+==== Virtual Environment Management
+
+After completing your work, you can deactivate the virtual environment:
+
+[source,bash]
+----
+# Deactivate virtual environment
+deactivate
+----
+
+To reactivate the virtual environment in future sessions:
+
+[source,bash]
+----
+# Navigate to the project directory
+cd /path/to/os-migrate  # or vmware-migration-kit
+
+# Activate the virtual environment
+source .venv/bin/activate
+----
+
+==== Troubleshooting Virtual Environment Issues
+
+*Virtual environment not found*::
+  Ensure you're in the correct directory and the virtual environment was created successfully.
+
+*Permission denied*::
+  On some systems, you may need to use `python3` instead of `python` to create the virtual environment.
+
+*Dependencies not found*::
+  Make sure the virtual environment is activated before installing dependencies or building AEE images.
+
+[source,bash]
+----
+# Check if virtual environment is active
+echo $VIRTUAL_ENV
+
+# Verify ansible-builder is installed
+which ansible-builder
+ansible-builder --version
+----
+
+=== Building os-migrate AEE
+
+Navigate to the os-migrate repository and build the AEE:
+
+[source,bash]
+----
+# Navigate to the repository
+cd /path/to/os-migrate
+
+# Activate virtual environment (if using one)
+source .venv/bin/activate
+
+# Navigate to AEE directory
+cd aee
+
+# Build the AEE image
+ansible-builder build --tag os-migrate:latest
+----
+
+=== Building vmware-migration-kit AEE
+
+Navigate to the vmware-migration-kit repository and build the AEE:
+
+[source,bash]
+----
+# Navigate to the repository
+cd /path/to/vmware-migration-kit
+
+# Activate virtual environment (if using one)
+source .venv/bin/activate
+
+# Navigate to AEE directory
+cd aee
+
+# Build the AEE image
+ansible-builder build --tag vmware-migration-kit:latest
+----
+
+=== Automated Build Process
+
+Both repositories include GitHub Actions workflows that automatically build and test AEE images:
+
+* `os-migrate/.github/workflows/build-aee.yml`
+* `vmware-migration-kit/.github/workflows/build-aee.yml`
+
+These workflows:
+
+* Trigger on pushes to main branch and pull requests
+* Build the AEE image using ansible-builder
+* Run basic validation tests
+* Push images to container registries (when configured)
+
+=== Release Versioning and Tagging Strategy
+
+The GitHub Actions workflows implement a sophisticated versioning strategy for AEE images:
+
+==== Main Branch Builds
+
+Images built from the `main` branch are tagged as `latest`:
+
+[source,yaml]
+----
+# When building from main branch
+- name: Build and push AEE image
+  if: github.ref == 'refs/heads/main'
+  run: |
+    ansible-builder build --tag ${{ github.repository }}:latest
+    podman push ${{ github.repository }}:latest
+----
+
+==== Tag-based Builds
+
+When building from Git tags, images receive multiple tags for maximum compatibility:
+
+[source,yaml]
+----
+# When building from tags
+- name: Build and push AEE image with version tags
+  if: startsWith(github.ref, 'refs/tags/')
+  run: |
+    TAG_VERSION=${GITHUB_REF#refs/tags/}
+    ansible-builder build --tag ${{ github.repository }}:$TAG_VERSION
+    ansible-builder build --tag ${{ github.repository }}:stable
+    
+    podman push ${{ github.repository }}:$TAG_VERSION
+    podman push ${{ github.repository }}:stable
+----
+
+==== Tagging Strategy
+
+The versioning strategy follows these rules:
+
+* `latest` - Always points to the most recent build from `main` branch
+* `stable` - Points to the most recent tagged release (production-ready)
+* `1.2.3` - Version without 'v' prefix for compatibility
+
+==== Usage Examples
+
+Use the appropriate tag based on your requirements:
+
+[source,bash]
+----
+# Use latest development version
+podman run --rm os-migrate:latest ansible --version
+
+# Use latest stable release
+podman run --rm os-migrate:stable ansible --version
+
+# Use specific version
+podman run --rm os-migrate:1.2.3 ansible --version
+----
+
+==== Workflow Triggers
+
+The GitHub Actions workflows are triggered by:
+
+* `push` to `main` branch → builds `latest` tag
+* `push` of tags → builds version-specific and `stable` tags
+* `pull_request` to `main` → builds and tests (no push to registry)
+
+==== Registry Configuration
+
+Configure the container registry in the workflow using environment variables and secrets:
+
+[source,yaml]
+----
+env:
+  REGISTRY: quay.io
+  IMAGE_NAME: os-migrate/os-migrate
+  
+- name: Login to Container Registry
+  run: |
+    podman login -u ${{ secrets.REGISTRY_USERNAME }} \
+                 -p ${{ secrets.REGISTRY_PASSWORD }} \
+                 ${{ env.REGISTRY }}
+                 
+- name: Build and Push
+  run: |
+    ansible-builder build --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.tag }}
+    podman push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.tag }}
+----
+
+==== Configuring Secrets and Environment Variables
+
+GitHub Actions supports multiple levels of configuration for secrets and variables. Understanding these levels is crucial for proper AEE workflow configuration.
+
+===== Repository-Level Secrets
+
+Create secrets at the repository level for AEE workflows:
+
+1. Navigate to your repository on GitHub
+2. Click **Settings** → **Secrets and variables** → **Actions**
+3. Click **New repository secret**
+4. Add the following secrets for AEE workflows:
+
+[source,yaml]
+----
+# Required secrets for AEE workflows
+REGISTRY_USERNAME: your-registry-username
+REGISTRY_PASSWORD: your-registry-password
+REGISTRY_TOKEN: your-registry-token  # Alternative to username/password
+----
+
+===== Environment-Level Secrets
+
+For production deployments, use environment-level secrets:
+
+1. Go to **Settings** → **Environments**
+2. Create environments like `production`, `staging`, `development`
+3. Configure environment-specific secrets:
+
+[source,yaml]
+----
+# Environment-specific secrets
+production:
+  REGISTRY_USERNAME: prod-registry-user
+  REGISTRY_PASSWORD: prod-registry-password
+  
+staging:
+  REGISTRY_USERNAME: staging-registry-user
+  REGISTRY_PASSWORD: staging-registry-password
+----
+
+===== Organization-Level Variables
+
+Use organization-level variables for shared configuration:
+
+1. Go to organization **Settings** → **Secrets and variables** → **Actions**
+2. Add organization variables:
+
+[source,yaml]
+----
+# Organization variables (not secrets)
+DEFAULT_REGISTRY: quay.io
+DEFAULT_IMAGE_PREFIX: os-migrate
+ANSIBLE_BUILDER_VERSION: 3.0.0
+----
+
+===== Repository-Level Variables
+
+Create repository-level variables for project-specific configuration:
+
+1. Navigate to your repository on GitHub
+2. Click **Settings** → **Secrets and variables** → **Actions**
+3. Click **Variables** tab → **New repository variable**
+4. Add variables for AEE workflows:
+
+[source,yaml]
+----
+# Repository variables for AEE workflows
+IMAGE_NAME: os-migrate
+BASE_IMAGE: quay.io/ansible/ansible-runner:latest
+ANSIBLE_VERSION: 6.0.0
+PYTHON_VERSION: 3.11
+BUILD_CONTEXT: ./aee
+----
+
+===== Environment-Level Variables
+
+Configure environment-specific variables:
+
+1. Go to **Settings** → **Environments**
+2. Select an environment (e.g., `production`)
+3. Add environment-specific variables:
+
+[source,yaml]
+----
+# Environment-specific variables
+production:
+  IMAGE_TAG: latest
+  REGISTRY_URL: quay.io
+  BUILD_ARGS: --no-cache --compress
+  
+staging:
+  IMAGE_TAG: staging
+  REGISTRY_URL: ghcr.io
+  BUILD_ARGS: --no-cache
+  
+development:
+  IMAGE_TAG: dev
+  REGISTRY_URL: ghcr.io
+  BUILD_ARGS: --progress=plain
+----
+
+===== Using Variables in Workflows
+
+Access variables using the `vars` context in your workflows:
+
+[source,yaml]
+----
+name: AEE Build with Variables
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: production
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Podman
+        uses: redhat-actions/setup-podman@v1
+        
+      - name: Build AEE Image
+        run: |
+          cd ${{ vars.BUILD_CONTEXT }}
+          ansible-builder build \
+            --tag ${{ vars.REGISTRY_URL }}/${{ vars.IMAGE_NAME }}:${{ vars.IMAGE_TAG }} \
+            ${{ vars.BUILD_ARGS }}
+            
+      - name: Push Image
+        run: |
+          podman push ${{ vars.REGISTRY_URL }}/${{ vars.IMAGE_NAME }}:${{ vars.IMAGE_TAG }}
+----
+
+===== Variable Precedence
+
+GitHub Actions follows this precedence order for variables and secrets:
+
+1. **Environment variables** (highest priority)
+2. **Environment-level secrets/variables**
+3. **Repository-level secrets/variables**
+4. **Organization-level secrets/variables**
+5. **System variables** (lowest priority)
+
+[source,yaml]
+----
+# Example showing variable precedence
+name: Variable Precedence Example
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    environment: production
+    
+    steps:
+      - name: Show Variable Values
+        run: |
+          echo "Repository variable: ${{ vars.IMAGE_NAME }}"
+          echo "Environment variable: ${{ vars.IMAGE_TAG }}"
+          echo "Organization variable: ${{ vars.DEFAULT_REGISTRY }}"
+          echo "System variable: ${{ github.ref_name }}"
+        env:
+          # This overrides all other variables
+          IMAGE_NAME: override-from-env
+----
+
+===== Workflow Configuration Examples
+
+===== Basic Registry Authentication
+
+[source,yaml]
+----
+name: Build AEE Image
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: production  # Uses environment-level secrets
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Podman
+        uses: redhat-actions/setup-podman@v1
+        with:
+          podman-version: latest
+          
+      - name: Login to Registry
+        run: |
+          echo ${{ secrets.REGISTRY_PASSWORD }} | podman login \
+            --username ${{ secrets.REGISTRY_USERNAME }} \
+            --password-stdin \
+            ${{ vars.DEFAULT_REGISTRY }}
+            
+      - name: Build AEE Image
+        run: |
+          cd aee
+          ansible-builder build --tag ${{ vars.DEFAULT_REGISTRY }}/${{ vars.DEFAULT_IMAGE_PREFIX }}:${{ github.ref_name }}
+          
+      - name: Push Image
+        run: |
+          podman push ${{ vars.DEFAULT_REGISTRY }}/${{ vars.DEFAULT_IMAGE_PREFIX }}:${{ github.ref_name }}
+----
+
+===== Multi-Registry Support
+
+[source,yaml]
+----
+name: Build and Push to Multiple Registries
+on:
+  push:
+    tags: ['v*']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        registry: [quay.io, ghcr.io, docker.io]
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Podman
+        uses: redhat-actions/setup-podman@v1
+        
+      - name: Login to ${{ matrix.registry }}
+        run: |
+          case "${{ matrix.registry }}" in
+            "quay.io")
+              echo ${{ secrets.QUAY_TOKEN }} | podman login --username ${{ secrets.QUAY_USERNAME }} --password-stdin quay.io
+              ;;
+            "ghcr.io")
+              echo ${{ secrets.GITHUB_TOKEN }} | podman login --username ${{ github.actor }} --password-stdin ghcr.io
+              ;;
+            "docker.io")
+              echo ${{ secrets.DOCKERHUB_TOKEN }} | podman login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin docker.io
+              ;;
+          esac
+          
+      - name: Build and Push
+        run: |
+          cd aee
+          ansible-builder build --tag ${{ matrix.registry }}/os-migrate:${{ github.ref_name }}
+          podman push ${{ matrix.registry }}/os-migrate:${{ github.ref_name }}
+----
+
+===== Secure Secret Handling
+
+Follow security best practices when using secrets:
+
+[source,yaml]
+----
+- name: Secure Secret Usage
+  run: |
+    # ✅ Good: Use environment variables
+    export REGISTRY_PASSWORD="${{ secrets.REGISTRY_PASSWORD }}"
+    podman login --username ${{ secrets.REGISTRY_USERNAME }} --password-stdin ${{ env.REGISTRY }}
+    
+    # ✅ Good: Use proper quoting
+    podman login --username "${{ secrets.REGISTRY_USERNAME }}" --password "${{ secrets.REGISTRY_PASSWORD }}" ${{ env.REGISTRY }}
+    
+    # ❌ Bad: Direct command line usage without quoting
+    podman login --username ${{ secrets.REGISTRY_USERNAME }} --password ${{ secrets.REGISTRY_PASSWORD }} ${{ env.REGISTRY }}
+  env:
+    REGISTRY: ${{ vars.DEFAULT_REGISTRY }}
+----
+
+===== Conditional Secret Usage
+
+Use secrets conditionally based on workflow context:
+
+[source,yaml]
+----
+- name: Conditional Registry Login
+  if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+  run: |
+    echo ${{ secrets.REGISTRY_PASSWORD }} | podman login \
+      --username ${{ secrets.REGISTRY_USERNAME }} \
+      --password-stdin \
+      ${{ env.REGISTRY }}
+      
+- name: Build and Push (Main Branch)
+  if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+  run: |
+    cd aee
+    ansible-builder build --tag ${{ env.REGISTRY }}/os-migrate:latest
+    podman push ${{ env.REGISTRY }}/os-migrate:latest
+    
+- name: Build and Push (Tags)
+  if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+  run: |
+    cd aee
+    TAG_VERSION=${GITHUB_REF#refs/tags/}
+    ansible-builder build --tag ${{ env.REGISTRY }}/os-migrate:$TAG_VERSION
+    ansible-builder build --tag ${{ env.REGISTRY }}/os-migrate:stable
+    podman push ${{ env.REGISTRY }}/os-migrate:$TAG_VERSION
+    podman push ${{ env.REGISTRY }}/os-migrate:stable
+----
+
+===== Secret Rotation and Management
+
+Implement secret rotation strategies:
+
+[source,yaml]
+----
+- name: Validate Secrets
+  run: |
+    if [ -z "${{ secrets.REGISTRY_USERNAME }}" ]; then
+      echo "❌ REGISTRY_USERNAME secret is not set"
+      exit 1
+    fi
+    
+    if [ -z "${{ secrets.REGISTRY_PASSWORD }}" ]; then
+      echo "❌ REGISTRY_PASSWORD secret is not set"
+      exit 1
+    fi
+    
+    echo "✅ All required secrets are configured"
+    
+- name: Test Registry Access
+  run: |
+    echo ${{ secrets.REGISTRY_PASSWORD }} | podman login \
+      --username ${{ secrets.REGISTRY_USERNAME }} \
+      --password-stdin \
+      ${{ env.REGISTRY }} --test
+    echo "✅ Registry authentication successful"
+----
+
+===== Environment-Specific Configuration
+
+Use different configurations for different environments:
+
+[source,yaml]
+----
+name: AEE Build Matrix
+on:
+  push:
+    branches: [main, develop]
+    tags: ['v*']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - environment: development
+            registry: ghcr.io
+            image_tag: dev
+          - environment: staging
+            registry: quay.io
+            image_tag: staging
+          - environment: production
+            registry: quay.io
+            image_tag: latest
+    
+    environment: ${{ matrix.environment }}
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Podman
+        uses: redhat-actions/setup-podman@v1
+        
+      - name: Login to Registry
+        run: |
+          echo ${{ secrets.REGISTRY_PASSWORD }} | podman login \
+            --username ${{ secrets.REGISTRY_USERNAME }} \
+            --password-stdin \
+            ${{ matrix.registry }}
+            
+      - name: Build AEE Image
+        run: |
+          cd aee
+          ansible-builder build --tag ${{ matrix.registry }}/os-migrate:${{ matrix.image_tag }}
+          
+      - name: Push Image
+        run: |
+          podman push ${{ matrix.registry }}/os-migrate:${{ matrix.image_tag }}
+----
+
+== Using AEE Images
+
+=== Running Playbooks with AEE
+
+Execute os-migrate playbooks using the AEE container:
+
+[source,bash]
+----
+podman run --rm -it \
+  -v $(pwd):/runner \
+  -v ~/.ssh:/home/runner/.ssh:ro \
+  os-migrate:latest \
+  ansible-playbook -i inventory playbook.yml
+----
+
+=== Interactive Shell Access
+
+Access the AEE container interactively for debugging:
+
+[source,bash]
+----
+podman run --rm -it \
+  -v $(pwd):/runner \
+  -v ~/.ssh:/home/runner/.ssh:ro \
+  os-migrate:latest \
+  /bin/bash
+----
+
+=== Volume Mounts
+
+Common volume mounts for AEE usage:
+
+* `$(pwd):/runner` - Mount current directory as working directory
+* `~/.ssh:/home/runner/.ssh:ro` - Mount SSH keys (read-only)
+* `~/.config/openstack:/home/runner/.config/openstack:ro` - Mount OpenStack credentials
+* `/path/to/inventory:/runner/inventory:ro` - Mount inventory files
+
+== AEE Configuration
+
+=== Execution Environment Definition
+
+AEE images are defined using `execution-environment.yml` files that specify:
+
+* Base image (typically `quay.io/ansible/ansible-runner:latest`)
+* Python dependencies
+* Ansible collections
+* Additional system packages
+
+Example structure:
+
+[source,yaml]
+----
+version: 1
+dependencies:
+  galaxy:
+    - name: os_migrate.os_migrate
+      source: https://github.com/os-migrate/os-migrate
+  python:
+    - openstacksdk>=1.0.0
+    - ansible>=6.0.0
+  system:
+    - git
+    - openssh-clients
+----
+
+=== Customizing AEE Images
+
+To customize AEE images for specific requirements:
+
+1. Modify the `execution-environment.yml` file
+2. Add custom requirements or collections
+3. Rebuild the image using ansible-builder
+
+[source,bash]
+----
+ansible-builder build --tag custom-aee:latest
+----
+
+== Troubleshooting
+
+=== Secrets and Variables Issues
+
+==== Common Secret Configuration Problems
+
+*Secret Not Found*::
+  Ensure the secret is created at the correct level (repository, environment, or organization) and the name matches exactly in the workflow.
+
+*Permission Denied*::
+  Verify that the workflow has access to the environment containing the secrets. Check environment protection rules and required reviewers.
+
+*Empty Secret Value*::
+  Secrets that are not set return empty strings. Always validate secret existence before use.
+
+[source,yaml]
+----
+- name: Validate Required Secrets
+  run: |
+    if [ -z "${{ secrets.REGISTRY_USERNAME }}" ]; then
+      echo "❌ REGISTRY_USERNAME secret is not configured"
+      exit 1
+    fi
+    
+    if [ -z "${{ secrets.REGISTRY_PASSWORD }}" ]; then
+      echo "❌ REGISTRY_PASSWORD secret is not configured"
+      exit 1
+    fi
+    
+    echo "✅ All required secrets are available"
+----
+
+==== Variable Access Issues
+
+*Variable Not Defined*::
+  Check that variables are created at the appropriate level and use the correct context (`vars` for variables, `secrets` for secrets).
+
+*Wrong Variable Context*::
+  Use `${{ vars.VARIABLE_NAME }}` for variables and `${{ secrets.SECRET_NAME }}` for secrets.
+
+[source,yaml]
+----
+- name: Debug Variable Access
+  run: |
+    echo "Repository variables:"
+    echo "  IMAGE_NAME: ${{ vars.IMAGE_NAME }}"
+    echo "  BUILD_CONTEXT: ${{ vars.BUILD_CONTEXT }}"
+    
+    echo "Environment variables:"
+    echo "  IMAGE_TAG: ${{ vars.IMAGE_TAG }}"
+    echo "  REGISTRY_URL: ${{ vars.REGISTRY_URL }}"
+    
+    echo "Organization variables:"
+    echo "  DEFAULT_REGISTRY: ${{ vars.DEFAULT_REGISTRY }}"
+----
+
+==== Registry Authentication Troubleshooting
+
+*Authentication Failed*::
+  Verify credentials are correct and have appropriate permissions for the registry.
+
+*Token Expired*::
+  Check if the registry token has expired and needs renewal.
+
+[source,yaml]
+----
+- name: Test Registry Authentication
+  run: |
+    echo "Testing authentication to ${{ vars.DEFAULT_REGISTRY }}"
+    
+    # Test login without pushing
+    echo ${{ secrets.REGISTRY_PASSWORD }} | podman login \
+      --username ${{ secrets.REGISTRY_USERNAME }} \
+      --password-stdin \
+      ${{ vars.DEFAULT_REGISTRY }} --test
+      
+    if [ $? -eq 0 ]; then
+      echo "✅ Registry authentication successful"
+    else
+      echo "❌ Registry authentication failed"
+      exit 1
+    fi
+----
+
+=== Debugging AEE Issues
+
+Enable verbose output for troubleshooting:
+
+[source,bash]
+----
+podman run --rm -it \
+  -v $(pwd):/runner \
+  os-migrate:latest \
+  ansible-playbook -vvv -i inventory playbook.yml
+----
+
+Check container logs:
+
+[source,bash]
+----
+podman logs <container_id>
+----
+
+=== Performance Optimization
+
+* Use volume mounts instead of copying files into containers
+* Mount only necessary directories to reduce I/O overhead
+* Consider using read-only mounts where possible
+* Use appropriate resource limits for container execution
+
+== Maintenance
+
+=== Updating AEE Images
+
+Regular updates ensure security and compatibility:
+
+1. Update base images in execution environment definitions
+2. Update Ansible collections to latest versions
+3. Update Python dependencies
+4. Rebuild and test AEE images
+5. Update documentation with any changes
+
+=== Version Management
+
+The automated GitHub Actions workflows handle version management based on Git references:
+
+==== Manual Version Management
+
+For local development, you can manually tag images:
+
+[source,bash]
+----
+# Build specific version locally
+ansible-builder build --tag os-migrate:1.2.3
+
+# Build latest development version
+ansible-builder build --tag os-migrate:latest
+----
+
+==== Automated Version Management
+
+The GitHub Actions workflows automatically handle versioning:
+
+* **Main branch pushes** → `latest` tag
+* **Tag pushes** → version-specific tag + `stable` tag
+* **Pull requests** → build and test only (no registry push)
+
+==== Creating Releases
+
+To create a new release:
+
+1. Create and push a Git tag:
+   [source,bash]
+   ----
+   git tag -a 1.2.3 -m "Release version 1.2.3"
+   git push origin 1.2.3
+   ----
+
+2. The GitHub Actions workflow will automatically:
+   - Build the AEE image
+   - Tag it with `1.2.3` and `stable`
+   - Push to the configured registry
+
+==== Version Tag Strategy
+
+* `latest` - Development builds from main branch
+* `stable` - Latest tagged release (production-ready)
+* `1.2.3` - Specific version
+
+=== Security Considerations
+
+* Regularly update base images to include security patches
+* Scan AEE images for vulnerabilities
+* Use minimal base images when possible
+* Review and audit all included dependencies
+
+== Best Practices
+
+=== Development Workflow
+
+1. Test changes locally using AEE containers
+2. Use version-controlled execution environment definitions
+3. Document any customizations or modifications
+4. Test AEE images in target environments before deployment
+
+=== Production Usage
+
+1. Use specific version tags instead of `latest`
+2. Implement proper monitoring and logging
+3. Regular security updates and vulnerability scanning
+4. Backup and disaster recovery planning
+
+=== Documentation
+
+1. Keep execution environment definitions well-documented
+2. Document any custom modifications or extensions
+3. Provide clear usage examples and troubleshooting guides
+4. Maintain compatibility matrices for different versions
+
+== TODO
+
+=== Collection Installation Improvements
+
+Improve the way collections (os-migrate or vmware-migration-kit) are installed within AEE images to ensure proper version alignment:
+
+* **Main branch builds**: When the image tag is `main`, install the collection content directly from the main branch repository as the source of installation using Git-based requirements
+* **Stable/tagged builds**: When the image tag is `stable` or matches a repository tag, ensure the installation uses the corresponding tagged version of the collection from Ansible Galaxy
+* **Dynamic requirements.yml**: Implement automated generation of `requirements.yml` files based on build context to ensure proper collection versioning
+* **Version consistency validation**: Add build-time checks to verify that AEE image tags match the collection versions they contain
+
+This improvement will ensure that AEE images always contain the correct version of the collection that matches the build context and tag strategy, providing better reproducibility and version alignment.
