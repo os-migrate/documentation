@@ -7,9 +7,8 @@ ASCIIDOCTOR_DIAGRAM = asciidoctor-diagram
 
 # Source and output directories
 SRC_DIR = .
-OUTPUT_DIR = _build
-HTML_DIR = $(OUTPUT_DIR)/html
-PDF_DIR = $(OUTPUT_DIR)/pdf
+HTML_OUTPUT_DIR = docs
+PDF_OUTPUT_DIR = pdf
 
 # Main document
 MAIN_DOC = index.adoc
@@ -24,23 +23,23 @@ DIAGRAM_OPTS = -r asciidoctor-diagram
 
 all: html pdf
 
-html: $(HTML_DIR)/index.html
+html: $(HTML_OUTPUT_DIR)/index.html
 
-pdf: $(PDF_DIR)/index.pdf
+pdf: $(PDF_OUTPUT_DIR)/index.pdf
 
 diagrams:
 	@echo "Building diagrams..."
-	$(ASCIIDOCTOR) $(DIAGRAM_OPTS) -a data-uri -o $(HTML_DIR)/diagrams.html images/plantuml/*.plantuml
+	$(ASCIIDOCTOR) $(DIAGRAM_OPTS) -a data-uri -o $(HTML_OUTPUT_DIR)/diagrams.html images/plantuml/*.plantuml
 
-$(HTML_DIR)/index.html: $(MAIN_DOC) $(wildcard **/*.adoc)
+$(HTML_OUTPUT_DIR)/index.html: $(MAIN_DOC) $(wildcard **/*.adoc)
 	@echo "Building HTML documentation..."
-	@mkdir -p $(HTML_DIR)
-	$(ASCIIDOCTOR) $(ASCIIDOC_OPTS) $(DIAGRAM_OPTS) -D $(HTML_DIR) $(MAIN_DOC)
+	@mkdir -p $(HTML_OUTPUT_DIR)
+	$(ASCIIDOCTOR) $(ASCIIDOC_OPTS) $(DIAGRAM_OPTS) -D $(HTML_OUTPUT_DIR) $(MAIN_DOC)
 
-$(PDF_DIR)/index.pdf: $(MAIN_DOC) $(wildcard **/*.adoc)
+$(PDF_OUTPUT_DIR)/index.pdf: $(MAIN_DOC) $(wildcard **/*.adoc)
 	@echo "Building PDF documentation..."
-	@mkdir -p $(PDF_DIR)
-	$(ASCIIDOCTOR_PDF) $(ASCIIDOC_OPTS) $(DIAGRAM_OPTS) -D $(PDF_DIR) $(MAIN_DOC)
+	@mkdir -p $(PDF_OUTPUT_DIR)
+	$(ASCIIDOCTOR_PDF) $(ASCIIDOC_OPTS) $(DIAGRAM_OPTS) -D $(PDF_OUTPUT_DIR) $(MAIN_DOC)
 
 clean:
 	@echo "Cleaning build directory..."
