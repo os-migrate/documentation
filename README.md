@@ -48,8 +48,8 @@ make help
 ### Output
 
 Built documentation will be available in:
-- HTML: `asciidoc/_build/html/index.html`
-- PDF: `asciidoc/_build/pdf/index.pdf`
+- HTML: `_build/html/index.html`
+- PDF: `_build/pdf/index.pdf`
 
 ## Features
 
