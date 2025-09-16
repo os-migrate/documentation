@@ -26,9 +26,6 @@ bundle install
 ### Build Commands
 
 ```bash
-# Navigate to documentation directory first
-cd asciidoc/
-
 # Build HTML documentation
 make html
 
