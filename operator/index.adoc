@@ -7,6 +7,10 @@ This guide provides comprehensive information for operators planning and executi
 
 include::chapter_os-migrate-overview.adoc[leveloffset=+1]
 
+include::chapter_os-migrate-install-from-galaxy.adoc[leveloffset=+1]
+
+include::chapter_os-migrate-install-from-source.adoc[leveloffset=+1]
+
 include::chapter_os-migrate-walkthrough.adoc[leveloffset=+1]
 
 include::chapter_os-migrate-process-summary.adoc[leveloffset=+1]
@@ -21,7 +25,19 @@ include::chapter_os-migrate-performance-expectations.adoc[leveloffset=+1]
 
 include::chapter_os-migrate-quickstart-guide.adoc[leveloffset=+1]
 
+include::chapter_os-migrate-migration-parameters-guide.adoc[leveloffset=+1]
+
+include::chapter_os-migrate-variables-guide.adoc[leveloffset=+1]
+
+include::chapter_os-migrate-usage-notes.adoc[leveloffset=+1]
+
 include::chapter_os-migrate-vmware-guide.adoc[leveloffset=+1]
+
+include::chapter_os-migrate-aee.adoc[leveloffset=+1]
+
+include::chapter_os-migrate-troubleshooting.adoc[leveloffset=+1]
+
+include::chapter_os-migrate-upgrade.adoc[leveloffset=+1]
 
 include::chapter_os-migrate-glossary.adoc[leveloffset=+1]
 

@@ -1,18 +1,18 @@
 = OS Migrate Developer Documentation
 :toc:
 
-include::design.adoc[]
+include::chapter_os-migrate-design.adoc[]
 
-include::dev-env-setup.adoc[]
+include::chapter_os-migrate-dev-env-setup.adoc[]
 
-include::contributing-general.adoc[]
+include::chapter_os-migrate-contributing-general.adoc[]
 
-include::contributing-code.adoc[]
+include::chapter_os-migrate-contributing-code.adoc[]
 
-include::contributing-docs.adoc[]
+include::chapter_os-migrate-contributing-docs.adoc[]
 
 include::aee.adoc[]
 
-include::releasing.adoc[]
+include::chapter_os-migrate-releasing.adoc[]
 
-include::dev-env-vagrant-non-containerized.adoc[]
+include::chapter_os-migrate-dev-env-vagrant-non-containerized.adoc[]

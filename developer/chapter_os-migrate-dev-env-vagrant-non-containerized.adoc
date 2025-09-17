@@ -1,6 +1,6 @@
 = Installing Vagrant directly on host (alternative path)
 
-Normally you should run Vagrant containerized as the link:dev-env-setup.adoc[developer environment setup] doc suggests. If you have a
+Normally you should run Vagrant containerized as the link:chapter_os-migrate-dev-env-setup.adoc[developer environment setup] doc suggests. If you have a
 reason to install on bare metal instead, here are relevant
 instructions.
 
