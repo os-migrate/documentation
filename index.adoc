@@ -42,16 +42,16 @@ For a more interactive chat, join the Matrix room
 https://app.element.io/#/room/#os-migrate:matrix.org[#os-migrate:matrix.org].
 
 If you want to contribute to the project (code, docs, ...), please
-refer to the link:devel/README.adoc[developer docs].
+refer to the link:developer/README.adoc[developer docs].
 
 == Contents
 
-include::operator/README.adoc[leveloffset=+1]
+include::cloud-operator/index.adoc[leveloffset=+1]
 
-include::user/README.adoc[leveloffset=+1]
+include::cloud-user/index.adoc[leveloffset=+1]
 
-include::roles.adoc[leveloffset=+1]
+include::reference/roles/index.adoc[leveloffset=+1]
 
-include::modules.adoc[leveloffset=+1]
+include::reference/modules/index.adoc[leveloffset=+1]
 
-include::devel/README.adoc[leveloffset=+1]
+include::developer/index.adoc[leveloffset=+1]
