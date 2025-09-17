@@ -22,7 +22,7 @@ Ansible playbooks contained in OS Migrate are idempotent. If a command
 fails, you can retry with the same command.
 
 .OSP-OSP Migration Overview
-image::../images/plantuml/render/pcm-birds-eye.png[OSP-OSP Migration Overview,width=80%]
+image::../images/render/pcm-birds-eye.png[OSP-OSP Migration Overview,width=80%]
 
 The migration is generally performed in this sequence:
 
@@ -224,10 +224,10 @@ ls $OSM_DIR/playbooks
 ==== Diagrams
 
 .Pre-workload Migration (workflow)
-image::../images/plantuml/render/pre-workload-migration-workflow.png[Pre-workload Migration (workflow),width=50%]
+image::../images/render/pre-workload-migration-workflow.png[Pre-workload Migration (workflow),width=50%]
 
 .Pre-workload Migration (data flow)
-image::../images/plantuml/render/pre-workload-migration-data-flow.png[Pre-workload Migration (data flow),width=50%]
+image::../images/render/pre-workload-migration-data-flow.png[Pre-workload Migration (data flow),width=50%]
 
 ==== Demo
 
@@ -296,7 +296,7 @@ $OSM_CMD $OSM_DIR/playbooks/import_detached_volumes.yml
 ==== Diagram
 
 .Detached volume migration (data flow)
-image::../images/plantuml/render/detached-volume-migration-data-flow.png[Detached volume migration (data flow),width=50%]
+image::../images/render/detached-volume-migration-data-flow.png[Detached volume migration (data flow),width=50%]
 
 === Workload migration
 
@@ -341,7 +341,7 @@ This flowchart illustrates the high-level migration workflow, from a
 user's point of view:
 
 .Workload migration (workflow)
-image::../images/plantuml/render/workload-migration-workflow.png[Workload migration (workflow),width=50%]
+image::../images/render/workload-migration-workflow.png[Workload migration (workflow),width=50%]
 
 The process involves the deployment of a "conversion host" on source
 and destination clouds. A conversion host is an OpenStack server which
@@ -352,7 +352,7 @@ from CentOS 9 or RHEL 8 cloud images.
 The following diagram helps explain the need for a conversion host VM:
 
 .Workload migration (data flow)
-image::../images/plantuml/render/workload-migration-data-flow.png[Workload migration (data flow),width=80%]
+image::../images/render/workload-migration-data-flow.png[Workload migration (data flow),width=80%]
 
 This shows that volumes on the source and destination clouds are
 removed from their original VMs and attached to their respective

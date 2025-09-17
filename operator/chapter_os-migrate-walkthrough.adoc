@@ -230,13 +230,13 @@ ls $OSM_DIR/playbooks
 ==== Diagrams
 
 ///TODO need to figure out these UMLs in the source
-.. figure:: ../images/plantuml/render/pre-workload-migration-workflow.png
+.. figure:: ../images/render/pre-workload-migration-workflow.png
    :alt: Pre-workload Migration (workflow)
    :width: 50%
 
    Pre-workload Migration (workflow)
 
-.. figure:: ../images/plantuml/render/pre-workload-migration-data-flow.png
+.. figure:: ../images/render/pre-workload-migration-data-flow.png
    :alt: Pre-workload Migration (data flow)
    :width: 50%
 
@@ -292,7 +292,7 @@ This flowchart illustrates the high-level migration workflow, from a
 user's point of view:
 
 ///TODO UML image
-.. figure:: ../images/plantuml/render/workload-migration-workflow.png
+.. figure:: ../images/render/workload-migration-workflow.png
    :alt: Workload migration (workflow)
    :width: 50%
 
@@ -307,7 +307,7 @@ from CentOS 9 or RHEL 8 cloud images.
 The following diagram helps explain the need for a conversion host VM:
 
 ///TODO UML image
-.. figure:: ../images/plantuml/render/workload-migration-data-flow.png
+.. figure:: ../images/render/workload-migration-data-flow.png
    :alt: Workload migration (data flow)
    :width: 80%
 

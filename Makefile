@@ -9,8 +9,8 @@ ASCIIDOCTOR_DIAGRAM = asciidoctor-diagram
 SRC_DIR = .
 HTML_OUTPUT_DIR = docs
 PDF_OUTPUT_DIR = pdf
-PLANTUML_SRC_DIR = images/plantuml
-PLANTUML_OUTPUT_DIR = images/plantuml/render
+PLANTUML_SRC_DIR = images
+PLANTUML_OUTPUT_DIR = images/render
 
 # Main document
 MAIN_DOC = index.adoc

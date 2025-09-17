@@ -24,7 +24,7 @@ volumes).
 
 
 ///TODO need to figure out these UMLs in the source
-.. figure:: ../images/plantuml/render/workload-migration-data-flow.png
+.. figure:: ../images/render/workload-migration-data-flow.png
    :alt: Workload migration (data flow)
    :width: 80%
 
