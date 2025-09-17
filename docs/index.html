@@ -775,18 +775,160 @@ pre.rouge {
 <li><a href="#_rendering_the_documentation">10.1. Rendering the Documentation</a></li>
 </ul>
 </li>
-<li><a href="#_releasing_the_os_migrate_collection">11. Releasing the OS Migrate collection</a></li>
-<li><a href="#_installing_vagrant_directly_on_host_alternative_path">12. Installing Vagrant directly on host (alternative path)</a></li>
-<li><a href="#_documented_modules_in_os_migrate">13. Documented modules in os-migrate</a>
+<li><a href="#_ansible_execution_environment_aee_images_2">11. Ansible Execution Environment (AEE) Images</a>
 <ul class="sectlevel2">
-<li><a href="#_contents_2">13.1. Contents</a></li>
+<li><a href="#_overview_3">11.1. Overview</a></li>
+<li><a href="#_available_aee_images_2">11.2. Available AEE Images</a>
+<ul class="sectlevel3">
+<li><a href="#_os_migrate_aee_2">11.2.1. os-migrate AEE</a></li>
+<li><a href="#_vmware_migration_kit_aee_2">11.2.2. vmware-migration-kit AEE</a></li>
 </ul>
 </li>
-<li><a href="#_documented_roles_in_os_migrate">14. Documented roles in os-migrate</a>
-<ul class="sectlevel2">
-<li><a href="#_contents_3">14.1. Contents</a></li>
+<li><a href="#_building_aee_images_2">11.3. Building AEE Images</a>
+<ul class="sectlevel3">
+<li><a href="#_prerequisites_5">11.3.1. Prerequisites</a></li>
+<li><a href="#_building_os_migrate_aee_2">11.3.2. Building os-migrate AEE</a></li>
+<li><a href="#_building_vmware_migration_kit_aee_2">11.3.3. Building vmware-migration-kit AEE</a></li>
+<li><a href="#_automated_build_process_2">11.3.4. Automated Build Process</a></li>
+<li><a href="#_release_versioning_and_tagging_strategy_2">11.3.5. Release Versioning and Tagging Strategy</a></li>
 </ul>
 </li>
+<li><a href="#_using_aee_images_2">11.4. Using AEE Images</a>
+<ul class="sectlevel3">
+<li><a href="#_running_playbooks_with_aee_2">11.4.1. Running Playbooks with AEE</a></li>
+<li><a href="#_interactive_shell_access_2">11.4.2. Interactive Shell Access</a></li>
+<li><a href="#_volume_mounts_2">11.4.3. Volume Mounts</a></li>
+</ul>
+</li>
+<li><a href="#_aee_configuration_2">11.5. AEE Configuration</a>
+<ul class="sectlevel3">
+<li><a href="#_execution_environment_definition_2">11.5.1. Execution Environment Definition</a></li>
+<li><a href="#_customizing_aee_images_2">11.5.2. Customizing AEE Images</a></li>
+</ul>
+</li>
+<li><a href="#_troubleshooting_3">11.6. Troubleshooting</a>
+<ul class="sectlevel3">
+<li><a href="#_secrets_and_variables_issues_2">11.6.1. Secrets and Variables Issues</a></li>
+<li><a href="#_debugging_aee_issues_2">11.6.2. Debugging AEE Issues</a></li>
+<li><a href="#_performance_optimization_2">11.6.3. Performance Optimization</a></li>
+</ul>
+</li>
+<li><a href="#_maintenance_2">11.7. Maintenance</a>
+<ul class="sectlevel3">
+<li><a href="#_updating_aee_images_2">11.7.1. Updating AEE Images</a></li>
+<li><a href="#_version_management_2">11.7.2. Version Management</a></li>
+<li><a href="#_security_considerations_2">11.7.3. Security Considerations</a></li>
+</ul>
+</li>
+<li><a href="#_best_practices_3">11.8. Best Practices</a>
+<ul class="sectlevel3">
+<li><a href="#_development_workflow_2">11.8.1. Development Workflow</a></li>
+<li><a href="#_production_usage_2">11.8.2. Production Usage</a></li>
+<li><a href="#_documentation_2">11.8.3. Documentation</a></li>
+</ul>
+</li>
+<li><a href="#_todo_2">11.9. TODO</a>
+<ul class="sectlevel3">
+<li><a href="#_collection_installation_improvements_2">11.9.1. Collection Installation Improvements</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_releasing_the_os_migrate_collection">12. Releasing the OS Migrate collection</a></li>
+<li><a href="#_installing_vagrant_directly_on_host_alternative_path">13. Installing Vagrant directly on host (alternative path)</a></li>
+<li><a href="#_documented_modules_in_os_migrate">14. Documented modules in os-migrate</a>
+<ul class="sectlevel2">
+<li><a href="#_contents_2">14.1. Contents</a></li>
+</ul>
+</li>
+<li><a href="#_module_auth_info">15. Module - auth_info</a></li>
+<li><a href="#_module_export_detached_volume">16. Module - export_detached_volume</a></li>
+<li><a href="#_module_export_flavor">17. Module - export_flavor</a></li>
+<li><a href="#_module_export_image_blob">18. Module - export_image_blob</a></li>
+<li><a href="#_module_export_image_meta">19. Module - export_image_meta</a></li>
+<li><a href="#_module_export_keypair">20. Module - export_keypair</a></li>
+<li><a href="#_module_export_network">21. Module - export_network</a></li>
+<li><a href="#_module_export_project">22. Module - export_project</a></li>
+<li><a href="#_module_export_router">23. Module - export_router</a></li>
+<li><a href="#_module_export_router_interfaces">24. Module - export_router_interfaces</a></li>
+<li><a href="#_module_export_security_group">25. Module - export_security_group</a></li>
+<li><a href="#_module_export_security_group_rules">26. Module - export_security_group_rules</a></li>
+<li><a href="#_module_export_subnet">27. Module - export_subnet</a></li>
+<li><a href="#_module_export_user">28. Module - export_user</a></li>
+<li><a href="#_module_export_user_project_role_assignment">29. Module - export_user_project_role_assignment</a></li>
+<li><a href="#_module_export_workload">30. Module - export_workload</a></li>
+<li><a href="#_module_import_flavor">31. Module - import_flavor</a></li>
+<li><a href="#_module_import_image">32. Module - import_image</a></li>
+<li><a href="#_module_import_keypair">33. Module - import_keypair</a></li>
+<li><a href="#_module_import_network">34. Module - import_network</a></li>
+<li><a href="#_module_import_project">35. Module - import_project</a></li>
+<li><a href="#_module_import_router">36. Module - import_router</a></li>
+<li><a href="#_module_import_router_interface">37. Module - import_router_interface</a></li>
+<li><a href="#_module_import_security_group">38. Module - import_security_group</a></li>
+<li><a href="#_module_import_security_group_rule">39. Module - import_security_group_rule</a></li>
+<li><a href="#_module_import_subnet">40. Module - import_subnet</a></li>
+<li><a href="#_module_import_user">41. Module - import_user</a></li>
+<li><a href="#_module_import_user_project_role_assignment">42. Module - import_user_project_role_assignment</a></li>
+<li><a href="#_module_import_volumes_export">43. Module - import_volumes_export</a></li>
+<li><a href="#_module_import_volumes_src_cleanup">44. Module - import_volumes_src_cleanup</a></li>
+<li><a href="#_module_import_volumes_transfer">45. Module - import_volumes_transfer</a></li>
+<li><a href="#_module_import_workload_create_instance">46. Module - import_workload_create_instance</a></li>
+<li><a href="#_module_import_workload_dst_check">47. Module - import_workload_dst_check</a></li>
+<li><a href="#_module_import_workload_dst_failure_cleanup">48. Module - import_workload_dst_failure_cleanup</a></li>
+<li><a href="#_module_import_workload_export_volumes">49. Module - import_workload_export_volumes</a></li>
+<li><a href="#_module_import_workload_prelim">50. Module - import_workload_prelim</a></li>
+<li><a href="#_module_import_workload_src_check">51. Module - import_workload_src_check</a></li>
+<li><a href="#_module_import_workload_src_cleanup">52. Module - import_workload_src_cleanup</a></li>
+<li><a href="#_module_import_workload_transfer_volumes">53. Module - import_workload_transfer_volumes</a></li>
+<li><a href="#_module_os_conversion_host_info">54. Module - os_conversion_host_info</a></li>
+<li><a href="#_module_os_keypairs_info">55. Module - os_keypairs_info</a></li>
+<li><a href="#_module_os_role_assignments_info">56. Module - os_role_assignments_info</a></li>
+<li><a href="#_module_os_routers_info">57. Module - os_routers_info</a></li>
+<li><a href="#_module_os_security_groups_info">58. Module - os_security_groups_info</a></li>
+<li><a href="#_module_read_resources">59. Module - read_resources</a></li>
+<li><a href="#_module_validate_resource_files">60. Module - validate_resource_files</a></li>
+<li><a href="#_documented_roles_in_os_migrate">61. Documented roles in os-migrate</a>
+<ul class="sectlevel2">
+<li><a href="#_contents_3">61.1. Contents</a></li>
+</ul>
+</li>
+<li><a href="#_role_conversion_host">62. Role - conversion_host</a></li>
+<li><a href="#_role_conversion_host_content">63. Role - conversion_host_content</a></li>
+<li><a href="#_role_export_detached_volumes">64. Role - export_detached_volumes</a></li>
+<li><a href="#_role_export_flavors">65. Role - export_flavors</a></li>
+<li><a href="#_role_export_images">66. Role - export_images</a></li>
+<li><a href="#_role_export_keypairs">67. Role - export_keypairs</a></li>
+<li><a href="#_role_export_networks">68. Role - export_networks</a></li>
+<li><a href="#_role_export_projects">69. Role - export_projects</a></li>
+<li><a href="#_role_export_router_interfaces">70. Role - export_router_interfaces</a></li>
+<li><a href="#_role_export_routers">71. Role - export_routers</a></li>
+<li><a href="#_role_export_security_group_rules">72. Role - export_security_group_rules</a></li>
+<li><a href="#_role_export_security_groups">73. Role - export_security_groups</a></li>
+<li><a href="#_role_export_subnets">74. Role - export_subnets</a></li>
+<li><a href="#_role_export_user_project_role_assignments">75. Role - export_user_project_role_assignments</a></li>
+<li><a href="#_role_export_users">76. Role - export_users</a></li>
+<li><a href="#_role_export_users_keypairs">77. Role - export_users_keypairs</a></li>
+<li><a href="#_role_export_workloads">78. Role - export_workloads</a></li>
+<li><a href="#_role_import_detached_volumes">79. Role - import_detached_volumes</a></li>
+<li><a href="#_role_import_flavors">80. Role - import_flavors</a></li>
+<li><a href="#_role_import_images">81. Role - import_images</a></li>
+<li><a href="#_role_import_keypairs">82. Role - import_keypairs</a></li>
+<li><a href="#_role_import_networks">83. Role - import_networks</a></li>
+<li><a href="#_role_import_projects">84. Role - import_projects</a></li>
+<li><a href="#_role_import_router_interfaces">85. Role - import_router_interfaces</a></li>
+<li><a href="#_role_import_routers">86. Role - import_routers</a></li>
+<li><a href="#_role_import_security_group_rules">87. Role - import_security_group_rules</a></li>
+<li><a href="#_role_import_security_groups">88. Role - import_security_groups</a></li>
+<li><a href="#_role_import_subnets">89. Role - import_subnets</a></li>
+<li><a href="#_role_import_user_project_role_assignments">90. Role - import_user_project_role_assignments</a></li>
+<li><a href="#_role_import_users">91. Role - import_users</a></li>
+<li><a href="#_role_import_users_keypairs">92. Role - import_users_keypairs</a></li>
+<li><a href="#_role_import_workloads">93. Role - import_workloads</a></li>
+<li><a href="#_role_prelude_common">94. Role - prelude_common</a></li>
+<li><a href="#_role_prelude_dst">95. Role - prelude_dst</a></li>
+<li><a href="#_role_prelude_src">96. Role - prelude_src</a></li>
+<li><a href="#_role_validate_data_dir">97. Role - validate_data_dir</a></li>
+<li><a href="#_role_validate_resource_files">98. Role - validate_resource_files</a></li>
 </ul>
 </div>
 </div>
@@ -6241,14 +6383,1502 @@ development, do so now:</p>
 <p>You can inspect the rendered documentation by opening
 <code>docs/src/_build/html/index.html</code> in your web browser.</p>
 </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ansible_execution_environment_aee_images_2"><a class="anchor" href="#_ansible_execution_environment_aee_images_2"></a><a class="link" href="#_ansible_execution_environment_aee_images_2">11. Ansible Execution Environment (AEE) Images</a></h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>Unresolved directive in developer/index.adoc - include::aee.adoc[]</p>
+<p>os-migrate and vmware-migration-kit provide containerized Ansible Execution Environment (AEE) images that encapsulate all necessary dependencies for running migration playbooks in a consistent, isolated environment.</p>
+</div>
+<div class="sect2">
+<h3 id="_overview_3"><a class="anchor" href="#_overview_3"></a><a class="link" href="#_overview_3">11.1. Overview</a></h3>
+<div class="paragraph">
+<p>Ansible Execution Environments are container images that provide a standardized runtime environment for Ansible automation. They include:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Ansible Core and Ansible Runner</p>
+</li>
+<li>
+<p>Python runtime and required packages</p>
+</li>
+<li>
+<p>os-migrate and vmware-migration-kit collections</p>
+</li>
+<li>
+<p>All necessary dependencies and tools</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This approach ensures consistent behavior across different environments and simplifies deployment and maintenance.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_available_aee_images_2"><a class="anchor" href="#_available_aee_images_2"></a><a class="link" href="#_available_aee_images_2">11.2. Available AEE Images</a></h3>
+<div class="sect3">
+<h4 id="_os_migrate_aee_2"><a class="anchor" href="#_os_migrate_aee_2"></a><a class="link" href="#_os_migrate_aee_2">11.2.1. os-migrate AEE</a></h4>
+<div class="paragraph">
+<p>The os-migrate AEE image contains:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Ansible Core</p>
+</li>
+<li>
+<p>os-migrate Ansible collection</p>
+</li>
+<li>
+<p>OpenStack SDK and related Python packages</p>
+</li>
+<li>
+<p>All required dependencies for OpenStack resource migration</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_vmware_migration_kit_aee_2"><a class="anchor" href="#_vmware_migration_kit_aee_2"></a><a class="link" href="#_vmware_migration_kit_aee_2">11.2.2. vmware-migration-kit AEE</a></h4>
+<div class="paragraph">
+<p>The vmware-migration-kit AEE image contains:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Ansible Core</p>
+</li>
+<li>
+<p>vmware-migration-kit Ansible collection</p>
+</li>
+<li>
+<p>VMware SDK and related Python packages</p>
+</li>
+<li>
+<p>All required dependencies for VMware to OpenStack migration</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_building_aee_images_2"><a class="anchor" href="#_building_aee_images_2"></a><a class="link" href="#_building_aee_images_2">11.3. Building AEE Images</a></h3>
+<div class="sect3">
+<h4 id="_prerequisites_5"><a class="anchor" href="#_prerequisites_5"></a><a class="link" href="#_prerequisites_5">11.3.1. Prerequisites</a></h4>
+<div class="paragraph">
+<p>Before building AEE images, ensure you have the following tools installed:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ansible-builder</code> - Tool for building execution environments</p>
+</li>
+<li>
+<p><code>podman</code> or <code>docker</code> - Container runtime</p>
+</li>
+<li>
+<p><code>git</code> - Version control system</p>
+</li>
+<li>
+<p><code>python3</code> - Python runtime (version 3.8 or higher)</p>
+</li>
+</ul>
+</div>
+<div class="sect4">
+<h5 id="_setting_up_a_virtual_environment_2"><a class="anchor" href="#_setting_up_a_virtual_environment_2"></a><a class="link" href="#_setting_up_a_virtual_environment_2">Setting Up a Virtual Environment</a></h5>
+<div class="paragraph">
+<p>It&#8217;s recommended to use a Python virtual environment to isolate dependencies and avoid conflicts with system packages.</p>
+</div>
+<div class="paragraph">
+<p>Create and activate a virtual environment:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="c"># Create virtual environment</span>
+python3 <span class="nt">-m</span> venv .venv
+
+<span class="c"># Activate virtual environment (Linux/macOS)</span>
+<span class="nb">source</span> .venv/bin/activate
+
+<span class="c"># Activate virtual environment (Windows)</span>
+.venv<span class="se">\S</span>cripts<span class="se">\a</span>ctivate</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_installing_dependencies_2"><a class="anchor" href="#_installing_dependencies_2"></a><a class="link" href="#_installing_dependencies_2">Installing Dependencies</a></h5>
+<div class="paragraph">
+<p>Install the required dependencies using the project-specific requirements files:</p>
+</div>
+<div class="paragraph">
+<p><strong>For os-migrate:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="c"># Clone the repository</span>
+git clone https://github.com/os-migrate/os-migrate.git
+<span class="nb">cd </span>os-migrate
+
+<span class="c"># Create and activate virtual environment</span>
+python3 <span class="nt">-m</span> venv .venv
+<span class="nb">source</span> .venv/bin/activate
+
+<span class="c"># Install build dependencies</span>
+pip <span class="nb">install</span> <span class="nt">-r</span> requirements-build.txt</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>For vmware-migration-kit:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="c"># Clone the repository</span>
+git clone https://github.com/os-migrate/vmware-migration-kit.git
+<span class="nb">cd </span>vmware-migration-kit
+
+<span class="c"># Create and activate virtual environment</span>
+python3 <span class="nt">-m</span> venv .venv
+<span class="nb">source</span> .venv/bin/activate
+
+<span class="c"># Install build dependencies</span>
+pip <span class="nb">install</span> <span class="nt">-r</span> requirements-build.txt</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_requirements_files_2"><a class="anchor" href="#_requirements_files_2"></a><a class="link" href="#_requirements_files_2">Requirements Files</a></h5>
+<div class="paragraph">
+<p>Both repositories provide <code>requirements-build.txt</code> files that contain all necessary dependencies for building AEE images:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>os-migrate requirements</strong>: <a href="https://github.com/os-migrate/os-migrate/blob/main/requirements-build.txt" class="bare">https://github.com/os-migrate/os-migrate/blob/main/requirements-build.txt</a></p>
+</li>
+<li>
+<p><strong>vmware-migration-kit requirements</strong>: <a href="https://github.com/os-migrate/vmware-migration-kit/blob/main/requirements-build.txt" class="bare">https://github.com/os-migrate/vmware-migration-kit/blob/main/requirements-build.txt</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>These files include:
+* <code>ansible-builder</code> - Core tool for building execution environments
+* <code>ansible-core</code> - Ansible runtime
+* <code>ansible-runner</code> - Execution environment runner
+* Additional Python packages required for the build process</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_collection_requirements_in_aee_2"><a class="anchor" href="#_collection_requirements_in_aee_2"></a><a class="link" href="#_collection_requirements_in_aee_2">Collection Requirements in AEE</a></h5>
+<div class="paragraph">
+<p>The AEE images use <code>requirements.yml</code> files to specify which Ansible collections to install. The collection installation method depends on the build context:</p>
+</div>
+<div class="paragraph">
+<p><strong>For main branch builds (development):</strong></p>
+</div>
+<div class="paragraph">
+<p>Install collections directly from Git repositories using the main branch:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># requirements.yml for main branch builds</span>
+<span class="na">collections</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">https://github.com/os-migrate/os-migrate.git</span>
+    <span class="na">type</span><span class="pi">:</span> <span class="s">git</span>
+    <span class="na">version</span><span class="pi">:</span> <span class="s">main</span>
+  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">https://github.com/os-migrate/vmware-migration-kit.git</span>
+    <span class="na">type</span><span class="pi">:</span> <span class="s">git</span>
+    <span class="na">version</span><span class="pi">:</span> <span class="s">main</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>For stable/tagged builds (production):</strong></p>
+</div>
+<div class="paragraph">
+<p>Install collections from Ansible Galaxy using specific version tags:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># requirements.yml for stable/tagged builds</span>
+<span class="na">collections</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">os_migrate.os_migrate</span>
+    <span class="na">version</span><span class="pi">:</span> <span class="s2">"</span><span class="s">1.0.1"</span>
+  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">os_migrate.vmware_migration_kit</span>
+    <span class="na">version</span><span class="pi">:</span> <span class="s2">"</span><span class="s">2.0.4"</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Benefits of this approach:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Main branch builds</strong>: Always get the latest development code with latest features and fixes</p>
+</li>
+<li>
+<p><strong>Stable builds</strong>: Use tested, released versions for production stability</p>
+</li>
+<li>
+<p><strong>Version consistency</strong>: AEE image tags match the collection versions they contain</p>
+</li>
+<li>
+<p><strong>Reproducible builds</strong>: Same collection versions produce identical AEE images</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_alternative_installation_methods_2"><a class="anchor" href="#_alternative_installation_methods_2"></a><a class="link" href="#_alternative_installation_methods_2">Alternative Installation Methods</a></h5>
+<div class="paragraph">
+<p>If you prefer not to use virtual environments, you can install ansible-builder globally:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="c"># Install ansible-builder globally</span>
+pip <span class="nb">install </span>ansible-builder
+
+<span class="c"># Or install from requirements file</span>
+pip <span class="nb">install</span> <span class="nt">-r</span> requirements-build.txt</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong>: Global installation may cause dependency conflicts with other Python projects on your system.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_virtual_environment_management_2"><a class="anchor" href="#_virtual_environment_management_2"></a><a class="link" href="#_virtual_environment_management_2">Virtual Environment Management</a></h5>
+<div class="paragraph">
+<p>After completing your work, you can deactivate the virtual environment:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="c"># Deactivate virtual environment</span>
+deactivate</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To reactivate the virtual environment in future sessions:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="c"># Navigate to the project directory</span>
+<span class="nb">cd</span> /path/to/os-migrate  <span class="c"># or vmware-migration-kit</span>
+
+<span class="c"># Activate the virtual environment</span>
+<span class="nb">source</span> .venv/bin/activate</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_troubleshooting_virtual_environment_issues_2"><a class="anchor" href="#_troubleshooting_virtual_environment_issues_2"></a><a class="link" href="#_troubleshooting_virtual_environment_issues_2">Troubleshooting Virtual Environment Issues</a></h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>Virtual environment not found</strong></dt>
+<dd>
+<p>Ensure you&#8217;re in the correct directory and the virtual environment was created successfully.</p>
+</dd>
+<dt class="hdlist1"><strong>Permission denied</strong></dt>
+<dd>
+<p>On some systems, you may need to use <code>python3</code> instead of <code>python</code> to create the virtual environment.</p>
+</dd>
+<dt class="hdlist1"><strong>Dependencies not found</strong></dt>
+<dd>
+<p>Make sure the virtual environment is activated before installing dependencies or building AEE images.</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="c"># Check if virtual environment is active</span>
+<span class="nb">echo</span> <span class="nv">$VIRTUAL_ENV</span>
+
+<span class="c"># Verify ansible-builder is installed</span>
+which ansible-builder
+ansible-builder <span class="nt">--version</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_building_os_migrate_aee_2"><a class="anchor" href="#_building_os_migrate_aee_2"></a><a class="link" href="#_building_os_migrate_aee_2">11.3.2. Building os-migrate AEE</a></h4>
+<div class="paragraph">
+<p>Navigate to the os-migrate repository and build the AEE:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="c"># Navigate to the repository</span>
+<span class="nb">cd</span> /path/to/os-migrate
+
+<span class="c"># Activate virtual environment (if using one)</span>
+<span class="nb">source</span> .venv/bin/activate
+
+<span class="c"># Navigate to AEE directory</span>
+<span class="nb">cd </span>aee
+
+<span class="c"># Build the AEE image</span>
+ansible-builder build <span class="nt">--tag</span> os-migrate:latest</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_building_vmware_migration_kit_aee_2"><a class="anchor" href="#_building_vmware_migration_kit_aee_2"></a><a class="link" href="#_building_vmware_migration_kit_aee_2">11.3.3. Building vmware-migration-kit AEE</a></h4>
+<div class="paragraph">
+<p>Navigate to the vmware-migration-kit repository and build the AEE:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="c"># Navigate to the repository</span>
+<span class="nb">cd</span> /path/to/vmware-migration-kit
+
+<span class="c"># Activate virtual environment (if using one)</span>
+<span class="nb">source</span> .venv/bin/activate
+
+<span class="c"># Navigate to AEE directory</span>
+<span class="nb">cd </span>aee
+
+<span class="c"># Build the AEE image</span>
+ansible-builder build <span class="nt">--tag</span> vmware-migration-kit:latest</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_automated_build_process_2"><a class="anchor" href="#_automated_build_process_2"></a><a class="link" href="#_automated_build_process_2">11.3.4. Automated Build Process</a></h4>
+<div class="paragraph">
+<p>Both repositories include GitHub Actions workflows that automatically build and test AEE images:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>os-migrate/.github/workflows/build-aee.yml</code></p>
+</li>
+<li>
+<p><code>vmware-migration-kit/.github/workflows/build-aee.yml</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>These workflows:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Trigger on pushes to main branch and pull requests</p>
+</li>
+<li>
+<p>Build the AEE image using ansible-builder</p>
+</li>
+<li>
+<p>Run basic validation tests</p>
+</li>
+<li>
+<p>Push images to container registries (when configured)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_release_versioning_and_tagging_strategy_2"><a class="anchor" href="#_release_versioning_and_tagging_strategy_2"></a><a class="link" href="#_release_versioning_and_tagging_strategy_2">11.3.5. Release Versioning and Tagging Strategy</a></h4>
+<div class="paragraph">
+<p>The GitHub Actions workflows implement a sophisticated versioning strategy for AEE images:</p>
+</div>
+<div class="sect4">
+<h5 id="_main_branch_builds_2"><a class="anchor" href="#_main_branch_builds_2"></a><a class="link" href="#_main_branch_builds_2">Main Branch Builds</a></h5>
+<div class="paragraph">
+<p>Images built from the <code>main</code> branch are tagged as <code>latest</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># When building from main branch</span>
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Build and push AEE image</span>
+  <span class="na">if</span><span class="pi">:</span> <span class="s">github.ref == 'refs/heads/main'</span>
+  <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+    <span class="s">ansible-builder build --tag ${{ github.repository }}:latest</span>
+    <span class="s">podman push ${{ github.repository }}:latest</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_tag_based_builds_2"><a class="anchor" href="#_tag_based_builds_2"></a><a class="link" href="#_tag_based_builds_2">Tag-based Builds</a></h5>
+<div class="paragraph">
+<p>When building from Git tags, images receive multiple tags for maximum compatibility:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># When building from tags</span>
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Build and push AEE image with version tags</span>
+  <span class="na">if</span><span class="pi">:</span> <span class="s">startsWith(github.ref, 'refs/tags/')</span>
+  <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+    <span class="s">TAG_VERSION=${GITHUB_REF#refs/tags/}</span>
+    <span class="s">ansible-builder build --tag ${{ github.repository }}:$TAG_VERSION</span>
+    <span class="s">ansible-builder build --tag ${{ github.repository }}:stable</span>
+
+    <span class="s">podman push ${{ github.repository }}:$TAG_VERSION</span>
+    <span class="s">podman push ${{ github.repository }}:stable</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_tagging_strategy_2"><a class="anchor" href="#_tagging_strategy_2"></a><a class="link" href="#_tagging_strategy_2">Tagging Strategy</a></h5>
+<div class="paragraph">
+<p>The versioning strategy follows these rules:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>latest</code> - Always points to the most recent build from <code>main</code> branch</p>
+</li>
+<li>
+<p><code>stable</code> - Points to the most recent tagged release (production-ready)</p>
+</li>
+<li>
+<p><code>1.2.3</code> - Version without 'v' prefix for compatibility</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_usage_examples_2"><a class="anchor" href="#_usage_examples_2"></a><a class="link" href="#_usage_examples_2">Usage Examples</a></h5>
+<div class="paragraph">
+<p>Use the appropriate tag based on your requirements:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="c"># Use latest development version</span>
+podman run <span class="nt">--rm</span> os-migrate:latest ansible <span class="nt">--version</span>
+
+<span class="c"># Use latest stable release</span>
+podman run <span class="nt">--rm</span> os-migrate:stable ansible <span class="nt">--version</span>
+
+<span class="c"># Use specific version</span>
+podman run <span class="nt">--rm</span> os-migrate:1.2.3 ansible <span class="nt">--version</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_workflow_triggers_2"><a class="anchor" href="#_workflow_triggers_2"></a><a class="link" href="#_workflow_triggers_2">Workflow Triggers</a></h5>
+<div class="paragraph">
+<p>The GitHub Actions workflows are triggered by:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>push</code> to <code>main</code> branch → builds <code>latest</code> tag</p>
+</li>
+<li>
+<p><code>push</code> of tags → builds version-specific and <code>stable</code> tags</p>
+</li>
+<li>
+<p><code>pull_request</code> to <code>main</code> → builds and tests (no push to registry)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_registry_configuration_2"><a class="anchor" href="#_registry_configuration_2"></a><a class="link" href="#_registry_configuration_2">Registry Configuration</a></h5>
+<div class="paragraph">
+<p>Configure the container registry in the workflow using environment variables and secrets:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">env</span><span class="pi">:</span>
+  <span class="na">REGISTRY</span><span class="pi">:</span> <span class="s">quay.io</span>
+  <span class="na">IMAGE_NAME</span><span class="pi">:</span> <span class="s">os-migrate/os-migrate</span>
+
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Login to Container Registry</span>
+  <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+    <span class="s">podman login -u ${{ secrets.REGISTRY_USERNAME }} \</span>
+                 <span class="s">-p ${{ secrets.REGISTRY_PASSWORD }} \</span>
+                 <span class="s">${{ env.REGISTRY }}</span>
+
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Build and Push</span>
+  <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+    <span class="s">ansible-builder build --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.tag }}</span>
+    <span class="s">podman push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.tag }}</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_configuring_secrets_and_environment_variables_2"><a class="anchor" href="#_configuring_secrets_and_environment_variables_2"></a><a class="link" href="#_configuring_secrets_and_environment_variables_2">Configuring Secrets and Environment Variables</a></h5>
+<div class="paragraph">
+<p>GitHub Actions supports multiple levels of configuration for secrets and variables. Understanding these levels is crucial for proper AEE workflow configuration.</p>
+</div>
+<div class="sect5">
+<h6 id="_repository_level_secrets_2"><a class="anchor" href="#_repository_level_secrets_2"></a><a class="link" href="#_repository_level_secrets_2">Repository-Level Secrets</a></h6>
+<div class="paragraph">
+<p>Create secrets at the repository level for AEE workflows:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Navigate to your repository on GitHub</p>
+</li>
+<li>
+<p>Click <strong>Settings</strong> → <strong>Secrets and variables</strong> → <strong>Actions</strong></p>
+</li>
+<li>
+<p>Click <strong>New repository secret</strong></p>
+</li>
+<li>
+<p>Add the following secrets for AEE workflows:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># Required secrets for AEE workflows</span>
+<span class="na">REGISTRY_USERNAME</span><span class="pi">:</span> <span class="s">your-registry-username</span>
+<span class="na">REGISTRY_PASSWORD</span><span class="pi">:</span> <span class="s">your-registry-password</span>
+<span class="na">REGISTRY_TOKEN</span><span class="pi">:</span> <span class="s">your-registry-token</span>  <span class="c1"># Alternative to username/password</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_environment_level_secrets_2"><a class="anchor" href="#_environment_level_secrets_2"></a><a class="link" href="#_environment_level_secrets_2">Environment-Level Secrets</a></h6>
+<div class="paragraph">
+<p>For production deployments, use environment-level secrets:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Go to <strong>Settings</strong> → <strong>Environments</strong></p>
+</li>
+<li>
+<p>Create environments like <code>production</code>, <code>staging</code>, <code>development</code></p>
+</li>
+<li>
+<p>Configure environment-specific secrets:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># Environment-specific secrets</span>
+<span class="na">production</span><span class="pi">:</span>
+  <span class="na">REGISTRY_USERNAME</span><span class="pi">:</span> <span class="s">prod-registry-user</span>
+  <span class="na">REGISTRY_PASSWORD</span><span class="pi">:</span> <span class="s">prod-registry-password</span>
+
+<span class="na">staging</span><span class="pi">:</span>
+  <span class="na">REGISTRY_USERNAME</span><span class="pi">:</span> <span class="s">staging-registry-user</span>
+  <span class="na">REGISTRY_PASSWORD</span><span class="pi">:</span> <span class="s">staging-registry-password</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_organization_level_variables_2"><a class="anchor" href="#_organization_level_variables_2"></a><a class="link" href="#_organization_level_variables_2">Organization-Level Variables</a></h6>
+<div class="paragraph">
+<p>Use organization-level variables for shared configuration:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Go to organization <strong>Settings</strong> → <strong>Secrets and variables</strong> → <strong>Actions</strong></p>
+</li>
+<li>
+<p>Add organization variables:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># Organization variables (not secrets)</span>
+<span class="na">DEFAULT_REGISTRY</span><span class="pi">:</span> <span class="s">quay.io</span>
+<span class="na">DEFAULT_IMAGE_PREFIX</span><span class="pi">:</span> <span class="s">os-migrate</span>
+<span class="na">ANSIBLE_BUILDER_VERSION</span><span class="pi">:</span> <span class="s">3.0.0</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_repository_level_variables_2"><a class="anchor" href="#_repository_level_variables_2"></a><a class="link" href="#_repository_level_variables_2">Repository-Level Variables</a></h6>
+<div class="paragraph">
+<p>Create repository-level variables for project-specific configuration:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Navigate to your repository on GitHub</p>
+</li>
+<li>
+<p>Click <strong>Settings</strong> → <strong>Secrets and variables</strong> → <strong>Actions</strong></p>
+</li>
+<li>
+<p>Click <strong>Variables</strong> tab → <strong>New repository variable</strong></p>
+</li>
+<li>
+<p>Add variables for AEE workflows:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># Repository variables for AEE workflows</span>
+<span class="na">IMAGE_NAME</span><span class="pi">:</span> <span class="s">os-migrate</span>
+<span class="na">BASE_IMAGE</span><span class="pi">:</span> <span class="s">quay.io/ansible/ansible-runner:latest</span>
+<span class="na">ANSIBLE_VERSION</span><span class="pi">:</span> <span class="s">6.0.0</span>
+<span class="na">PYTHON_VERSION</span><span class="pi">:</span> <span class="m">3.11</span>
+<span class="na">BUILD_CONTEXT</span><span class="pi">:</span> <span class="s">./aee</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_environment_level_variables_2"><a class="anchor" href="#_environment_level_variables_2"></a><a class="link" href="#_environment_level_variables_2">Environment-Level Variables</a></h6>
+<div class="paragraph">
+<p>Configure environment-specific variables:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Go to <strong>Settings</strong> → <strong>Environments</strong></p>
+</li>
+<li>
+<p>Select an environment (e.g., <code>production</code>)</p>
+</li>
+<li>
+<p>Add environment-specific variables:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># Environment-specific variables</span>
+<span class="na">production</span><span class="pi">:</span>
+  <span class="na">IMAGE_TAG</span><span class="pi">:</span> <span class="s">latest</span>
+  <span class="na">REGISTRY_URL</span><span class="pi">:</span> <span class="s">quay.io</span>
+  <span class="na">BUILD_ARGS</span><span class="pi">:</span> <span class="s">--no-cache --compress</span>
+
+<span class="na">staging</span><span class="pi">:</span>
+  <span class="na">IMAGE_TAG</span><span class="pi">:</span> <span class="s">staging</span>
+  <span class="na">REGISTRY_URL</span><span class="pi">:</span> <span class="s">ghcr.io</span>
+  <span class="na">BUILD_ARGS</span><span class="pi">:</span> <span class="s">--no-cache</span>
+
+<span class="na">development</span><span class="pi">:</span>
+  <span class="na">IMAGE_TAG</span><span class="pi">:</span> <span class="s">dev</span>
+  <span class="na">REGISTRY_URL</span><span class="pi">:</span> <span class="s">ghcr.io</span>
+  <span class="na">BUILD_ARGS</span><span class="pi">:</span> <span class="s">--progress=plain</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_using_variables_in_workflows_2"><a class="anchor" href="#_using_variables_in_workflows_2"></a><a class="link" href="#_using_variables_in_workflows_2">Using Variables in Workflows</a></h6>
+<div class="paragraph">
+<p>Access variables using the <code>vars</code> context in your workflows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">name</span><span class="pi">:</span> <span class="s">AEE Build with Variables</span>
+<span class="na">on</span><span class="pi">:</span>
+  <span class="na">push</span><span class="pi">:</span>
+    <span class="na">branches</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">main</span><span class="pi">]</span>
+
+<span class="na">jobs</span><span class="pi">:</span>
+  <span class="na">build</span><span class="pi">:</span>
+    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
+    <span class="na">environment</span><span class="pi">:</span> <span class="s">production</span>
+
+    <span class="na">steps</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v4</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Set up Podman</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">redhat-actions/setup-podman@v1</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Build AEE Image</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+          <span class="s">cd ${{ vars.BUILD_CONTEXT }}</span>
+          <span class="s">ansible-builder build \</span>
+            <span class="s">--tag ${{ vars.REGISTRY_URL }}/${{ vars.IMAGE_NAME }}:${{ vars.IMAGE_TAG }} \</span>
+            <span class="s">${{ vars.BUILD_ARGS }}</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Push Image</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+          <span class="s">podman push ${{ vars.REGISTRY_URL }}/${{ vars.IMAGE_NAME }}:${{ vars.IMAGE_TAG }}</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_variable_precedence_2"><a class="anchor" href="#_variable_precedence_2"></a><a class="link" href="#_variable_precedence_2">Variable Precedence</a></h6>
+<div class="paragraph">
+<p>GitHub Actions follows this precedence order for variables and secrets:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Environment variables</strong> (highest priority)</p>
+</li>
+<li>
+<p><strong>Environment-level secrets/variables</strong></p>
+</li>
+<li>
+<p><strong>Repository-level secrets/variables</strong></p>
+</li>
+<li>
+<p><strong>Organization-level secrets/variables</strong></p>
+</li>
+<li>
+<p><strong>System variables</strong> (lowest priority)</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># Example showing variable precedence</span>
+<span class="na">name</span><span class="pi">:</span> <span class="s">Variable Precedence Example</span>
+<span class="na">on</span><span class="pi">:</span> <span class="s">push</span>
+
+<span class="na">jobs</span><span class="pi">:</span>
+  <span class="na">test</span><span class="pi">:</span>
+    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
+    <span class="na">environment</span><span class="pi">:</span> <span class="s">production</span>
+
+    <span class="na">steps</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Show Variable Values</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+          <span class="s">echo "Repository variable: ${{ vars.IMAGE_NAME }}"</span>
+          <span class="s">echo "Environment variable: ${{ vars.IMAGE_TAG }}"</span>
+          <span class="s">echo "Organization variable: ${{ vars.DEFAULT_REGISTRY }}"</span>
+          <span class="s">echo "System variable: ${{ github.ref_name }}"</span>
+        <span class="na">env</span><span class="pi">:</span>
+          <span class="c1"># This overrides all other variables</span>
+          <span class="na">IMAGE_NAME</span><span class="pi">:</span> <span class="s">override-from-env</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_workflow_configuration_examples_2"><a class="anchor" href="#_workflow_configuration_examples_2"></a><a class="link" href="#_workflow_configuration_examples_2">Workflow Configuration Examples</a></h6>
+
+</div>
+<div class="sect5">
+<h6 id="_basic_registry_authentication_2"><a class="anchor" href="#_basic_registry_authentication_2"></a><a class="link" href="#_basic_registry_authentication_2">Basic Registry Authentication</a></h6>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">name</span><span class="pi">:</span> <span class="s">Build AEE Image</span>
+<span class="na">on</span><span class="pi">:</span>
+  <span class="na">push</span><span class="pi">:</span>
+    <span class="na">branches</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">main</span><span class="pi">]</span>
+    <span class="na">tags</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">v*'</span><span class="pi">]</span>
+
+<span class="na">jobs</span><span class="pi">:</span>
+  <span class="na">build</span><span class="pi">:</span>
+    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
+    <span class="na">environment</span><span class="pi">:</span> <span class="s">production</span>  <span class="c1"># Uses environment-level secrets</span>
+
+    <span class="na">steps</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v4</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Set up Podman</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">redhat-actions/setup-podman@v1</span>
+        <span class="na">with</span><span class="pi">:</span>
+          <span class="na">podman-version</span><span class="pi">:</span> <span class="s">latest</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Login to Registry</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+          <span class="s">echo ${{ secrets.REGISTRY_PASSWORD }} | podman login \</span>
+            <span class="s">--username ${{ secrets.REGISTRY_USERNAME }} \</span>
+            <span class="s">--password-stdin \</span>
+            <span class="s">${{ vars.DEFAULT_REGISTRY }}</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Build AEE Image</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+          <span class="s">cd aee</span>
+          <span class="s">ansible-builder build --tag ${{ vars.DEFAULT_REGISTRY }}/${{ vars.DEFAULT_IMAGE_PREFIX }}:${{ github.ref_name }}</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Push Image</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+          <span class="s">podman push ${{ vars.DEFAULT_REGISTRY }}/${{ vars.DEFAULT_IMAGE_PREFIX }}:${{ github.ref_name }}</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_multi_registry_support_2"><a class="anchor" href="#_multi_registry_support_2"></a><a class="link" href="#_multi_registry_support_2">Multi-Registry Support</a></h6>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">name</span><span class="pi">:</span> <span class="s">Build and Push to Multiple Registries</span>
+<span class="na">on</span><span class="pi">:</span>
+  <span class="na">push</span><span class="pi">:</span>
+    <span class="na">tags</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">v*'</span><span class="pi">]</span>
+
+<span class="na">jobs</span><span class="pi">:</span>
+  <span class="na">build</span><span class="pi">:</span>
+    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
+    <span class="na">strategy</span><span class="pi">:</span>
+      <span class="na">matrix</span><span class="pi">:</span>
+        <span class="na">registry</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">quay.io</span><span class="pi">,</span> <span class="nv">ghcr.io</span><span class="pi">,</span> <span class="nv">docker.io</span><span class="pi">]</span>
+
+    <span class="na">steps</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v4</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Set up Podman</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">redhat-actions/setup-podman@v1</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Login to ${{ matrix.registry }}</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+          <span class="s">case "${{ matrix.registry }}" in</span>
+            <span class="s">"quay.io")</span>
+              <span class="s">echo ${{ secrets.QUAY_TOKEN }} | podman login --username ${{ secrets.QUAY_USERNAME }} --password-stdin quay.io</span>
+              <span class="s">;;</span>
+            <span class="s">"ghcr.io")</span>
+              <span class="s">echo ${{ secrets.GITHUB_TOKEN }} | podman login --username ${{ github.actor }} --password-stdin ghcr.io</span>
+              <span class="s">;;</span>
+            <span class="s">"docker.io")</span>
+              <span class="s">echo ${{ secrets.DOCKERHUB_TOKEN }} | podman login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin docker.io</span>
+              <span class="s">;;</span>
+          <span class="s">esac</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Build and Push</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+          <span class="s">cd aee</span>
+          <span class="s">ansible-builder build --tag ${{ matrix.registry }}/os-migrate:${{ github.ref_name }}</span>
+          <span class="s">podman push ${{ matrix.registry }}/os-migrate:${{ github.ref_name }}</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_secure_secret_handling_2"><a class="anchor" href="#_secure_secret_handling_2"></a><a class="link" href="#_secure_secret_handling_2">Secure Secret Handling</a></h6>
+<div class="paragraph">
+<p>Follow security best practices when using secrets:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Secure Secret Usage</span>
+  <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+    <span class="s"># ✅ Good: Use environment variables</span>
+    <span class="s">export REGISTRY_PASSWORD="${{ secrets.REGISTRY_PASSWORD }}"</span>
+    <span class="s">podman login --username ${{ secrets.REGISTRY_USERNAME }} --password-stdin ${{ env.REGISTRY }}</span>
+
+    <span class="s"># ✅ Good: Use proper quoting</span>
+    <span class="s">podman login --username "${{ secrets.REGISTRY_USERNAME }}" --password "${{ secrets.REGISTRY_PASSWORD }}" ${{ env.REGISTRY }}</span>
+
+    <span class="s"># ❌ Bad: Direct command line usage without quoting</span>
+    <span class="s">podman login --username ${{ secrets.REGISTRY_USERNAME }} --password ${{ secrets.REGISTRY_PASSWORD }} ${{ env.REGISTRY }}</span>
+  <span class="na">env</span><span class="pi">:</span>
+    <span class="na">REGISTRY</span><span class="pi">:</span> <span class="s">${{ vars.DEFAULT_REGISTRY }}</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_conditional_secret_usage_2"><a class="anchor" href="#_conditional_secret_usage_2"></a><a class="link" href="#_conditional_secret_usage_2">Conditional Secret Usage</a></h6>
+<div class="paragraph">
+<p>Use secrets conditionally based on workflow context:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Conditional Registry Login</span>
+  <span class="na">if</span><span class="pi">:</span> <span class="s">github.event_name == 'push' &amp;&amp; github.ref == 'refs/heads/main'</span>
+  <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+    <span class="s">echo ${{ secrets.REGISTRY_PASSWORD }} | podman login \</span>
+      <span class="s">--username ${{ secrets.REGISTRY_USERNAME }} \</span>
+      <span class="s">--password-stdin \</span>
+      <span class="s">${{ env.REGISTRY }}</span>
+
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Build and Push (Main Branch)</span>
+  <span class="na">if</span><span class="pi">:</span> <span class="s">github.event_name == 'push' &amp;&amp; github.ref == 'refs/heads/main'</span>
+  <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+    <span class="s">cd aee</span>
+    <span class="s">ansible-builder build --tag ${{ env.REGISTRY }}/os-migrate:latest</span>
+    <span class="s">podman push ${{ env.REGISTRY }}/os-migrate:latest</span>
+
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Build and Push (Tags)</span>
+  <span class="na">if</span><span class="pi">:</span> <span class="s">github.event_name == 'push' &amp;&amp; startsWith(github.ref, 'refs/tags/')</span>
+  <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+    <span class="s">cd aee</span>
+    <span class="s">TAG_VERSION=${GITHUB_REF#refs/tags/}</span>
+    <span class="s">ansible-builder build --tag ${{ env.REGISTRY }}/os-migrate:$TAG_VERSION</span>
+    <span class="s">ansible-builder build --tag ${{ env.REGISTRY }}/os-migrate:stable</span>
+    <span class="s">podman push ${{ env.REGISTRY }}/os-migrate:$TAG_VERSION</span>
+    <span class="s">podman push ${{ env.REGISTRY }}/os-migrate:stable</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_secret_rotation_and_management_2"><a class="anchor" href="#_secret_rotation_and_management_2"></a><a class="link" href="#_secret_rotation_and_management_2">Secret Rotation and Management</a></h6>
+<div class="paragraph">
+<p>Implement secret rotation strategies:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Validate Secrets</span>
+  <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+    <span class="s">if [ -z "${{ secrets.REGISTRY_USERNAME }}" ]; then</span>
+      <span class="s">echo "❌ REGISTRY_USERNAME secret is not set"</span>
+      <span class="s">exit 1</span>
+    <span class="s">fi</span>
+
+    <span class="s">if [ -z "${{ secrets.REGISTRY_PASSWORD }}" ]; then</span>
+      <span class="s">echo "❌ REGISTRY_PASSWORD secret is not set"</span>
+      <span class="s">exit 1</span>
+    <span class="s">fi</span>
+
+    <span class="s">echo "✅ All required secrets are configured"</span>
+
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Test Registry Access</span>
+  <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+    <span class="s">echo ${{ secrets.REGISTRY_PASSWORD }} | podman login \</span>
+      <span class="s">--username ${{ secrets.REGISTRY_USERNAME }} \</span>
+      <span class="s">--password-stdin \</span>
+      <span class="s">${{ env.REGISTRY }} --test</span>
+    <span class="s">echo "✅ Registry authentication successful"</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_environment_specific_configuration_2"><a class="anchor" href="#_environment_specific_configuration_2"></a><a class="link" href="#_environment_specific_configuration_2">Environment-Specific Configuration</a></h6>
+<div class="paragraph">
+<p>Use different configurations for different environments:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">name</span><span class="pi">:</span> <span class="s">AEE Build Matrix</span>
+<span class="na">on</span><span class="pi">:</span>
+  <span class="na">push</span><span class="pi">:</span>
+    <span class="na">branches</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">main</span><span class="pi">,</span> <span class="nv">develop</span><span class="pi">]</span>
+    <span class="na">tags</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">v*'</span><span class="pi">]</span>
+
+<span class="na">jobs</span><span class="pi">:</span>
+  <span class="na">build</span><span class="pi">:</span>
+    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
+    <span class="na">strategy</span><span class="pi">:</span>
+      <span class="na">matrix</span><span class="pi">:</span>
+        <span class="na">include</span><span class="pi">:</span>
+          <span class="pi">-</span> <span class="na">environment</span><span class="pi">:</span> <span class="s">development</span>
+            <span class="na">registry</span><span class="pi">:</span> <span class="s">ghcr.io</span>
+            <span class="na">image_tag</span><span class="pi">:</span> <span class="s">dev</span>
+          <span class="pi">-</span> <span class="na">environment</span><span class="pi">:</span> <span class="s">staging</span>
+            <span class="na">registry</span><span class="pi">:</span> <span class="s">quay.io</span>
+            <span class="na">image_tag</span><span class="pi">:</span> <span class="s">staging</span>
+          <span class="pi">-</span> <span class="na">environment</span><span class="pi">:</span> <span class="s">production</span>
+            <span class="na">registry</span><span class="pi">:</span> <span class="s">quay.io</span>
+            <span class="na">image_tag</span><span class="pi">:</span> <span class="s">latest</span>
+
+    <span class="na">environment</span><span class="pi">:</span> <span class="s">${{ matrix.environment }}</span>
+
+    <span class="na">steps</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v4</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Set up Podman</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">redhat-actions/setup-podman@v1</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Login to Registry</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+          <span class="s">echo ${{ secrets.REGISTRY_PASSWORD }} | podman login \</span>
+            <span class="s">--username ${{ secrets.REGISTRY_USERNAME }} \</span>
+            <span class="s">--password-stdin \</span>
+            <span class="s">${{ matrix.registry }}</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Build AEE Image</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+          <span class="s">cd aee</span>
+          <span class="s">ansible-builder build --tag ${{ matrix.registry }}/os-migrate:${{ matrix.image_tag }}</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Push Image</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+          <span class="s">podman push ${{ matrix.registry }}/os-migrate:${{ matrix.image_tag }}</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_aee_images_2"><a class="anchor" href="#_using_aee_images_2"></a><a class="link" href="#_using_aee_images_2">11.4. Using AEE Images</a></h3>
+<div class="sect3">
+<h4 id="_running_playbooks_with_aee_2"><a class="anchor" href="#_running_playbooks_with_aee_2"></a><a class="link" href="#_running_playbooks_with_aee_2">11.4.1. Running Playbooks with AEE</a></h4>
+<div class="paragraph">
+<p>Execute os-migrate playbooks using the AEE container:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash">podman run <span class="nt">--rm</span> <span class="nt">-it</span> <span class="se">\</span>
+  <span class="nt">-v</span> <span class="si">$(</span><span class="nb">pwd</span><span class="si">)</span>:/runner <span class="se">\</span>
+  <span class="nt">-v</span> ~/.ssh:/home/runner/.ssh:ro <span class="se">\</span>
+  os-migrate:latest <span class="se">\</span>
+  ansible-playbook <span class="nt">-i</span> inventory playbook.yml</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_interactive_shell_access_2"><a class="anchor" href="#_interactive_shell_access_2"></a><a class="link" href="#_interactive_shell_access_2">11.4.2. Interactive Shell Access</a></h4>
+<div class="paragraph">
+<p>Access the AEE container interactively for debugging:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash">podman run <span class="nt">--rm</span> <span class="nt">-it</span> <span class="se">\</span>
+  <span class="nt">-v</span> <span class="si">$(</span><span class="nb">pwd</span><span class="si">)</span>:/runner <span class="se">\</span>
+  <span class="nt">-v</span> ~/.ssh:/home/runner/.ssh:ro <span class="se">\</span>
+  os-migrate:latest <span class="se">\</span>
+  /bin/bash</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_volume_mounts_2"><a class="anchor" href="#_volume_mounts_2"></a><a class="link" href="#_volume_mounts_2">11.4.3. Volume Mounts</a></h4>
+<div class="paragraph">
+<p>Common volume mounts for AEE usage:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>$(pwd):/runner</code> - Mount current directory as working directory</p>
+</li>
+<li>
+<p><code>~/.ssh:/home/runner/.ssh:ro</code> - Mount SSH keys (read-only)</p>
+</li>
+<li>
+<p><code>~/.config/openstack:/home/runner/.config/openstack:ro</code> - Mount OpenStack credentials</p>
+</li>
+<li>
+<p><code>/path/to/inventory:/runner/inventory:ro</code> - Mount inventory files</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_aee_configuration_2"><a class="anchor" href="#_aee_configuration_2"></a><a class="link" href="#_aee_configuration_2">11.5. AEE Configuration</a></h3>
+<div class="sect3">
+<h4 id="_execution_environment_definition_2"><a class="anchor" href="#_execution_environment_definition_2"></a><a class="link" href="#_execution_environment_definition_2">11.5.1. Execution Environment Definition</a></h4>
+<div class="paragraph">
+<p>AEE images are defined using <code>execution-environment.yml</code> files that specify:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Base image (typically <code>quay.io/ansible/ansible-runner:latest</code>)</p>
+</li>
+<li>
+<p>Python dependencies</p>
+</li>
+<li>
+<p>Ansible collections</p>
+</li>
+<li>
+<p>Additional system packages</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Example structure:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">version</span><span class="pi">:</span> <span class="m">1</span>
+<span class="na">dependencies</span><span class="pi">:</span>
+  <span class="na">galaxy</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">os_migrate.os_migrate</span>
+      <span class="na">source</span><span class="pi">:</span> <span class="s">https://github.com/os-migrate/os-migrate</span>
+  <span class="na">python</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">openstacksdk&gt;=1.0.0</span>
+    <span class="pi">-</span> <span class="s">ansible&gt;=6.0.0</span>
+  <span class="na">system</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">git</span>
+    <span class="pi">-</span> <span class="s">openssh-clients</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_customizing_aee_images_2"><a class="anchor" href="#_customizing_aee_images_2"></a><a class="link" href="#_customizing_aee_images_2">11.5.2. Customizing AEE Images</a></h4>
+<div class="paragraph">
+<p>To customize AEE images for specific requirements:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Modify the <code>execution-environment.yml</code> file</p>
+</li>
+<li>
+<p>Add custom requirements or collections</p>
+</li>
+<li>
+<p>Rebuild the image using ansible-builder</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash">ansible-builder build <span class="nt">--tag</span> custom-aee:latest</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_troubleshooting_3"><a class="anchor" href="#_troubleshooting_3"></a><a class="link" href="#_troubleshooting_3">11.6. Troubleshooting</a></h3>
+<div class="sect3">
+<h4 id="_secrets_and_variables_issues_2"><a class="anchor" href="#_secrets_and_variables_issues_2"></a><a class="link" href="#_secrets_and_variables_issues_2">11.6.1. Secrets and Variables Issues</a></h4>
+<div class="sect4">
+<h5 id="_common_secret_configuration_problems_2"><a class="anchor" href="#_common_secret_configuration_problems_2"></a><a class="link" href="#_common_secret_configuration_problems_2">Common Secret Configuration Problems</a></h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>Secret Not Found</strong></dt>
+<dd>
+<p>Ensure the secret is created at the correct level (repository, environment, or organization) and the name matches exactly in the workflow.</p>
+</dd>
+<dt class="hdlist1"><strong>Permission Denied</strong></dt>
+<dd>
+<p>Verify that the workflow has access to the environment containing the secrets. Check environment protection rules and required reviewers.</p>
+</dd>
+<dt class="hdlist1"><strong>Empty Secret Value</strong></dt>
+<dd>
+<p>Secrets that are not set return empty strings. Always validate secret existence before use.</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Validate Required Secrets</span>
+  <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+    <span class="s">if [ -z "${{ secrets.REGISTRY_USERNAME }}" ]; then</span>
+      <span class="s">echo "❌ REGISTRY_USERNAME secret is not configured"</span>
+      <span class="s">exit 1</span>
+    <span class="s">fi</span>
+
+    <span class="s">if [ -z "${{ secrets.REGISTRY_PASSWORD }}" ]; then</span>
+      <span class="s">echo "❌ REGISTRY_PASSWORD secret is not configured"</span>
+      <span class="s">exit 1</span>
+    <span class="s">fi</span>
+
+    <span class="s">echo "✅ All required secrets are available"</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_variable_access_issues_2"><a class="anchor" href="#_variable_access_issues_2"></a><a class="link" href="#_variable_access_issues_2">Variable Access Issues</a></h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>Variable Not Defined</strong></dt>
+<dd>
+<p>Check that variables are created at the appropriate level and use the correct context (<code>vars</code> for variables, <code>secrets</code> for secrets).</p>
+</dd>
+<dt class="hdlist1"><strong>Wrong Variable Context</strong></dt>
+<dd>
+<p>Use <code>${{ vars.VARIABLE_NAME }}</code> for variables and <code>${{ secrets.SECRET_NAME }}</code> for secrets.</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Debug Variable Access</span>
+  <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+    <span class="s">echo "Repository variables:"</span>
+    <span class="s">echo "  IMAGE_NAME: ${{ vars.IMAGE_NAME }}"</span>
+    <span class="s">echo "  BUILD_CONTEXT: ${{ vars.BUILD_CONTEXT }}"</span>
+
+    <span class="s">echo "Environment variables:"</span>
+    <span class="s">echo "  IMAGE_TAG: ${{ vars.IMAGE_TAG }}"</span>
+    <span class="s">echo "  REGISTRY_URL: ${{ vars.REGISTRY_URL }}"</span>
+
+    <span class="s">echo "Organization variables:"</span>
+    <span class="s">echo "  DEFAULT_REGISTRY: ${{ vars.DEFAULT_REGISTRY }}"</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_registry_authentication_troubleshooting_2"><a class="anchor" href="#_registry_authentication_troubleshooting_2"></a><a class="link" href="#_registry_authentication_troubleshooting_2">Registry Authentication Troubleshooting</a></h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>Authentication Failed</strong></dt>
+<dd>
+<p>Verify credentials are correct and have appropriate permissions for the registry.</p>
+</dd>
+<dt class="hdlist1"><strong>Token Expired</strong></dt>
+<dd>
+<p>Check if the registry token has expired and needs renewal.</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Test Registry Authentication</span>
+  <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+    <span class="s">echo "Testing authentication to ${{ vars.DEFAULT_REGISTRY }}"</span>
+
+    <span class="s"># Test login without pushing</span>
+    <span class="s">echo ${{ secrets.REGISTRY_PASSWORD }} | podman login \</span>
+      <span class="s">--username ${{ secrets.REGISTRY_USERNAME }} \</span>
+      <span class="s">--password-stdin \</span>
+      <span class="s">${{ vars.DEFAULT_REGISTRY }} --test</span>
+
+    <span class="s">if [ $? -eq 0 ]; then</span>
+      <span class="s">echo "✅ Registry authentication successful"</span>
+    <span class="s">else</span>
+      <span class="s">echo "❌ Registry authentication failed"</span>
+      <span class="s">exit 1</span>
+    <span class="s">fi</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_debugging_aee_issues_2"><a class="anchor" href="#_debugging_aee_issues_2"></a><a class="link" href="#_debugging_aee_issues_2">11.6.2. Debugging AEE Issues</a></h4>
+<div class="paragraph">
+<p>Enable verbose output for troubleshooting:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash">podman run <span class="nt">--rm</span> <span class="nt">-it</span> <span class="se">\</span>
+  <span class="nt">-v</span> <span class="si">$(</span><span class="nb">pwd</span><span class="si">)</span>:/runner <span class="se">\</span>
+  os-migrate:latest <span class="se">\</span>
+  ansible-playbook <span class="nt">-vvv</span> <span class="nt">-i</span> inventory playbook.yml</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Check container logs:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash">podman logs &lt;container_id&gt;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_performance_optimization_2"><a class="anchor" href="#_performance_optimization_2"></a><a class="link" href="#_performance_optimization_2">11.6.3. Performance Optimization</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Use volume mounts instead of copying files into containers</p>
+</li>
+<li>
+<p>Mount only necessary directories to reduce I/O overhead</p>
+</li>
+<li>
+<p>Consider using read-only mounts where possible</p>
+</li>
+<li>
+<p>Use appropriate resource limits for container execution</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_maintenance_2"><a class="anchor" href="#_maintenance_2"></a><a class="link" href="#_maintenance_2">11.7. Maintenance</a></h3>
+<div class="sect3">
+<h4 id="_updating_aee_images_2"><a class="anchor" href="#_updating_aee_images_2"></a><a class="link" href="#_updating_aee_images_2">11.7.1. Updating AEE Images</a></h4>
+<div class="paragraph">
+<p>Regular updates ensure security and compatibility:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Update base images in execution environment definitions</p>
+</li>
+<li>
+<p>Update Ansible collections to latest versions</p>
+</li>
+<li>
+<p>Update Python dependencies</p>
+</li>
+<li>
+<p>Rebuild and test AEE images</p>
+</li>
+<li>
+<p>Update documentation with any changes</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_version_management_2"><a class="anchor" href="#_version_management_2"></a><a class="link" href="#_version_management_2">11.7.2. Version Management</a></h4>
+<div class="paragraph">
+<p>The automated GitHub Actions workflows handle version management based on Git references:</p>
+</div>
+<div class="sect4">
+<h5 id="_manual_version_management_2"><a class="anchor" href="#_manual_version_management_2"></a><a class="link" href="#_manual_version_management_2">Manual Version Management</a></h5>
+<div class="paragraph">
+<p>For local development, you can manually tag images:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="c"># Build specific version locally</span>
+ansible-builder build <span class="nt">--tag</span> os-migrate:1.2.3
+
+<span class="c"># Build latest development version</span>
+ansible-builder build <span class="nt">--tag</span> os-migrate:latest</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_automated_version_management_2"><a class="anchor" href="#_automated_version_management_2"></a><a class="link" href="#_automated_version_management_2">Automated Version Management</a></h5>
+<div class="paragraph">
+<p>The GitHub Actions workflows automatically handle versioning:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Main branch pushes</strong> → <code>latest</code> tag</p>
+</li>
+<li>
+<p><strong>Tag pushes</strong> → version-specific tag + <code>stable</code> tag</p>
+</li>
+<li>
+<p><strong>Pull requests</strong> → build and test only (no registry push)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_creating_releases_2"><a class="anchor" href="#_creating_releases_2"></a><a class="link" href="#_creating_releases_2">Creating Releases</a></h5>
+<div class="paragraph">
+<p>To create a new release:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create and push a Git tag:
+[source,bash]
+----
+git tag -a 1.2.3 -m "Release version 1.2.3"
+git push origin 1.2.3
+----</p>
+</li>
+<li>
+<p>The GitHub Actions workflow will automatically:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Build the AEE image</p>
+</li>
+<li>
+<p>Tag it with <code>1.2.3</code> and <code>stable</code></p>
+</li>
+<li>
+<p>Push to the configured registry</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_version_tag_strategy_2"><a class="anchor" href="#_version_tag_strategy_2"></a><a class="link" href="#_version_tag_strategy_2">Version Tag Strategy</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><code>latest</code> - Development builds from main branch</p>
+</li>
+<li>
+<p><code>stable</code> - Latest tagged release (production-ready)</p>
+</li>
+<li>
+<p><code>1.2.3</code> - Specific version</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_security_considerations_2"><a class="anchor" href="#_security_considerations_2"></a><a class="link" href="#_security_considerations_2">11.7.3. Security Considerations</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Regularly update base images to include security patches</p>
+</li>
+<li>
+<p>Scan AEE images for vulnerabilities</p>
+</li>
+<li>
+<p>Use minimal base images when possible</p>
+</li>
+<li>
+<p>Review and audit all included dependencies</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_best_practices_3"><a class="anchor" href="#_best_practices_3"></a><a class="link" href="#_best_practices_3">11.8. Best Practices</a></h3>
+<div class="sect3">
+<h4 id="_development_workflow_2"><a class="anchor" href="#_development_workflow_2"></a><a class="link" href="#_development_workflow_2">11.8.1. Development Workflow</a></h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Test changes locally using AEE containers</p>
+</li>
+<li>
+<p>Use version-controlled execution environment definitions</p>
+</li>
+<li>
+<p>Document any customizations or modifications</p>
+</li>
+<li>
+<p>Test AEE images in target environments before deployment</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_production_usage_2"><a class="anchor" href="#_production_usage_2"></a><a class="link" href="#_production_usage_2">11.8.2. Production Usage</a></h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Use specific version tags instead of <code>latest</code></p>
+</li>
+<li>
+<p>Implement proper monitoring and logging</p>
+</li>
+<li>
+<p>Regular security updates and vulnerability scanning</p>
+</li>
+<li>
+<p>Backup and disaster recovery planning</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_documentation_2"><a class="anchor" href="#_documentation_2"></a><a class="link" href="#_documentation_2">11.8.3. Documentation</a></h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Keep execution environment definitions well-documented</p>
+</li>
+<li>
+<p>Document any custom modifications or extensions</p>
+</li>
+<li>
+<p>Provide clear usage examples and troubleshooting guides</p>
+</li>
+<li>
+<p>Maintain compatibility matrices for different versions</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_todo_2"><a class="anchor" href="#_todo_2"></a><a class="link" href="#_todo_2">11.9. TODO</a></h3>
+<div class="sect3">
+<h4 id="_collection_installation_improvements_2"><a class="anchor" href="#_collection_installation_improvements_2"></a><a class="link" href="#_collection_installation_improvements_2">11.9.1. Collection Installation Improvements</a></h4>
+<div class="paragraph">
+<p>Improve the way collections (os-migrate or vmware-migration-kit) are installed within AEE images to ensure proper version alignment:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Main branch builds</strong>: When the image tag is <code>main</code>, install the collection content directly from the main branch repository as the source of installation using Git-based requirements</p>
+</li>
+<li>
+<p><strong>Stable/tagged builds</strong>: When the image tag is <code>stable</code> or matches a repository tag, ensure the installation uses the corresponding tagged version of the collection from Ansible Galaxy</p>
+</li>
+<li>
+<p><strong>Dynamic requirements.yml</strong>: Implement automated generation of <code>requirements.yml</code> files based on build context to ensure proper collection versioning</p>
+</li>
+<li>
+<p><strong>Version consistency validation</strong>: Add build-time checks to verify that AEE image tags match the collection versions they contain</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This improvement will ensure that AEE images always contain the correct version of the collection that matches the build context and tag strategy, providing better reproducibility and version alignment.</p>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_releasing_the_os_migrate_collection"><a class="anchor" href="#_releasing_the_os_migrate_collection"></a><a class="link" href="#_releasing_the_os_migrate_collection">11. Releasing the OS Migrate collection</a></h2>
+<h2 id="_releasing_the_os_migrate_collection"><a class="anchor" href="#_releasing_the_os_migrate_collection"></a><a class="link" href="#_releasing_the_os_migrate_collection">12. Releasing the OS Migrate collection</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Set env vars with old and new versions:</p>
@@ -6314,7 +7944,7 @@ git push upstream stable/$STABLE_VERSION</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_installing_vagrant_directly_on_host_alternative_path"><a class="anchor" href="#_installing_vagrant_directly_on_host_alternative_path"></a><a class="link" href="#_installing_vagrant_directly_on_host_alternative_path">12. Installing Vagrant directly on host (alternative path)</a></h2>
+<h2 id="_installing_vagrant_directly_on_host_alternative_path"><a class="anchor" href="#_installing_vagrant_directly_on_host_alternative_path"></a><a class="link" href="#_installing_vagrant_directly_on_host_alternative_path">13. Installing Vagrant directly on host (alternative path)</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Normally you should run Vagrant containerized as the <a href="chapter_os-migrate-dev-env-setup.adoc">developer environment setup</a> doc suggests. If you have a
@@ -6372,267 +8002,1531 @@ systemctl restart libvirtd</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_documented_modules_in_os_migrate"><a class="anchor" href="#_documented_modules_in_os_migrate"></a><a class="link" href="#_documented_modules_in_os_migrate">13. Documented modules in os-migrate</a></h2>
+<h2 id="_documented_modules_in_os_migrate"><a class="anchor" href="#_documented_modules_in_os_migrate"></a><a class="link" href="#_documented_modules_in_os_migrate">14. Documented modules in os-migrate</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_contents_2"><a class="anchor" href="#_contents_2"></a><a class="link" href="#_contents_2">13.1. Contents</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-auth_info.adoc[]</p>
+<h3 id="_contents_2"><a class="anchor" href="#_contents_2"></a><a class="link" href="#_contents_2">14.1. Contents</a></h3>
+
 </div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-export_detached_volume.adoc[]</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-export_flavor.adoc[]</p>
 </div>
+<div class="sect1">
+<h2 id="_module_auth_info"><a class="anchor" href="#_module_auth_info"></a><a class="link" href="#_module_auth_info">15. Module - auth_info</a></h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-export_image_blob.adoc[]</p>
+<p>This module provides for the following ansible plugin:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-export_image_meta.adoc[]</p>
+<div class="ulist">
+<ul>
+<li>
+<p>auth_info</p>
+</li>
+</ul>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-export_keypair.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-export_network.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-export_project.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-export_router.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-export_router_interfaces.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-export_security_group.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-export_security_group_rules.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-export_subnet.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-export_user.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-export_user_project_role_assignment.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-export_workload.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-import_flavor.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-import_image.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-import_keypair.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-import_network.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-import_project.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-import_router.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-import_router_interface.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-import_security_group.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-import_security_group_rule.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-import_subnet.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-import_user.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-import_user_project_role_assignment.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-import_volumes_export.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-import_volumes_src_cleanup.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-import_volumes_transfer.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-import_workload_create_instance.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-import_workload_dst_check.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-import_workload_dst_failure_cleanup.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-import_workload_export_volumes.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-import_workload_prelim.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-import_workload_src_check.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-import_workload_src_cleanup.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-import_workload_transfer_volumes.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-os_conversion_host_info.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-os_keypairs_info.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-os_role_assignments_info.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-os_routers_info.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-os_security_groups_info.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-read_resources.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/modules/index.adoc - include::modules/module-validate_resource_files.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/auth_info.py
+:documentation: true
+:examples: true</pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_documented_roles_in_os_migrate"><a class="anchor" href="#_documented_roles_in_os_migrate"></a><a class="link" href="#_documented_roles_in_os_migrate">14. Documented roles in os-migrate</a></h2>
+<h2 id="_module_export_detached_volume"><a class="anchor" href="#_module_export_detached_volume"></a><a class="link" href="#_module_export_detached_volume">16. Module - export_detached_volume</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_detached_volume</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_detached_volume.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_export_flavor"><a class="anchor" href="#_module_export_flavor"></a><a class="link" href="#_module_export_flavor">17. Module - export_flavor</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_flavor</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_flavor.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_export_image_blob"><a class="anchor" href="#_module_export_image_blob"></a><a class="link" href="#_module_export_image_blob">18. Module - export_image_blob</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_image_blob</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_image_blob.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_export_image_meta"><a class="anchor" href="#_module_export_image_meta"></a><a class="link" href="#_module_export_image_meta">19. Module - export_image_meta</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_image_meta</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_image_meta.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_export_keypair"><a class="anchor" href="#_module_export_keypair"></a><a class="link" href="#_module_export_keypair">20. Module - export_keypair</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_keypair</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_keypair.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_export_network"><a class="anchor" href="#_module_export_network"></a><a class="link" href="#_module_export_network">21. Module - export_network</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_network</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_network.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_export_project"><a class="anchor" href="#_module_export_project"></a><a class="link" href="#_module_export_project">22. Module - export_project</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_project</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_project.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_export_router"><a class="anchor" href="#_module_export_router"></a><a class="link" href="#_module_export_router">23. Module - export_router</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_router</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_router.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_export_router_interfaces"><a class="anchor" href="#_module_export_router_interfaces"></a><a class="link" href="#_module_export_router_interfaces">24. Module - export_router_interfaces</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_router_interfaces</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_router_interfaces.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_export_security_group"><a class="anchor" href="#_module_export_security_group"></a><a class="link" href="#_module_export_security_group">25. Module - export_security_group</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_security_group</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_security_group.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_export_security_group_rules"><a class="anchor" href="#_module_export_security_group_rules"></a><a class="link" href="#_module_export_security_group_rules">26. Module - export_security_group_rules</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_security_group_rules</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_security_group_rules.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_export_subnet"><a class="anchor" href="#_module_export_subnet"></a><a class="link" href="#_module_export_subnet">27. Module - export_subnet</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_subnet</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_subnet.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_export_user"><a class="anchor" href="#_module_export_user"></a><a class="link" href="#_module_export_user">28. Module - export_user</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_user</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_user.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_export_user_project_role_assignment"><a class="anchor" href="#_module_export_user_project_role_assignment"></a><a class="link" href="#_module_export_user_project_role_assignment">29. Module - export_user_project_role_assignment</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_user_project_role_assignment</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_user_project_role_assignment.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_export_workload"><a class="anchor" href="#_module_export_workload"></a><a class="link" href="#_module_export_workload">30. Module - export_workload</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_workload</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_workload.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_import_flavor"><a class="anchor" href="#_module_import_flavor"></a><a class="link" href="#_module_import_flavor">31. Module - import_flavor</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_flavor</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_flavor.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_import_image"><a class="anchor" href="#_module_import_image"></a><a class="link" href="#_module_import_image">32. Module - import_image</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_image</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_image.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_import_keypair"><a class="anchor" href="#_module_import_keypair"></a><a class="link" href="#_module_import_keypair">33. Module - import_keypair</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_keypair</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_keypair.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_import_network"><a class="anchor" href="#_module_import_network"></a><a class="link" href="#_module_import_network">34. Module - import_network</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_network</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_network.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_import_project"><a class="anchor" href="#_module_import_project"></a><a class="link" href="#_module_import_project">35. Module - import_project</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_project</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_project.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_import_router"><a class="anchor" href="#_module_import_router"></a><a class="link" href="#_module_import_router">36. Module - import_router</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_router</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_router.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_import_router_interface"><a class="anchor" href="#_module_import_router_interface"></a><a class="link" href="#_module_import_router_interface">37. Module - import_router_interface</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_router_interface</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_router_interface.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_import_security_group"><a class="anchor" href="#_module_import_security_group"></a><a class="link" href="#_module_import_security_group">38. Module - import_security_group</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_security_group</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_security_group.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_import_security_group_rule"><a class="anchor" href="#_module_import_security_group_rule"></a><a class="link" href="#_module_import_security_group_rule">39. Module - import_security_group_rule</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_security_group_rule</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_security_group_rule.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_import_subnet"><a class="anchor" href="#_module_import_subnet"></a><a class="link" href="#_module_import_subnet">40. Module - import_subnet</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_subnet</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_subnet.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_import_user"><a class="anchor" href="#_module_import_user"></a><a class="link" href="#_module_import_user">41. Module - import_user</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_user</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_user.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_import_user_project_role_assignment"><a class="anchor" href="#_module_import_user_project_role_assignment"></a><a class="link" href="#_module_import_user_project_role_assignment">42. Module - import_user_project_role_assignment</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_user_project_role_assignment</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_user_project_role_assignment.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_import_volumes_export"><a class="anchor" href="#_module_import_volumes_export"></a><a class="link" href="#_module_import_volumes_export">43. Module - import_volumes_export</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_volumes_export</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_volumes_export.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_import_volumes_src_cleanup"><a class="anchor" href="#_module_import_volumes_src_cleanup"></a><a class="link" href="#_module_import_volumes_src_cleanup">44. Module - import_volumes_src_cleanup</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_volumes_src_cleanup</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_volumes_src_cleanup.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_import_volumes_transfer"><a class="anchor" href="#_module_import_volumes_transfer"></a><a class="link" href="#_module_import_volumes_transfer">45. Module - import_volumes_transfer</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_volumes_transfer</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_volumes_transfer.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_import_workload_create_instance"><a class="anchor" href="#_module_import_workload_create_instance"></a><a class="link" href="#_module_import_workload_create_instance">46. Module - import_workload_create_instance</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_workload_create_instance</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_workload_create_instance.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_import_workload_dst_check"><a class="anchor" href="#_module_import_workload_dst_check"></a><a class="link" href="#_module_import_workload_dst_check">47. Module - import_workload_dst_check</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_workload_dst_check</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_workload_dst_check.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_import_workload_dst_failure_cleanup"><a class="anchor" href="#_module_import_workload_dst_failure_cleanup"></a><a class="link" href="#_module_import_workload_dst_failure_cleanup">48. Module - import_workload_dst_failure_cleanup</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_workload_dst_failure_cleanup</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_workload_dst_failure_cleanup.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_import_workload_export_volumes"><a class="anchor" href="#_module_import_workload_export_volumes"></a><a class="link" href="#_module_import_workload_export_volumes">49. Module - import_workload_export_volumes</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_workload_export_volumes</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_workload_export_volumes.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_import_workload_prelim"><a class="anchor" href="#_module_import_workload_prelim"></a><a class="link" href="#_module_import_workload_prelim">50. Module - import_workload_prelim</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_workload_prelim</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_workload_prelim.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_import_workload_src_check"><a class="anchor" href="#_module_import_workload_src_check"></a><a class="link" href="#_module_import_workload_src_check">51. Module - import_workload_src_check</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_workload_src_check</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_workload_src_check.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_import_workload_src_cleanup"><a class="anchor" href="#_module_import_workload_src_cleanup"></a><a class="link" href="#_module_import_workload_src_cleanup">52. Module - import_workload_src_cleanup</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_workload_src_cleanup</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_workload_src_cleanup.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_import_workload_transfer_volumes"><a class="anchor" href="#_module_import_workload_transfer_volumes"></a><a class="link" href="#_module_import_workload_transfer_volumes">53. Module - import_workload_transfer_volumes</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_workload_transfer_volumes</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_workload_transfer_volumes.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_os_conversion_host_info"><a class="anchor" href="#_module_os_conversion_host_info"></a><a class="link" href="#_module_os_conversion_host_info">54. Module - os_conversion_host_info</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>os_conversion_host_info</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/os_conversion_host_info.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_os_keypairs_info"><a class="anchor" href="#_module_os_keypairs_info"></a><a class="link" href="#_module_os_keypairs_info">55. Module - os_keypairs_info</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>os_keypairs_info</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/os_keypairs_info.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_os_role_assignments_info"><a class="anchor" href="#_module_os_role_assignments_info"></a><a class="link" href="#_module_os_role_assignments_info">56. Module - os_role_assignments_info</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>os_role_assignments_info</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/os_role_assignments_info.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_os_routers_info"><a class="anchor" href="#_module_os_routers_info"></a><a class="link" href="#_module_os_routers_info">57. Module - os_routers_info</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>os_routers_info</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/os_routers_info.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_os_security_groups_info"><a class="anchor" href="#_module_os_security_groups_info"></a><a class="link" href="#_module_os_security_groups_info">58. Module - os_security_groups_info</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>os_security_groups_info</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/os_security_groups_info.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_read_resources"><a class="anchor" href="#_module_read_resources"></a><a class="link" href="#_module_read_resources">59. Module - read_resources</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>read_resources</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/read_resources.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_module_validate_resource_files"><a class="anchor" href="#_module_validate_resource_files"></a><a class="link" href="#_module_validate_resource_files">60. Module - validate_resource_files</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>validate_resource_files</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/validate_resource_files.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_documented_roles_in_os_migrate"><a class="anchor" href="#_documented_roles_in_os_migrate"></a><a class="link" href="#_documented_roles_in_os_migrate">61. Documented roles in os-migrate</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_contents_3"><a class="anchor" href="#_contents_3"></a><a class="link" href="#_contents_3">14.1. Contents</a></h3>
+<h3 id="_contents_3"><a class="anchor" href="#_contents_3"></a><a class="link" href="#_contents_3">61.1. Contents</a></h3>
+
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_role_conversion_host"><a class="anchor" href="#_role_conversion_host"></a><a class="link" href="#_role_conversion_host">62. Role - conversion_host</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/conversion_host</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_role_conversion_host_content"><a class="anchor" href="#_role_conversion_host_content"></a><a class="link" href="#_role_conversion_host_content">63. Role - conversion_host_content</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/conversion_host_content</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_role_export_detached_volumes"><a class="anchor" href="#_role_export_detached_volumes"></a><a class="link" href="#_role_export_detached_volumes">64. Role - export_detached_volumes</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/export_detached_volumes</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_role_export_flavors"><a class="anchor" href="#_role_export_flavors"></a><a class="link" href="#_role_export_flavors">65. Role - export_flavors</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/export_flavors</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_role_export_images"><a class="anchor" href="#_role_export_images"></a><a class="link" href="#_role_export_images">66. Role - export_images</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/export_images</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_role_export_keypairs"><a class="anchor" href="#_role_export_keypairs"></a><a class="link" href="#_role_export_keypairs">67. Role - export_keypairs</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/export_keypairs</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_role_export_networks"><a class="anchor" href="#_role_export_networks"></a><a class="link" href="#_role_export_networks">68. Role - export_networks</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/export_networks</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_role_export_projects"><a class="anchor" href="#_role_export_projects"></a><a class="link" href="#_role_export_projects">69. Role - export_projects</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/export_projects</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_role_export_router_interfaces"><a class="anchor" href="#_role_export_router_interfaces"></a><a class="link" href="#_role_export_router_interfaces">70. Role - export_router_interfaces</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/export_router_interfaces</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_role_export_routers"><a class="anchor" href="#_role_export_routers"></a><a class="link" href="#_role_export_routers">71. Role - export_routers</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/export_routers</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_role_export_security_group_rules"><a class="anchor" href="#_role_export_security_group_rules"></a><a class="link" href="#_role_export_security_group_rules">72. Role - export_security_group_rules</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/export_security_group_rules</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_role_export_security_groups"><a class="anchor" href="#_role_export_security_groups"></a><a class="link" href="#_role_export_security_groups">73. Role - export_security_groups</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/export_security_groups</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_role_export_subnets"><a class="anchor" href="#_role_export_subnets"></a><a class="link" href="#_role_export_subnets">74. Role - export_subnets</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/export_subnets</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_role_export_user_project_role_assignments"><a class="anchor" href="#_role_export_user_project_role_assignments"></a><a class="link" href="#_role_export_user_project_role_assignments">75. Role - export_user_project_role_assignments</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/export_user_project_role_assignments</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_role_export_users"><a class="anchor" href="#_role_export_users"></a><a class="link" href="#_role_export_users">76. Role - export_users</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/export_users</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_role_export_users_keypairs"><a class="anchor" href="#_role_export_users_keypairs"></a><a class="link" href="#_role_export_users_keypairs">77. Role - export_users_keypairs</a></h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-conversion_host.adoc[]</p>
+<p>This role is meant to be run with admin privileges. It imports Nova
+keypairs matching <code>os_migrate_keypairs_filter</code> for all users
+matching <code>os_migrate_users_filter</code>.</p>
 </div>
 <div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-conversion_host_content.adoc[]</p>
+<p>When using this role, make sure you have recent enough OpenStack SDK
+(0.57+).</p>
+</div>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/export_users_keypairs</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_role_export_workloads"><a class="anchor" href="#_role_export_workloads"></a><a class="link" href="#_role_export_workloads">78. Role - export_workloads</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/export_workloads</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_role_import_detached_volumes"><a class="anchor" href="#_role_import_detached_volumes"></a><a class="link" href="#_role_import_detached_volumes">79. Role - import_detached_volumes</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/import_detached_volumes</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_role_import_flavors"><a class="anchor" href="#_role_import_flavors"></a><a class="link" href="#_role_import_flavors">80. Role - import_flavors</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/import_flavors</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_role_import_images"><a class="anchor" href="#_role_import_images"></a><a class="link" href="#_role_import_images">81. Role - import_images</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/import_images</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_role_import_keypairs"><a class="anchor" href="#_role_import_keypairs"></a><a class="link" href="#_role_import_keypairs">82. Role - import_keypairs</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/import_keypairs</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_role_import_networks"><a class="anchor" href="#_role_import_networks"></a><a class="link" href="#_role_import_networks">83. Role - import_networks</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/import_networks</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_role_import_projects"><a class="anchor" href="#_role_import_projects"></a><a class="link" href="#_role_import_projects">84. Role - import_projects</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/import_projects</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_role_import_router_interfaces"><a class="anchor" href="#_role_import_router_interfaces"></a><a class="link" href="#_role_import_router_interfaces">85. Role - import_router_interfaces</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/import_router_interfaces</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_role_import_routers"><a class="anchor" href="#_role_import_routers"></a><a class="link" href="#_role_import_routers">86. Role - import_routers</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/import_routers</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_role_import_security_group_rules"><a class="anchor" href="#_role_import_security_group_rules"></a><a class="link" href="#_role_import_security_group_rules">87. Role - import_security_group_rules</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/import_security_group_rules</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_role_import_security_groups"><a class="anchor" href="#_role_import_security_groups"></a><a class="link" href="#_role_import_security_groups">88. Role - import_security_groups</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/import_security_groups</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_role_import_subnets"><a class="anchor" href="#_role_import_subnets"></a><a class="link" href="#_role_import_subnets">89. Role - import_subnets</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/import_subnets</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_role_import_user_project_role_assignments"><a class="anchor" href="#_role_import_user_project_role_assignments"></a><a class="link" href="#_role_import_user_project_role_assignments">90. Role - import_user_project_role_assignments</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/import_user_project_role_assignments</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_role_import_users"><a class="anchor" href="#_role_import_users"></a><a class="link" href="#_role_import_users">91. Role - import_users</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/import_users</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_role_import_users_keypairs"><a class="anchor" href="#_role_import_users_keypairs"></a><a class="link" href="#_role_import_users_keypairs">92. Role - import_users_keypairs</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This role is meant to be run with admin privileges. It exports Nova
+keypairs matching <code>os_migrate_keypairs_filter</code> for all users
+matching <code>os_migrate_users_filter</code>.</p>
 </div>
 <div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-export_detached_volumes.adoc[]</p>
+<p>When using this role, make sure you have recent enough OpenStack SDK
+(0.57+).</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-export_flavors.adoc[]</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/import_users_keypairs</p>
+</li>
+</ol>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-export_images.adoc[]</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-export_keypairs.adoc[]</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-export_networks.adoc[]</p>
+<div class="sect1">
+<h2 id="_role_import_workloads"><a class="anchor" href="#_role_import_workloads"></a><a class="link" href="#_role_import_workloads">93. Role - import_workloads</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/import_workloads</p>
+</li>
+</ol>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-export_projects.adoc[]</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-export_router_interfaces.adoc[]</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-export_routers.adoc[]</p>
+<div class="sect1">
+<h2 id="_role_prelude_common"><a class="anchor" href="#_role_prelude_common"></a><a class="link" href="#_role_prelude_common">94. Role - prelude_common</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/prelude_common</p>
+</li>
+</ol>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-export_security_group_rules.adoc[]</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-export_security_groups.adoc[]</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-export_subnets.adoc[]</p>
+<div class="sect1">
+<h2 id="_role_prelude_dst"><a class="anchor" href="#_role_prelude_dst"></a><a class="link" href="#_role_prelude_dst">95. Role - prelude_dst</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/prelude_dst</p>
+</li>
+</ol>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-export_user_project_role_assignment.adoc[]</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-export_users.adoc[]</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-export_users_keypairs.adoc[]</p>
+<div class="sect1">
+<h2 id="_role_prelude_src"><a class="anchor" href="#_role_prelude_src"></a><a class="link" href="#_role_prelude_src">96. Role - prelude_src</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/prelude_src</p>
+</li>
+</ol>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-export_workloads.adoc[]</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-import_detached_volumes.adoc[]</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-import_flavors.adoc[]</p>
+<div class="sect1">
+<h2 id="_role_validate_data_dir"><a class="anchor" href="#_role_validate_data_dir"></a><a class="link" href="#_role_validate_data_dir">97. Role - validate_data_dir</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/validate_data_dir</p>
+</li>
+</ol>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-import_images.adoc[]</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-import_keypairs.adoc[]</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-import_networks.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-import_projects.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-import_router_interfaces.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-import_routers.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-import_security_group_rules.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-import_security_groups.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-import_subnets.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-import_user_project_role_assignment.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-import_users.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-import_users_keypairs.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-import_workloads.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-prelude_common.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-prelude_dst.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-prelude_src.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-validate_data_dir.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in reference/roles/index.adoc - include::roles/role-validate_resource_files.adoc[]</p>
-</div>
+<div class="sect1">
+<h2 id="_role_validate_resource_files"><a class="anchor" href="#_role_validate_resource_files"></a><a class="link" href="#_role_validate_resource_files">98. Role - validate_resource_files</a></h2>
+<div class="sectionbody">
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/validate_resource_files</p>
+</li>
+</ol>
 </div>
 </div>
 </div>

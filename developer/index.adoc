@@ -11,7 +11,7 @@ include::chapter_os-migrate-contributing-code.adoc[]
 
 include::chapter_os-migrate-contributing-docs.adoc[]
 
-include::aee.adoc[]
+include::../operator/chapter_os-migrate-aee.adoc[]
 
 include::chapter_os-migrate-releasing.adoc[]
 
