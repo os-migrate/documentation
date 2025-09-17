@@ -1,0 +1,148 @@
+= GitHub Actions Documentation for os-migrate Repositories
+:toc: left
+:toclevels: 2
+:sectnums:
+
+This document provides a definitive and accurate overview of the GitHub Actions used in the `os-migrate/os-migrate` and `os-migrate/vmware-migration-kit` repositories, based on their current `main` branch.
+
+'''
+
+== os-migrate/os-migrate
+
+=== Existing GitHub Actions
+
+* `ansible-lint.yml`
++
+--
+Triggered on: `pull_request` and `push` to the `main` branch.
+
+This workflow ensures code quality by **linting the Ansible collection**. It uses the official `ansible/ansible-lint-action` to check all Ansible playbooks for best practices and potential errors.
+--
+
+* `ansible-test.yml`
++
+--
+Triggered on: `pull_request` and `push` to the `main` branch.
+
+This is the main **integration testing** workflow. It runs `ansible-test` to validate the collection's functionality across a matrix of different Python and Ansible Core versions, ensuring broad compatibility.
+--
+
+* `build-aee.yml`
++
+--
+Triggered on: `pull_request` and `push` to the `main` branch.
+
+This workflow builds the **Ansible Execution Environment (AEE)**. It uses `ansible-builder` to create a container image with all the necessary dependencies, which is then pushed to `quay.io`.
+--
+
+* `docs-build-pr.yml`
++
+--
+Triggered on: `pull_request`.
+
+This workflow specifically validates documentation changes in pull requests. It **builds the Sphinx documentation** to ensure that proposed changes do not break the doc generation process before merging.
+--
+
+* `docs-build.yml`
++
+--
+Triggered on: `push` to the `main` branch.
+
+This workflow **builds and deploys the official documentation**. After a successful build, it pushes the generated HTML to the `gh-pages` branch, making it live on the project's GitHub Pages site.
+--
+
+* `import-galaxy.yml`
++
+--
+Triggered on: `workflow_dispatch` (manual) and a daily `schedule`.
+
+This workflow **tests the collection's compatibility with the Galaxy importer**. It uses the `ansible-community/github-action-test-galaxy-import` action to take the built collection artifact and simulate the import process used by Ansible Galaxy, ensuring the package is correctly structured for publication.
+--
+
+'''
+
+== os-migrate/vmware-migration-kit
+
+=== Existing GitHub Actions
+
+* `ansible-lint.yml`
++
+--
+Triggered on: `pull_request` and `push` to the `main` branch.
+
+This workflow **lints all Ansible content** in the repository using `ansible-lint` to maintain code quality and adherence to best practices.
+--
+
+* `ansible-test.yaml`
++
+--
+Triggered on: `pull_request` and `push` to the `main` branch.
+
+This workflow performs **integration testing for the Ansible collection**. It runs `ansible-test sanity` to catch common structural issues.
+--
+
+* `build-aee.yml`
++
+--
+Triggered on: `pull_request` and `push` to the `main` branch.
+
+This workflow builds the **Ansible Execution Environment (AEE)** using `ansible-builder` and pushes the resulting container image to `quay.io`, ensuring the project's runtime is always up-to-date.
+--
+
+* `golang-lint.yml`
++
+--
+Triggered on: `pull_request` and `push` to the `main` branch.
+
+This workflow ensures **Go code quality**. It runs `golangci-lint` to perform static analysis and check for formatting issues, bugs, and stylistic errors in the Go source code.
+--
+
+* `import-galaxy.yml`
++
+--
+Triggered on: `workflow_dispatch` (manual) and a daily `schedule`.
+
+This workflow **tests the collection's compatibility with the Galaxy importer**. It takes the built collection artifact and uses the `ansible-community/github-action-test-galaxy-import` action to verify that the package is properly structured for a successful import into Ansible Galaxy.
+--
+
+'''
+
+== How to Add a New GitHub Action
+
+To add a new GitHub Action to either of the repositories, follow these steps:
+
+. *Create a new YAML file* in the `.github/workflows` directory of the repository.
+
+. *Define the workflow* in the YAML file. Here's a basic template you can use:
++
+[source,yaml]
+----
+name: My New Workflow
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v3
+
+    - name: Run a one-line script
+      run: echo Hello, world!
+----
+
+. *Customize the workflow* to your needs, including the `name`, `on` triggers, and `jobs`.
+
+. *Commit and push* the new workflow file to the repository.
+
+=== See Also
+
+For more detailed information on syntax and features, refer to the official documentation.
+
+* https://docs.github.com/en/actions[Official GitHub Actions Documentation]

@@ -10,6 +10,9 @@ include::chapter_os-migrate-dev-env-setup.adoc[leveloffset=+1]
 
 include::chapter_os-migrate-dev-env-vagrant-non-containerized.adoc[leveloffset=+1]
 
+== CI/CD and Automation
+include::chapter_os-migrate-github-actions.adoc[leveloffset=+1]
+
 == Contributing Guidelines
 include::chapter_os-migrate-contributing-general.adoc[leveloffset=+1]
 
