@@ -1,6 +1,6 @@
 == Installation from source (when customizing)
 
-Install prerequisites as documented in <<install-from-galaxy.adoc#,install from Galaxy>>. Then install OS Migrate from source:
+Install prerequisites as documented in <<chapter_os-migrate-install-from-galaxy.adoc#,install from Galaxy>>. Then install OS Migrate from source:
 
 [source,bash]
 ----

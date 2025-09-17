@@ -1,7 +1,7 @@
 == Installation from Galaxy (recommended)
 
 This document describes the recommended method of installing OS Migrate,
-from Ansible Galaxy. Alternatively, you can <<install-from-source.adoc#,install from source>>.
+from Ansible Galaxy. Alternatively, you can <<chapter_os-migrate-install-from-source.adoc#,install from source>>.
 
 === Prerequisites
 
