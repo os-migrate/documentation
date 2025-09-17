@@ -9,6 +9,8 @@ ASCIIDOCTOR_DIAGRAM = asciidoctor-diagram
 SRC_DIR = .
 HTML_OUTPUT_DIR = docs
 PDF_OUTPUT_DIR = pdf
+PLANTUML_SRC_DIR = images/plantuml
+PLANTUML_OUTPUT_DIR = images/plantuml/render
 
 # Main document
 MAIN_DOC = index.adoc
@@ -28,22 +30,30 @@ html: $(HTML_OUTPUT_DIR)/index.html
 pdf: $(PDF_OUTPUT_DIR)/index.pdf
 
 diagrams:
-	@echo "Building diagrams..."
-	$(ASCIIDOCTOR) $(DIAGRAM_OPTS) -a data-uri -o $(HTML_OUTPUT_DIR)/diagrams.html images/plantuml/*.plantuml
+	@echo "Building PlantUML diagrams..."
+	@mkdir -p $(PLANTUML_OUTPUT_DIR)
+	@for plantuml_file in $(PLANTUML_SRC_DIR)/*.plantuml; do \
+		if [ -f "$$plantuml_file" ]; then \
+			echo "Processing $$plantuml_file..."; \
+			base_name=$$(basename "$$plantuml_file" .plantuml); \
+			echo "plantuml::$$plantuml_file[format=png]" | $(ASCIIDOCTOR) $(DIAGRAM_OPTS) -a imagesoutdir=$(PLANTUML_OUTPUT_DIR) -o /tmp/$$base_name.html -; \
+		fi; \
+	done
+	@echo "PlantUML diagrams generated in $(PLANTUML_OUTPUT_DIR)"
 
-$(HTML_OUTPUT_DIR)/index.html: $(MAIN_DOC) $(wildcard **/*.adoc)
+$(HTML_OUTPUT_DIR)/index.html: $(MAIN_DOC) $(wildcard **/*.adoc) diagrams
 	@echo "Building HTML documentation..."
 	@mkdir -p $(HTML_OUTPUT_DIR)
 	$(ASCIIDOCTOR) $(ASCIIDOC_OPTS) $(DIAGRAM_OPTS) -D $(HTML_OUTPUT_DIR) $(MAIN_DOC)
 
-$(PDF_OUTPUT_DIR)/index.pdf: $(MAIN_DOC) $(wildcard **/*.adoc)
+$(PDF_OUTPUT_DIR)/index.pdf: $(MAIN_DOC) $(wildcard **/*.adoc) diagrams
 	@echo "Building PDF documentation..."
 	@mkdir -p $(PDF_OUTPUT_DIR)
 	$(ASCIIDOCTOR_PDF) $(ASCIIDOC_OPTS) $(DIAGRAM_OPTS) -D $(PDF_OUTPUT_DIR) $(MAIN_DOC)
 
 clean:
-	@echo "Cleaning build directory..."
-	rm -rf $(OUTPUT_DIR)
+	@echo "Cleaning build directories..."
+	rm -rf $(HTML_OUTPUT_DIR) $(PDF_OUTPUT_DIR) $(PLANTUML_OUTPUT_DIR)
 
 help:
 	@echo "Available targets:"

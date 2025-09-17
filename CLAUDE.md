@@ -10,19 +10,16 @@ This is the documentation repository for OS Migrate, an open source toolbox for 
 
 ### Documentation Building (AsciiDoc)
 
-The main documentation is located in `asciidoc/` directory:
+The documentation is built directly from the repository root:
 
 ```bash
-# Navigate to asciidoc directory first
-cd asciidoc/
-
 # Install Ruby dependencies
 bundle install
 
 # Build HTML documentation
 make html
 
-# Build PDF documentation  
+# Build PDF documentation
 make pdf
 
 # Build both HTML and PDF
@@ -39,25 +36,15 @@ make help
 ```
 
 Output locations:
-- HTML: `asciidoc/_build/html/index.html`
-- PDF: `asciidoc/_build/pdf/index.pdf`
-
-### Alternative Build Method (Legacy)
-
-For the legacy documentation build process:
-
-```bash
-# Build documentation using toolbox container
-make toolbox-build
-./toolbox/run make docs
-```
+- HTML: `docs/index.html`
+- PDF: `pdf/index.pdf`
 
 ## Documentation Structure
 
 The documentation uses AsciiDoc format with the following structure:
 
 - `index.adoc` - Main documentation entry point
-- `user/` - User documentation (installation, usage, troubleshooting) 
+- `user/` - User documentation (installation, usage, troubleshooting)
 - `operator/` - Operator documentation (capacity planning, guides, walkthrough)
 - `devel/` - Developer documentation (contributing, design, development setup)
 - `modules/` - Ansible module documentation
@@ -76,15 +63,15 @@ The documentation uses AsciiDoc format with the following structure:
 When working with documentation:
 
 1. Source files use AsciiDoc format (.adoc)
-2. Build outputs go to `_build/` directory
+2. Build outputs go to `docs/` and `pdf/` directories
 3. PlantUML diagrams are auto-generated during build
 4. Both HTML and PDF outputs are supported
 5. Use `make clean` to reset build state
 
 ## Ruby Dependencies
 
-The project uses these key Ruby gems (defined in `asciidoc/Gemfile`):
-- `asciidoctor` - Core AsciiDoc processor
-- `asciidoctor-pdf` - PDF generation
-- `asciidoctor-diagram` - PlantUML diagram support
-- `rouge` - Syntax highlighting
+The project uses these key Ruby gems (defined in `Gemfile`):
+- `asciidoctor` (~> 2.0) - Core AsciiDoc processor
+- `asciidoctor-pdf` (~> 2.3) - PDF generation
+- `asciidoctor-diagram` (~> 2.2) - PlantUML diagram support
+- `rouge` (~> 4.1) - Syntax highlighting
