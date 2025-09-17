@@ -40,16 +40,14 @@ refer to the link:developer/index.adoc[developer docs].
 == Contents
 
 // Quickstart
+include::operator/index.adoc[leveloffset=+1]
+
+// Developer
+include::developer/index.adoc[leveloffset=+1]
 
 // Reference
 include::reference/modules/index.adoc[leveloffset=+1]
 
 include::reference/roles/index.adoc[leveloffset=+1]
 
-include::cloud-operator/index.adoc[leveloffset=+1]
 
-include::cloud-user/index.adoc[leveloffset=+1]
-
-
-
-include::developer/index.adoc[leveloffset=+1]

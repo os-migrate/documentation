@@ -23,7 +23,6 @@ have access to the data that needs to be migrated (snapshots and
 volumes).
 
 
-///TODO need to figure out these UMLs in the source
 .. figure:: ../images/render/workload-migration-data-flow.png
    :alt: Workload migration (data flow)
    :width: 80%
@@ -123,6 +122,8 @@ filter. The steps performed for each workload (Nova Server) are:
    destination cloud. (In case of successful migration, no further
    clean up is necessary in the destination cloud.)
 
-// TODO: need to figure out these UMLs in the source
-// Figure: Sequence diagram of workload migration internal actions
-// ../images/plantuml/render/workload-migration-sequence.png
+.. figure:: ../images/render/workload-migration-sequence.png
+   :alt: Workload migration (sequence)
+   :width: 80%
+
+   Workload migration (sequence)

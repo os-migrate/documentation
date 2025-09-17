@@ -6,6 +6,16 @@ ifdev::context[:parent-context: {context}]
 
 = OS Migrate Quickstart Guide
 
-== Software Pre-Requisites
+== Capacity Planning & Conversion Host
+
+include::chapter_os-migrate-capacity-planning.adoc[leveloffset=+1]
+
+include::chapter_os-migrate-conversion-host-guide.adoc[leveloffset=+1]
 
 == Installation
+
+include::chapter_os-migrate-aee.adoc[leveloffset=+1]
+
+== OS Migrate VMware to OpenStack
+
+include::chapter_os-migrate-vmware-guide.adoc[leveloffset=+1]

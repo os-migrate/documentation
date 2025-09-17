@@ -6,6 +6,4 @@ ifdev::context[:parent-context: {context}]
 
 = OS Migrate Capacity Planning
 
-== Hardware Requirements
-
-== Expectations
+include::chapter_os-migrate-migrator-host.adoc[leveloffset=+1]
