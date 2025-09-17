@@ -5,21 +5,17 @@
 :sectlinks:
 :icons: font
 
+// Introduction & Bug Reporting
 == Welcome to OS Migrate
 
-OS Migrate is an open source toolbox for parallel cloud migration
-between OpenStack clouds. Parallel cloud migration is a way to
-modernize an OpenStack deployment. Instead of upgrading an OpenStack
-cluster in place, a second OpenStack cluster is deployed alongside,
-and tenant content is migrated from the original cluster to the new
-one. As hardware resources free up in the original cluster, they can
-be gradually added to the new cluster.
-
-OS Migrate provides a framework for exporting and importing resources
-between two clouds. It's a collection of Ansible playbooks that
+OS Migrate provides a framework and toolsuite for exporting and importing
+resources between two clouds. It's a collection of Ansible playbooks that
 provide the basic functionality, but may not fit each use case out of
 the box. You can craft custom playbooks using the OS Migrate
 collection pieces (roles and modules) as building blocks.
+
+At present OS Migrate supports migration from VMware clouds to OpenStack,
+and OpenStack to OpenStack.
 
 OS Migrate strictly uses the official OpenStack API and does not
 utilize direct database access or other methods to export or import
@@ -38,20 +34,22 @@ To get help, feel free to also create an
 https://github.com/os-migrate/os-migrate/issues[issue]
 on GitHub with your question.
 
-For a more interactive chat, join the Matrix room
-https://app.element.io/#/room/#os-migrate:matrix.org[#os-migrate:matrix.org].
-
 If you want to contribute to the project (code, docs, ...), please
-refer to the link:developer/README.adoc[developer docs].
+refer to the link:developer/index.adoc[developer docs].
 
 == Contents
+
+// Quickstart
+
+// Reference
+include::reference/modules/index.adoc[leveloffset=+1]
+
+include::reference/roles/index.adoc[leveloffset=+1]
 
 include::cloud-operator/index.adoc[leveloffset=+1]
 
 include::cloud-user/index.adoc[leveloffset=+1]
 
-include::reference/roles/index.adoc[leveloffset=+1]
 
-include::reference/modules/index.adoc[leveloffset=+1]
 
 include::developer/index.adoc[leveloffset=+1]
