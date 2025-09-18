@@ -1,8 +1,6 @@
-ifdev::context[:parent-context: {context}]
 
 [id="os-migrate-vmware-guide_vmware"]
 
-:context: vmware
 
 = OS Migrate VMware Guide
 

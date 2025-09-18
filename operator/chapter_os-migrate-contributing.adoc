@@ -1,8 +1,6 @@
-ifdev::context[:parent-context: {context}]
 
 [id="os-migrate-contributing_development"]
 
-:context: development
 
 = OS Migrate Contribution Guidelines
 

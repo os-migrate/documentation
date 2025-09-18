@@ -1,8 +1,4 @@
-ifdef::context[:parent-context: {context}]
-
 [id="os-migrate-migrator-host_planning"]
-
-:context: migrator-host
 
 = Migrator Host Requirements
 
@@ -128,6 +124,4 @@ migrator:
 * Secure credential management
 * Network security between clouds
 
-ifdef::parent-context[:context: {parent-context}]
-ifndef::parent-context[:!context:]
 

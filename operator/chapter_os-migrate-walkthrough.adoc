@@ -1,8 +1,6 @@
-ifdev::context[:parent-context: {context}]
 
 [id="os-migrate-walkthrough_planning"]
 
-:context: planning
 
 = OS Migrate walkthrough
 
@@ -501,5 +499,3 @@ $OSM_CMD $OSM_DIR/playbooks/delete_conversion_hosts.yml
 
 https://youtu.be/gEKvgIZqrQY[Workload migration recorded demo]
 
-ifdef::parent-context[:context: {parent-context}]
-ifndef::parent-context[:!context:]

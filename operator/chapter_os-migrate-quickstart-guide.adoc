@@ -1,8 +1,4 @@
-ifdev::context[:parent-context: {context}]
-
 [id="os-migrate-quickstart-guide_planning"]
-
-:context: planning
 
 = OS Migrate Quickstart Guide
 

@@ -1,8 +1,6 @@
-ifdev::context[:parent-context: {context}]
 
 [id="os-migrate-conversion-host-guide_planning"]
 
-:context: conversion-host
 
 = Conversion Host Guide
 
@@ -416,5 +414,3 @@ os_migrate_src_conversion_host_volume_size: 50
 os_migrate_dst_conversion_host_volume_size: 50
 ----
 
-ifdef::parent-context[:context: {parent-context}]
-ifndef::parent-context[:!context:]

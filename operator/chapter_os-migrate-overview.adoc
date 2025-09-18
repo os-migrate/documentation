@@ -1,8 +1,4 @@
-ifdev::context[:parent-context: {context}]
-
 [id="os-migrate-overview_planning"]
-
-:context: planning
 
 = os-migrate overview
 
@@ -10,5 +6,3 @@ OS-Migrate is a toolsuite designed to assist in the process of moving cloud work
 
 TO BE FLESHED OUT
 
-ifdef::parent-context[:context: {parent-context}]
-ifndef::parent-context[:!context:]

@@ -1,8 +1,6 @@
-ifdev::context[:parent-context: {context}]
 
 [id="os-migrate-performance-expectations_planning"]
 
-:context: planning
 
 = OS Migrate Performance Expectations
 

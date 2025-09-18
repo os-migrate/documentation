@@ -44,11 +44,19 @@ diagrams:
 $(HTML_OUTPUT_DIR)/index.html: $(MAIN_DOC) $(wildcard **/*.adoc) diagrams
 	@echo "Building HTML documentation..."
 	@mkdir -p $(HTML_OUTPUT_DIR)
+	@mkdir -p $(HTML_OUTPUT_DIR)/images
+	@echo "Copying images..."
+	@cp -r $(PLANTUML_SRC_DIR)/*.svg $(HTML_OUTPUT_DIR)/images/ 2>/dev/null || true
+	@cp -r $(PLANTUML_OUTPUT_DIR)/*.png $(HTML_OUTPUT_DIR)/images/ 2>/dev/null || true
 	$(ASCIIDOCTOR) $(ASCIIDOC_OPTS) $(DIAGRAM_OPTS) -D $(HTML_OUTPUT_DIR) $(MAIN_DOC)
 
 $(PDF_OUTPUT_DIR)/index.pdf: $(MAIN_DOC) $(wildcard **/*.adoc) diagrams
 	@echo "Building PDF documentation..."
 	@mkdir -p $(PDF_OUTPUT_DIR)
+	@mkdir -p $(PDF_OUTPUT_DIR)/images
+	@echo "Copying images for PDF..."
+	@cp -r $(PLANTUML_SRC_DIR)/*.svg $(PDF_OUTPUT_DIR)/images/ 2>/dev/null || true
+	@cp -r $(PLANTUML_OUTPUT_DIR)/*.png $(PDF_OUTPUT_DIR)/images/ 2>/dev/null || true
 	$(ASCIIDOCTOR_PDF) $(ASCIIDOC_OPTS) $(DIAGRAM_OPTS) -D $(PDF_OUTPUT_DIR) $(MAIN_DOC)
 
 clean:
