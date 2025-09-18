@@ -29,10 +29,16 @@ bundle install
 ### Build Commands
 
 ```bash
-# Build HTML documentation
+# Build multi-page HTML documentation (default)
 make html
 
-# Build PDF documentation  
+# Build multi-page HTML documentation (explicit)
+make html-multi
+
+# Build single-page HTML documentation
+make html-single
+
+# Build PDF documentation
 make pdf
 
 # Build both formats
@@ -51,9 +57,14 @@ make help
 ### Output
 
 Built documentation will be available in:
-- HTML: `docs/index.html`
-- PDF: `pdf/index.pdf`
-- Images: `docs/images/` (automatically copied during build)
+- **Multi-page HTML**: `docs/index.html` (main page with links to sections)
+  - `docs/operator/index.html` - Operator guide
+  - `docs/developer/index.html` - Developer documentation
+  - `docs/reference/modules/index.html` - Modules reference
+  - `docs/reference/roles/index.html` - Roles reference
+- **Single-page HTML**: `docs/index-single.html` (complete documentation in one file)
+- **PDF**: `pdf/index.pdf`
+- **Images**: `docs/images/` and subdirectories (automatically copied during build)
 
 ## Features
 
@@ -69,7 +80,9 @@ Built documentation will be available in:
 
 ## Recent Improvements
 
+- **Multi-page HTML output**: Documentation now generates as separate pages per section for better navigation and performance
 - **Fixed TOC links**: Section links now properly navigate to correct locations
 - **Clean rendering**: Removed preprocessing directive artifacts from output
 - **SVG image support**: VMware workflow diagrams now render correctly
 - **Improved build process**: Automatic image copying and proper file structure
+- **Flexible build options**: Choose between single-page or multi-page HTML output

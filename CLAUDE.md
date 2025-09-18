@@ -16,8 +16,14 @@ The documentation is built directly from the repository root:
 # Install Ruby dependencies
 bundle install
 
-# Build HTML documentation
+# Build multi-page HTML documentation (default)
 make html
+
+# Build multi-page HTML documentation (explicit)
+make html-multi
+
+# Build single-page HTML documentation
+make html-single
 
 # Build PDF documentation
 make pdf
@@ -36,9 +42,14 @@ make help
 ```
 
 Output locations:
-- HTML: `docs/index.html`
-- PDF: `pdf/index.pdf`
-- Images: `docs/images/` (automatically copied during build)
+- **Multi-page HTML**: `docs/index.html` (main page with navigation to sections)
+  - `docs/operator/index.html` - Operator guide
+  - `docs/developer/index.html` - Developer documentation
+  - `docs/reference/modules/index.html` - Modules reference
+  - `docs/reference/roles/index.html` - Roles reference
+- **Single-page HTML**: `docs/index-single.html` (complete documentation)
+- **PDF**: `pdf/index.pdf`
+- **Images**: `docs/images/` and subdirectories (automatically copied during build)
 
 ## Documentation Structure
 
@@ -56,6 +67,8 @@ The documentation uses AsciiDoc format with the following structure:
   - `render/` - Generated PlantUML diagrams (PNG format)
 
 ### Key Documentation Features
+- **Multi-page HTML generation**: Separate pages per section for better performance and navigation
+- **Single-page HTML option**: Complete documentation in one file when needed
 - PlantUML diagram generation from source to PNG
 - SVG workflow diagrams with automatic copying
 - Working table of contents with proper section linking

@@ -1,0 +1,74 @@
+= OS Migrate Documentation
+:toc: left
+:toclevels: 2
+:sectnums:
+:sectlinks:
+:icons: font
+
+// Introduction & Bug Reporting
+== Welcome to OS Migrate
+
+OS Migrate provides a framework and toolsuite for exporting and importing
+resources between two clouds. It's a collection of Ansible playbooks that
+provide the basic functionality, but may not fit each use case out of
+the box. You can craft custom playbooks using the OS Migrate
+collection pieces (roles and modules) as building blocks.
+
+At present OS Migrate supports migration from VMware clouds to OpenStack,
+and OpenStack to OpenStack.
+
+OS Migrate strictly uses the official OpenStack API and does not
+utilize direct database access or other methods to export or import
+data. The Ansible playbooks contained in OS Migrate are idempotent.
+If a command fails, you can retry with the same command.
+
+== Community
+
+The https://github.com/os-migrate/os-migrate[source code of OS Migrate]
+is hosted on GitHub.
+
+For issue reports please use the GitHub
+https://github.com/os-migrate/os-migrate/issues[OS Migrate issue tracker].
+
+To get help, feel free to also create an
+https://github.com/os-migrate/os-migrate/issues[issue]
+on GitHub with your question.
+
+If you want to contribute to the project (code, docs, ...), please
+refer to the link:developer/index.html[developer docs].
+
+== Documentation Sections
+
+=== link:operator/index.html[Operator Guide]
+
+Comprehensive information for operators planning and executing OpenStack cloud migrations using OS Migrate.
+
+Topics covered:
+- Capacity planning and conversion host setup
+- Migration walkthrough and process summary
+- VMware to OpenStack migration guide
+- Troubleshooting and performance expectations
+
+=== link:developer/index.html[Developer Documentation]
+
+Information for developers contributing to OS Migrate.
+
+Topics covered:
+- Design principles and architecture
+- Development environment setup
+- Contributing guidelines for code and documentation
+- Release processes and workflows
+
+=== link:reference/modules/index.html[Ansible Modules Reference]
+
+Complete reference documentation for all OS Migrate Ansible modules.
+
+=== link:reference/roles/index.html[Ansible Roles Reference]
+
+Complete reference documentation for all OS Migrate Ansible roles.
+
+== Quick Start
+
+New to OS Migrate? Start with the link:operator/index.html[Operator Guide] for installation and usage instructions.
+
+For developers wanting to contribute, begin with the link:developer/index.html[Developer Documentation].

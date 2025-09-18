@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.18">
-<title>OS Migrate Documentation</title>
+<title>Documented modules in os-migrate</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -439,127 +439,897 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>OS Migrate Documentation</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
-<ul class="sectlevel1">
-<li><a href="#_welcome_to_os_migrate">1. Welcome to OS Migrate</a></li>
-<li><a href="#_community">2. Community</a></li>
-<li><a href="#_documentation_sections">3. Documentation Sections</a>
-<ul class="sectlevel2">
-<li><a href="#_operator_guide">3.1. Operator Guide</a></li>
-<li><a href="#_developer_documentation">3.2. Developer Documentation</a></li>
-<li><a href="#_ansible_modules_reference">3.3. Ansible Modules Reference</a></li>
-<li><a href="#_ansible_roles_reference">3.4. Ansible Roles Reference</a></li>
-</ul>
-</li>
-<li><a href="#_quick_start">4. Quick Start</a></li>
+<ul class="sectlevel0">
+<li><a href="#_documented_modules_in_os_migrate">Documented modules in os-migrate</a></li>
+<li><a href="#_contents">Contents</a></li>
+<li><a href="#_module_auth_info">Module - auth_info</a></li>
+<li><a href="#_module_export_detached_volume">Module - export_detached_volume</a></li>
+<li><a href="#_module_export_flavor">Module - export_flavor</a></li>
+<li><a href="#_module_export_image_blob">Module - export_image_blob</a></li>
+<li><a href="#_module_export_image_meta">Module - export_image_meta</a></li>
+<li><a href="#_module_export_keypair">Module - export_keypair</a></li>
+<li><a href="#_module_export_network">Module - export_network</a></li>
+<li><a href="#_module_export_project">Module - export_project</a></li>
+<li><a href="#_module_export_router">Module - export_router</a></li>
+<li><a href="#_module_export_router_interfaces">Module - export_router_interfaces</a></li>
+<li><a href="#_module_export_security_group">Module - export_security_group</a></li>
+<li><a href="#_module_export_security_group_rules">Module - export_security_group_rules</a></li>
+<li><a href="#_module_export_subnet">Module - export_subnet</a></li>
+<li><a href="#_module_export_user">Module - export_user</a></li>
+<li><a href="#_module_export_user_project_role_assignment">Module - export_user_project_role_assignment</a></li>
+<li><a href="#_module_export_workload">Module - export_workload</a></li>
+<li><a href="#_module_import_flavor">Module - import_flavor</a></li>
+<li><a href="#_module_import_image">Module - import_image</a></li>
+<li><a href="#_module_import_keypair">Module - import_keypair</a></li>
+<li><a href="#_module_import_network">Module - import_network</a></li>
+<li><a href="#_module_import_project">Module - import_project</a></li>
+<li><a href="#_module_import_router">Module - import_router</a></li>
+<li><a href="#_module_import_router_interface">Module - import_router_interface</a></li>
+<li><a href="#_module_import_security_group">Module - import_security_group</a></li>
+<li><a href="#_module_import_security_group_rule">Module - import_security_group_rule</a></li>
+<li><a href="#_module_import_subnet">Module - import_subnet</a></li>
+<li><a href="#_module_import_user">Module - import_user</a></li>
+<li><a href="#_module_import_user_project_role_assignment">Module - import_user_project_role_assignment</a></li>
+<li><a href="#_module_import_volumes_export">Module - import_volumes_export</a></li>
+<li><a href="#_module_import_volumes_src_cleanup">Module - import_volumes_src_cleanup</a></li>
+<li><a href="#_module_import_volumes_transfer">Module - import_volumes_transfer</a></li>
+<li><a href="#_module_import_workload_create_instance">Module - import_workload_create_instance</a></li>
+<li><a href="#_module_import_workload_dst_check">Module - import_workload_dst_check</a></li>
+<li><a href="#_module_import_workload_dst_failure_cleanup">Module - import_workload_dst_failure_cleanup</a></li>
+<li><a href="#_module_import_workload_export_volumes">Module - import_workload_export_volumes</a></li>
+<li><a href="#_module_import_workload_prelim">Module - import_workload_prelim</a></li>
+<li><a href="#_module_import_workload_src_check">Module - import_workload_src_check</a></li>
+<li><a href="#_module_import_workload_src_cleanup">Module - import_workload_src_cleanup</a></li>
+<li><a href="#_module_import_workload_transfer_volumes">Module - import_workload_transfer_volumes</a></li>
+<li><a href="#_module_os_conversion_host_info">Module - os_conversion_host_info</a></li>
+<li><a href="#_module_os_keypairs_info">Module - os_keypairs_info</a></li>
+<li><a href="#_module_os_role_assignments_info">Module - os_role_assignments_info</a></li>
+<li><a href="#_module_os_routers_info">Module - os_routers_info</a></li>
+<li><a href="#_module_os_security_groups_info">Module - os_security_groups_info</a></li>
+<li><a href="#_module_read_resources">Module - read_resources</a></li>
+<li><a href="#_module_validate_resource_files">Module - validate_resource_files</a></li>
 </ul>
 </div>
 </div>
 <div id="content">
-<div class="sect1">
-<h2 id="_welcome_to_os_migrate"><a class="anchor" href="#_welcome_to_os_migrate"></a><a class="link" href="#_welcome_to_os_migrate">1. Welcome to OS Migrate</a></h2>
-<div class="sectionbody">
+<h1 id="_documented_modules_in_os_migrate" class="sect0"><a class="anchor" href="#_documented_modules_in_os_migrate"></a><a class="link" href="#_documented_modules_in_os_migrate">Documented modules in os-migrate</a></h1>
+
+<h1 id="_contents" class="sect0"><a class="anchor" href="#_contents"></a><a class="link" href="#_contents">Contents</a></h1>
+
+<h1 id="_module_auth_info" class="sect0"><a class="anchor" href="#_module_auth_info"></a><a class="link" href="#_module_auth_info">Module - auth_info</a></h1>
 <div class="paragraph">
-<p>OS Migrate provides a framework and toolsuite for exporting and importing
-resources between two clouds. It&#8217;s a collection of Ansible playbooks that
-provide the basic functionality, but may not fit each use case out of
-the box. You can craft custom playbooks using the OS Migrate
-collection pieces (roles and modules) as building blocks.</p>
+<p>This module provides for the following ansible plugin:</p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>auth_info</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/auth_info.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_export_detached_volume" class="sect0"><a class="anchor" href="#_module_export_detached_volume"></a><a class="link" href="#_module_export_detached_volume">Module - export_detached_volume</a></h1>
 <div class="paragraph">
-<p>At present OS Migrate supports migration from VMware clouds to OpenStack,
-and OpenStack to OpenStack.</p>
+<p>This module provides for the following ansible plugin:</p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_detached_volume</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_detached_volume.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_export_flavor" class="sect0"><a class="anchor" href="#_module_export_flavor"></a><a class="link" href="#_module_export_flavor">Module - export_flavor</a></h1>
 <div class="paragraph">
-<p>OS Migrate strictly uses the official OpenStack API and does not
-utilize direct database access or other methods to export or import
-data. The Ansible playbooks contained in OS Migrate are idempotent.
-If a command fails, you can retry with the same command.</p>
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_flavor</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_flavor.py
+:documentation: true
+:examples: true</pre>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_community"><a class="anchor" href="#_community"></a><a class="link" href="#_community">2. Community</a></h2>
-<div class="sectionbody">
+<h1 id="_module_export_image_blob" class="sect0"><a class="anchor" href="#_module_export_image_blob"></a><a class="link" href="#_module_export_image_blob">Module - export_image_blob</a></h1>
 <div class="paragraph">
-<p>The <a href="https://github.com/os-migrate/os-migrate">source code of OS Migrate</a>
-is hosted on GitHub.</p>
+<p>This module provides for the following ansible plugin:</p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_image_blob</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_image_blob.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_export_image_meta" class="sect0"><a class="anchor" href="#_module_export_image_meta"></a><a class="link" href="#_module_export_image_meta">Module - export_image_meta</a></h1>
 <div class="paragraph">
-<p>For issue reports please use the GitHub
-<a href="https://github.com/os-migrate/os-migrate/issues">OS Migrate issue tracker</a>.</p>
+<p>This module provides for the following ansible plugin:</p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_image_meta</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_image_meta.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_export_keypair" class="sect0"><a class="anchor" href="#_module_export_keypair"></a><a class="link" href="#_module_export_keypair">Module - export_keypair</a></h1>
 <div class="paragraph">
-<p>To get help, feel free to also create an
-<a href="https://github.com/os-migrate/os-migrate/issues">issue</a>
-on GitHub with your question.</p>
+<p>This module provides for the following ansible plugin:</p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_keypair</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_keypair.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_export_network" class="sect0"><a class="anchor" href="#_module_export_network"></a><a class="link" href="#_module_export_network">Module - export_network</a></h1>
 <div class="paragraph">
-<p>If you want to contribute to the project (code, docs, &#8230;&#8203;), please
-refer to the <a href="developer/index.html">developer docs</a>.</p>
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_network</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_network.py
+:documentation: true
+:examples: true</pre>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_documentation_sections"><a class="anchor" href="#_documentation_sections"></a><a class="link" href="#_documentation_sections">3. Documentation Sections</a></h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_operator_guide"><a class="anchor" href="#_operator_guide"></a><a class="link" href="#_operator_guide">3.1. <a href="operator/index.html">Operator Guide</a></a></h3>
+<h1 id="_module_export_project" class="sect0"><a class="anchor" href="#_module_export_project"></a><a class="link" href="#_module_export_project">Module - export_project</a></h1>
 <div class="paragraph">
-<p>Comprehensive information for operators planning and executing OpenStack cloud migrations using OS Migrate.</p>
+<p>This module provides for the following ansible plugin:</p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_project</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_project.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_export_router" class="sect0"><a class="anchor" href="#_module_export_router"></a><a class="link" href="#_module_export_router">Module - export_router</a></h1>
 <div class="paragraph">
-<p>Topics covered:
-- Capacity planning and conversion host setup
-- Migration walkthrough and process summary
-- VMware to OpenStack migration guide
-- Troubleshooting and performance expectations</p>
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_router</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_router.py
+:documentation: true
+:examples: true</pre>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_developer_documentation"><a class="anchor" href="#_developer_documentation"></a><a class="link" href="#_developer_documentation">3.2. <a href="developer/index.html">Developer Documentation</a></a></h3>
+<h1 id="_module_export_router_interfaces" class="sect0"><a class="anchor" href="#_module_export_router_interfaces"></a><a class="link" href="#_module_export_router_interfaces">Module - export_router_interfaces</a></h1>
 <div class="paragraph">
-<p>Information for developers contributing to OS Migrate.</p>
+<p>This module provides for the following ansible plugin:</p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_router_interfaces</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_router_interfaces.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_export_security_group" class="sect0"><a class="anchor" href="#_module_export_security_group"></a><a class="link" href="#_module_export_security_group">Module - export_security_group</a></h1>
 <div class="paragraph">
-<p>Topics covered:
-- Design principles and architecture
-- Development environment setup
-- Contributing guidelines for code and documentation
-- Release processes and workflows</p>
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_security_group</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_security_group.py
+:documentation: true
+:examples: true</pre>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_ansible_modules_reference"><a class="anchor" href="#_ansible_modules_reference"></a><a class="link" href="#_ansible_modules_reference">3.3. <a href="reference/modules/index.html">Ansible Modules Reference</a></a></h3>
+<h1 id="_module_export_security_group_rules" class="sect0"><a class="anchor" href="#_module_export_security_group_rules"></a><a class="link" href="#_module_export_security_group_rules">Module - export_security_group_rules</a></h1>
 <div class="paragraph">
-<p>Complete reference documentation for all OS Migrate Ansible modules.</p>
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_security_group_rules</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_security_group_rules.py
+:documentation: true
+:examples: true</pre>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_ansible_roles_reference"><a class="anchor" href="#_ansible_roles_reference"></a><a class="link" href="#_ansible_roles_reference">3.4. <a href="reference/roles/index.html">Ansible Roles Reference</a></a></h3>
+<h1 id="_module_export_subnet" class="sect0"><a class="anchor" href="#_module_export_subnet"></a><a class="link" href="#_module_export_subnet">Module - export_subnet</a></h1>
 <div class="paragraph">
-<p>Complete reference documentation for all OS Migrate Ansible roles.</p>
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_subnet</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_subnet.py
+:documentation: true
+:examples: true</pre>
 </div>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_quick_start"><a class="anchor" href="#_quick_start"></a><a class="link" href="#_quick_start">4. Quick Start</a></h2>
-<div class="sectionbody">
+<h1 id="_module_export_user" class="sect0"><a class="anchor" href="#_module_export_user"></a><a class="link" href="#_module_export_user">Module - export_user</a></h1>
 <div class="paragraph">
-<p>New to OS Migrate? Start with the <a href="operator/index.html">Operator Guide</a> for installation and usage instructions.</p>
+<p>This module provides for the following ansible plugin:</p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_user</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_user.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_export_user_project_role_assignment" class="sect0"><a class="anchor" href="#_module_export_user_project_role_assignment"></a><a class="link" href="#_module_export_user_project_role_assignment">Module - export_user_project_role_assignment</a></h1>
 <div class="paragraph">
-<p>For developers wanting to contribute, begin with the <a href="developer/index.html">Developer Documentation</a>.</p>
+<p>This module provides for the following ansible plugin:</p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_user_project_role_assignment</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_user_project_role_assignment.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_export_workload" class="sect0"><a class="anchor" href="#_module_export_workload"></a><a class="link" href="#_module_export_workload">Module - export_workload</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_workload</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_workload.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_import_flavor" class="sect0"><a class="anchor" href="#_module_import_flavor"></a><a class="link" href="#_module_import_flavor">Module - import_flavor</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_flavor</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_flavor.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_import_image" class="sect0"><a class="anchor" href="#_module_import_image"></a><a class="link" href="#_module_import_image">Module - import_image</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_image</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_image.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_import_keypair" class="sect0"><a class="anchor" href="#_module_import_keypair"></a><a class="link" href="#_module_import_keypair">Module - import_keypair</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_keypair</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_keypair.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_import_network" class="sect0"><a class="anchor" href="#_module_import_network"></a><a class="link" href="#_module_import_network">Module - import_network</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_network</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_network.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_import_project" class="sect0"><a class="anchor" href="#_module_import_project"></a><a class="link" href="#_module_import_project">Module - import_project</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_project</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_project.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_import_router" class="sect0"><a class="anchor" href="#_module_import_router"></a><a class="link" href="#_module_import_router">Module - import_router</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_router</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_router.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_import_router_interface" class="sect0"><a class="anchor" href="#_module_import_router_interface"></a><a class="link" href="#_module_import_router_interface">Module - import_router_interface</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_router_interface</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_router_interface.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_import_security_group" class="sect0"><a class="anchor" href="#_module_import_security_group"></a><a class="link" href="#_module_import_security_group">Module - import_security_group</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_security_group</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_security_group.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_import_security_group_rule" class="sect0"><a class="anchor" href="#_module_import_security_group_rule"></a><a class="link" href="#_module_import_security_group_rule">Module - import_security_group_rule</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_security_group_rule</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_security_group_rule.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_import_subnet" class="sect0"><a class="anchor" href="#_module_import_subnet"></a><a class="link" href="#_module_import_subnet">Module - import_subnet</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_subnet</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_subnet.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_import_user" class="sect0"><a class="anchor" href="#_module_import_user"></a><a class="link" href="#_module_import_user">Module - import_user</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_user</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_user.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_import_user_project_role_assignment" class="sect0"><a class="anchor" href="#_module_import_user_project_role_assignment"></a><a class="link" href="#_module_import_user_project_role_assignment">Module - import_user_project_role_assignment</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_user_project_role_assignment</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_user_project_role_assignment.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_import_volumes_export" class="sect0"><a class="anchor" href="#_module_import_volumes_export"></a><a class="link" href="#_module_import_volumes_export">Module - import_volumes_export</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_volumes_export</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_volumes_export.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_import_volumes_src_cleanup" class="sect0"><a class="anchor" href="#_module_import_volumes_src_cleanup"></a><a class="link" href="#_module_import_volumes_src_cleanup">Module - import_volumes_src_cleanup</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_volumes_src_cleanup</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_volumes_src_cleanup.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_import_volumes_transfer" class="sect0"><a class="anchor" href="#_module_import_volumes_transfer"></a><a class="link" href="#_module_import_volumes_transfer">Module - import_volumes_transfer</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_volumes_transfer</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_volumes_transfer.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_import_workload_create_instance" class="sect0"><a class="anchor" href="#_module_import_workload_create_instance"></a><a class="link" href="#_module_import_workload_create_instance">Module - import_workload_create_instance</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_workload_create_instance</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_workload_create_instance.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_import_workload_dst_check" class="sect0"><a class="anchor" href="#_module_import_workload_dst_check"></a><a class="link" href="#_module_import_workload_dst_check">Module - import_workload_dst_check</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_workload_dst_check</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_workload_dst_check.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_import_workload_dst_failure_cleanup" class="sect0"><a class="anchor" href="#_module_import_workload_dst_failure_cleanup"></a><a class="link" href="#_module_import_workload_dst_failure_cleanup">Module - import_workload_dst_failure_cleanup</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_workload_dst_failure_cleanup</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_workload_dst_failure_cleanup.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_import_workload_export_volumes" class="sect0"><a class="anchor" href="#_module_import_workload_export_volumes"></a><a class="link" href="#_module_import_workload_export_volumes">Module - import_workload_export_volumes</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_workload_export_volumes</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_workload_export_volumes.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_import_workload_prelim" class="sect0"><a class="anchor" href="#_module_import_workload_prelim"></a><a class="link" href="#_module_import_workload_prelim">Module - import_workload_prelim</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_workload_prelim</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_workload_prelim.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_import_workload_src_check" class="sect0"><a class="anchor" href="#_module_import_workload_src_check"></a><a class="link" href="#_module_import_workload_src_check">Module - import_workload_src_check</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_workload_src_check</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_workload_src_check.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_import_workload_src_cleanup" class="sect0"><a class="anchor" href="#_module_import_workload_src_cleanup"></a><a class="link" href="#_module_import_workload_src_cleanup">Module - import_workload_src_cleanup</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_workload_src_cleanup</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_workload_src_cleanup.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_import_workload_transfer_volumes" class="sect0"><a class="anchor" href="#_module_import_workload_transfer_volumes"></a><a class="link" href="#_module_import_workload_transfer_volumes">Module - import_workload_transfer_volumes</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_workload_transfer_volumes</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_workload_transfer_volumes.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_os_conversion_host_info" class="sect0"><a class="anchor" href="#_module_os_conversion_host_info"></a><a class="link" href="#_module_os_conversion_host_info">Module - os_conversion_host_info</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>os_conversion_host_info</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/os_conversion_host_info.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_os_keypairs_info" class="sect0"><a class="anchor" href="#_module_os_keypairs_info"></a><a class="link" href="#_module_os_keypairs_info">Module - os_keypairs_info</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>os_keypairs_info</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/os_keypairs_info.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_os_role_assignments_info" class="sect0"><a class="anchor" href="#_module_os_role_assignments_info"></a><a class="link" href="#_module_os_role_assignments_info">Module - os_role_assignments_info</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>os_role_assignments_info</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/os_role_assignments_info.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_os_routers_info" class="sect0"><a class="anchor" href="#_module_os_routers_info"></a><a class="link" href="#_module_os_routers_info">Module - os_routers_info</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>os_routers_info</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/os_routers_info.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_os_security_groups_info" class="sect0"><a class="anchor" href="#_module_os_security_groups_info"></a><a class="link" href="#_module_os_security_groups_info">Module - os_security_groups_info</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>os_security_groups_info</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/os_security_groups_info.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_read_resources" class="sect0"><a class="anchor" href="#_module_read_resources"></a><a class="link" href="#_module_read_resources">Module - read_resources</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>read_resources</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/read_resources.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_validate_resource_files" class="sect0"><a class="anchor" href="#_module_validate_resource_files"></a><a class="link" href="#_module_validate_resource_files">Module - validate_resource_files</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>validate_resource_files</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/validate_resource_files.py
+:documentation: true
+:examples: true</pre>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-09-17 20:15:39 -0400
+Last updated 2025-09-17 19:54:48 -0400
 </div>
 </div>
 </body>
