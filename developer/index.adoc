@@ -17,5 +17,7 @@ include::chapter_os-migrate-contributing-code.adoc[leveloffset=+1]
 
 include::chapter_os-migrate-contributing-docs.adoc[leveloffset=+1]
 
+include::chapter_os-migrate-dev-create-new-golang-module.adoc[leveloffset=+1]
+
 == Release Management
 include::chapter_os-migrate-releasing.adoc[leveloffset=+1]
