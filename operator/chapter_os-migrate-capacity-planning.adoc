@@ -1,6 +1,6 @@
 ifdev::context[:parent-context: {context}]
 
-[id="os-migrate-capacity-planning_{context}]
+[id="os-migrate-capacity-planning_planning"]
 
 :context: planning
 

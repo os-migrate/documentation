@@ -1,6 +1,6 @@
 ifdev::context[:parent-context: {context}]
 
-[id="os-migrate-walkthrough_{context}"]
+[id="os-migrate-walkthrough_planning"]
 
 :context: planning
 

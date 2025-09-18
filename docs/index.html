@@ -663,24 +663,24 @@ pre.rouge {
 <li><a href="#_contents">3. Contents</a></li>
 <li><a href="#_os_migrate_operator_guide">4. OS Migrate Operator Guide</a>
 <ul class="sectlevel2">
-<li><a href="#os-migrate-overview_{context}">4.1. os-migrate overview</a></li>
-<li><a href="#"os-migrate-quickstart-guide_{context}">4.2. OS Migrate Quickstart Guide</a>
+<li><a href="#os-migrate-overview_planning">4.1. os-migrate overview</a></li>
+<li><a href="#os-migrate-quickstart-guide_planning">4.2. OS Migrate Quickstart Guide</a>
 <ul class="sectlevel3">
 <li><a href="#_capacity_planning_conversion_host">4.2.1. Capacity Planning &amp; Conversion Host</a></li>
-<li><a href="#"os-migrate-capacity-planning_planning">4.2.2. OS Migrate Capacity Planning</a></li>
+<li><a href="#os-migrate-capacity-planning_planning">4.2.2. OS Migrate Capacity Planning</a></li>
 <li><a href="#os-migrate-conversion-host-guide_planning">4.2.3. Conversion Host Guide</a></li>
 <li><a href="#_installation">4.2.4. Installation</a></li>
 <li><a href="#_ansible_execution_environment_aee_images">4.2.5. Ansible Execution Environment (AEE) Images</a></li>
 <li><a href="#_os_migrate_vmware_to_openstack">4.2.6. OS Migrate VMware to OpenStack</a></li>
-<li><a href="#"os-migrate-vmware-guide_planning">4.2.7. OS Migrate VMware Guide</a></li>
+<li><a href="#os-migrate-vmware-guide_vmware">4.2.7. OS Migrate VMware Guide</a></li>
 </ul>
 </li>
-<li><a href="#os-migrate-walkthrough_vmware">4.3. OS Migrate walkthrough</a>
+<li><a href="#os-migrate-walkthrough_planning">4.3. OS Migrate walkthrough</a>
 <ul class="sectlevel3">
 <li><a href="#_prerequisites_3">4.3.1. Prerequisites</a></li>
 </ul>
 </li>
-<li><a href="#"os-migrate-process-summary_planning">4.4. How it works: Workload migration</a>
+<li><a href="#os-migrate-process-summary_planning">4.4. How it works: Workload migration</a>
 <ul class="sectlevel3">
 <li><a href="#_data_flow">4.4.1. Data flow</a></li>
 <li><a href="#_migration_sequence">4.4.2. Migration sequence</a></li>
@@ -993,7 +993,7 @@ refer to the <a href="developer/index.adoc">developer docs</a>.</p>
 <p>ifdev::context[:parent-context: {context}]</p>
 </div>
 <div class="sect2">
-<h3 id="os-migrate-overview_{context}"><a class="anchor" href="#os-migrate-overview_{context}"></a><a class="link" href="#os-migrate-overview_{context}">4.1. os-migrate overview</a></h3>
+<h3 id="os-migrate-overview_planning"><a class="anchor" href="#os-migrate-overview_planning"></a><a class="link" href="#os-migrate-overview_planning">4.1. os-migrate overview</a></h3>
 <div class="paragraph">
 <p>OS-Migrate is a toolsuite designed to assist in the process of moving cloud workloads from one environment to another. Please read the entire workflow notes in order to be sufficiently prepared for this endeavour.</p>
 </div>
@@ -1005,7 +1005,7 @@ refer to the <a href="developer/index.adoc">developer docs</a>.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id=""os-migrate-quickstart-guide_{context}"><a class="anchor" href="#"os-migrate-quickstart-guide_{context}"></a><a class="link" href="#"os-migrate-quickstart-guide_{context}">4.2. OS Migrate Quickstart Guide</a></h3>
+<h3 id="os-migrate-quickstart-guide_planning"><a class="anchor" href="#os-migrate-quickstart-guide_planning"></a><a class="link" href="#os-migrate-quickstart-guide_planning">4.2. OS Migrate Quickstart Guide</a></h3>
 <div class="sect3">
 <h4 id="_capacity_planning_conversion_host"><a class="anchor" href="#_capacity_planning_conversion_host"></a><a class="link" href="#_capacity_planning_conversion_host">4.2.1. Capacity Planning &amp; Conversion Host</a></h4>
 <div class="paragraph">
@@ -1013,7 +1013,7 @@ refer to the <a href="developer/index.adoc">developer docs</a>.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id=""os-migrate-capacity-planning_planning"><a class="anchor" href="#"os-migrate-capacity-planning_planning"></a><a class="link" href="#"os-migrate-capacity-planning_planning">4.2.2. OS Migrate Capacity Planning</a></h4>
+<h4 id="os-migrate-capacity-planning_planning"><a class="anchor" href="#os-migrate-capacity-planning_planning"></a><a class="link" href="#os-migrate-capacity-planning_planning">4.2.2. OS Migrate Capacity Planning</a></h4>
 <div class="sect4">
 <h5 id="os-migrate-migrator-host_planning"><a class="anchor" href="#os-migrate-migrator-host_planning"></a><a class="link" href="#os-migrate-migrator-host_planning">Migrator Host Requirements</a></h5>
 <div class="sect5">
@@ -3439,7 +3439,7 @@ git push origin 1.2.3
 </div>
 </div>
 <div class="sect3">
-<h4 id=""os-migrate-vmware-guide_planning"><a class="anchor" href="#"os-migrate-vmware-guide_planning"></a><a class="link" href="#"os-migrate-vmware-guide_planning">4.2.7. OS Migrate VMware Guide</a></h4>
+<h4 id="os-migrate-vmware-guide_vmware"><a class="anchor" href="#os-migrate-vmware-guide_vmware"></a><a class="link" href="#os-migrate-vmware-guide_vmware">4.2.7. OS Migrate VMware Guide</a></h4>
 <div class="paragraph">
 <p>An important auxilliary function included in OS Migrate is our VMware tooling,
 which allows you to migrade a virtual machine from an ESXi/Vcenter environment
@@ -4036,7 +4036,7 @@ Openstack variables:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="os-migrate-walkthrough_vmware"><a class="anchor" href="#os-migrate-walkthrough_vmware"></a><a class="link" href="#os-migrate-walkthrough_vmware">4.3. OS Migrate walkthrough</a></h3>
+<h3 id="os-migrate-walkthrough_planning"><a class="anchor" href="#os-migrate-walkthrough_planning"></a><a class="link" href="#os-migrate-walkthrough_planning">4.3. OS Migrate walkthrough</a></h3>
 <div class="paragraph">
 <p>OS Migrate is a framework for OpenStack parallel cloud migration
 (migrating content between OpenStack tenants which are not necessarily
@@ -4660,7 +4660,7 @@ conversion hosts via the delete_conversion_hosts playbook:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id=""os-migrate-process-summary_planning"><a class="anchor" href="#"os-migrate-process-summary_planning"></a><a class="link" href="#"os-migrate-process-summary_planning">4.4. How it works: Workload migration</a></h3>
+<h3 id="os-migrate-process-summary_planning"><a class="anchor" href="#os-migrate-process-summary_planning"></a><a class="link" href="#os-migrate-process-summary_planning">4.4. How it works: Workload migration</a></h3>
 <div class="paragraph">
 <p>The information described in this page is not necessary knowledge for
 using OS Migrate workload migration. However, knowing how the
