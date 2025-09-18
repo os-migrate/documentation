@@ -17,8 +17,8 @@ ASSETS_DIR = assets
 MAIN_DOC = index.adoc
 
 # AsciiDoc options
-ASCIIDOC_OPTS = -a toc=left -a toclevels=3 -a sectlinks -a sectanchors -a icons=font -a source-highlighter=rouge -a linkcss -a stylesheet=assets/css/toc-fold.css
-ASCIIDOC_BOOK_OPTS = -a toc=left -a toclevels=3 -a sectlinks -a sectanchors -a icons=font -a source-highlighter=rouge -a doctype=book -a linkcss -a stylesheet=assets/css/toc-fold.css
+ASCIIDOC_OPTS = -a toc=left -a toclevels=3 -a sectlinks -a sectanchors -a icons=font -a source-highlighter=rouge
+ASCIIDOC_BOOK_OPTS = -a toc=left -a toclevels=3 -a sectlinks -a sectanchors -a icons=font -a source-highlighter=rouge -a doctype=book
 
 # PlantUML diagram options
 DIAGRAM_OPTS = -r asciidoctor-diagram
