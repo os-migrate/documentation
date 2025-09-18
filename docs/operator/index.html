@@ -659,8 +659,6 @@ pre.rouge {
 <ul class="sectlevel0">
 <li><a href="#_os_migrate_operator_guide">OS Migrate Operator Guide</a></li>
 <li><a href="#os-migrate-overview_planning">os-migrate overview</a></li>
-<li><a href="#os-migrate-quickstart-guide_planning">OS Migrate Quickstart Guide</a></li>
-<li><a href="#_capacity_planning_conversion_host">Capacity Planning &amp; Conversion Host</a></li>
 <li><a href="#os-migrate-capacity-planning_planning">OS Migrate Capacity Planning</a></li>
 <li><a href="#os-migrate-migrator-host_planning">Migrator Host Requirements</a></li>
 <li><a href="#_overview">Overview</a></li>
@@ -758,7 +756,18 @@ pre.rouge {
 <li><a href="#_advanced_configuration">Advanced Configuration</a></li>
 </ul>
 </li>
-<li><a href="#_installation">Installation</a></li>
+<li><a href="#os-migrate-performance-expectations_planning">OS Migrate Performance Expectations</a></li>
+<li><a href="#_red_hat_testing_results">Red Hat Testing Results</a></li>
+<li><a href="#_expectations">Expectations</a></li>
+<li><a href="#_formulas">Formulas</a></li>
+<li><a href="#_installation_from_galaxy_recommended">Installation from Galaxy (recommended)</a>
+<ul class="sectlevel1">
+<li><a href="#_prerequisites_2">Prerequisites</a></li>
+<li><a href="#_using_virtualenv_for_prerequisites">Using virtualenv for prerequisites</a></li>
+<li><a href="#installation-1">Installation of OS Migrate collection</a></li>
+</ul>
+</li>
+<li><a href="#_installation_from_source_when_customizing">Installation from source (when customizing)</a></li>
 <li><a href="#_ansible_execution_environment_aee_images">Ansible Execution Environment (AEE) Images</a></li>
 <li><a href="#_overview_2">Overview</a></li>
 <li><a href="#_available_aee_images">Available AEE Images</a>
@@ -769,7 +778,7 @@ pre.rouge {
 </li>
 <li><a href="#_building_aee_images">Building AEE Images</a>
 <ul class="sectlevel1">
-<li><a href="#_prerequisites_2">Prerequisites</a>
+<li><a href="#_prerequisites_3">Prerequisites</a>
 <ul class="sectlevel2">
 <li><a href="#_setting_up_a_virtual_environment">Setting Up a Virtual Environment</a></li>
 <li><a href="#_installing_dependencies">Installing Dependencies</a></li>
@@ -865,38 +874,8 @@ pre.rouge {
 <li><a href="#_collection_installation_improvements">Collection Installation Improvements</a></li>
 </ul>
 </li>
-<li><a href="#_os_migrate_vmware_to_openstack">OS Migrate VMware to OpenStack</a></li>
-<li><a href="#os-migrate-vmware-guide_vmware">OS Migrate VMware Guide</a></li>
-<li><a href="#_workflow">Workflow</a></li>
-<li><a href="#_features_and_supported_os">Features and supported OS</a>
-<ul class="sectlevel1">
-<li><a href="#_features">Features</a></li>
-<li><a href="#_supported_os">Supported OS</a></li>
-<li><a href="#_nbdkit_migration_example">Nbdkit migration example</a></li>
-<li><a href="#_nbdkit_migration_example_with_the_change_block_tracking">Nbdkit migration example with the Change Block Tracking</a>
-<ul class="sectlevel2">
-<li><a href="#_step_1_the_data_are_copied_and_the_change_id_from_the_vmware_disk_are_set_to_the_cinder_volume_as_metadata">Step 1: The data are copied and the change ID from the VMware disk are set to the Cinder volume as metadata</a></li>
-</ul>
-</li>
-<li><a href="#_migration_demo_from_an_aee">Migration demo from an AEE</a></li>
-<li><a href="#_running_migration">Running migration</a>
-<ul class="sectlevel2">
-<li><a href="#_conversion_host">Conversion host</a></li>
-<li><a href="#_inventory_variables_files_and_ansible_command">Inventory, Variables files and Ansible command:</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#_usage_2">Usage</a>
-<ul class="sectlevel1">
-<li><a href="#_nbdkit_default">Nbdkit (default)</a></li>
-<li><a href="#_virt_v2v">Virt-v2v</a></li>
-<li><a href="#_ansible_configuration">Ansible configuration</a></li>
-<li><a href="#_running_migration_outside_of_ansible">Running Migration outside of Ansible</a></li>
-</ul>
-</li>
 <li><a href="#os-migrate-walkthrough_planning">OS Migrate walkthrough</a></li>
-<li><a href="#_prerequisites_3">Prerequisites</a>
+<li><a href="#_prerequisites_4">Prerequisites</a>
 <ul class="sectlevel1">
 <li><a href="#_authentication_2">Authentication</a></li>
 <li><a href="#_parameter_file">Parameter file</a>
@@ -929,12 +908,88 @@ pre.rouge {
 <li><a href="#os-migrate-process-summary_planning">How it works: Workload migration</a></li>
 <li><a href="#_data_flow">Data flow</a></li>
 <li><a href="#_migration_sequence">Migration sequence</a></li>
+<li><a href="#os-migrate-vmware-guide_vmware">OS Migrate VMware Guide</a></li>
+<li><a href="#_workflow">Workflow</a></li>
+<li><a href="#_features_and_supported_os">Features and supported OS</a>
+<ul class="sectlevel1">
+<li><a href="#_features">Features</a></li>
+<li><a href="#_supported_os">Supported OS</a></li>
+<li><a href="#_nbdkit_migration_example">Nbdkit migration example</a></li>
+<li><a href="#_nbdkit_migration_example_with_the_change_block_tracking">Nbdkit migration example with the Change Block Tracking</a>
+<ul class="sectlevel2">
+<li><a href="#_step_1_the_data_are_copied_and_the_change_id_from_the_vmware_disk_are_set_to_the_cinder_volume_as_metadata">Step 1: The data are copied and the change ID from the VMware disk are set to the Cinder volume as metadata</a></li>
+</ul>
+</li>
+<li><a href="#_migration_demo_from_an_aee">Migration demo from an AEE</a></li>
+<li><a href="#_running_migration">Running migration</a>
+<ul class="sectlevel2">
+<li><a href="#_conversion_host">Conversion host</a></li>
+<li><a href="#_inventory_variables_files_and_ansible_command">Inventory, Variables files and Ansible command:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_usage_2">Usage</a>
+<ul class="sectlevel1">
+<li><a href="#_nbdkit_default">Nbdkit (default)</a></li>
+<li><a href="#_virt_v2v">Virt-v2v</a></li>
+<li><a href="#_ansible_configuration">Ansible configuration</a></li>
+<li><a href="#_running_migration_outside_of_ansible">Running Migration outside of Ansible</a></li>
+</ul>
+</li>
 <li><a href="#_migration_parameters_guide">Migration Parameters Guide</a>
 <ul class="sectlevel1">
 <li><a href="#_what_are_migration_parameters">What are migration parameters</a></li>
 <li><a href="#_workload_migration_parameters">Workload migration parameters</a></li>
 </ul>
 </li>
+<li><a href="#_variables_guide">Variables Guide</a>
+<ul class="sectlevel1">
+<li><a href="#_general_variables">General variables</a>
+<ul class="sectlevel2">
+<li><a href="#_resource_filters">Resource filters</a></li>
+</ul>
+</li>
+<li><a href="#_conversion_host_variables">Conversion host variables</a>
+<ul class="sectlevel2">
+<li><a href="#_conversion_host_name">Conversion host name</a></li>
+<li><a href="#_conversion_host_image_name">Conversion host image name</a></li>
+<li><a href="#_conversion_host_flavor_name">Conversion host flavor name</a></li>
+<li><a href="#_conversion_host_external_network_name">Conversion host external network name</a></li>
+<li><a href="#_other_conversion_host_dependency_names">Other conversion host dependency names</a></li>
+<li><a href="#_conversion_host_availablility_zone_management">Conversion host availablility zone management</a></li>
+<li><a href="#_conversion_host_network_management">Conversion host network management</a></li>
+<li><a href="#_conversion_host_floating_ip_management">Conversion host floating IP management</a></li>
+<li><a href="#_conversion_host_specific_floating_ip">Conversion host specific floating IP</a></li>
+<li><a href="#_attaching_conversion_hosts_onto_public_networks">Attaching conversion hosts onto public networks</a></li>
+<li><a href="#_storage_migration_modes">Storage migration modes</a></li>
+<li><a href="#_conversion_host_boot_from_volume">Conversion host boot from volume</a></li>
+<li><a href="#_conversion_host_rhel_variables">Conversion host RHEL variables</a></li>
+<li><a href="#_enabling_password_based_ssh_access_to_the_conversion_hosts">Enabling password-based SSH access to the conversion hosts</a></li>
+<li><a href="#_running_custom_bash_scripts_in_the_conversion_hosts">Running custom bash scripts in the conversion hosts</a></li>
+<li><a href="#_disabling_the_subscription_manager_tasks">Disabling the subscription manager tasks</a></li>
+</ul>
+</li>
+<li><a href="#_openstack_rest_api_tls_variables">OpenStack REST API TLS variables</a></li>
+<li><a href="#_workload_importexport_variables">Workload import/export variables</a></li>
+<li><a href="#_workload_migration_variables">Workload migration variables</a></li>
+</ul>
+</li>
+<li><a href="#_general_usage_notes">General usage notes</a></li>
+<li><a href="#_troubleshooting_3">Troubleshooting</a>
+<ul class="sectlevel1">
+<li><a href="#_general_tips">General tips</a></li>
+<li><a href="#_common_issues_2">Common issues</a></li>
+</ul>
+</li>
+<li><a href="#_upgrading">Upgrading</a>
+<ul class="sectlevel1">
+<li><a href="#_collection_upgrade">Collection upgrade</a></li>
+<li><a href="#_usage_notes_related_to_upgrading">Usage notes related to upgrading</a></li>
+</ul>
+</li>
+<li><a href="#os-migrate-contributing_development">OS Migrate Contribution Guidelines</a></li>
+<li><a href="#_tbd_but_largely_based_on_combination_of_existing_guide_and_david_roberto_collaboration">TBD - but largely based on combination of existing guide, and David &amp; Roberto collaboration</a></li>
 <li><a href="#_os_migrate_glossary">OS Migrate Glossary</a></li>
 <li><a href="#_core_concepts">Core Concepts</a></li>
 <li><a href="#_resource_types">Resource Types</a></li>
@@ -962,10 +1017,6 @@ pre.rouge {
 <div class="paragraph">
 <p>TO BE FLESHED OUT</p>
 </div>
-<h1 id="os-migrate-quickstart-guide_planning" class="sect0"><a class="anchor" href="#os-migrate-quickstart-guide_planning"></a><a class="link" href="#os-migrate-quickstart-guide_planning">OS Migrate Quickstart Guide</a></h1>
-
-<h1 id="_capacity_planning_conversion_host" class="sect0"><a class="anchor" href="#_capacity_planning_conversion_host"></a><a class="link" href="#_capacity_planning_conversion_host">Capacity Planning &amp; Conversion Host</a></h1>
-
 <h1 id="os-migrate-capacity-planning_planning" class="sect0"><a class="anchor" href="#os-migrate-capacity-planning_planning"></a><a class="link" href="#os-migrate-capacity-planning_planning">OS Migrate Capacity Planning</a></h1>
 
 <h1 id="os-migrate-migrator-host_planning" class="sect0"><a class="anchor" href="#os-migrate-migrator-host_planning"></a><a class="link" href="#os-migrate-migrator-host_planning">Migrator Host Requirements</a></h1>
@@ -1926,8 +1977,98 @@ openstack security group list <span class="nt">--name</span> os_migrate_conv</co
 </div>
 </div>
 </div>
-<h1 id="_installation" class="sect0"><a class="anchor" href="#_installation"></a><a class="link" href="#_installation">Installation</a></h1>
+<h1 id="os-migrate-performance-expectations_planning" class="sect0"><a class="anchor" href="#os-migrate-performance-expectations_planning"></a><a class="link" href="#os-migrate-performance-expectations_planning">OS Migrate Performance Expectations</a></h1>
 
+<h1 id="_red_hat_testing_results" class="sect0"><a class="anchor" href="#_red_hat_testing_results"></a><a class="link" href="#_red_hat_testing_results">Red Hat Testing Results</a></h1>
+
+<h1 id="_expectations" class="sect0"><a class="anchor" href="#_expectations"></a><a class="link" href="#_expectations">Expectations</a></h1>
+
+<h1 id="_formulas" class="sect0"><a class="anchor" href="#_formulas"></a><a class="link" href="#_formulas">Formulas</a></h1>
+
+<h1 id="_installation_from_galaxy_recommended" class="sect0"><a class="anchor" href="#_installation_from_galaxy_recommended"></a><a class="link" href="#_installation_from_galaxy_recommended">Installation from Galaxy (recommended)</a></h1>
+<div class="paragraph">
+<p>This document describes the recommended method of installing OS Migrate,
+from Ansible Galaxy. Alternatively, you can <a href="#">install from source</a>.</p>
+</div>
+<div class="sect1">
+<h2 id="_prerequisites_2"><a class="anchor" href="#_prerequisites_2"></a><a class="link" href="#_prerequisites_2">Prerequisites</a></h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Ansible 2.9 or newer.</p>
+</li>
+<li>
+<p>Ansible must run using Python 3. (When using Ansible from RHEL
+packages, this means running on RHEL 8 or newer.)</p>
+</li>
+<li>
+<p>Additional package requirements from Ansible modules:
+<code>iputils python3-openstackclient python3-openstacksdk</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_virtualenv_for_prerequisites"><a class="anchor" href="#_using_virtualenv_for_prerequisites"></a><a class="link" href="#_using_virtualenv_for_prerequisites">Using virtualenv for prerequisites</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If your distribution doesn&#8217;t ship the required dependency versions,
+you can use virtualenv, e.g.:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash">python3 <span class="nt">-m</span> venv <span class="nv">$HOME</span>/os_migrate_venv
+<span class="nb">source</span> <span class="nv">$HOME</span>/os_migrate_venv/bin/activate
+python3 <span class="nt">-m</span> pip <span class="nb">install</span> <span class="nt">--upgrade</span> <span class="s1">'openstacksdk'</span>
+python3 <span class="nt">-m</span> pip <span class="nb">install</span> <span class="nt">--upgrade</span> <span class="s1">'ansible-core'</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="installation-1"><a class="anchor" href="#installation-1"></a><a class="link" href="#installation-1">Installation of OS Migrate collection</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To install latest release:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash">ansible-galaxy collection <span class="nb">install </span>os_migrate.os_migrate</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To install a particular release:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash">ansible-galaxy collection <span class="nb">install </span>os_migrate.os_migrate:&lt;VERSION&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can find available releases at <a href="https://galaxy.ansible.com/os_migrate/os_migrate">OS Migrate Galaxy page</a>.</p>
+</div>
+</div>
+</div>
+<h1 id="_installation_from_source_when_customizing" class="sect0"><a class="anchor" href="#_installation_from_source_when_customizing"></a><a class="link" href="#_installation_from_source_when_customizing">Installation from source (when customizing)</a></h1>
+<div class="paragraph">
+<p>Install prerequisites as documented in <a href="#">install from Galaxy</a>. Then install OS Migrate from source:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash">git clone https://github.com/os-migrate/os-migrate
+<span class="nb">cd </span>os-migrate
+<span class="c"># &gt; Here you can checkout a specific commit/branch if desired &lt;</span>
+
+make toolbox-build
+./toolbox/run make
+
+<span class="nb">pushd </span>releases
+ansible-galaxy collection <span class="nb">install</span> <span class="nt">--force</span> os_migrate-os_migrate-latest.tar.gz
+<span class="nb">popd</span></code></pre>
+</div>
+</div>
 <h1 id="_ansible_execution_environment_aee_images" class="sect0"><a class="anchor" href="#_ansible_execution_environment_aee_images"></a><a class="link" href="#_ansible_execution_environment_aee_images">Ansible Execution Environment (AEE) Images</a></h1>
 <div class="paragraph">
 <p>os-migrate and vmware-migration-kit provide containerized Ansible Execution Environment (AEE) images that encapsulate all necessary dependencies for running migration playbooks in a consistent, isolated environment.</p>
@@ -2006,7 +2147,7 @@ openstack security group list <span class="nt">--name</span> os_migrate_conv</co
 </div>
 <h1 id="_building_aee_images" class="sect0"><a class="anchor" href="#_building_aee_images"></a><a class="link" href="#_building_aee_images">Building AEE Images</a></h1>
 <div class="sect1">
-<h2 id="_prerequisites_2"><a class="anchor" href="#_prerequisites_2"></a><a class="link" href="#_prerequisites_2">Prerequisites</a></h2>
+<h2 id="_prerequisites_3"><a class="anchor" href="#_prerequisites_3"></a><a class="link" href="#_prerequisites_3">Prerequisites</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Before building AEE images, ensure you have the following tools installed:</p>
@@ -3441,613 +3582,6 @@ git push origin 1.2.3
 </div>
 </div>
 </div>
-<h1 id="_os_migrate_vmware_to_openstack" class="sect0"><a class="anchor" href="#_os_migrate_vmware_to_openstack"></a><a class="link" href="#_os_migrate_vmware_to_openstack">OS Migrate VMware to OpenStack</a></h1>
-
-<h1 id="os-migrate-vmware-guide_vmware" class="sect0"><a class="anchor" href="#os-migrate-vmware-guide_vmware"></a><a class="link" href="#os-migrate-vmware-guide_vmware">OS Migrate VMware Guide</a></h1>
-<div class="paragraph">
-<p>An important auxilliary function included in OS Migrate is our VMware tooling,
-which allows you to migrade a virtual machine from an ESXi/Vcenter environment
-to OpenStack or OpenShift environments.</p>
-</div>
-<div class="paragraph">
-<p>The code used os-migrate Ansible collection in order to deploy conversion host and setup
-correctly the prerequists in the Openstack destination cloud.
-It also used the vmware community collection in order to gather informations from the source
-VMWare environment.</p>
-</div>
-<div class="paragraph">
-<p>The Ansible collection provides different steps to scale your migration from VMWare to Openstack
-and Openshift:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>A discovery phase where it analizes the VMWare source environment and provides collected data
-to help for the migration.</p>
-</li>
-<li>
-<p>A pre-migration phase where it make sure the destionation cloud is ready to perform the migration,
-by creating the conversion host for example or the required network if needed.</p>
-</li>
-<li>
-<p>A migration phase with different workflow where the user can basicaly scale the migration with
-a very number of virtual machines as entry point, or can migrate sensitive virtual machine by using
-a near zero down time with the change block tracking VMWare option (CBT) and so perform the virtual
-machine migration in two steps. The migration can also be done without conversion host.</p>
-</li>
-</ul>
-</div>
-<h1 id="_workflow" class="sect0"><a class="anchor" href="#_workflow"></a><a class="link" href="#_workflow">Workflow</a></h1>
-<div class="paragraph">
-<p>There is different ways to run the migration from VMWare to OpenStack.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>The default is by using nbdkit server with a conversion host (an Openstack instance hosted in the destination cloud).
-This way allow the user to use the CBT option and approach a zero downtime. It can also run the migration in one time cycle.</p>
-</li>
-<li>
-<p>The second one by using virt-v2v binding with a conversion host. Here you can use a conversion
-host (Openstack instance) already deployed or you can let OS-Migrate deployed a conversion host
-for you.</p>
-</li>
-<li>
-<p>A third way is available where you can skip the conversion host and perform the migration on a Linux machine, the volume
-migrated and converted will be upload a Glance image or can be use later as a Cinder volume. This way is not recommended if
-you have big disk or a huge amount of VMs to migrate: the performance are really slower than with the other ways.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>All of these are configurable with Ansible boolean variables.</p>
-</div>
-<h1 id="_features_and_supported_os" class="sect0"><a class="anchor" href="#_features_and_supported_os"></a><a class="link" href="#_features_and_supported_os">Features and supported OS</a></h1>
-<div class="sect1">
-<h2 id="_features"><a class="anchor" href="#_features"></a><a class="link" href="#_features">Features</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>The following features are availables:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Discovery mode</p>
-</li>
-<li>
-<p>Network mapping</p>
-</li>
-<li>
-<p>Port creation and mac addresses mapping</p>
-</li>
-<li>
-<p>Openstack flavor mapping and creation</p>
-</li>
-<li>
-<p>Migration with nbdkit server with change block tracking feature (CBT)</p>
-</li>
-<li>
-<p>Migration with virt-v2v</p>
-</li>
-<li>
-<p>Upload migrate volume via Glance</p>
-</li>
-<li>
-<p>Multi disks migration</p>
-</li>
-<li>
-<p>Multi nics</p>
-</li>
-<li>
-<p>Parallel migration on a same conversion host</p>
-</li>
-<li>
-<p>Ansible Automation Platform (AAP)</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_supported_os"><a class="anchor" href="#_supported_os"></a><a class="link" href="#_supported_os">Supported OS</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Currently we are supporting the following matrice:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">OS Family</th>
-<th class="tableblock halign-left valign-top">Version</th>
-<th class="tableblock halign-left valign-top">Supported &amp; Tested</th>
-<th class="tableblock halign-left valign-top">Not Tested Yet</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RHEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">9.4</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RHEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">9.3 and lower</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RHEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8.5</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RHEL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8.4 and lower</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CentOS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CentOS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ubuntu Server</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">24</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Windows</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Windows Server</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2k22</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Suse</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">X</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_nbdkit_migration_example"><a class="anchor" href="#_nbdkit_migration_example"></a><a class="link" href="#_nbdkit_migration_example">Nbdkit migration example</a></h2>
-<div class="sectionbody">
-<div class="imageblock">
-<div class="content">
-<img src="images/osm-migration-nbdkit-vmware-workflow-with-osm.drawio.svg" alt="Ndbkit">
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_nbdkit_migration_example_with_the_change_block_tracking"><a class="anchor" href="#_nbdkit_migration_example_with_the_change_block_tracking"></a><a class="link" href="#_nbdkit_migration_example_with_the_change_block_tracking">Nbdkit migration example with the Change Block Tracking</a></h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_step_1_the_data_are_copied_and_the_change_id_from_the_vmware_disk_are_set_to_the_cinder_volume_as_metadata"><a class="anchor" href="#_step_1_the_data_are_copied_and_the_change_id_from_the_vmware_disk_are_set_to_the_cinder_volume_as_metadata"></a><a class="link" href="#_step_1_the_data_are_copied_and_the_change_id_from_the_vmware_disk_are_set_to_the_cinder_volume_as_metadata">Step 1: The data are copied and the change ID from the VMware disk are set to the Cinder volume as metadata</a></h3>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>The conversion cannot be made at this moment, and the OS instance is not created.
-This functionality can be used for large disks with a lot of data to transfer. It helps avoid a prolonged service interruption.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/osm-migration-nbdkit-vmware-workflow-with-osm_cbt_step1.svg" alt="CBT Step 1">
-</div>
-</div>
-<div class="paragraph">
-<p>==== Step 2: OSM compare the source (VMware disk) and the destination (Openstack Volume) change ID</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>If the change IDs are not equal, the changed blocks between the source and destination are synced.
-Then, the conversion to libvirt/KVM is triggered, and the OpenStack instance is created.
-This allows for minimal downtime for the VMs.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/osm-migration-nbdkit-vmware-workflow-with-osm_cbt_step2.svg" alt="CBT Step 2">
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_migration_demo_from_an_aee"><a class="anchor" href="#_migration_demo_from_an_aee"></a><a class="link" href="#_migration_demo_from_an_aee">Migration demo from an AEE</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>The content of the Ansible Execution Environment could be find here:</p>
-</div>
-<div class="paragraph">
-<p><a href="https://github.com/os-migrate/aap/blob/main/aae-container-file" class="bare">https://github.com/os-migrate/aap/blob/main/aae-container-file</a></p>
-</div>
-<div class="paragraph">
-<p>And the live demo here:</p>
-</div>
-<div class="paragraph">
-<p><a href="https://www.youtube.com/watch?v=XnEQ8WVGW64">Migration from VMware to OpenStack</a></p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_running_migration"><a class="anchor" href="#_running_migration"></a><a class="link" href="#_running_migration">Running migration</a></h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_conversion_host"><a class="anchor" href="#_conversion_host"></a><a class="link" href="#_conversion_host">Conversion host</a></h3>
-<div class="paragraph">
-<p>You can use os_migrate.os_migration collection to deploy a conversion, but you can
-easily create your conversion host manually.</p>
-</div>
-<div class="paragraph">
-<p>A conversion host is basically an OpenStack instance.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Important: If you want to take benefit of the current supported OS, it&#8217;s highly recommended to use a <strong>CentOS-10</strong> release or <strong>RHEL-9.5</strong> and superior. If you want to use other Linux distribution, make sure the virtio-win package is equal or higher than 1.40 version.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="bash">curl <span class="nt">-O</span> <span class="nt">-k</span> https://cloud.centos.org/centos/10-stream/x86_64/images/CentOS-Stream-GenericCloud-10-20250217.0.x86_64.qcow2
-
-<span class="c"># Create OpenStack image:</span>
-openstack image create <span class="nt">--disk-format</span> qcow2 <span class="nt">--file</span> CentOS-Stream-GenericCloud-10-20250217.0.x86_64.qcow2 CentOS-Stream-GenericCloud-10-20250217.0.x86_64.qcow2
-
-<span class="c"># Create flavor, security group and network if needed</span>
-openstack server create <span class="nt">--flavor</span> x.medium <span class="nt">--image</span> 14b1a895-5003-4396-888e-1fa55cd4adf8  <span class="se">\</span>
-  <span class="nt">--key-name</span> default <span class="nt">--network</span> private   vmware-conv-host
-openstack server add floating ip vmware-conv-host 192.168.18.205</code></pre>
-</div>
-</div>
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_inventory_variables_files_and_ansible_command"><a class="anchor" href="#_inventory_variables_files_and_ansible_command"></a><a class="link" href="#_inventory_variables_files_and_ansible_command">Inventory, Variables files and Ansible command:</a></h3>
-<div class="paragraph">
-<p><strong>inventory.yml</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="na">migrator</span><span class="pi">:</span>
-  <span class="na">hosts</span><span class="pi">:</span>
-    <span class="na">localhost</span><span class="pi">:</span>
-      <span class="na">ansible_connection</span><span class="pi">:</span> <span class="s">local</span>
-      <span class="na">ansible_python_interpreter</span><span class="pi">:</span> <span class="s2">"</span><span class="s">{{</span><span class="nv"> </span><span class="s">ansible_playbook_python</span><span class="nv"> </span><span class="s">}}"</span>
-<span class="na">conversion_host</span><span class="pi">:</span>
-  <span class="na">hosts</span><span class="pi">:</span>
-    <span class="na">192.168.18.205</span><span class="pi">:</span>
-      <span class="na">ansible_ssh_user</span><span class="pi">:</span> <span class="s">cloud-user</span>
-      <span class="na">ansible_ssh_private_key_file</span><span class="pi">:</span> <span class="s">key</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><strong>myvars.yml:</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># if you run the migration from an Ansible Execution Environment (AEE)</span>
-<span class="c1"># set this to true:</span>
-<span class="na">runner_from_aee</span><span class="pi">:</span> <span class="no">true</span>
-
-<span class="c1"># osm working directory:</span>
-<span class="na">os_migrate_vmw_data_dir</span><span class="pi">:</span> <span class="s">/opt/os-migrate</span>
-<span class="na">copy_openstack_credentials_to_conv_host</span><span class="pi">:</span> <span class="no">false</span>
-
-<span class="c1"># Re-use an already deployed conversion host:</span>
-<span class="na">already_deploy_conversion_host</span><span class="pi">:</span> <span class="no">true</span>
-
-<span class="c1"># If no mapped network then set the openstack network:</span>
-<span class="na">openstack_private_network</span><span class="pi">:</span> <span class="s">81cc01d2-5e47-4fad-b387-32686ec71fa4</span>
-
-<span class="c1"># Security groups for the instance:</span>
-<span class="na">security_groups</span><span class="pi">:</span> <span class="s">ab7e2b1a-b9d3-4d31-9d2a-bab63f823243</span>
-<span class="na">use_existing_flavor</span><span class="pi">:</span> <span class="no">true</span>
-<span class="c1"># key pair name, could be left blank</span>
-<span class="na">ssh_key_name</span><span class="pi">:</span> <span class="s">default</span>
-<span class="c1"># network settings for openstack:</span>
-<span class="na">os_migrate_create_network_port</span><span class="pi">:</span> <span class="no">true</span>
-<span class="na">copy_metadata_to_conv_host</span><span class="pi">:</span> <span class="no">true</span>
-<span class="na">used_mapped_networks</span><span class="pi">:</span> <span class="no">false</span>
-
-<span class="na">vms_list</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="s">rhel-9.4-1</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><strong>secrets.yml:</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># VMware parameters:</span>
-<span class="na">esxi_hostname</span><span class="pi">:</span> <span class="s">10.0.0.7</span>
-<span class="na">vcenter_hostname</span><span class="pi">:</span> <span class="s">10.0.0.7</span>
-<span class="na">vcenter_username</span><span class="pi">:</span> <span class="s">root</span>
-<span class="na">vcenter_password</span><span class="pi">:</span> <span class="s">root</span>
-<span class="na">vcenter_datacenter</span><span class="pi">:</span> <span class="s">Datacenter</span>
-
-<span class="na">os_cloud_environ</span><span class="pi">:</span> <span class="s">psi-rhos-upgrades-ci</span>
-<span class="na">dst_cloud</span><span class="pi">:</span>
-  <span class="na">auth</span><span class="pi">:</span>
-    <span class="na">auth_url</span><span class="pi">:</span> <span class="s">https://keystone-public-openstack.apps.ocp-4-16.standalone</span>
-    <span class="na">username</span><span class="pi">:</span> <span class="s">admin</span>
-    <span class="na">project_id</span><span class="pi">:</span> <span class="s">xyz</span>
-    <span class="na">project_name</span><span class="pi">:</span> <span class="s">admin</span>
-    <span class="na">user_domain_name</span><span class="pi">:</span> <span class="s">Default</span>
-    <span class="na">password</span><span class="pi">:</span> <span class="s">openstack</span>
-  <span class="na">region_name</span><span class="pi">:</span> <span class="s">regionOne</span>
-  <span class="na">interface</span><span class="pi">:</span> <span class="s">public</span>
-  <span class="na">insecure</span><span class="pi">:</span> <span class="no">true</span>
-  <span class="na">identity_api_version</span><span class="pi">:</span> <span class="s">3</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><strong>Ansible command:</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="bash">ansible-playbook <span class="nt">-i</span> inventory.yml os_migrate.vmware_migration_kit.migration <span class="nt">-e</span> @secrets.yml <span class="nt">-e</span> @myvars.yml</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<h1 id="_usage_2" class="sect0"><a class="anchor" href="#_usage_2"></a><a class="link" href="#_usage_2">Usage</a></h1>
-<div class="paragraph">
-<p>You can find a "how to" here, to start from sratch with a container:
-<a href="https://gist.github.com/matbu/003c300fd99ebfbf383729c249e9956f" class="bare">https://gist.github.com/matbu/003c300fd99ebfbf383729c249e9956f</a></p>
-</div>
-<div class="paragraph">
-<p>Clone repository or install from ansible galaxy</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="bash">git clone https://github.com/os-migrate/vmware-migration-kit
-ansible-galaxy collection <span class="nb">install </span>os_migrate.vmware_migration_kit</code></pre>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_nbdkit_default"><a class="anchor" href="#_nbdkit_default"></a><a class="link" href="#_nbdkit_default">Nbdkit (default)</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Edit vars.yaml file and add our own setting:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="na">esxi_hostname</span><span class="pi">:</span> <span class="err">********</span>
-<span class="na">vcenter_hostname</span><span class="pi">:</span> <span class="err">*******</span>
-<span class="na">vcenter_username</span><span class="pi">:</span> <span class="s">root</span>
-<span class="na">vcenter_password</span><span class="pi">:</span> <span class="err">*****</span>
-<span class="na">vcenter_datacenter</span><span class="pi">:</span> <span class="s">Datacenter</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If you already have a conversion host, or if you want to re-used a previously deployed one:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="na">already_deploy_conversion_host</span><span class="pi">:</span> <span class="no">true</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Then specify the Openstack credentials:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># OpenStack destination cloud auth parameters:</span>
-<span class="na">dst_cloud</span><span class="pi">:</span>
-  <span class="na">auth</span><span class="pi">:</span>
-    <span class="na">auth_url</span><span class="pi">:</span> <span class="s">https://openstack.dst.cloud:13000/v3</span>
-    <span class="na">username</span><span class="pi">:</span> <span class="s">tenant</span>
-    <span class="na">project_id</span><span class="pi">:</span> <span class="s">xyz</span>
-    <span class="na">project_name</span><span class="pi">:</span> <span class="s">migration</span>
-    <span class="na">user_domain_name</span><span class="pi">:</span> <span class="s">osm.com</span>
-    <span class="na">password</span><span class="pi">:</span> <span class="s">password</span>
-  <span class="na">region_name</span><span class="pi">:</span> <span class="s">regionOne</span>
-  <span class="na">interface</span><span class="pi">:</span> <span class="s">public</span>
-  <span class="na">identity_api_version</span><span class="pi">:</span> <span class="m">3</span>
-
-<span class="c1"># OpenStack migration parameters:</span>
-<span class="c1"># Use mapped networks or not:</span>
-<span class="na">used_mapped_networks</span><span class="pi">:</span> <span class="no">true</span>
-<span class="na">network_map</span><span class="pi">:</span>
-  <span class="na">VM Network</span><span class="pi">:</span> <span class="s">private</span>
-
-<span class="c1"># If no mapped network then set the openstack network:</span>
-<span class="na">openstack_private_network</span><span class="pi">:</span> <span class="s">81cc01d2-5e47-4fad-b387-32686ec71fa4</span>
-
-<span class="c1"># Security groups for the instance:</span>
-<span class="na">security_groups</span><span class="pi">:</span> <span class="s">4f077e64-bdf6-4d2a-9f2c-c5588f4948ce</span>
-<span class="na">use_existing_flavor</span><span class="pi">:</span> <span class="no">true</span>
-
-<span class="na">os_migrate_create_network_port</span><span class="pi">:</span> <span class="no">false</span>
-
-<span class="c1"># OS-migrate parameters:</span>
-<span class="c1"># osm working directory:</span>
-<span class="na">os_migrate_vmw_data_dir</span><span class="pi">:</span> <span class="s">/opt/os-migrate</span>
-
-<span class="c1"># Set this to true if the Openstack "dst_cloud" is a clouds.yaml file</span>
-<span class="c1"># other, if the dest_cloud is a dict of authentication parameters, set</span>
-<span class="c1"># this to false:</span>
-<span class="na">copy_openstack_credentials_to_conv_host</span><span class="pi">:</span> <span class="no">false</span>
-
-<span class="c1"># Teardown</span>
-<span class="c1"># Set to true if you want osm to delete everything on the destination cloud.</span>
-<span class="na">os_migrate_tear_down</span><span class="pi">:</span> <span class="no">true</span>
-
-<span class="c1"># VMs list</span>
-<span class="na">vms_list</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="s">rhel-1</span>
-  <span class="pi">-</span> <span class="s">rhel-2</span></code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_virt_v2v"><a class="anchor" href="#_virt_v2v"></a><a class="link" href="#_virt_v2v">Virt-v2v</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Provide the following additional informations:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># virt-v2v parameters</span>
-<span class="na">vddk_thumbprint</span><span class="pi">:</span> <span class="s">XX:XX:XX</span>
-<span class="na">vddk_libdir</span><span class="pi">:</span> <span class="s">/usr/lib/vmware-vix-disklib</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>In order to generate the thumbprint of your VMWare source cloud you need to use:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># thumbprint</span>
-<span class="s">openssl s_client -connect ESXI_SERVER_NAME:443 &lt;/dev/null |</span>
-   <span class="s">openssl x509 -in /dev/stdin -fingerprint -sha1 -noout</span></code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_ansible_configuration"><a class="anchor" href="#_ansible_configuration"></a><a class="link" href="#_ansible_configuration">Ansible configuration</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Create an invenvoty file, and replace the conv_host_ip by the ip address of your
-conversion host:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="na">migrator</span><span class="pi">:</span>
-  <span class="na">hosts</span><span class="pi">:</span>
-    <span class="na">localhost</span><span class="pi">:</span>
-      <span class="na">ansible_connection</span><span class="pi">:</span> <span class="s">local</span>
-      <span class="na">ansible_python_interpreter</span><span class="pi">:</span> <span class="s2">"</span><span class="s">{{</span><span class="nv"> </span><span class="s">ansible_playbook_python</span><span class="nv"> </span><span class="s">}}"</span>
-<span class="na">conversion_host</span><span class="pi">:</span>
-  <span class="na">hosts</span><span class="pi">:</span>
-    <span class="na">conv_host_ip</span><span class="pi">:</span>
-      <span class="na">ansible_ssh_user</span><span class="pi">:</span> <span class="s">cloud-user</span>
-      <span class="na">ansible_ssh_private_key_file</span><span class="pi">:</span> <span class="s">/home/stack/.ssh/conv-host</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Then run the migration with:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="bash">ansible-playbook <span class="nt">-i</span> localhost_inventory.yml os_migrate.vmware_migration_kit.migration <span class="nt">-e</span> @vars.yaml</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_running_migration_outside_of_ansible"><a class="anchor" href="#_running_migration_outside_of_ansible"></a><a class="link" href="#_running_migration_outside_of_ansible">Running Migration outside of Ansible</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>You can also run migration outside of Ansible because the Ansible module are written in Golang.
-The binaries are located in the plugins directory.</p>
-</div>
-<div class="paragraph">
-<p>From your conversion host (or an Openstack instance inside the destination cloud) you need to export
-Openstack variables:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="bash"> <span class="nb">export </span><span class="nv">OS_AUTH_URL</span><span class="o">=</span>https://keystone-public-openstack.apps.ocp-4-16.standalone
- <span class="nb">export </span><span class="nv">OS_PROJECT_NAME</span><span class="o">=</span>admin
- <span class="nb">export </span><span class="nv">OS_PASSWORD</span><span class="o">=</span>admin
- <span class="nb">export </span><span class="nv">OS_USERNAME</span><span class="o">=</span>admin
- <span class="nb">export </span><span class="nv">OS_DOMAIN_NAME</span><span class="o">=</span>Default
- <span class="nb">export </span><span class="nv">OS_PROJECT_ID</span><span class="o">=</span>xyz</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Then create the argument json file, for example:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="json"><span class="err">cat</span><span class="w"> </span><span class="err">&lt;&lt;EOF</span><span class="w"> </span><span class="err">&gt;</span><span class="w"> </span><span class="err">args.json</span><span class="w">
-</span><span class="p">{</span><span class="w">
-		</span><span class="nl">"user"</span><span class="p">:</span><span class="w"> </span><span class="s2">"root"</span><span class="p">,</span><span class="w">
-		</span><span class="nl">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"root"</span><span class="p">,</span><span class="w">
-		</span><span class="nl">"server"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10.0.0.7"</span><span class="p">,</span><span class="w">
-		</span><span class="nl">"vmname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rhel-9.4-3"</span><span class="p">,</span><span class="w">
-		</span><span class="nl">"cbtsync"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-		</span><span class="nl">"dst_cloud"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-			</span><span class="nl">"auth"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-				</span><span class="nl">"auth_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://keystone-public-openstack.apps.ocp-4-16.standalone"</span><span class="p">,</span><span class="w">
-				</span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"admin"</span><span class="p">,</span><span class="w">
-				</span><span class="nl">"project_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xyz"</span><span class="p">,</span><span class="w">
-				</span><span class="nl">"project_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"admin"</span><span class="p">,</span><span class="w">
-				</span><span class="nl">"user_domain_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Default"</span><span class="p">,</span><span class="w">
-				</span><span class="nl">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"admin"</span><span class="w">
-			</span><span class="p">},</span><span class="w">
-			</span><span class="nl">"region_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"regionOne"</span><span class="p">,</span><span class="w">
-			</span><span class="nl">"interface"</span><span class="p">:</span><span class="w"> </span><span class="s2">"public"</span><span class="p">,</span><span class="w">
-			</span><span class="nl">"identity_api_version"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="w">
-		</span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span><span class="err">EOF</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Then execute the <code>migrate</code> binary:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="bash"><span class="nb">pushd </span>vmware-migration-kit/vmware_migration_kit
-./plugins/modules/migrate/migrate</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>You can see the logs into:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="bash"><span class="nb">tail</span> <span class="nt">-f</span> /tmp/osm-nbdkit.log</code></pre>
-</div>
-</div>
-</div>
-</div>
 <h1 id="os-migrate-walkthrough_planning" class="sect0"><a class="anchor" href="#os-migrate-walkthrough_planning"></a><a class="link" href="#os-migrate-walkthrough_planning">OS Migrate walkthrough</a></h1>
 <div class="paragraph">
 <p>OS Migrate is a framework for OpenStack parallel cloud migration
@@ -4093,7 +3627,7 @@ volumes).</p>
 </li>
 </ul>
 </div>
-<h1 id="_prerequisites_3" class="sect0"><a class="anchor" href="#_prerequisites_3"></a><a class="link" href="#_prerequisites_3">Prerequisites</a></h1>
+<h1 id="_prerequisites_4" class="sect0"><a class="anchor" href="#_prerequisites_4"></a><a class="link" href="#_prerequisites_4">Prerequisites</a></h1>
 <div class="sect1">
 <h2 id="_authentication_2"><a class="anchor" href="#_authentication_2"></a><a class="link" href="#_authentication_2">Authentication</a></h2>
 <div class="sectionbody">
@@ -4849,6 +4383,611 @@ clean up is necessary in the destination cloud.)</p>
 </li>
 </ul>
 </div>
+<h1 id="os-migrate-vmware-guide_vmware" class="sect0"><a class="anchor" href="#os-migrate-vmware-guide_vmware"></a><a class="link" href="#os-migrate-vmware-guide_vmware">OS Migrate VMware Guide</a></h1>
+<div class="paragraph">
+<p>An important auxilliary function included in OS Migrate is our VMware tooling,
+which allows you to migrade a virtual machine from an ESXi/Vcenter environment
+to OpenStack or OpenShift environments.</p>
+</div>
+<div class="paragraph">
+<p>The code used os-migrate Ansible collection in order to deploy conversion host and setup
+correctly the prerequists in the Openstack destination cloud.
+It also used the vmware community collection in order to gather informations from the source
+VMWare environment.</p>
+</div>
+<div class="paragraph">
+<p>The Ansible collection provides different steps to scale your migration from VMWare to Openstack
+and Openshift:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A discovery phase where it analizes the VMWare source environment and provides collected data
+to help for the migration.</p>
+</li>
+<li>
+<p>A pre-migration phase where it make sure the destionation cloud is ready to perform the migration,
+by creating the conversion host for example or the required network if needed.</p>
+</li>
+<li>
+<p>A migration phase with different workflow where the user can basicaly scale the migration with
+a very number of virtual machines as entry point, or can migrate sensitive virtual machine by using
+a near zero down time with the change block tracking VMWare option (CBT) and so perform the virtual
+machine migration in two steps. The migration can also be done without conversion host.</p>
+</li>
+</ul>
+</div>
+<h1 id="_workflow" class="sect0"><a class="anchor" href="#_workflow"></a><a class="link" href="#_workflow">Workflow</a></h1>
+<div class="paragraph">
+<p>There is different ways to run the migration from VMWare to OpenStack.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The default is by using nbdkit server with a conversion host (an Openstack instance hosted in the destination cloud).
+This way allow the user to use the CBT option and approach a zero downtime. It can also run the migration in one time cycle.</p>
+</li>
+<li>
+<p>The second one by using virt-v2v binding with a conversion host. Here you can use a conversion
+host (Openstack instance) already deployed or you can let OS-Migrate deployed a conversion host
+for you.</p>
+</li>
+<li>
+<p>A third way is available where you can skip the conversion host and perform the migration on a Linux machine, the volume
+migrated and converted will be upload a Glance image or can be use later as a Cinder volume. This way is not recommended if
+you have big disk or a huge amount of VMs to migrate: the performance are really slower than with the other ways.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>All of these are configurable with Ansible boolean variables.</p>
+</div>
+<h1 id="_features_and_supported_os" class="sect0"><a class="anchor" href="#_features_and_supported_os"></a><a class="link" href="#_features_and_supported_os">Features and supported OS</a></h1>
+<div class="sect1">
+<h2 id="_features"><a class="anchor" href="#_features"></a><a class="link" href="#_features">Features</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The following features are availables:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Discovery mode</p>
+</li>
+<li>
+<p>Network mapping</p>
+</li>
+<li>
+<p>Port creation and mac addresses mapping</p>
+</li>
+<li>
+<p>Openstack flavor mapping and creation</p>
+</li>
+<li>
+<p>Migration with nbdkit server with change block tracking feature (CBT)</p>
+</li>
+<li>
+<p>Migration with virt-v2v</p>
+</li>
+<li>
+<p>Upload migrate volume via Glance</p>
+</li>
+<li>
+<p>Multi disks migration</p>
+</li>
+<li>
+<p>Multi nics</p>
+</li>
+<li>
+<p>Parallel migration on a same conversion host</p>
+</li>
+<li>
+<p>Ansible Automation Platform (AAP)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_supported_os"><a class="anchor" href="#_supported_os"></a><a class="link" href="#_supported_os">Supported OS</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Currently we are supporting the following matrice:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">OS Family</th>
+<th class="tableblock halign-left valign-top">Version</th>
+<th class="tableblock halign-left valign-top">Supported &amp; Tested</th>
+<th class="tableblock halign-left valign-top">Not Tested Yet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RHEL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9.4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RHEL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9.3 and lower</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RHEL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8.5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RHEL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8.4 and lower</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CentOS</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CentOS</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ubuntu Server</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">24</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Windows</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Windows Server</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2k22</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Suse</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">X</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_nbdkit_migration_example"><a class="anchor" href="#_nbdkit_migration_example"></a><a class="link" href="#_nbdkit_migration_example">Nbdkit migration example</a></h2>
+<div class="sectionbody">
+<div class="imageblock">
+<div class="content">
+<img src="images/osm-migration-nbdkit-vmware-workflow-with-osm.drawio.svg" alt="Ndbkit">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_nbdkit_migration_example_with_the_change_block_tracking"><a class="anchor" href="#_nbdkit_migration_example_with_the_change_block_tracking"></a><a class="link" href="#_nbdkit_migration_example_with_the_change_block_tracking">Nbdkit migration example with the Change Block Tracking</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_step_1_the_data_are_copied_and_the_change_id_from_the_vmware_disk_are_set_to_the_cinder_volume_as_metadata"><a class="anchor" href="#_step_1_the_data_are_copied_and_the_change_id_from_the_vmware_disk_are_set_to_the_cinder_volume_as_metadata"></a><a class="link" href="#_step_1_the_data_are_copied_and_the_change_id_from_the_vmware_disk_are_set_to_the_cinder_volume_as_metadata">Step 1: The data are copied and the change ID from the VMware disk are set to the Cinder volume as metadata</a></h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The conversion cannot be made at this moment, and the OS instance is not created.
+This functionality can be used for large disks with a lot of data to transfer. It helps avoid a prolonged service interruption.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/osm-migration-nbdkit-vmware-workflow-with-osm_cbt_step1.svg" alt="CBT Step 1">
+</div>
+</div>
+<div class="paragraph">
+<p>==== Step 2: OSM compare the source (VMware disk) and the destination (Openstack Volume) change ID</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>If the change IDs are not equal, the changed blocks between the source and destination are synced.
+Then, the conversion to libvirt/KVM is triggered, and the OpenStack instance is created.
+This allows for minimal downtime for the VMs.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/osm-migration-nbdkit-vmware-workflow-with-osm_cbt_step2.svg" alt="CBT Step 2">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_demo_from_an_aee"><a class="anchor" href="#_migration_demo_from_an_aee"></a><a class="link" href="#_migration_demo_from_an_aee">Migration demo from an AEE</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The content of the Ansible Execution Environment could be find here:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/os-migrate/aap/blob/main/aae-container-file" class="bare">https://github.com/os-migrate/aap/blob/main/aae-container-file</a></p>
+</div>
+<div class="paragraph">
+<p>And the live demo here:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://www.youtube.com/watch?v=XnEQ8WVGW64">Migration from VMware to OpenStack</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_running_migration"><a class="anchor" href="#_running_migration"></a><a class="link" href="#_running_migration">Running migration</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_conversion_host"><a class="anchor" href="#_conversion_host"></a><a class="link" href="#_conversion_host">Conversion host</a></h3>
+<div class="paragraph">
+<p>You can use os_migrate.os_migration collection to deploy a conversion, but you can
+easily create your conversion host manually.</p>
+</div>
+<div class="paragraph">
+<p>A conversion host is basically an OpenStack instance.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Important: If you want to take benefit of the current supported OS, it&#8217;s highly recommended to use a <strong>CentOS-10</strong> release or <strong>RHEL-9.5</strong> and superior. If you want to use other Linux distribution, make sure the virtio-win package is equal or higher than 1.40 version.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash">curl <span class="nt">-O</span> <span class="nt">-k</span> https://cloud.centos.org/centos/10-stream/x86_64/images/CentOS-Stream-GenericCloud-10-20250217.0.x86_64.qcow2
+
+<span class="c"># Create OpenStack image:</span>
+openstack image create <span class="nt">--disk-format</span> qcow2 <span class="nt">--file</span> CentOS-Stream-GenericCloud-10-20250217.0.x86_64.qcow2 CentOS-Stream-GenericCloud-10-20250217.0.x86_64.qcow2
+
+<span class="c"># Create flavor, security group and network if needed</span>
+openstack server create <span class="nt">--flavor</span> x.medium <span class="nt">--image</span> 14b1a895-5003-4396-888e-1fa55cd4adf8  <span class="se">\</span>
+  <span class="nt">--key-name</span> default <span class="nt">--network</span> private   vmware-conv-host
+openstack server add floating ip vmware-conv-host 192.168.18.205</code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_inventory_variables_files_and_ansible_command"><a class="anchor" href="#_inventory_variables_files_and_ansible_command"></a><a class="link" href="#_inventory_variables_files_and_ansible_command">Inventory, Variables files and Ansible command:</a></h3>
+<div class="paragraph">
+<p><strong>inventory.yml</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">migrator</span><span class="pi">:</span>
+  <span class="na">hosts</span><span class="pi">:</span>
+    <span class="na">localhost</span><span class="pi">:</span>
+      <span class="na">ansible_connection</span><span class="pi">:</span> <span class="s">local</span>
+      <span class="na">ansible_python_interpreter</span><span class="pi">:</span> <span class="s2">"</span><span class="s">{{</span><span class="nv"> </span><span class="s">ansible_playbook_python</span><span class="nv"> </span><span class="s">}}"</span>
+<span class="na">conversion_host</span><span class="pi">:</span>
+  <span class="na">hosts</span><span class="pi">:</span>
+    <span class="na">192.168.18.205</span><span class="pi">:</span>
+      <span class="na">ansible_ssh_user</span><span class="pi">:</span> <span class="s">cloud-user</span>
+      <span class="na">ansible_ssh_private_key_file</span><span class="pi">:</span> <span class="s">key</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>myvars.yml:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># if you run the migration from an Ansible Execution Environment (AEE)</span>
+<span class="c1"># set this to true:</span>
+<span class="na">runner_from_aee</span><span class="pi">:</span> <span class="no">true</span>
+
+<span class="c1"># osm working directory:</span>
+<span class="na">os_migrate_vmw_data_dir</span><span class="pi">:</span> <span class="s">/opt/os-migrate</span>
+<span class="na">copy_openstack_credentials_to_conv_host</span><span class="pi">:</span> <span class="no">false</span>
+
+<span class="c1"># Re-use an already deployed conversion host:</span>
+<span class="na">already_deploy_conversion_host</span><span class="pi">:</span> <span class="no">true</span>
+
+<span class="c1"># If no mapped network then set the openstack network:</span>
+<span class="na">openstack_private_network</span><span class="pi">:</span> <span class="s">81cc01d2-5e47-4fad-b387-32686ec71fa4</span>
+
+<span class="c1"># Security groups for the instance:</span>
+<span class="na">security_groups</span><span class="pi">:</span> <span class="s">ab7e2b1a-b9d3-4d31-9d2a-bab63f823243</span>
+<span class="na">use_existing_flavor</span><span class="pi">:</span> <span class="no">true</span>
+<span class="c1"># key pair name, could be left blank</span>
+<span class="na">ssh_key_name</span><span class="pi">:</span> <span class="s">default</span>
+<span class="c1"># network settings for openstack:</span>
+<span class="na">os_migrate_create_network_port</span><span class="pi">:</span> <span class="no">true</span>
+<span class="na">copy_metadata_to_conv_host</span><span class="pi">:</span> <span class="no">true</span>
+<span class="na">used_mapped_networks</span><span class="pi">:</span> <span class="no">false</span>
+
+<span class="na">vms_list</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">rhel-9.4-1</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>secrets.yml:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># VMware parameters:</span>
+<span class="na">esxi_hostname</span><span class="pi">:</span> <span class="s">10.0.0.7</span>
+<span class="na">vcenter_hostname</span><span class="pi">:</span> <span class="s">10.0.0.7</span>
+<span class="na">vcenter_username</span><span class="pi">:</span> <span class="s">root</span>
+<span class="na">vcenter_password</span><span class="pi">:</span> <span class="s">root</span>
+<span class="na">vcenter_datacenter</span><span class="pi">:</span> <span class="s">Datacenter</span>
+
+<span class="na">os_cloud_environ</span><span class="pi">:</span> <span class="s">psi-rhos-upgrades-ci</span>
+<span class="na">dst_cloud</span><span class="pi">:</span>
+  <span class="na">auth</span><span class="pi">:</span>
+    <span class="na">auth_url</span><span class="pi">:</span> <span class="s">https://keystone-public-openstack.apps.ocp-4-16.standalone</span>
+    <span class="na">username</span><span class="pi">:</span> <span class="s">admin</span>
+    <span class="na">project_id</span><span class="pi">:</span> <span class="s">xyz</span>
+    <span class="na">project_name</span><span class="pi">:</span> <span class="s">admin</span>
+    <span class="na">user_domain_name</span><span class="pi">:</span> <span class="s">Default</span>
+    <span class="na">password</span><span class="pi">:</span> <span class="s">openstack</span>
+  <span class="na">region_name</span><span class="pi">:</span> <span class="s">regionOne</span>
+  <span class="na">interface</span><span class="pi">:</span> <span class="s">public</span>
+  <span class="na">insecure</span><span class="pi">:</span> <span class="no">true</span>
+  <span class="na">identity_api_version</span><span class="pi">:</span> <span class="s">3</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Ansible command:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash">ansible-playbook <span class="nt">-i</span> inventory.yml os_migrate.vmware_migration_kit.migration <span class="nt">-e</span> @secrets.yml <span class="nt">-e</span> @myvars.yml</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<h1 id="_usage_2" class="sect0"><a class="anchor" href="#_usage_2"></a><a class="link" href="#_usage_2">Usage</a></h1>
+<div class="paragraph">
+<p>You can find a "how to" here, to start from sratch with a container:
+<a href="https://gist.github.com/matbu/003c300fd99ebfbf383729c249e9956f" class="bare">https://gist.github.com/matbu/003c300fd99ebfbf383729c249e9956f</a></p>
+</div>
+<div class="paragraph">
+<p>Clone repository or install from ansible galaxy</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash">git clone https://github.com/os-migrate/vmware-migration-kit
+ansible-galaxy collection <span class="nb">install </span>os_migrate.vmware_migration_kit</code></pre>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_nbdkit_default"><a class="anchor" href="#_nbdkit_default"></a><a class="link" href="#_nbdkit_default">Nbdkit (default)</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Edit vars.yaml file and add our own setting:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">esxi_hostname</span><span class="pi">:</span> <span class="err">********</span>
+<span class="na">vcenter_hostname</span><span class="pi">:</span> <span class="err">*******</span>
+<span class="na">vcenter_username</span><span class="pi">:</span> <span class="s">root</span>
+<span class="na">vcenter_password</span><span class="pi">:</span> <span class="err">*****</span>
+<span class="na">vcenter_datacenter</span><span class="pi">:</span> <span class="s">Datacenter</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you already have a conversion host, or if you want to re-used a previously deployed one:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">already_deploy_conversion_host</span><span class="pi">:</span> <span class="no">true</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then specify the Openstack credentials:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># OpenStack destination cloud auth parameters:</span>
+<span class="na">dst_cloud</span><span class="pi">:</span>
+  <span class="na">auth</span><span class="pi">:</span>
+    <span class="na">auth_url</span><span class="pi">:</span> <span class="s">https://openstack.dst.cloud:13000/v3</span>
+    <span class="na">username</span><span class="pi">:</span> <span class="s">tenant</span>
+    <span class="na">project_id</span><span class="pi">:</span> <span class="s">xyz</span>
+    <span class="na">project_name</span><span class="pi">:</span> <span class="s">migration</span>
+    <span class="na">user_domain_name</span><span class="pi">:</span> <span class="s">osm.com</span>
+    <span class="na">password</span><span class="pi">:</span> <span class="s">password</span>
+  <span class="na">region_name</span><span class="pi">:</span> <span class="s">regionOne</span>
+  <span class="na">interface</span><span class="pi">:</span> <span class="s">public</span>
+  <span class="na">identity_api_version</span><span class="pi">:</span> <span class="m">3</span>
+
+<span class="c1"># OpenStack migration parameters:</span>
+<span class="c1"># Use mapped networks or not:</span>
+<span class="na">used_mapped_networks</span><span class="pi">:</span> <span class="no">true</span>
+<span class="na">network_map</span><span class="pi">:</span>
+  <span class="na">VM Network</span><span class="pi">:</span> <span class="s">private</span>
+
+<span class="c1"># If no mapped network then set the openstack network:</span>
+<span class="na">openstack_private_network</span><span class="pi">:</span> <span class="s">81cc01d2-5e47-4fad-b387-32686ec71fa4</span>
+
+<span class="c1"># Security groups for the instance:</span>
+<span class="na">security_groups</span><span class="pi">:</span> <span class="s">4f077e64-bdf6-4d2a-9f2c-c5588f4948ce</span>
+<span class="na">use_existing_flavor</span><span class="pi">:</span> <span class="no">true</span>
+
+<span class="na">os_migrate_create_network_port</span><span class="pi">:</span> <span class="no">false</span>
+
+<span class="c1"># OS-migrate parameters:</span>
+<span class="c1"># osm working directory:</span>
+<span class="na">os_migrate_vmw_data_dir</span><span class="pi">:</span> <span class="s">/opt/os-migrate</span>
+
+<span class="c1"># Set this to true if the Openstack "dst_cloud" is a clouds.yaml file</span>
+<span class="c1"># other, if the dest_cloud is a dict of authentication parameters, set</span>
+<span class="c1"># this to false:</span>
+<span class="na">copy_openstack_credentials_to_conv_host</span><span class="pi">:</span> <span class="no">false</span>
+
+<span class="c1"># Teardown</span>
+<span class="c1"># Set to true if you want osm to delete everything on the destination cloud.</span>
+<span class="na">os_migrate_tear_down</span><span class="pi">:</span> <span class="no">true</span>
+
+<span class="c1"># VMs list</span>
+<span class="na">vms_list</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">rhel-1</span>
+  <span class="pi">-</span> <span class="s">rhel-2</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_virt_v2v"><a class="anchor" href="#_virt_v2v"></a><a class="link" href="#_virt_v2v">Virt-v2v</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Provide the following additional informations:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># virt-v2v parameters</span>
+<span class="na">vddk_thumbprint</span><span class="pi">:</span> <span class="s">XX:XX:XX</span>
+<span class="na">vddk_libdir</span><span class="pi">:</span> <span class="s">/usr/lib/vmware-vix-disklib</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In order to generate the thumbprint of your VMWare source cloud you need to use:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># thumbprint</span>
+<span class="s">openssl s_client -connect ESXI_SERVER_NAME:443 &lt;/dev/null |</span>
+   <span class="s">openssl x509 -in /dev/stdin -fingerprint -sha1 -noout</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ansible_configuration"><a class="anchor" href="#_ansible_configuration"></a><a class="link" href="#_ansible_configuration">Ansible configuration</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Create an invenvoty file, and replace the conv_host_ip by the ip address of your
+conversion host:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">migrator</span><span class="pi">:</span>
+  <span class="na">hosts</span><span class="pi">:</span>
+    <span class="na">localhost</span><span class="pi">:</span>
+      <span class="na">ansible_connection</span><span class="pi">:</span> <span class="s">local</span>
+      <span class="na">ansible_python_interpreter</span><span class="pi">:</span> <span class="s2">"</span><span class="s">{{</span><span class="nv"> </span><span class="s">ansible_playbook_python</span><span class="nv"> </span><span class="s">}}"</span>
+<span class="na">conversion_host</span><span class="pi">:</span>
+  <span class="na">hosts</span><span class="pi">:</span>
+    <span class="na">conv_host_ip</span><span class="pi">:</span>
+      <span class="na">ansible_ssh_user</span><span class="pi">:</span> <span class="s">cloud-user</span>
+      <span class="na">ansible_ssh_private_key_file</span><span class="pi">:</span> <span class="s">/home/stack/.ssh/conv-host</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then run the migration with:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash">ansible-playbook <span class="nt">-i</span> localhost_inventory.yml os_migrate.vmware_migration_kit.migration <span class="nt">-e</span> @vars.yaml</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_running_migration_outside_of_ansible"><a class="anchor" href="#_running_migration_outside_of_ansible"></a><a class="link" href="#_running_migration_outside_of_ansible">Running Migration outside of Ansible</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can also run migration outside of Ansible because the Ansible module are written in Golang.
+The binaries are located in the plugins directory.</p>
+</div>
+<div class="paragraph">
+<p>From your conversion host (or an Openstack instance inside the destination cloud) you need to export
+Openstack variables:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"> <span class="nb">export </span><span class="nv">OS_AUTH_URL</span><span class="o">=</span>https://keystone-public-openstack.apps.ocp-4-16.standalone
+ <span class="nb">export </span><span class="nv">OS_PROJECT_NAME</span><span class="o">=</span>admin
+ <span class="nb">export </span><span class="nv">OS_PASSWORD</span><span class="o">=</span>admin
+ <span class="nb">export </span><span class="nv">OS_USERNAME</span><span class="o">=</span>admin
+ <span class="nb">export </span><span class="nv">OS_DOMAIN_NAME</span><span class="o">=</span>Default
+ <span class="nb">export </span><span class="nv">OS_PROJECT_ID</span><span class="o">=</span>xyz</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then create the argument json file, for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="json"><span class="err">cat</span><span class="w"> </span><span class="err">&lt;&lt;EOF</span><span class="w"> </span><span class="err">&gt;</span><span class="w"> </span><span class="err">args.json</span><span class="w">
+</span><span class="p">{</span><span class="w">
+		</span><span class="nl">"user"</span><span class="p">:</span><span class="w"> </span><span class="s2">"root"</span><span class="p">,</span><span class="w">
+		</span><span class="nl">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"root"</span><span class="p">,</span><span class="w">
+		</span><span class="nl">"server"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10.0.0.7"</span><span class="p">,</span><span class="w">
+		</span><span class="nl">"vmname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rhel-9.4-3"</span><span class="p">,</span><span class="w">
+		</span><span class="nl">"cbtsync"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+		</span><span class="nl">"dst_cloud"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+			</span><span class="nl">"auth"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+				</span><span class="nl">"auth_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://keystone-public-openstack.apps.ocp-4-16.standalone"</span><span class="p">,</span><span class="w">
+				</span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"admin"</span><span class="p">,</span><span class="w">
+				</span><span class="nl">"project_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xyz"</span><span class="p">,</span><span class="w">
+				</span><span class="nl">"project_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"admin"</span><span class="p">,</span><span class="w">
+				</span><span class="nl">"user_domain_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Default"</span><span class="p">,</span><span class="w">
+				</span><span class="nl">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"admin"</span><span class="w">
+			</span><span class="p">},</span><span class="w">
+			</span><span class="nl">"region_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"regionOne"</span><span class="p">,</span><span class="w">
+			</span><span class="nl">"interface"</span><span class="p">:</span><span class="w"> </span><span class="s2">"public"</span><span class="p">,</span><span class="w">
+			</span><span class="nl">"identity_api_version"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="w">
+		</span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span><span class="err">EOF</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then execute the <code>migrate</code> binary:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="nb">pushd </span>vmware-migration-kit/vmware_migration_kit
+./plugins/modules/migrate/migrate</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can see the logs into:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="nb">tail</span> <span class="nt">-f</span> /tmp/osm-nbdkit.log</code></pre>
+</div>
+</div>
+</div>
+</div>
 <h1 id="_migration_parameters_guide" class="sect0"><a class="anchor" href="#_migration_parameters_guide"></a><a class="link" href="#_migration_parameters_guide">Migration Parameters Guide</a></h1>
 <div class="sect1">
 <h2 id="_what_are_migration_parameters"><a class="anchor" href="#_what_are_migration_parameters"></a><a class="link" href="#_what_are_migration_parameters">What are migration parameters</a></h2>
@@ -4989,6 +5128,863 @@ anyway.)</p>
 </div>
 </div>
 </div>
+<h1 id="_variables_guide" class="sect0"><a class="anchor" href="#_variables_guide"></a><a class="link" href="#_variables_guide">Variables Guide</a></h1>
+<div class="paragraph">
+<p>The goal of this document is to guide users to correctly configure the
+most important variables in OS Migrate. For a complete listing of
+variables configurable for each Ansible role, refer to the
+documentation of the individual roles.</p>
+</div>
+<div class="sect1">
+<h2 id="_general_variables"><a class="anchor" href="#_general_variables"></a><a class="link" href="#_general_variables">General variables</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_resource_filters"><a class="anchor" href="#_resource_filters"></a><a class="link" href="#_resource_filters">Resource filters</a></h3>
+<div class="paragraph">
+<p>Resource filters allow the user to control which resources will be
+migrated. The filters match against resource <strong>names</strong>.</p>
+</div>
+<div class="paragraph">
+<p>The filters work <strong>both during export and during import</strong>, and it is
+not required that the same value is used during export and
+import. This feature can be used e.g. to export a subset of the
+existing resources, and then during import further limit the subset of
+resources being imported into batches.</p>
+</div>
+<div class="paragraph">
+<p>The value of a filter variable is a list, where each item can be a
+string (exact match) or a dictionary with <code>regex</code> key (regular
+expression match). A resource is exported if it matches at least one
+of the list items.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">os_migrate_networks_filter</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">my_net</span>
+  <span class="pi">-</span> <span class="s">other_net</span>
+  <span class="pi">-</span> <span class="na">regex</span><span class="pi">:</span> <span class="s">^myprefix_.*</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The above example says: Export only networks named <code>my_net</code> <strong>or</strong>
+<code>other_net</code> <strong>or</strong> starting with <code>myprefix_</code>.</p>
+</div>
+<div class="paragraph">
+<p>The filters default to:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="pi">-</span> <span class="na">regex</span><span class="pi">:</span> <span class="s">.*</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>meaning "export all resources". (The set of resources exported will
+still be limited to those you can see with the authentication
+variables you used.)</p>
+</div>
+<div class="paragraph">
+<p>Sometimes two roles use the same variable where this makes sense,
+especially for attached resources. E.g. roles
+<code>export_security_groups</code> and <code>export_security_group_rules</code> both
+use <code>os_migrate_security_groups_filter</code>. Similarly,
+<code>export_routers</code> and <code>export_router_interfaces</code> both use
+<code>os_migrate_routers_filter</code>.</p>
+</div>
+<div class="paragraph">
+<p>List of the currently implemented filters with default values you can
+copy into your variables file and customize:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">os_migrate_flavors_filter</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">regex</span><span class="pi">:</span> <span class="s">.*</span>
+<span class="na">os_migrate_images_filter</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">regex</span><span class="pi">:</span> <span class="s">.*</span>
+<span class="na">os_migrate_keypairs_filter</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">regex</span><span class="pi">:</span> <span class="s">.*</span>
+<span class="na">os_migrate_networks_filter</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">regex</span><span class="pi">:</span> <span class="s">.*</span>
+<span class="na">os_migrate_projects_filter</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">regex</span><span class="pi">:</span> <span class="s">.*</span>
+<span class="na">os_migrate_routers_filter</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">regex</span><span class="pi">:</span> <span class="s">.*</span>
+<span class="na">os_migrate_security_groups_filter</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">regex</span><span class="pi">:</span> <span class="s">.*</span>
+<span class="na">os_migrate_subnets_filter</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">regex</span><span class="pi">:</span> <span class="s">.*</span>
+<span class="na">os_migrate_users_filter</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">regex</span><span class="pi">:</span> <span class="s">.*</span>
+<span class="na">os_migrate_workloads_filter</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">regex</span><span class="pi">:</span> <span class="s">.*</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_conversion_host_variables"><a class="anchor" href="#_conversion_host_variables"></a><a class="link" href="#_conversion_host_variables">Conversion host variables</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The following variables are those that need to be configured prior to
+running OS Migrate.</p>
+</div>
+<div class="sect2">
+<h3 id="_conversion_host_name"><a class="anchor" href="#_conversion_host_name"></a><a class="link" href="#_conversion_host_name">Conversion host name</a></h3>
+<div class="paragraph">
+<p>The conversion hosts might be configured using different names,
+this is in case an operator needs to have them registered
+with the subscription manager and avoid collisions with the names.</p>
+</div>
+<div class="paragraph">
+<p>The conversion hosts names can be customized using the
+following variables:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>os_migrate_src_conversion_host_name
+os_migrate_dst_conversion_host_name</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>By default, these variables have the same value
+for both conversion hosts <code>os_migrate_conv_src</code>
+and <code>os_migrate_conv_dst</code> respectively.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_conversion_host_image_name"><a class="anchor" href="#_conversion_host_image_name"></a><a class="link" href="#_conversion_host_image_name">Conversion host image name</a></h3>
+<div class="paragraph">
+<p>The conversion host image is the guest configure to execute the
+instances migrations.</p>
+</div>
+<div class="paragraph">
+<p>The variables to be configured are:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>os_migrate_src_conversion_image_name
+os_migrate_dst_conversion_image_name</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This image must be accessible to both tenants/projects prior to
+executing the conversion host deployment playbook. The variables
+default to <code>os_migrate_conv</code>, so if a conversion host image is
+uploaded to Glance as public image with this name (in both src and dst
+clouds), these variables do not need to be configured explicitly.</p>
+</div>
+<div class="paragraph">
+<p>Make sure this image exists in Glance on both clouds.  Currently it
+should be a
+<a href="https://cloud.centos.org/centos/9-stream/x86_64/images/CentOS-Stream-GenericCloud-9-20220914.0.x86_64.qcow2">CentOS 9 Cloud Image</a>
+or
+<a href="https://access.redhat.com/downloads/content/479/ver=/rhel---8/8.3/x86_64/product-software">RHEL 8 KVM Guest Image</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_conversion_host_flavor_name"><a class="anchor" href="#_conversion_host_flavor_name"></a><a class="link" href="#_conversion_host_flavor_name">Conversion host flavor name</a></h3>
+<div class="paragraph">
+<p>The conversion host flavor defines the compute, memory, and storage
+capacity that will be allocated for the conversion hosts. It needs to
+have at least a volume with 20GB.</p>
+</div>
+<div class="paragraph">
+<p>The variables to be configured are:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>os_migrate_src_conversion_flavor_name
+os_migrate_dst_conversion_flavor_name</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Usually, 'm1.medium' will suffice this requirement, but again, it can
+be different between deployments.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_conversion_host_external_network_name"><a class="anchor" href="#_conversion_host_external_network_name"></a><a class="link" href="#_conversion_host_external_network_name">Conversion host external network name</a></h3>
+<div class="paragraph">
+<p>The external network configuration allows the connection of the
+conversion host router for external access, this external network must
+be able to allocate floating IPs reachable between both conversion
+hosts.</p>
+</div>
+<div class="paragraph">
+<p>Set the name of the external (public) network to which conversion host
+private subnet will be attached via its router, for source and
+destination clouds respectively, via these variables:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>os_migrate_src_conversion_external_network_name
+os_migrate_dst_conversion_external_network_name</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This is not required if you are attaching your conversion host to
+pre-existing network (when
+<code>os_migrate_src/dst_conversion_manage_network</code> is <code>false</code>).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_other_conversion_host_dependency_names"><a class="anchor" href="#_other_conversion_host_dependency_names"></a><a class="link" href="#_other_conversion_host_dependency_names">Other conversion host dependency names</a></h3>
+<div class="paragraph">
+<p>In addition to the name variables described above, it is possible to
+customize names of other conversion host dependency resources:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>os_migrate_src_conversion_net_name
+os_migrate_dst_conversion_net_name
+os_migrate_src_conversion_subnet_name
+os_migrate_dst_conversion_subnet_name
+os_migrate_src_conversion_router_name
+os_migrate_dst_conversion_router_name
+os_migrate_src_conversion_secgroup_name
+os_migrate_dst_conversion_secgroup_name
+os_migrate_src_conversion_keypair_name
+os_migrate_dst_conversion_keypair_name</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_conversion_host_availablility_zone_management"><a class="anchor" href="#_conversion_host_availablility_zone_management"></a><a class="link" href="#_conversion_host_availablility_zone_management">Conversion host availablility zone management</a></h3>
+<div class="paragraph">
+<p>Availability zones are defined by attaching specific metadata
+information to an aggregate:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>os_migrate_src_conversion_availability_zone
+os_migrate_dst_conversion_availability_zone</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The conversion host can set logical abstractions for partitioning
+instances to a specific set of hosts belonging to an aggregate.</p>
+</div>
+<div class="paragraph">
+<p>The default is <code>false</code> (meaning no specification provided).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_conversion_host_network_management"><a class="anchor" href="#_conversion_host_network_management"></a><a class="link" href="#_conversion_host_network_management">Conversion host network management</a></h3>
+<div class="paragraph">
+<p>It is possible to disable creation and deletion of conversion host
+private network by setting these variables to <code>false</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>os_migrate_src_conversion_manage_network
+os_migrate_dst_conversion_manage_network</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This disables creation of the network, the subnet, and the router that
+typically makes the conversion host reachable from outside the cloud.</p>
+</div>
+<div class="paragraph">
+<p>When disabling network management like this, you&#8217;ll need pre-existing
+network that the conversion host can attach to and use it to talk to
+the other conversion host. Set these network name variables
+accordingly:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>os_migrate_src_conversion_net_name
+os_migrate_dst_conversion_net_name</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_conversion_host_floating_ip_management"><a class="anchor" href="#_conversion_host_floating_ip_management"></a><a class="link" href="#_conversion_host_floating_ip_management">Conversion host floating IP management</a></h3>
+<div class="paragraph">
+<p>OS Migrate can be told to not attempt to create any floating IPs on
+the conversion hosts. This can be useful when attaching a conversion
+host to some public network, where its IP address will be
+automatically reachable from outside. The variables to control whether
+conversion hosts should have floating IPs are:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>os_migrate_src_conversion_manage_fip
+os_migrate_dst_conversion_manage_fip</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When the conversion hosts are removed, the required and
+assigned floating IPs need to be detached or removed.</p>
+</div>
+<div class="paragraph">
+<p>The following variables allow to change the behavior
+of deleting of detaching the floating IP when deleting the conversion
+hosts (default: true):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>os_migrate_src_conversion_host_delete_fip
+os_migrate_dst_conversion_host_delete_fip</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When the corresponding <code>&#8230;&#8203;_manage_fip</code> variable is set to <code>false</code>,
+floating IP deletion is not attempted even if <code>&#8230;&#8203;_delete_fip</code> is set
+to <code>true</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_conversion_host_specific_floating_ip"><a class="anchor" href="#_conversion_host_specific_floating_ip"></a><a class="link" href="#_conversion_host_specific_floating_ip">Conversion host specific floating IP</a></h3>
+<div class="paragraph">
+<p>Each conversion host needs to have a floating IP,
+these floating IPs can be assigned automatically or
+defined by the operator with the usage of the
+following variables:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>os_migrate_src_conversion_floating_ip_address
+os_migrate_dst_conversion_floating_ip_address</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When using this variable to specify an exact IP address, the floating
+IP must already exist and be available for attaching.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_attaching_conversion_hosts_onto_public_networks"><a class="anchor" href="#_attaching_conversion_hosts_onto_public_networks"></a><a class="link" href="#_attaching_conversion_hosts_onto_public_networks">Attaching conversion hosts onto public networks</a></h3>
+<div class="paragraph">
+<p>A combination of variables described earlier can be used to attach the
+conversion hosts directly onto pre-existing public networks. We need
+to make sure that we don&#8217;t try to create any private network, we don&#8217;t
+try to create a floating IP, and we set the conversion host network
+names accordingly:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>os_migrate_src_conversion_manage_network: false
+os_migrate_dst_conversion_manage_network: false
+os_migrate_src_conversion_manage_fip: false
+os_migrate_dst_conversion_manage_fip: false
+os_migrate_src_conversion_net_name: some_public_net_src
+os_migrate_dst_conversion_net_name: some_public_net_dst</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_storage_migration_modes"><a class="anchor" href="#_storage_migration_modes"></a><a class="link" href="#_storage_migration_modes">Storage migration modes</a></h3>
+<div class="paragraph">
+<p>The modes for workload migrations can be changed in either
+cloud. The variable that control the behavior are:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>os_migrate_workloads_data_copy</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The default is <code>true</code> (meaning the copying of data using
+os-migrate is skipped).</p>
+</div>
+<div class="paragraph">
+<p>This is useful if there are pre-created volumes in the
+destination cloud that we just want to attach when creating
+the VM in the destination.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_conversion_host_boot_from_volume"><a class="anchor" href="#_conversion_host_boot_from_volume"></a><a class="link" href="#_conversion_host_boot_from_volume">Conversion host boot from volume</a></h3>
+<div class="paragraph">
+<p>The conversion hosts can be created as boot-from-volume servers in
+either cloud. The variables that control the behavior are:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>os_migrate_src_conversion_host_boot_from_volume
+os_migrate_dst_conversion_host_boot_from_volume</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The default is <code>false</code> (meaning boot from Nova local disk).</p>
+</div>
+<div class="paragraph">
+<p>When creating boot-from-volume conversion hosts, it is possible to
+customize the size in GB for the boot volume:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>os_migrate_src_conversion_host_volume_size
+os_migrate_dst_conversion_host_volume_size</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The size should be 20 or more, the default is 20.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_conversion_host_rhel_variables"><a class="anchor" href="#_conversion_host_rhel_variables"></a><a class="link" href="#_conversion_host_rhel_variables">Conversion host RHEL variables</a></h3>
+<div class="paragraph">
+<p>When using RHEL as conversion host, set the SSH user name as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>os_migrate_conversion_host_ssh_user: cloud-user</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It is also necessary to set RHEL registration variables. The
+variables part of this role are set to <code>omit</code> by default.</p>
+</div>
+<div class="paragraph">
+<p>The variables <code>os_migrate_conversion_rhsm_auto_attach</code>
+and <code>os_migrate_conversion_rhsm_activationkey</code> are mutually
+exclusive, given that, they are both defaulted to omit.</p>
+</div>
+<div class="paragraph">
+<p>Typically the only registration variables to set are:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>os_migrate_conversion_rhsm_username
+os_migrate_conversion_rhsm_password</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this case, <code>os_migrate_conversion_rhsm_auto_attach</code> should be set to <code>True</code>
+in order to fetch automatically the content once the node is registered.</p>
+</div>
+<div class="paragraph">
+<p>or:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>os_migrate_conversion_rhsm_activationkey
+os_migrate_conversion_rhsm_org_id</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For this case, <code>os_migrate_conversion_rhsm_auto_attach</code> must be left
+undefined with its default value of <code>omit</code>.</p>
+</div>
+<div class="paragraph">
+<p>The complete list of registration variables corresponds to the
+<a href="https://docs.ansible.com/ansible/latest/collections/community/general/redhat_subscription_module.html">redhat_subscription</a>
+Ansible module. In OS Migrate they are named as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>os_migrate_conversion_rhsm_activationkey
+os_migrate_conversion_rhsm_auto_attach
+os_migrate_conversion_rhsm_consumer_id
+os_migrate_conversion_rhsm_consumer_name
+os_migrate_conversion_rhsm_consumer_type
+os_migrate_conversion_rhsm_environment
+os_migrate_conversion_rhsm_force_register
+os_migrate_conversion_rhsm_org_id
+os_migrate_conversion_rhsm_password
+os_migrate_conversion_rhsm_pool
+os_migrate_conversion_rhsm_pool_ids
+os_migrate_conversion_rhsm_release
+os_migrate_conversion_rhsm_rhsm_baseurl
+os_migrate_conversion_rhsm_rhsm_repo_ca_cert
+os_migrate_conversion_rhsm_server_hostname
+os_migrate_conversion_rhsm_server_insecure
+os_migrate_conversion_rhsm_server_proxy_hostname
+os_migrate_conversion_rhsm_server_proxy_password
+os_migrate_conversion_rhsm_server_proxy_port
+os_migrate_conversion_rhsm_server_proxy_user
+os_migrate_conversion_rhsm_syspurpose
+os_migrate_conversion_rhsm_username</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Additionally is possible to enable specific repositories in the
+conversion hosts using the following variable:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>os_migrate_conversion_rhsm_repositories</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>os_migrate_conversion_rhsm_repositories</code> variable is a
+list of those repositories that will be enabled on the conversion
+host.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_enabling_password_based_ssh_access_to_the_conversion_hosts"><a class="anchor" href="#_enabling_password_based_ssh_access_to_the_conversion_hosts"></a><a class="link" href="#_enabling_password_based_ssh_access_to_the_conversion_hosts">Enabling password-based SSH access to the conversion hosts</a></h3>
+<div class="paragraph">
+<p>When required, a user can configure password-based SSH access to
+the conversion hosts, this feature might be useful for debugging
+when the private key of the hosts is not available anymore.</p>
+</div>
+<div class="paragraph">
+<p>The variables required in order to configure the password-based
+access are named as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>os_migrate_conversion_host_ssh_user_enable_password_access
+os_migrate_conversion_host_ssh_user_password</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The variable <code>os_migrate_conversion_host_ssh_user_enable_password_access</code>
+is set by default to <code>false</code>, and the variable
+<code>os_migrate_conversion_host_ssh_user_password</code> is set by default to the
+following string <code>weak_password_disabled_by_default</code>.</p>
+</div>
+<div class="paragraph">
+<p>The user enabled to access the conversion hosts with password-based authentication
+is the one defined in the <code>os_migrate_conversion_host_ssh_user</code> variable.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_running_custom_bash_scripts_in_the_conversion_hosts"><a class="anchor" href="#_running_custom_bash_scripts_in_the_conversion_hosts"></a><a class="link" href="#_running_custom_bash_scripts_in_the_conversion_hosts">Running custom bash scripts in the conversion hosts</a></h3>
+<div class="paragraph">
+<p>It is possible to run custom bash scripts in the conversion
+hosts before and after configuring their content.
+The content of the conversion hosts is a set of required packages
+and in the case of using RHEL then the configuration of the
+subscription manager.</p>
+</div>
+<div class="paragraph">
+<p>The variables allowing to run the custom scripts are:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>os_migrate_src_conversion_host_pre_content_hook
+os_migrate_src_conversion_host_post_content_hook
+os_migrate_dst_conversion_host_pre_content_hook
+os_migrate_dst_conversion_host_post_content_hook</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The Ansible module used to achieve this is shell,
+so users can execute a simple one-liner command, or more
+complex scripts like the following examples:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>os_migrate_src_conversion_host_pre_content_hook: |
+  ls -ltah
+  echo "hello world"
+  df -h</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>os_migrate_src_conversion_host_pre_content_hook: "echo 'this is a simple command'"</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_disabling_the_subscription_manager_tasks"><a class="anchor" href="#_disabling_the_subscription_manager_tasks"></a><a class="link" href="#_disabling_the_subscription_manager_tasks">Disabling the subscription manager tasks</a></h3>
+<div class="paragraph">
+<p>It is possible to disable the subscription manager
+native tasks by setting to false the following variable:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>os_migrate_conversion_rhsm_manage</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will skip the tasks related to RHSM when using RHEL
+in the conversion hosts. Disabling RHSM can be useful in
+those cases where the operator has custom scripts they
+need to use instead the standard Ansible module.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_openstack_rest_api_tls_variables"><a class="anchor" href="#_openstack_rest_api_tls_variables"></a><a class="link" href="#_openstack_rest_api_tls_variables">OpenStack REST API TLS variables</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If either of your clouds uses TLS endpoints that are not trusted by
+the Migrator host by default (e.g. using self-signed certificates), or
+if the Migrator host should authenticate itself via key+cert, you will
+need to set TLS-related variables.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>os_migrate_src_validate_certs</code> / <code>os_migrate_dst_validate_certs</code> -
+Setting these to <code>false</code> disables certificate validity checks of
+the source/destination API endpoints.</p>
+</li>
+<li>
+<p><code>os_migrate_src_ca_cert</code> / <code>os_migrate_dst_ca_cert</code> - These
+variables allow you to specify a custom CA certificate that should
+be used to validate the source/destination API certificates.</p>
+</li>
+<li>
+<p><code>os_migrate_src_client_cert</code>, <code>os_migrate_src_client_key</code> /
+<code>os_migrate_dst_client_cert</code>, <code>os_migrate_dst_client_key</code> - If the
+Migrator host should authenticate itself using a TLS key<br>
+certificate when talking to source/destination APIs, set these
+variables.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_workload_importexport_variables"><a class="anchor" href="#_workload_importexport_variables"></a><a class="link" href="#_workload_importexport_variables">Workload import/export variables</a></h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><code>os_migrate_workload_stop_before_migration</code> - Set to true if you wish
+for os_migrate to stop your workloads/vms prior to migration. Note that
+only workloads/vms in <code>SHUTOFF</code> state will be migrated.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_workload_migration_variables"><a class="anchor" href="#_workload_migration_variables"></a><a class="link" href="#_workload_migration_variables">Workload migration variables</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Workloads to be migrated with OS Migrate can have varying storage configurations in
+the source cloud, and the desired way to migrate their storage also varies, per cloud
+operators preference.</p>
+</div>
+<div class="paragraph">
+<p>The following table summarizes the matrix of options (whats in the source, how
+it should be migrated, how should OS Migrate workloads YAML file be configured,
+is the conversion host required for this mode of migration, is this migration
+mode implemented).</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/user-attachments/assets/1862b21b-4f67-47c0-ba73-f62df0d4568a" alt="Screenshot 2024-07-15 at 2 59 17 PM">
+</div>
+<div class="title">Figure 1. Screenshot 2024-07-15 at 2 59 17 PM</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/user-attachments/assets/939c98fb-f425-4f53-aca4-fd03f111fd33" alt="Screenshot 2024-07-15 at 3 02 28 PM">
+</div>
+<div class="title">Figure 2. Screenshot 2024-07-15 at 3 02 28 PM</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/user-attachments/assets/faf09224-fb11-417e-865a-72c9936bc8bf" alt="Screenshot 2024-07-15 at 3 03 16 PM">
+</div>
+<div class="title">Figure 3. Screenshot 2024-07-15 at 3 03 16 PM</div>
+</div>
+</div>
+</div>
+<h1 id="_general_usage_notes" class="sect0"><a class="anchor" href="#_general_usage_notes"></a><a class="link" href="#_general_usage_notes">General usage notes</a></h1>
+<div class="ulist">
+<ul>
+<li>
+<p>Run against <strong>testing/staging clouds first</strong>, verify that you are
+getting the expected results.</p>
+</li>
+<li>
+<p>Use <strong>different <code>os_migrate_data_dir</code> per project</strong> you&#8217;re
+authenticating to. OS Migrate works in project (tenant) scope most
+of the time. The data dir will be populated with the source
+project&#8217;s exported resources, and should not be mixed with another
+project&#8217;s resources.</p>
+<div class="paragraph">
+<p>When you are changing <code>os_migrate_src_auth</code> or
+<code>os_migrate_src_region_name</code> parameters, make sure to also change
+<code>os_migrate_data_dir</code>.</p>
+</div>
+</li>
+<li>
+<p>Use the <strong>same version of OS Migrate for export and import</strong>. We
+currently do not guarantee that data files are compatible across
+versions.</p>
+</li>
+<li>
+<p>OS Migrate may not fit each use case out of the box. You can craft
+custom playbooks using the OS Migrate collection pieces (roles and
+modules) as building blocks.</p>
+</li>
+<li>
+<p>OS Migrate has supported migrations for OSP versions 13 to 16,
+16 to 18, and simple upgrades from 15 to 16 or 16 to 17. We have
+tested migrations between 13 to 16, 16 to 18 using RHEL 8.</p>
+</li>
+</ul>
+</div>
+<h1 id="_troubleshooting_3" class="sect0"><a class="anchor" href="#_troubleshooting_3"></a><a class="link" href="#_troubleshooting_3">Troubleshooting</a></h1>
+<div class="sect1">
+<h2 id="_general_tips"><a class="anchor" href="#_general_tips"></a><a class="link" href="#_general_tips">General tips</a></h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Run <code>ansible-playbook</code> with <code>-v</code> parameter to get more detailed
+output.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_common_issues_2"><a class="anchor" href="#_common_issues_2"></a><a class="link" href="#_common_issues_2">Common issues</a></h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><code>DataVersionMismatch: OS Migrate runtime is version 'X.Y.Z', but
+tried to parse data file 'abc.yml' with os_migrate_version field
+set to 'A.B.C'. (Exported data is not guaranteed to be compatible
+across versions. After upgrading OS Migrate, make sure to remove
+the old YAML exports from the data directory.)</code></p>
+<div class="paragraph">
+<p>When OS Migrate export playbooks run, the existing data files
+aren&#8217;t automatically truncated. OS Migrate gradually adds each
+resource serialization to the (perhaps existing) YAML file, or it
+updates a resource serialization if one with the same ID is already
+present in the file.</p>
+</div>
+<div class="paragraph">
+<p>OS Migrate will refuse to parse YAML files which were created with
+a different version. In many cases such parsing would "just work",
+but not always, so OS Migrate is being defensive and requires
+clearing out the data directory when upgrading to a new version,
+and re-running the export playbooks.</p>
+</div>
+<div class="paragraph">
+<p>Alternatively, an advanced user can verify that the previous and
+new OS Migrate does not include any change in export data
+structures, and can edit the <code>os_migrate_version</code> field in the
+data files. This option should be used with caution, but it may
+prove useful in special scenarios, e.g. if external causes prevent
+re-exporting the data.</p>
+</div>
+</li>
+<li>
+<p><code>AnsibleCensoringStringIssue: workloads.yml setup task altering
+log_file path during preliminary import workload steps. (As a
+result susequent import tasks are failing due to non-existent path
+error.)</code></p>
+<div class="paragraph">
+<p>OS Migrate uses OpenStack modules to build their argument spec by
+using a function in OpenStack module utils. When project names are
+marked as <code>no_log</code> it causes values to be censored in the
+response. This is seen here in the import workloads setup task  where
+<code>/home/project_name/workloads/import_workloads.yml</code> becomes
+<code>/home/<strong><strong></strong></strong>/workloads/import_workloads.yml</code>.</p>
+</div>
+<div class="paragraph">
+<p>OS Migrate cannot specify that only the password in the credentials
+dictionary should be treated as a secret, instead the whole
+credentials dictionary is marked as a secret.</p>
+</div>
+<div class="paragraph">
+<p>A workaround to this is to sanitize the project name with something
+in a pre-migration playbook that sets up storage directories for
+OS Migrate variables or data. This can prove beneficial in the
+event of users running into censored string issues relating to
+ansible.</p>
+</div>
+</li>
+<li>
+<p><code>KeypairMigrationPitfalls: Keys are not seen by user performing
+migrations. When a user creates keypairs and assigns those keypairs
+to its inteded resource its noted that users used in the migration
+process can access the inteded resources but not the required keys.
+This leads to checks failing since the user can&#8217;t check if the key
+exist in the source cloud.</code></p>
+<div class="paragraph">
+<p>OS Migrate has an export_user_keypairs.yml which escalates using admin
+privileges. By default it iterates over all users and their keys,
+but it listens for filter variables which can help scope down the export.</p>
+</div>
+<div class="paragraph">
+<p>How to use those key exports depends on how the workload migration
+should be done. Either the keys can be uploaded to destination to the
+respective users via import_users_keypairs.yml playbook, and destination
+credentials for workload migration have to be of the users who can see the
+keys.</p>
+</div>
+<div class="paragraph">
+<p>An alternative for the following issues is the user_ref.name and
+user_ref.domain_name in the exported YAML could be edited from actual
+names to %auth% values, and that data file could then be used with
+import_keypairs.yml (run as a tenant user, not admin), which would import
+all the various keys under a single user, and that user could then
+perform the migration, having all the necessary public keys.</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<h1 id="_upgrading" class="sect0"><a class="anchor" href="#_upgrading"></a><a class="link" href="#_upgrading">Upgrading</a></h1>
+<div class="paragraph">
+<p>This document describes the recommended method of upgrading OS Migrate
+from Ansible Galaxy.</p>
+</div>
+<div class="sect1">
+<h2 id="_collection_upgrade"><a class="anchor" href="#_collection_upgrade"></a><a class="link" href="#_collection_upgrade">Collection upgrade</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To upgrade to the latest release if you already have the OS Migrate
+collection installed, make sure to pass the <code>-f</code> flag to the
+installation command, which will force installing the (latest)
+collection even if it is already present:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash">ansible-galaxy collection <span class="nb">install</span> <span class="nt">-f</span> os_migrate.os_migrate</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To upgrade/downgrade to a particular release:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash">ansible-galaxy collection <span class="nb">install </span>os_migrate.os_migrate:&lt;VERSION&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can find available releases at <a href="https://galaxy.ansible.com/os_migrate/os_migrate">OS Migrate Galaxy page</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_usage_notes_related_to_upgrading"><a class="anchor" href="#_usage_notes_related_to_upgrading"></a><a class="link" href="#_usage_notes_related_to_upgrading">Usage notes related to upgrading</a></h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>OS Migrate presently does not guarantee any forward compatibility of
+exported data. <strong>The same version of OS Migrate should be used during
+export and import.</strong></p>
+</li>
+<li>
+<p>After upgrading, <strong>clear any potential existing data files</strong> from
+your <code>os_migrate_data_dir</code>, or use a different one.</p>
+<div class="paragraph">
+<p>During export, OS Migrate will attempt to parse exsiting data files
+(with the intention of adding new resources to them), and an error
+will be raised if the existing data files were created with a
+different OS Migrate version.</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<h1 id="os-migrate-contributing_development" class="sect0"><a class="anchor" href="#os-migrate-contributing_development"></a><a class="link" href="#os-migrate-contributing_development">OS Migrate Contribution Guidelines</a></h1>
+
+<h1 id="_tbd_but_largely_based_on_combination_of_existing_guide_and_david_roberto_collaboration" class="sect0"><a class="anchor" href="#_tbd_but_largely_based_on_combination_of_existing_guide_and_david_roberto_collaboration"></a><a class="link" href="#_tbd_but_largely_based_on_combination_of_existing_guide_and_david_roberto_collaboration">TBD - but largely based on combination of existing guide, and David &amp; Roberto collaboration</a></h1>
+
 <h1 id="_os_migrate_glossary" class="sect0"><a class="anchor" href="#_os_migrate_glossary"></a><a class="link" href="#_os_migrate_glossary">OS Migrate Glossary</a></h1>
 <div class="paragraph">
 <p>A comprehensive glossary of terms for operators learning about the OS Migrate project.</p>
@@ -5300,7 +6296,7 @@ anyway.)</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-09-17 19:46:32 -0400
+Last updated 2025-09-17 20:32:29 -0400
 </div>
 </div>
 </body>
