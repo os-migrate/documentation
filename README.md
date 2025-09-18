@@ -5,12 +5,15 @@ This is the documentation repository for OS Migrate, an open source toolbox for 
 ## Structure
 
 - `index.adoc` - Main documentation entry point
-- `user/` - User documentation (installation, usage, troubleshooting)
-- `operator/` - Operator documentation (capacity planning, guides, walkthrough)
-- `devel/` - Developer documentation (contributing, design, development setup)
-- `modules/` - Ansible module documentation
-- `roles/` - Ansible role documentation  
-- `images/plantuml/` - PlantUML diagram sources
+- `operator/` - Operator documentation (capacity planning, guides, walkthrough, VMware migration)
+- `developer/` - Developer documentation (contributing, design, development setup)
+- `reference/` - Reference documentation
+  - `modules/` - Ansible module documentation
+  - `roles/` - Ansible role documentation
+- `images/` - Static images and diagrams
+  - `*.svg` - SVG workflow diagrams (especially VMware migration workflows)
+  - `*.plantuml` - PlantUML diagram sources
+  - `render/` - Generated PlantUML diagrams (PNG format)
 
 ## Building Documentation
 
@@ -49,14 +52,24 @@ make help
 
 Built documentation will be available in:
 - HTML: `docs/index.html`
-- PDF: `build/pdf/index.pdf`
+- PDF: `pdf/index.pdf`
+- Images: `docs/images/` (automatically copied during build)
 
 ## Features
 
 - **AsciiDoc format**: Human-readable documentation source format
-- **PlantUML diagrams**: Automatic diagram generation from source
+- **PlantUML diagrams**: Automatic diagram generation from source to PNG
+- **SVG workflow diagrams**: Static SVG diagrams for complex workflows (VMware migration)
 - **Multiple output formats**: HTML and PDF generation
+- **Working table of contents**: Properly linked section navigation
+- **Image handling**: Automatic copying of static and generated images
 - **Cross-references**: Maintained document linking
 - **Include directives**: Modular documentation structure
 - **Syntax highlighting**: Code block highlighting with Rouge
-- **Table of contents**: Automatic TOC generation
+
+## Recent Improvements
+
+- **Fixed TOC links**: Section links now properly navigate to correct locations
+- **Clean rendering**: Removed preprocessing directive artifacts from output
+- **SVG image support**: VMware workflow diagrams now render correctly
+- **Improved build process**: Automatic image copying and proper file structure
