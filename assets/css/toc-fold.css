@@ -1,0 +1,119 @@
+/* Foldable TOC Styles */
+
+/* Style for expandable TOC items */
+#toc ul li {
+    position: relative;
+}
+
+/* Style for items that have sub-items */
+#toc ul li.has-children > a {
+    padding-right: 20px;
+}
+
+/* Toggle button styling */
+.toc-toggle {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+    user-select: none;
+    font-size: 12px;
+    line-height: 12px;
+    text-align: center;
+    color: #7a2518;
+    font-weight: bold;
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+}
+
+.toc-toggle:hover {
+    color: #a53221;
+}
+
+/* Collapsed state - hide sub-lists */
+#toc ul li.collapsed > ul {
+    display: none;
+}
+
+/* Expanded state indicator */
+.toc-toggle.expanded::before {
+    content: "−";
+}
+
+/* Collapsed state indicator */
+.toc-toggle.collapsed::before {
+    content: "+";
+}
+
+/* Smooth transitions for expand/collapse */
+#toc ul ul {
+    transition: max-height 0.3s ease-out, opacity 0.2s ease-out;
+    overflow: hidden;
+}
+
+/* Animation for expanding */
+#toc ul li.expanding > ul {
+    max-height: 1000px;
+    opacity: 1;
+}
+
+/* Animation for collapsing */
+#toc ul li.collapsing > ul {
+    max-height: 0;
+    opacity: 0;
+}
+
+/* Indent adjustment for nested items with toggles */
+#toc.toc2 ul ul {
+    margin-left: 0;
+    padding-left: 1.2em;
+}
+
+/* Better spacing for toggle buttons in toc2 layout */
+body.toc2 .toc-toggle {
+    right: 2px;
+}
+
+/* Ensure proper positioning in different screen sizes */
+@media screen and (min-width: 768px) {
+    .toc-toggle {
+        right: 8px;
+    }
+}
+
+@media screen and (min-width: 1280px) {
+    .toc-toggle {
+        right: 10px;
+    }
+}
+
+/* Style for top-level sections - make them more prominent */
+#toc ul.sectlevel0 > li > .toc-toggle {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#toc ul.sectlevel1 > li > .toc-toggle {
+    font-size: 12px;
+}
+
+/* Hover effects for better UX */
+#toc ul li:hover > .toc-toggle {
+    opacity: 1;
+}
+
+.toc-toggle {
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+/* Focus styles for accessibility */
+.toc-toggle:focus {
+    outline: 2px solid #2156a5;
+    outline-offset: 1px;
+}
