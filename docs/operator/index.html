@@ -659,10 +659,12 @@ pre.rouge {
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel0">
 <li><a href="#_os_migrate_operator_guide">OS Migrate Operator Guide</a></li>
+<li><a href="#_overview">Overview</a></li>
 <li><a href="#os-migrate-overview_planning">os-migrate overview</a></li>
+<li><a href="#_planning_and_setup">Planning and Setup</a></li>
 <li><a href="#os-migrate-capacity-planning_planning">OS Migrate Capacity Planning</a></li>
 <li><a href="#os-migrate-migrator-host_planning">Migrator Host Requirements</a></li>
-<li><a href="#_overview">Overview</a></li>
+<li><a href="#_overview_2">Overview</a></li>
 <li><a href="#_system_requirements">System Requirements</a>
 <ul class="sectlevel1">
 <li><a href="#_operating_system">Operating System</a></li>
@@ -761,6 +763,7 @@ pre.rouge {
 <li><a href="#_red_hat_testing_results">Red Hat Testing Results</a></li>
 <li><a href="#_expectations">Expectations</a></li>
 <li><a href="#_formulas">Formulas</a></li>
+<li><a href="#_installation">Installation</a></li>
 <li><a href="#_installation_from_galaxy_recommended">Installation from Galaxy (recommended)</a>
 <ul class="sectlevel1">
 <li><a href="#_prerequisites_2">Prerequisites</a></li>
@@ -770,7 +773,7 @@ pre.rouge {
 </li>
 <li><a href="#_installation_from_source_when_customizing">Installation from source (when customizing)</a></li>
 <li><a href="#_ansible_execution_environment_aee_images">Ansible Execution Environment (AEE) Images</a></li>
-<li><a href="#_overview_2">Overview</a></li>
+<li><a href="#_overview_3">Overview</a></li>
 <li><a href="#_available_aee_images">Available AEE Images</a>
 <ul class="sectlevel1">
 <li><a href="#_os_migrate_aee">os-migrate AEE</a></li>
@@ -875,6 +878,7 @@ pre.rouge {
 <li><a href="#_collection_installation_improvements">Collection Installation Improvements</a></li>
 </ul>
 </li>
+<li><a href="#_migration_guides">Migration Guides</a></li>
 <li><a href="#os-migrate-walkthrough_planning">OS Migrate walkthrough</a></li>
 <li><a href="#_prerequisites_4">Prerequisites</a>
 <ul class="sectlevel1">
@@ -938,6 +942,7 @@ pre.rouge {
 <li><a href="#_running_migration_outside_of_ansible">Running Migration outside of Ansible</a></li>
 </ul>
 </li>
+<li><a href="#_configuration_and_usage">Configuration and Usage</a></li>
 <li><a href="#_migration_parameters_guide">Migration Parameters Guide</a>
 <ul class="sectlevel1">
 <li><a href="#_what_are_migration_parameters">What are migration parameters</a></li>
@@ -977,6 +982,7 @@ pre.rouge {
 </ul>
 </li>
 <li><a href="#_general_usage_notes">General usage notes</a></li>
+<li><a href="#_maintenance_and_support">Maintenance and Support</a></li>
 <li><a href="#_troubleshooting_3">Troubleshooting</a>
 <ul class="sectlevel1">
 <li><a href="#_general_tips">General tips</a></li>
@@ -991,6 +997,7 @@ pre.rouge {
 </li>
 <li><a href="#os-migrate-contributing_development">OS Migrate Contribution Guidelines</a></li>
 <li><a href="#_tbd_but_largely_based_on_combination_of_existing_guide_and_david_roberto_collaboration">TBD - but largely based on combination of existing guide, and David &amp; Roberto collaboration</a></li>
+<li><a href="#_reference">Reference</a></li>
 <li><a href="#_os_migrate_glossary">OS Migrate Glossary</a></li>
 <li><a href="#_core_concepts">Core Concepts</a></li>
 <li><a href="#_resource_types">Resource Types</a></li>
@@ -1011,6 +1018,8 @@ pre.rouge {
 <div class="paragraph">
 <p>This guide provides comprehensive information for operators planning and executing OpenStack cloud migrations using OS Migrate.</p>
 </div>
+<h1 id="_overview" class="sect0"><a class="anchor" href="#_overview"></a><a class="link" href="#_overview">Overview</a></h1>
+
 <h1 id="os-migrate-overview_planning" class="sect0"><a class="anchor" href="#os-migrate-overview_planning"></a><a class="link" href="#os-migrate-overview_planning">os-migrate overview</a></h1>
 <div class="paragraph">
 <p>OS-Migrate is a toolsuite designed to assist in the process of moving cloud workloads from one environment to another. Please read the entire workflow notes in order to be sufficiently prepared for this endeavour.</p>
@@ -1018,11 +1027,13 @@ pre.rouge {
 <div class="paragraph">
 <p>TO BE FLESHED OUT</p>
 </div>
+<h1 id="_planning_and_setup" class="sect0"><a class="anchor" href="#_planning_and_setup"></a><a class="link" href="#_planning_and_setup">Planning and Setup</a></h1>
+
 <h1 id="os-migrate-capacity-planning_planning" class="sect0"><a class="anchor" href="#os-migrate-capacity-planning_planning"></a><a class="link" href="#os-migrate-capacity-planning_planning">OS Migrate Capacity Planning</a></h1>
 
 <h1 id="os-migrate-migrator-host_planning" class="sect0"><a class="anchor" href="#os-migrate-migrator-host_planning"></a><a class="link" href="#os-migrate-migrator-host_planning">Migrator Host Requirements</a></h1>
 
-<h1 id="_overview" class="sect0"><a class="anchor" href="#_overview"></a><a class="link" href="#_overview">Overview</a></h1>
+<h1 id="_overview_2" class="sect0"><a class="anchor" href="#_overview_2"></a><a class="link" href="#_overview_2">Overview</a></h1>
 <div class="paragraph">
 <p>The migrator host is the machine that executes OS Migrate Ansible playbooks and serves as the orchestration point for OpenStack cloud migrations. It can be deployed as:</p>
 </div>
@@ -1986,6 +1997,8 @@ openstack security group list <span class="nt">--name</span> os_migrate_conv</co
 
 <h1 id="_formulas" class="sect0"><a class="anchor" href="#_formulas"></a><a class="link" href="#_formulas">Formulas</a></h1>
 
+<h1 id="_installation" class="sect0"><a class="anchor" href="#_installation"></a><a class="link" href="#_installation">Installation</a></h1>
+
 <h1 id="_installation_from_galaxy_recommended" class="sect0"><a class="anchor" href="#_installation_from_galaxy_recommended"></a><a class="link" href="#_installation_from_galaxy_recommended">Installation from Galaxy (recommended)</a></h1>
 <div class="paragraph">
 <p>This document describes the recommended method of installing OS Migrate,
@@ -2074,7 +2087,7 @@ ansible-galaxy collection <span class="nb">install</span> <span class="nt">--for
 <div class="paragraph">
 <p>os-migrate and vmware-migration-kit provide containerized Ansible Execution Environment (AEE) images that encapsulate all necessary dependencies for running migration playbooks in a consistent, isolated environment.</p>
 </div>
-<h1 id="_overview_2" class="sect0"><a class="anchor" href="#_overview_2"></a><a class="link" href="#_overview_2">Overview</a></h1>
+<h1 id="_overview_3" class="sect0"><a class="anchor" href="#_overview_3"></a><a class="link" href="#_overview_3">Overview</a></h1>
 <div class="paragraph">
 <p>Ansible Execution Environments are container images that provide a standardized runtime environment for Ansible automation. They include:</p>
 </div>
@@ -3583,6 +3596,8 @@ git push origin 1.2.3
 </div>
 </div>
 </div>
+<h1 id="_migration_guides" class="sect0"><a class="anchor" href="#_migration_guides"></a><a class="link" href="#_migration_guides">Migration Guides</a></h1>
+
 <h1 id="os-migrate-walkthrough_planning" class="sect0"><a class="anchor" href="#os-migrate-walkthrough_planning"></a><a class="link" href="#os-migrate-walkthrough_planning">OS Migrate walkthrough</a></h1>
 <div class="paragraph">
 <p>OS Migrate is a framework for OpenStack parallel cloud migration
@@ -4989,6 +5004,8 @@ Openstack variables:</p>
 </div>
 </div>
 </div>
+<h1 id="_configuration_and_usage" class="sect0"><a class="anchor" href="#_configuration_and_usage"></a><a class="link" href="#_configuration_and_usage">Configuration and Usage</a></h1>
+
 <h1 id="_migration_parameters_guide" class="sect0"><a class="anchor" href="#_migration_parameters_guide"></a><a class="link" href="#_migration_parameters_guide">Migration Parameters Guide</a></h1>
 <div class="sect1">
 <h2 id="_what_are_migration_parameters"><a class="anchor" href="#_what_are_migration_parameters"></a><a class="link" href="#_what_are_migration_parameters">What are migration parameters</a></h2>
@@ -5820,6 +5837,8 @@ tested migrations between 13 to 16, 16 to 18 using RHEL 8.</p>
 </li>
 </ul>
 </div>
+<h1 id="_maintenance_and_support" class="sect0"><a class="anchor" href="#_maintenance_and_support"></a><a class="link" href="#_maintenance_and_support">Maintenance and Support</a></h1>
+
 <h1 id="_troubleshooting_3" class="sect0"><a class="anchor" href="#_troubleshooting_3"></a><a class="link" href="#_troubleshooting_3">Troubleshooting</a></h1>
 <div class="sect1">
 <h2 id="_general_tips"><a class="anchor" href="#_general_tips"></a><a class="link" href="#_general_tips">General tips</a></h2>
@@ -5985,6 +6004,8 @@ different OS Migrate version.</p>
 <h1 id="os-migrate-contributing_development" class="sect0"><a class="anchor" href="#os-migrate-contributing_development"></a><a class="link" href="#os-migrate-contributing_development">OS Migrate Contribution Guidelines</a></h1>
 
 <h1 id="_tbd_but_largely_based_on_combination_of_existing_guide_and_david_roberto_collaboration" class="sect0"><a class="anchor" href="#_tbd_but_largely_based_on_combination_of_existing_guide_and_david_roberto_collaboration"></a><a class="link" href="#_tbd_but_largely_based_on_combination_of_existing_guide_and_david_roberto_collaboration">TBD - but largely based on combination of existing guide, and David &amp; Roberto collaboration</a></h1>
+
+<h1 id="_reference" class="sect0"><a class="anchor" href="#_reference"></a><a class="link" href="#_reference">Reference</a></h1>
 
 <h1 id="_os_migrate_glossary" class="sect0"><a class="anchor" href="#_os_migrate_glossary"></a><a class="link" href="#_os_migrate_glossary">OS Migrate Glossary</a></h1>
 <div class="paragraph">
@@ -6297,7 +6318,7 @@ different OS Migrate version.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-09-17 20:44:17 -0400
+Last updated 2025-09-17 20:51:25 -0400
 </div>
 </div>
 <script src="../assets/js/toc-fold.js"></script>

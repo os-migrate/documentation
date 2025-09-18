@@ -659,11 +659,13 @@ pre.rouge {
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel0">
 <li><a href="#_os_migrate_developer_documentation">OS Migrate Developer Documentation</a></li>
+<li><a href="#_architecture_and_design">Architecture and Design</a></li>
 <li><a href="#_os_migrate_design">OS Migrate Design</a></li>
 <li><a href="#_high_level_development_goals">High-level development goals</a></li>
 <li><a href="#_challenges_of_the_problem_domain">Challenges of the problem domain</a></li>
 <li><a href="#_basic_ansible_workflow_design">Basic Ansible workflow design</a></li>
 <li><a href="#_misc">Misc</a></li>
+<li><a href="#_development_environment">Development Environment</a></li>
 <li><a href="#_development_environment_setup">Development Environment Setup</a></li>
 <li><a href="#_prerequisites">Prerequisites</a></li>
 <li><a href="#_running_e2e_tests">Running e2e tests</a>
@@ -682,6 +684,7 @@ pre.rouge {
 </ul>
 </li>
 <li><a href="#_installing_vagrant_directly_on_host_alternative_path">Installing Vagrant directly on host (alternative path)</a></li>
+<li><a href="#_contributing_guidelines">Contributing Guidelines</a></li>
 <li><a href="#_general_contribution_guidelines">General Contribution Guidelines</a></li>
 <li><a href="#_commit_messages_for_changelog">Commit Messages for Changelog</a>
 <ul class="sectlevel1">
@@ -715,12 +718,15 @@ pre.rouge {
 </li>
 <li><a href="#_contributing_documentation">Contributing Documentation</a></li>
 <li><a href="#_rendering_the_documentation">Rendering the Documentation</a></li>
+<li><a href="#_release_management">Release Management</a></li>
 <li><a href="#_releasing_the_os_migrate_collection">Releasing the OS Migrate collection</a></li>
 </ul>
 </div>
 </div>
 <div id="content">
 <h1 id="_os_migrate_developer_documentation" class="sect0"><a class="anchor" href="#_os_migrate_developer_documentation"></a><a class="link" href="#_os_migrate_developer_documentation">OS Migrate Developer Documentation</a></h1>
+
+<h1 id="_architecture_and_design" class="sect0"><a class="anchor" href="#_architecture_and_design"></a><a class="link" href="#_architecture_and_design">Architecture and Design</a></h1>
 
 <h1 id="_os_migrate_design" class="sect0"><a class="anchor" href="#_os_migrate_design"></a><a class="link" href="#_os_migrate_design">OS Migrate Design</a></h1>
 
@@ -987,6 +993,8 @@ Galaxy.</p>
 </li>
 </ul>
 </div>
+<h1 id="_development_environment" class="sect0"><a class="anchor" href="#_development_environment"></a><a class="link" href="#_development_environment">Development Environment</a></h1>
+
 <h1 id="_development_environment_setup" class="sect0"><a class="anchor" href="#_development_environment_setup"></a><a class="link" href="#_development_environment_setup">Development Environment Setup</a></h1>
 
 <h1 id="_prerequisites" class="sect0"><a class="anchor" href="#_prerequisites"></a><a class="link" href="#_prerequisites">Prerequisites</a></h1>
@@ -1390,6 +1398,8 @@ systemctl restart libvirtd</pre>
 <pre>vagrant up --provider libvirt</pre>
 </div>
 </div>
+<h1 id="_contributing_guidelines" class="sect0"><a class="anchor" href="#_contributing_guidelines"></a><a class="link" href="#_contributing_guidelines">Contributing Guidelines</a></h1>
+
 <h1 id="_general_contribution_guidelines" class="sect0"><a class="anchor" href="#_general_contribution_guidelines"></a><a class="link" href="#_general_contribution_guidelines">General Contribution Guidelines</a></h1>
 
 <h1 id="_commit_messages_for_changelog" class="sect0"><a class="anchor" href="#_commit_messages_for_changelog"></a><a class="link" href="#_commit_messages_for_changelog">Commit Messages for Changelog</a></h1>
@@ -1862,6 +1872,8 @@ development, do so now:</p>
 <p>You can inspect the rendered documentation by opening
 <code>docs/src/_build/html/index.html</code> in your web browser.</p>
 </div>
+<h1 id="_release_management" class="sect0"><a class="anchor" href="#_release_management"></a><a class="link" href="#_release_management">Release Management</a></h1>
+
 <h1 id="_releasing_the_os_migrate_collection" class="sect0"><a class="anchor" href="#_releasing_the_os_migrate_collection"></a><a class="link" href="#_releasing_the_os_migrate_collection">Releasing the OS Migrate collection</a></h1>
 <div class="paragraph">
 <p>Set env vars with old and new versions:</p>
@@ -1927,7 +1939,7 @@ git push upstream stable/$STABLE_VERSION</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-09-17 20:44:17 -0400
+Last updated 2025-09-17 20:49:27 -0400
 </div>
 </div>
 <script src="../assets/js/toc-fold.js"></script>

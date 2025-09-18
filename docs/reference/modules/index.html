@@ -444,38 +444,85 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel0">
 <li><a href="#_documented_modules_in_os_migrate">Documented modules in os-migrate</a></li>
-<li><a href="#_contents">Contents</a></li>
+<li><a href="#_authentication_and_information">Authentication and Information</a></li>
 <li><a href="#_module_auth_info">Module - auth_info</a></li>
-<li><a href="#_module_export_detached_volume">Module - export_detached_volume</a></li>
-<li><a href="#_module_export_flavor">Module - export_flavor</a></li>
-<li><a href="#_module_export_image_blob">Module - export_image_blob</a></li>
-<li><a href="#_module_export_image_meta">Module - export_image_meta</a></li>
-<li><a href="#_module_export_keypair">Module - export_keypair</a></li>
-<li><a href="#_module_export_network">Module - export_network</a></li>
+<li><a href="#_module_os_conversion_host_info">Module - os_conversion_host_info</a></li>
+<li><a href="#_module_os_keypairs_info">Module - os_keypairs_info</a></li>
+<li><a href="#_module_os_role_assignments_info">Module - os_role_assignments_info</a></li>
+<li><a href="#_module_os_routers_info">Module - os_routers_info</a></li>
+<li><a href="#_module_os_security_groups_info">Module - os_security_groups_info</a></li>
+<li><a href="#_export_modules">Export Modules</a>
+<ul class="sectlevel1">
+<li><a href="#_identity_and_access">Identity and Access</a></li>
+</ul>
+</li>
 <li><a href="#_module_export_project">Module - export_project</a></li>
+<li><a href="#_module_export_user">Module - export_user</a></li>
+<li><a href="#_module_export_user_project_role_assignment">Module - export_user_project_role_assignment</a></li>
+<li><a href="#_module_export_keypair">Module - export_keypair</a>
+<ul class="sectlevel1">
+<li><a href="#_compute_resources">Compute Resources</a></li>
+</ul>
+</li>
+<li><a href="#_module_export_flavor">Module - export_flavor</a></li>
+<li><a href="#_module_export_workload">Module - export_workload</a>
+<ul class="sectlevel1">
+<li><a href="#_storage_resources">Storage Resources</a></li>
+</ul>
+</li>
+<li><a href="#_module_export_detached_volume">Module - export_detached_volume</a></li>
+<li><a href="#_module_export_image_blob">Module - export_image_blob</a></li>
+<li><a href="#_module_export_image_meta">Module - export_image_meta</a>
+<ul class="sectlevel1">
+<li><a href="#_network_resources">Network Resources</a></li>
+</ul>
+</li>
+<li><a href="#_module_export_network">Module - export_network</a></li>
+<li><a href="#_module_export_subnet">Module - export_subnet</a></li>
 <li><a href="#_module_export_router">Module - export_router</a></li>
 <li><a href="#_module_export_router_interfaces">Module - export_router_interfaces</a></li>
 <li><a href="#_module_export_security_group">Module - export_security_group</a></li>
 <li><a href="#_module_export_security_group_rules">Module - export_security_group_rules</a></li>
-<li><a href="#_module_export_subnet">Module - export_subnet</a></li>
-<li><a href="#_module_export_user">Module - export_user</a></li>
-<li><a href="#_module_export_user_project_role_assignment">Module - export_user_project_role_assignment</a></li>
-<li><a href="#_module_export_workload">Module - export_workload</a></li>
-<li><a href="#_module_import_flavor">Module - import_flavor</a></li>
-<li><a href="#_module_import_image">Module - import_image</a></li>
-<li><a href="#_module_import_keypair">Module - import_keypair</a></li>
-<li><a href="#_module_import_network">Module - import_network</a></li>
+<li><a href="#_import_modules">Import Modules</a>
+<ul class="sectlevel1">
+<li><a href="#_identity_and_access_2">Identity and Access</a></li>
+</ul>
+</li>
 <li><a href="#_module_import_project">Module - import_project</a></li>
+<li><a href="#_module_import_user">Module - import_user</a></li>
+<li><a href="#_module_import_user_project_role_assignment">Module - import_user_project_role_assignment</a></li>
+<li><a href="#_module_import_keypair">Module - import_keypair</a>
+<ul class="sectlevel1">
+<li><a href="#_compute_resources_2">Compute Resources</a></li>
+</ul>
+</li>
+<li><a href="#_module_import_flavor">Module - import_flavor</a>
+<ul class="sectlevel1">
+<li><a href="#_storage_resources_2">Storage Resources</a></li>
+</ul>
+</li>
+<li><a href="#_module_import_image">Module - import_image</a>
+<ul class="sectlevel1">
+<li><a href="#_network_resources_2">Network Resources</a></li>
+</ul>
+</li>
+<li><a href="#_module_import_network">Module - import_network</a></li>
+<li><a href="#_module_import_subnet">Module - import_subnet</a></li>
 <li><a href="#_module_import_router">Module - import_router</a></li>
 <li><a href="#_module_import_router_interface">Module - import_router_interface</a></li>
 <li><a href="#_module_import_security_group">Module - import_security_group</a></li>
-<li><a href="#_module_import_security_group_rule">Module - import_security_group_rule</a></li>
-<li><a href="#_module_import_subnet">Module - import_subnet</a></li>
-<li><a href="#_module_import_user">Module - import_user</a></li>
-<li><a href="#_module_import_user_project_role_assignment">Module - import_user_project_role_assignment</a></li>
+<li><a href="#_module_import_security_group_rule">Module - import_security_group_rule</a>
+<ul class="sectlevel1">
+<li><a href="#_volume_import_and_transfer">Volume Import and Transfer</a></li>
+</ul>
+</li>
 <li><a href="#_module_import_volumes_export">Module - import_volumes_export</a></li>
 <li><a href="#_module_import_volumes_src_cleanup">Module - import_volumes_src_cleanup</a></li>
-<li><a href="#_module_import_volumes_transfer">Module - import_volumes_transfer</a></li>
+<li><a href="#_module_import_volumes_transfer">Module - import_volumes_transfer</a>
+<ul class="sectlevel1">
+<li><a href="#_workload_import_and_management">Workload Import and Management</a></li>
+</ul>
+</li>
 <li><a href="#_module_import_workload_create_instance">Module - import_workload_create_instance</a></li>
 <li><a href="#_module_import_workload_dst_check">Module - import_workload_dst_check</a></li>
 <li><a href="#_module_import_workload_dst_failure_cleanup">Module - import_workload_dst_failure_cleanup</a></li>
@@ -484,11 +531,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_module_import_workload_src_check">Module - import_workload_src_check</a></li>
 <li><a href="#_module_import_workload_src_cleanup">Module - import_workload_src_cleanup</a></li>
 <li><a href="#_module_import_workload_transfer_volumes">Module - import_workload_transfer_volumes</a></li>
-<li><a href="#_module_os_conversion_host_info">Module - os_conversion_host_info</a></li>
-<li><a href="#_module_os_keypairs_info">Module - os_keypairs_info</a></li>
-<li><a href="#_module_os_role_assignments_info">Module - os_role_assignments_info</a></li>
-<li><a href="#_module_os_routers_info">Module - os_routers_info</a></li>
-<li><a href="#_module_os_security_groups_info">Module - os_security_groups_info</a></li>
+<li><a href="#_utilities_and_validation">Utilities and Validation</a></li>
 <li><a href="#_module_read_resources">Module - read_resources</a></li>
 <li><a href="#_module_validate_resource_files">Module - validate_resource_files</a></li>
 </ul>
@@ -497,7 +540,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="content">
 <h1 id="_documented_modules_in_os_migrate" class="sect0"><a class="anchor" href="#_documented_modules_in_os_migrate"></a><a class="link" href="#_documented_modules_in_os_migrate">Documented modules in os-migrate</a></h1>
 
-<h1 id="_contents" class="sect0"><a class="anchor" href="#_contents"></a><a class="link" href="#_contents">Contents</a></h1>
+<h1 id="_authentication_and_information" class="sect0"><a class="anchor" href="#_authentication_and_information"></a><a class="link" href="#_authentication_and_information">Authentication and Information</a></h1>
 
 <h1 id="_module_auth_info" class="sect0"><a class="anchor" href="#_module_auth_info"></a><a class="link" href="#_module_auth_info">Module - auth_info</a></h1>
 <div class="paragraph">
@@ -517,22 +560,179 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 :examples: true</pre>
 </div>
 </div>
-<h1 id="_module_export_detached_volume" class="sect0"><a class="anchor" href="#_module_export_detached_volume"></a><a class="link" href="#_module_export_detached_volume">Module - export_detached_volume</a></h1>
+<h1 id="_module_os_conversion_host_info" class="sect0"><a class="anchor" href="#_module_os_conversion_host_info"></a><a class="link" href="#_module_os_conversion_host_info">Module - os_conversion_host_info</a></h1>
 <div class="paragraph">
 <p>This module provides for the following ansible plugin:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>export_detached_volume</p>
+<p>os_conversion_host_info</p>
 </li>
 </ul>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>:module: os_migrate/plugins/modules/export_detached_volume.py
+<pre>:module: os_migrate/plugins/modules/os_conversion_host_info.py
 :documentation: true
 :examples: true</pre>
+</div>
+</div>
+<h1 id="_module_os_keypairs_info" class="sect0"><a class="anchor" href="#_module_os_keypairs_info"></a><a class="link" href="#_module_os_keypairs_info">Module - os_keypairs_info</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>os_keypairs_info</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/os_keypairs_info.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_os_role_assignments_info" class="sect0"><a class="anchor" href="#_module_os_role_assignments_info"></a><a class="link" href="#_module_os_role_assignments_info">Module - os_role_assignments_info</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>os_role_assignments_info</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/os_role_assignments_info.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_os_routers_info" class="sect0"><a class="anchor" href="#_module_os_routers_info"></a><a class="link" href="#_module_os_routers_info">Module - os_routers_info</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>os_routers_info</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/os_routers_info.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_os_security_groups_info" class="sect0"><a class="anchor" href="#_module_os_security_groups_info"></a><a class="link" href="#_module_os_security_groups_info">Module - os_security_groups_info</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>os_security_groups_info</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/os_security_groups_info.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_export_modules" class="sect0"><a class="anchor" href="#_export_modules"></a><a class="link" href="#_export_modules">Export Modules</a></h1>
+<div class="sect1">
+<h2 id="_identity_and_access"><a class="anchor" href="#_identity_and_access"></a><a class="link" href="#_identity_and_access">Identity and Access</a></h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<h1 id="_module_export_project" class="sect0"><a class="anchor" href="#_module_export_project"></a><a class="link" href="#_module_export_project">Module - export_project</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_project</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_project.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_export_user" class="sect0"><a class="anchor" href="#_module_export_user"></a><a class="link" href="#_module_export_user">Module - export_user</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_user</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_user.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_export_user_project_role_assignment" class="sect0"><a class="anchor" href="#_module_export_user_project_role_assignment"></a><a class="link" href="#_module_export_user_project_role_assignment">Module - export_user_project_role_assignment</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_user_project_role_assignment</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_user_project_role_assignment.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_export_keypair" class="sect0"><a class="anchor" href="#_module_export_keypair"></a><a class="link" href="#_module_export_keypair">Module - export_keypair</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_keypair</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_keypair.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_compute_resources"><a class="anchor" href="#_compute_resources"></a><a class="link" href="#_compute_resources">Compute Resources</a></h2>
+<div class="sectionbody">
+
 </div>
 </div>
 <h1 id="_module_export_flavor" class="sect0"><a class="anchor" href="#_module_export_flavor"></a><a class="link" href="#_module_export_flavor">Module - export_flavor</a></h1>
@@ -549,6 +749,48 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="listingblock">
 <div class="content">
 <pre>:module: os_migrate/plugins/modules/export_flavor.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<h1 id="_module_export_workload" class="sect0"><a class="anchor" href="#_module_export_workload"></a><a class="link" href="#_module_export_workload">Module - export_workload</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_workload</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_workload.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_storage_resources"><a class="anchor" href="#_storage_resources"></a><a class="link" href="#_storage_resources">Storage Resources</a></h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<h1 id="_module_export_detached_volume" class="sect0"><a class="anchor" href="#_module_export_detached_volume"></a><a class="link" href="#_module_export_detached_volume">Module - export_detached_volume</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>export_detached_volume</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/export_detached_volume.py
 :documentation: true
 :examples: true</pre>
 </div>
@@ -589,22 +831,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 :examples: true</pre>
 </div>
 </div>
-<h1 id="_module_export_keypair" class="sect0"><a class="anchor" href="#_module_export_keypair"></a><a class="link" href="#_module_export_keypair">Module - export_keypair</a></h1>
-<div class="paragraph">
-<p>This module provides for the following ansible plugin:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>export_keypair</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>:module: os_migrate/plugins/modules/export_keypair.py
-:documentation: true
-:examples: true</pre>
+<div class="sect1">
+<h2 id="_network_resources"><a class="anchor" href="#_network_resources"></a><a class="link" href="#_network_resources">Network Resources</a></h2>
+<div class="sectionbody">
+
 </div>
 </div>
 <h1 id="_module_export_network" class="sect0"><a class="anchor" href="#_module_export_network"></a><a class="link" href="#_module_export_network">Module - export_network</a></h1>
@@ -625,20 +855,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 :examples: true</pre>
 </div>
 </div>
-<h1 id="_module_export_project" class="sect0"><a class="anchor" href="#_module_export_project"></a><a class="link" href="#_module_export_project">Module - export_project</a></h1>
+<h1 id="_module_export_subnet" class="sect0"><a class="anchor" href="#_module_export_subnet"></a><a class="link" href="#_module_export_subnet">Module - export_subnet</a></h1>
 <div class="paragraph">
 <p>This module provides for the following ansible plugin:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>export_project</p>
+<p>export_subnet</p>
 </li>
 </ul>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>:module: os_migrate/plugins/modules/export_project.py
+<pre>:module: os_migrate/plugins/modules/export_subnet.py
 :documentation: true
 :examples: true</pre>
 </div>
@@ -715,110 +945,63 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 :examples: true</pre>
 </div>
 </div>
-<h1 id="_module_export_subnet" class="sect0"><a class="anchor" href="#_module_export_subnet"></a><a class="link" href="#_module_export_subnet">Module - export_subnet</a></h1>
+<h1 id="_import_modules" class="sect0"><a class="anchor" href="#_import_modules"></a><a class="link" href="#_import_modules">Import Modules</a></h1>
+<div class="sect1">
+<h2 id="_identity_and_access_2"><a class="anchor" href="#_identity_and_access_2"></a><a class="link" href="#_identity_and_access_2">Identity and Access</a></h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<h1 id="_module_import_project" class="sect0"><a class="anchor" href="#_module_import_project"></a><a class="link" href="#_module_import_project">Module - import_project</a></h1>
 <div class="paragraph">
 <p>This module provides for the following ansible plugin:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>export_subnet</p>
+<p>import_project</p>
 </li>
 </ul>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>:module: os_migrate/plugins/modules/export_subnet.py
+<pre>:module: os_migrate/plugins/modules/import_project.py
 :documentation: true
 :examples: true</pre>
 </div>
 </div>
-<h1 id="_module_export_user" class="sect0"><a class="anchor" href="#_module_export_user"></a><a class="link" href="#_module_export_user">Module - export_user</a></h1>
+<h1 id="_module_import_user" class="sect0"><a class="anchor" href="#_module_import_user"></a><a class="link" href="#_module_import_user">Module - import_user</a></h1>
 <div class="paragraph">
 <p>This module provides for the following ansible plugin:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>export_user</p>
+<p>import_user</p>
 </li>
 </ul>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>:module: os_migrate/plugins/modules/export_user.py
+<pre>:module: os_migrate/plugins/modules/import_user.py
 :documentation: true
 :examples: true</pre>
 </div>
 </div>
-<h1 id="_module_export_user_project_role_assignment" class="sect0"><a class="anchor" href="#_module_export_user_project_role_assignment"></a><a class="link" href="#_module_export_user_project_role_assignment">Module - export_user_project_role_assignment</a></h1>
+<h1 id="_module_import_user_project_role_assignment" class="sect0"><a class="anchor" href="#_module_import_user_project_role_assignment"></a><a class="link" href="#_module_import_user_project_role_assignment">Module - import_user_project_role_assignment</a></h1>
 <div class="paragraph">
 <p>This module provides for the following ansible plugin:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>export_user_project_role_assignment</p>
+<p>import_user_project_role_assignment</p>
 </li>
 </ul>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>:module: os_migrate/plugins/modules/export_user_project_role_assignment.py
-:documentation: true
-:examples: true</pre>
-</div>
-</div>
-<h1 id="_module_export_workload" class="sect0"><a class="anchor" href="#_module_export_workload"></a><a class="link" href="#_module_export_workload">Module - export_workload</a></h1>
-<div class="paragraph">
-<p>This module provides for the following ansible plugin:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>export_workload</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>:module: os_migrate/plugins/modules/export_workload.py
-:documentation: true
-:examples: true</pre>
-</div>
-</div>
-<h1 id="_module_import_flavor" class="sect0"><a class="anchor" href="#_module_import_flavor"></a><a class="link" href="#_module_import_flavor">Module - import_flavor</a></h1>
-<div class="paragraph">
-<p>This module provides for the following ansible plugin:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>import_flavor</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>:module: os_migrate/plugins/modules/import_flavor.py
-:documentation: true
-:examples: true</pre>
-</div>
-</div>
-<h1 id="_module_import_image" class="sect0"><a class="anchor" href="#_module_import_image"></a><a class="link" href="#_module_import_image">Module - import_image</a></h1>
-<div class="paragraph">
-<p>This module provides for the following ansible plugin:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>import_image</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>:module: os_migrate/plugins/modules/import_image.py
+<pre>:module: os_migrate/plugins/modules/import_user_project_role_assignment.py
 :documentation: true
 :examples: true</pre>
 </div>
@@ -841,6 +1024,60 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 :examples: true</pre>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_compute_resources_2"><a class="anchor" href="#_compute_resources_2"></a><a class="link" href="#_compute_resources_2">Compute Resources</a></h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<h1 id="_module_import_flavor" class="sect0"><a class="anchor" href="#_module_import_flavor"></a><a class="link" href="#_module_import_flavor">Module - import_flavor</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_flavor</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_flavor.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_storage_resources_2"><a class="anchor" href="#_storage_resources_2"></a><a class="link" href="#_storage_resources_2">Storage Resources</a></h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<h1 id="_module_import_image" class="sect0"><a class="anchor" href="#_module_import_image"></a><a class="link" href="#_module_import_image">Module - import_image</a></h1>
+<div class="paragraph">
+<p>This module provides for the following ansible plugin:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import_image</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:module: os_migrate/plugins/modules/import_image.py
+:documentation: true
+:examples: true</pre>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_network_resources_2"><a class="anchor" href="#_network_resources_2"></a><a class="link" href="#_network_resources_2">Network Resources</a></h2>
+<div class="sectionbody">
+
+</div>
+</div>
 <h1 id="_module_import_network" class="sect0"><a class="anchor" href="#_module_import_network"></a><a class="link" href="#_module_import_network">Module - import_network</a></h1>
 <div class="paragraph">
 <p>This module provides for the following ansible plugin:</p>
@@ -859,20 +1096,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 :examples: true</pre>
 </div>
 </div>
-<h1 id="_module_import_project" class="sect0"><a class="anchor" href="#_module_import_project"></a><a class="link" href="#_module_import_project">Module - import_project</a></h1>
+<h1 id="_module_import_subnet" class="sect0"><a class="anchor" href="#_module_import_subnet"></a><a class="link" href="#_module_import_subnet">Module - import_subnet</a></h1>
 <div class="paragraph">
 <p>This module provides for the following ansible plugin:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>import_project</p>
+<p>import_subnet</p>
 </li>
 </ul>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>:module: os_migrate/plugins/modules/import_project.py
+<pre>:module: os_migrate/plugins/modules/import_subnet.py
 :documentation: true
 :examples: true</pre>
 </div>
@@ -949,58 +1186,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 :examples: true</pre>
 </div>
 </div>
-<h1 id="_module_import_subnet" class="sect0"><a class="anchor" href="#_module_import_subnet"></a><a class="link" href="#_module_import_subnet">Module - import_subnet</a></h1>
-<div class="paragraph">
-<p>This module provides for the following ansible plugin:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>import_subnet</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>:module: os_migrate/plugins/modules/import_subnet.py
-:documentation: true
-:examples: true</pre>
-</div>
-</div>
-<h1 id="_module_import_user" class="sect0"><a class="anchor" href="#_module_import_user"></a><a class="link" href="#_module_import_user">Module - import_user</a></h1>
-<div class="paragraph">
-<p>This module provides for the following ansible plugin:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>import_user</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>:module: os_migrate/plugins/modules/import_user.py
-:documentation: true
-:examples: true</pre>
-</div>
-</div>
-<h1 id="_module_import_user_project_role_assignment" class="sect0"><a class="anchor" href="#_module_import_user_project_role_assignment"></a><a class="link" href="#_module_import_user_project_role_assignment">Module - import_user_project_role_assignment</a></h1>
-<div class="paragraph">
-<p>This module provides for the following ansible plugin:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>import_user_project_role_assignment</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>:module: os_migrate/plugins/modules/import_user_project_role_assignment.py
-:documentation: true
-:examples: true</pre>
+<div class="sect1">
+<h2 id="_volume_import_and_transfer"><a class="anchor" href="#_volume_import_and_transfer"></a><a class="link" href="#_volume_import_and_transfer">Volume Import and Transfer</a></h2>
+<div class="sectionbody">
+
 </div>
 </div>
 <h1 id="_module_import_volumes_export" class="sect0"><a class="anchor" href="#_module_import_volumes_export"></a><a class="link" href="#_module_import_volumes_export">Module - import_volumes_export</a></h1>
@@ -1055,6 +1244,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <pre>:module: os_migrate/plugins/modules/import_volumes_transfer.py
 :documentation: true
 :examples: true</pre>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_workload_import_and_management"><a class="anchor" href="#_workload_import_and_management"></a><a class="link" href="#_workload_import_and_management">Workload Import and Management</a></h2>
+<div class="sectionbody">
+
 </div>
 </div>
 <h1 id="_module_import_workload_create_instance" class="sect0"><a class="anchor" href="#_module_import_workload_create_instance"></a><a class="link" href="#_module_import_workload_create_instance">Module - import_workload_create_instance</a></h1>
@@ -1201,96 +1396,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 :examples: true</pre>
 </div>
 </div>
-<h1 id="_module_os_conversion_host_info" class="sect0"><a class="anchor" href="#_module_os_conversion_host_info"></a><a class="link" href="#_module_os_conversion_host_info">Module - os_conversion_host_info</a></h1>
-<div class="paragraph">
-<p>This module provides for the following ansible plugin:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>os_conversion_host_info</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>:module: os_migrate/plugins/modules/os_conversion_host_info.py
-:documentation: true
-:examples: true</pre>
-</div>
-</div>
-<h1 id="_module_os_keypairs_info" class="sect0"><a class="anchor" href="#_module_os_keypairs_info"></a><a class="link" href="#_module_os_keypairs_info">Module - os_keypairs_info</a></h1>
-<div class="paragraph">
-<p>This module provides for the following ansible plugin:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>os_keypairs_info</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>:module: os_migrate/plugins/modules/os_keypairs_info.py
-:documentation: true
-:examples: true</pre>
-</div>
-</div>
-<h1 id="_module_os_role_assignments_info" class="sect0"><a class="anchor" href="#_module_os_role_assignments_info"></a><a class="link" href="#_module_os_role_assignments_info">Module - os_role_assignments_info</a></h1>
-<div class="paragraph">
-<p>This module provides for the following ansible plugin:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>os_role_assignments_info</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>:module: os_migrate/plugins/modules/os_role_assignments_info.py
-:documentation: true
-:examples: true</pre>
-</div>
-</div>
-<h1 id="_module_os_routers_info" class="sect0"><a class="anchor" href="#_module_os_routers_info"></a><a class="link" href="#_module_os_routers_info">Module - os_routers_info</a></h1>
-<div class="paragraph">
-<p>This module provides for the following ansible plugin:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>os_routers_info</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>:module: os_migrate/plugins/modules/os_routers_info.py
-:documentation: true
-:examples: true</pre>
-</div>
-</div>
-<h1 id="_module_os_security_groups_info" class="sect0"><a class="anchor" href="#_module_os_security_groups_info"></a><a class="link" href="#_module_os_security_groups_info">Module - os_security_groups_info</a></h1>
-<div class="paragraph">
-<p>This module provides for the following ansible plugin:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>os_security_groups_info</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>:module: os_migrate/plugins/modules/os_security_groups_info.py
-:documentation: true
-:examples: true</pre>
-</div>
-</div>
+<h1 id="_utilities_and_validation" class="sect0"><a class="anchor" href="#_utilities_and_validation"></a><a class="link" href="#_utilities_and_validation">Utilities and Validation</a></h1>
+
 <h1 id="_module_read_resources" class="sect0"><a class="anchor" href="#_module_read_resources"></a><a class="link" href="#_module_read_resources">Module - read_resources</a></h1>
 <div class="paragraph">
 <p>This module provides for the following ansible plugin:</p>
@@ -1330,7 +1437,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-09-17 19:54:48 -0400
+Last updated 2025-09-17 20:51:58 -0400
 </div>
 </div>
 <script src="../../assets/js/toc-fold.js"></script>

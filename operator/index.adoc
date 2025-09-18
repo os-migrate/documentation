@@ -5,43 +5,43 @@ This guide provides comprehensive information for operators planning and executi
 :toc:
 :toclevels: 3
 
-// Overview
+== Overview
 include::chapter_os-migrate-overview.adoc[leveloffset=+1]
 
-// Planning and Setup
+== Planning and Setup
 include::chapter_os-migrate-capacity-planning.adoc[leveloffset=+1]
 
 include::chapter_os-migrate-conversion-host-guide.adoc[leveloffset=+1]
 
 include::chapter_os-migrate-performance-expectations.adoc[leveloffset=+1]
 
-// Installation
+== Installation
 include::chapter_os-migrate-install-from-galaxy.adoc[leveloffset=+1]
 
 include::chapter_os-migrate-install-from-source.adoc[leveloffset=+1]
 
 include::chapter_os-migrate-aee.adoc[leveloffset=+1]
 
-// Migration Guides
+== Migration Guides
 include::chapter_os-migrate-walkthrough.adoc[leveloffset=+1]
 
 include::chapter_os-migrate-process-summary.adoc[leveloffset=+1]
 
 include::chapter_os-migrate-vmware-guide.adoc[leveloffset=+1]
 
-// Configuration and Usage
+== Configuration and Usage
 include::chapter_os-migrate-migration-parameters-guide.adoc[leveloffset=+1]
 
 include::chapter_os-migrate-variables-guide.adoc[leveloffset=+1]
 
 include::chapter_os-migrate-usage-notes.adoc[leveloffset=+1]
 
-// Maintenance and Support
+== Maintenance and Support
 include::chapter_os-migrate-troubleshooting.adoc[leveloffset=+1]
 
 include::chapter_os-migrate-upgrade.adoc[leveloffset=+1]
 
 include::chapter_os-migrate-contributing.adoc[leveloffset=+1]
 
-// Reference
+== Reference
 include::chapter_os-migrate-glossary.adoc[leveloffset=+1]

@@ -1,78 +1,91 @@
 = Documented roles in os-migrate
 :toc:
+:toclevels: 3
 
-== Contents
+== Infrastructure Setup
+include::role-conversion_host.adoc[leveloffset=+1]
 
-include::role-conversion_host.adoc[]
+include::role-conversion_host_content.adoc[leveloffset=+1]
 
-include::role-conversion_host_content.adoc[]
+== Core Setup and Validation
+include::role-prelude_common.adoc[leveloffset=+1]
 
-include::role-export_detached_volumes.adoc[]
+include::role-prelude_dst.adoc[leveloffset=+1]
 
-include::role-export_flavors.adoc[]
+include::role-prelude_src.adoc[leveloffset=+1]
 
-include::role-export_images.adoc[]
+include::role-validate_data_dir.adoc[leveloffset=+1]
 
-include::role-export_keypairs.adoc[]
+include::role-validate_resource_files.adoc[leveloffset=+1]
 
-include::role-export_networks.adoc[]
+== Export Roles
 
-include::role-export_projects.adoc[]
+=== Identity and Access
+include::role-export_projects.adoc[leveloffset=+2]
 
-include::role-export_router_interfaces.adoc[]
+include::role-export_users.adoc[leveloffset=+2]
 
-include::role-export_routers.adoc[]
+include::role-export_user_project_role_assignment.adoc[leveloffset=+2]
 
-include::role-export_security_group_rules.adoc[]
+include::role-export_keypairs.adoc[leveloffset=+2]
 
-include::role-export_security_groups.adoc[]
+include::role-export_users_keypairs.adoc[leveloffset=+2]
 
-include::role-export_subnets.adoc[]
+=== Compute Resources
+include::role-export_flavors.adoc[leveloffset=+2]
 
-include::role-export_user_project_role_assignment.adoc[]
+include::role-export_workloads.adoc[leveloffset=+2]
 
-include::role-export_users.adoc[]
+=== Storage Resources
+include::role-export_detached_volumes.adoc[leveloffset=+2]
 
-include::role-export_users_keypairs.adoc[]
+include::role-export_images.adoc[leveloffset=+2]
 
-include::role-export_workloads.adoc[]
+=== Network Resources
+include::role-export_networks.adoc[leveloffset=+2]
 
-include::role-import_detached_volumes.adoc[]
+include::role-export_subnets.adoc[leveloffset=+2]
 
-include::role-import_flavors.adoc[]
+include::role-export_routers.adoc[leveloffset=+2]
 
-include::role-import_images.adoc[]
+include::role-export_router_interfaces.adoc[leveloffset=+2]
 
-include::role-import_keypairs.adoc[]
+include::role-export_security_groups.adoc[leveloffset=+2]
 
-include::role-import_networks.adoc[]
+include::role-export_security_group_rules.adoc[leveloffset=+2]
 
-include::role-import_projects.adoc[]
+== Import Roles
 
-include::role-import_router_interfaces.adoc[]
+=== Identity and Access
+include::role-import_projects.adoc[leveloffset=+2]
 
-include::role-import_routers.adoc[]
+include::role-import_users.adoc[leveloffset=+2]
 
-include::role-import_security_group_rules.adoc[]
+include::role-import_user_project_role_assignment.adoc[leveloffset=+2]
 
-include::role-import_security_groups.adoc[]
+include::role-import_keypairs.adoc[leveloffset=+2]
 
-include::role-import_subnets.adoc[]
+include::role-import_users_keypairs.adoc[leveloffset=+2]
 
-include::role-import_user_project_role_assignment.adoc[]
+=== Compute Resources
+include::role-import_flavors.adoc[leveloffset=+2]
 
-include::role-import_users.adoc[]
+include::role-import_workloads.adoc[leveloffset=+2]
 
-include::role-import_users_keypairs.adoc[]
+=== Storage Resources
+include::role-import_detached_volumes.adoc[leveloffset=+2]
 
-include::role-import_workloads.adoc[]
+include::role-import_images.adoc[leveloffset=+2]
 
-include::role-prelude_common.adoc[]
+=== Network Resources
+include::role-import_networks.adoc[leveloffset=+2]
 
-include::role-prelude_dst.adoc[]
+include::role-import_subnets.adoc[leveloffset=+2]
 
-include::role-prelude_src.adoc[]
+include::role-import_routers.adoc[leveloffset=+2]
 
-include::role-validate_data_dir.adoc[]
+include::role-import_router_interfaces.adoc[leveloffset=+2]
 
-include::role-validate_resource_files.adoc[]
+include::role-import_security_groups.adoc[leveloffset=+2]
+
+include::role-import_security_group_rules.adoc[leveloffset=+2]

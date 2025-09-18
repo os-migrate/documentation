@@ -444,51 +444,86 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel0">
 <li><a href="#_documented_roles_in_os_migrate">Documented roles in os-migrate</a></li>
-<li><a href="#_contents">Contents</a></li>
+<li><a href="#_infrastructure_setup">Infrastructure Setup</a></li>
 <li><a href="#_role_conversion_host">Role - conversion_host</a></li>
 <li><a href="#_role_conversion_host_content">Role - conversion_host_content</a></li>
-<li><a href="#_role_export_detached_volumes">Role - export_detached_volumes</a></li>
-<li><a href="#_role_export_flavors">Role - export_flavors</a></li>
-<li><a href="#_role_export_images">Role - export_images</a></li>
-<li><a href="#_role_export_keypairs">Role - export_keypairs</a></li>
-<li><a href="#_role_export_networks">Role - export_networks</a></li>
-<li><a href="#_role_export_projects">Role - export_projects</a></li>
-<li><a href="#_role_export_router_interfaces">Role - export_router_interfaces</a></li>
-<li><a href="#_role_export_routers">Role - export_routers</a></li>
-<li><a href="#_role_export_security_group_rules">Role - export_security_group_rules</a></li>
-<li><a href="#_role_export_security_groups">Role - export_security_groups</a></li>
-<li><a href="#_role_export_subnets">Role - export_subnets</a></li>
-<li><a href="#_role_export_user_project_role_assignments">Role - export_user_project_role_assignments</a></li>
-<li><a href="#_role_export_users">Role - export_users</a></li>
-<li><a href="#_role_export_users_keypairs">Role - export_users_keypairs</a></li>
-<li><a href="#_role_export_workloads">Role - export_workloads</a></li>
-<li><a href="#_role_import_detached_volumes">Role - import_detached_volumes</a></li>
-<li><a href="#_role_import_flavors">Role - import_flavors</a></li>
-<li><a href="#_role_import_images">Role - import_images</a></li>
-<li><a href="#_role_import_keypairs">Role - import_keypairs</a></li>
-<li><a href="#_role_import_networks">Role - import_networks</a></li>
-<li><a href="#_role_import_projects">Role - import_projects</a></li>
-<li><a href="#_role_import_router_interfaces">Role - import_router_interfaces</a></li>
-<li><a href="#_role_import_routers">Role - import_routers</a></li>
-<li><a href="#_role_import_security_group_rules">Role - import_security_group_rules</a></li>
-<li><a href="#_role_import_security_groups">Role - import_security_groups</a></li>
-<li><a href="#_role_import_subnets">Role - import_subnets</a></li>
-<li><a href="#_role_import_user_project_role_assignments">Role - import_user_project_role_assignments</a></li>
-<li><a href="#_role_import_users">Role - import_users</a></li>
-<li><a href="#_role_import_users_keypairs">Role - import_users_keypairs</a></li>
-<li><a href="#_role_import_workloads">Role - import_workloads</a></li>
+<li><a href="#_core_setup_and_validation">Core Setup and Validation</a></li>
 <li><a href="#_role_prelude_common">Role - prelude_common</a></li>
 <li><a href="#_role_prelude_dst">Role - prelude_dst</a></li>
 <li><a href="#_role_prelude_src">Role - prelude_src</a></li>
 <li><a href="#_role_validate_data_dir">Role - validate_data_dir</a></li>
 <li><a href="#_role_validate_resource_files">Role - validate_resource_files</a></li>
+<li><a href="#_export_roles">Export Roles</a>
+<ul class="sectlevel1">
+<li><a href="#_identity_and_access">Identity and Access</a></li>
+</ul>
+</li>
+<li><a href="#_role_export_projects">Role - export_projects</a></li>
+<li><a href="#_role_export_users">Role - export_users</a></li>
+<li><a href="#_role_export_user_project_role_assignments">Role - export_user_project_role_assignments</a></li>
+<li><a href="#_role_export_keypairs">Role - export_keypairs</a></li>
+<li><a href="#_role_export_users_keypairs">Role - export_users_keypairs</a>
+<ul class="sectlevel1">
+<li><a href="#_compute_resources">Compute Resources</a></li>
+</ul>
+</li>
+<li><a href="#_role_export_flavors">Role - export_flavors</a></li>
+<li><a href="#_role_export_workloads">Role - export_workloads</a>
+<ul class="sectlevel1">
+<li><a href="#_storage_resources">Storage Resources</a></li>
+</ul>
+</li>
+<li><a href="#_role_export_detached_volumes">Role - export_detached_volumes</a></li>
+<li><a href="#_role_export_images">Role - export_images</a>
+<ul class="sectlevel1">
+<li><a href="#_network_resources">Network Resources</a></li>
+</ul>
+</li>
+<li><a href="#_role_export_networks">Role - export_networks</a></li>
+<li><a href="#_role_export_subnets">Role - export_subnets</a></li>
+<li><a href="#_role_export_routers">Role - export_routers</a></li>
+<li><a href="#_role_export_router_interfaces">Role - export_router_interfaces</a></li>
+<li><a href="#_role_export_security_groups">Role - export_security_groups</a></li>
+<li><a href="#_role_export_security_group_rules">Role - export_security_group_rules</a></li>
+<li><a href="#_import_roles">Import Roles</a>
+<ul class="sectlevel1">
+<li><a href="#_identity_and_access_2">Identity and Access</a></li>
+</ul>
+</li>
+<li><a href="#_role_import_projects">Role - import_projects</a></li>
+<li><a href="#_role_import_users">Role - import_users</a></li>
+<li><a href="#_role_import_user_project_role_assignments">Role - import_user_project_role_assignments</a></li>
+<li><a href="#_role_import_keypairs">Role - import_keypairs</a></li>
+<li><a href="#_role_import_users_keypairs">Role - import_users_keypairs</a>
+<ul class="sectlevel1">
+<li><a href="#_compute_resources_2">Compute Resources</a></li>
+</ul>
+</li>
+<li><a href="#_role_import_flavors">Role - import_flavors</a></li>
+<li><a href="#_role_import_workloads">Role - import_workloads</a>
+<ul class="sectlevel1">
+<li><a href="#_storage_resources_2">Storage Resources</a></li>
+</ul>
+</li>
+<li><a href="#_role_import_detached_volumes">Role - import_detached_volumes</a></li>
+<li><a href="#_role_import_images">Role - import_images</a>
+<ul class="sectlevel1">
+<li><a href="#_network_resources_2">Network Resources</a></li>
+</ul>
+</li>
+<li><a href="#_role_import_networks">Role - import_networks</a></li>
+<li><a href="#_role_import_subnets">Role - import_subnets</a></li>
+<li><a href="#_role_import_routers">Role - import_routers</a></li>
+<li><a href="#_role_import_router_interfaces">Role - import_router_interfaces</a></li>
+<li><a href="#_role_import_security_groups">Role - import_security_groups</a></li>
+<li><a href="#_role_import_security_group_rules">Role - import_security_group_rules</a></li>
 </ul>
 </div>
 </div>
 <div id="content">
 <h1 id="_documented_roles_in_os_migrate" class="sect0"><a class="anchor" href="#_documented_roles_in_os_migrate"></a><a class="link" href="#_documented_roles_in_os_migrate">Documented roles in os-migrate</a></h1>
 
-<h1 id="_contents" class="sect0"><a class="anchor" href="#_contents"></a><a class="link" href="#_contents">Contents</a></h1>
+<h1 id="_infrastructure_setup" class="sect0"><a class="anchor" href="#_infrastructure_setup"></a><a class="link" href="#_infrastructure_setup">Infrastructure Setup</a></h1>
 
 <h1 id="_role_conversion_host" class="sect0"><a class="anchor" href="#_role_conversion_host"></a><a class="link" href="#_role_conversion_host">Role - conversion_host</a></h1>
 <div class="olist loweralpha">
@@ -508,294 +543,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 </ol>
 </div>
-<h1 id="_role_export_detached_volumes" class="sect0"><a class="anchor" href="#_role_export_detached_volumes"></a><a class="link" href="#_role_export_detached_volumes">Role - export_detached_volumes</a></h1>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>ansibleautoplugin::
-:role: os_migrate/roles/export_detached_volumes</p>
-</li>
-</ol>
-</div>
-<h1 id="_role_export_flavors" class="sect0"><a class="anchor" href="#_role_export_flavors"></a><a class="link" href="#_role_export_flavors">Role - export_flavors</a></h1>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>ansibleautoplugin::
-:role: os_migrate/roles/export_flavors</p>
-</li>
-</ol>
-</div>
-<h1 id="_role_export_images" class="sect0"><a class="anchor" href="#_role_export_images"></a><a class="link" href="#_role_export_images">Role - export_images</a></h1>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>ansibleautoplugin::
-:role: os_migrate/roles/export_images</p>
-</li>
-</ol>
-</div>
-<h1 id="_role_export_keypairs" class="sect0"><a class="anchor" href="#_role_export_keypairs"></a><a class="link" href="#_role_export_keypairs">Role - export_keypairs</a></h1>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>ansibleautoplugin::
-:role: os_migrate/roles/export_keypairs</p>
-</li>
-</ol>
-</div>
-<h1 id="_role_export_networks" class="sect0"><a class="anchor" href="#_role_export_networks"></a><a class="link" href="#_role_export_networks">Role - export_networks</a></h1>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>ansibleautoplugin::
-:role: os_migrate/roles/export_networks</p>
-</li>
-</ol>
-</div>
-<h1 id="_role_export_projects" class="sect0"><a class="anchor" href="#_role_export_projects"></a><a class="link" href="#_role_export_projects">Role - export_projects</a></h1>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>ansibleautoplugin::
-:role: os_migrate/roles/export_projects</p>
-</li>
-</ol>
-</div>
-<h1 id="_role_export_router_interfaces" class="sect0"><a class="anchor" href="#_role_export_router_interfaces"></a><a class="link" href="#_role_export_router_interfaces">Role - export_router_interfaces</a></h1>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>ansibleautoplugin::
-:role: os_migrate/roles/export_router_interfaces</p>
-</li>
-</ol>
-</div>
-<h1 id="_role_export_routers" class="sect0"><a class="anchor" href="#_role_export_routers"></a><a class="link" href="#_role_export_routers">Role - export_routers</a></h1>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>ansibleautoplugin::
-:role: os_migrate/roles/export_routers</p>
-</li>
-</ol>
-</div>
-<h1 id="_role_export_security_group_rules" class="sect0"><a class="anchor" href="#_role_export_security_group_rules"></a><a class="link" href="#_role_export_security_group_rules">Role - export_security_group_rules</a></h1>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>ansibleautoplugin::
-:role: os_migrate/roles/export_security_group_rules</p>
-</li>
-</ol>
-</div>
-<h1 id="_role_export_security_groups" class="sect0"><a class="anchor" href="#_role_export_security_groups"></a><a class="link" href="#_role_export_security_groups">Role - export_security_groups</a></h1>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>ansibleautoplugin::
-:role: os_migrate/roles/export_security_groups</p>
-</li>
-</ol>
-</div>
-<h1 id="_role_export_subnets" class="sect0"><a class="anchor" href="#_role_export_subnets"></a><a class="link" href="#_role_export_subnets">Role - export_subnets</a></h1>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>ansibleautoplugin::
-:role: os_migrate/roles/export_subnets</p>
-</li>
-</ol>
-</div>
-<h1 id="_role_export_user_project_role_assignments" class="sect0"><a class="anchor" href="#_role_export_user_project_role_assignments"></a><a class="link" href="#_role_export_user_project_role_assignments">Role - export_user_project_role_assignments</a></h1>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>ansibleautoplugin::
-:role: os_migrate/roles/export_user_project_role_assignments</p>
-</li>
-</ol>
-</div>
-<h1 id="_role_export_users" class="sect0"><a class="anchor" href="#_role_export_users"></a><a class="link" href="#_role_export_users">Role - export_users</a></h1>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>ansibleautoplugin::
-:role: os_migrate/roles/export_users</p>
-</li>
-</ol>
-</div>
-<h1 id="_role_export_users_keypairs" class="sect0"><a class="anchor" href="#_role_export_users_keypairs"></a><a class="link" href="#_role_export_users_keypairs">Role - export_users_keypairs</a></h1>
-<div class="paragraph">
-<p>This role is meant to be run with admin privileges. It imports Nova
-keypairs matching <code>os_migrate_keypairs_filter</code> for all users
-matching <code>os_migrate_users_filter</code>.</p>
-</div>
-<div class="paragraph">
-<p>When using this role, make sure you have recent enough OpenStack SDK
-(0.57+).</p>
-</div>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>ansibleautoplugin::
-:role: os_migrate/roles/export_users_keypairs</p>
-</li>
-</ol>
-</div>
-<h1 id="_role_export_workloads" class="sect0"><a class="anchor" href="#_role_export_workloads"></a><a class="link" href="#_role_export_workloads">Role - export_workloads</a></h1>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>ansibleautoplugin::
-:role: os_migrate/roles/export_workloads</p>
-</li>
-</ol>
-</div>
-<h1 id="_role_import_detached_volumes" class="sect0"><a class="anchor" href="#_role_import_detached_volumes"></a><a class="link" href="#_role_import_detached_volumes">Role - import_detached_volumes</a></h1>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>ansibleautoplugin::
-:role: os_migrate/roles/import_detached_volumes</p>
-</li>
-</ol>
-</div>
-<h1 id="_role_import_flavors" class="sect0"><a class="anchor" href="#_role_import_flavors"></a><a class="link" href="#_role_import_flavors">Role - import_flavors</a></h1>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>ansibleautoplugin::
-:role: os_migrate/roles/import_flavors</p>
-</li>
-</ol>
-</div>
-<h1 id="_role_import_images" class="sect0"><a class="anchor" href="#_role_import_images"></a><a class="link" href="#_role_import_images">Role - import_images</a></h1>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>ansibleautoplugin::
-:role: os_migrate/roles/import_images</p>
-</li>
-</ol>
-</div>
-<h1 id="_role_import_keypairs" class="sect0"><a class="anchor" href="#_role_import_keypairs"></a><a class="link" href="#_role_import_keypairs">Role - import_keypairs</a></h1>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>ansibleautoplugin::
-:role: os_migrate/roles/import_keypairs</p>
-</li>
-</ol>
-</div>
-<h1 id="_role_import_networks" class="sect0"><a class="anchor" href="#_role_import_networks"></a><a class="link" href="#_role_import_networks">Role - import_networks</a></h1>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>ansibleautoplugin::
-:role: os_migrate/roles/import_networks</p>
-</li>
-</ol>
-</div>
-<h1 id="_role_import_projects" class="sect0"><a class="anchor" href="#_role_import_projects"></a><a class="link" href="#_role_import_projects">Role - import_projects</a></h1>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>ansibleautoplugin::
-:role: os_migrate/roles/import_projects</p>
-</li>
-</ol>
-</div>
-<h1 id="_role_import_router_interfaces" class="sect0"><a class="anchor" href="#_role_import_router_interfaces"></a><a class="link" href="#_role_import_router_interfaces">Role - import_router_interfaces</a></h1>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>ansibleautoplugin::
-:role: os_migrate/roles/import_router_interfaces</p>
-</li>
-</ol>
-</div>
-<h1 id="_role_import_routers" class="sect0"><a class="anchor" href="#_role_import_routers"></a><a class="link" href="#_role_import_routers">Role - import_routers</a></h1>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>ansibleautoplugin::
-:role: os_migrate/roles/import_routers</p>
-</li>
-</ol>
-</div>
-<h1 id="_role_import_security_group_rules" class="sect0"><a class="anchor" href="#_role_import_security_group_rules"></a><a class="link" href="#_role_import_security_group_rules">Role - import_security_group_rules</a></h1>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>ansibleautoplugin::
-:role: os_migrate/roles/import_security_group_rules</p>
-</li>
-</ol>
-</div>
-<h1 id="_role_import_security_groups" class="sect0"><a class="anchor" href="#_role_import_security_groups"></a><a class="link" href="#_role_import_security_groups">Role - import_security_groups</a></h1>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>ansibleautoplugin::
-:role: os_migrate/roles/import_security_groups</p>
-</li>
-</ol>
-</div>
-<h1 id="_role_import_subnets" class="sect0"><a class="anchor" href="#_role_import_subnets"></a><a class="link" href="#_role_import_subnets">Role - import_subnets</a></h1>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>ansibleautoplugin::
-:role: os_migrate/roles/import_subnets</p>
-</li>
-</ol>
-</div>
-<h1 id="_role_import_user_project_role_assignments" class="sect0"><a class="anchor" href="#_role_import_user_project_role_assignments"></a><a class="link" href="#_role_import_user_project_role_assignments">Role - import_user_project_role_assignments</a></h1>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>ansibleautoplugin::
-:role: os_migrate/roles/import_user_project_role_assignments</p>
-</li>
-</ol>
-</div>
-<h1 id="_role_import_users" class="sect0"><a class="anchor" href="#_role_import_users"></a><a class="link" href="#_role_import_users">Role - import_users</a></h1>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>ansibleautoplugin::
-:role: os_migrate/roles/import_users</p>
-</li>
-</ol>
-</div>
-<h1 id="_role_import_users_keypairs" class="sect0"><a class="anchor" href="#_role_import_users_keypairs"></a><a class="link" href="#_role_import_users_keypairs">Role - import_users_keypairs</a></h1>
-<div class="paragraph">
-<p>This role is meant to be run with admin privileges. It exports Nova
-keypairs matching <code>os_migrate_keypairs_filter</code> for all users
-matching <code>os_migrate_users_filter</code>.</p>
-</div>
-<div class="paragraph">
-<p>When using this role, make sure you have recent enough OpenStack SDK
-(0.57+).</p>
-</div>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>ansibleautoplugin::
-:role: os_migrate/roles/import_users_keypairs</p>
-</li>
-</ol>
-</div>
-<h1 id="_role_import_workloads" class="sect0"><a class="anchor" href="#_role_import_workloads"></a><a class="link" href="#_role_import_workloads">Role - import_workloads</a></h1>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>ansibleautoplugin::
-:role: os_migrate/roles/import_workloads</p>
-</li>
-</ol>
-</div>
+<h1 id="_core_setup_and_validation" class="sect0"><a class="anchor" href="#_core_setup_and_validation"></a><a class="link" href="#_core_setup_and_validation">Core Setup and Validation</a></h1>
+
 <h1 id="_role_prelude_common" class="sect0"><a class="anchor" href="#_role_prelude_common"></a><a class="link" href="#_role_prelude_common">Role - prelude_common</a></h1>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
@@ -841,10 +590,348 @@ matching <code>os_migrate_users_filter</code>.</p>
 </li>
 </ol>
 </div>
+<h1 id="_export_roles" class="sect0"><a class="anchor" href="#_export_roles"></a><a class="link" href="#_export_roles">Export Roles</a></h1>
+<div class="sect1">
+<h2 id="_identity_and_access"><a class="anchor" href="#_identity_and_access"></a><a class="link" href="#_identity_and_access">Identity and Access</a></h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<h1 id="_role_export_projects" class="sect0"><a class="anchor" href="#_role_export_projects"></a><a class="link" href="#_role_export_projects">Role - export_projects</a></h1>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/export_projects</p>
+</li>
+</ol>
+</div>
+<h1 id="_role_export_users" class="sect0"><a class="anchor" href="#_role_export_users"></a><a class="link" href="#_role_export_users">Role - export_users</a></h1>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/export_users</p>
+</li>
+</ol>
+</div>
+<h1 id="_role_export_user_project_role_assignments" class="sect0"><a class="anchor" href="#_role_export_user_project_role_assignments"></a><a class="link" href="#_role_export_user_project_role_assignments">Role - export_user_project_role_assignments</a></h1>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/export_user_project_role_assignments</p>
+</li>
+</ol>
+</div>
+<h1 id="_role_export_keypairs" class="sect0"><a class="anchor" href="#_role_export_keypairs"></a><a class="link" href="#_role_export_keypairs">Role - export_keypairs</a></h1>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/export_keypairs</p>
+</li>
+</ol>
+</div>
+<h1 id="_role_export_users_keypairs" class="sect0"><a class="anchor" href="#_role_export_users_keypairs"></a><a class="link" href="#_role_export_users_keypairs">Role - export_users_keypairs</a></h1>
+<div class="paragraph">
+<p>This role is meant to be run with admin privileges. It imports Nova
+keypairs matching <code>os_migrate_keypairs_filter</code> for all users
+matching <code>os_migrate_users_filter</code>.</p>
+</div>
+<div class="paragraph">
+<p>When using this role, make sure you have recent enough OpenStack SDK
+(0.57+).</p>
+</div>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/export_users_keypairs</p>
+</li>
+</ol>
+</div>
+<div class="sect1">
+<h2 id="_compute_resources"><a class="anchor" href="#_compute_resources"></a><a class="link" href="#_compute_resources">Compute Resources</a></h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<h1 id="_role_export_flavors" class="sect0"><a class="anchor" href="#_role_export_flavors"></a><a class="link" href="#_role_export_flavors">Role - export_flavors</a></h1>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/export_flavors</p>
+</li>
+</ol>
+</div>
+<h1 id="_role_export_workloads" class="sect0"><a class="anchor" href="#_role_export_workloads"></a><a class="link" href="#_role_export_workloads">Role - export_workloads</a></h1>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/export_workloads</p>
+</li>
+</ol>
+</div>
+<div class="sect1">
+<h2 id="_storage_resources"><a class="anchor" href="#_storage_resources"></a><a class="link" href="#_storage_resources">Storage Resources</a></h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<h1 id="_role_export_detached_volumes" class="sect0"><a class="anchor" href="#_role_export_detached_volumes"></a><a class="link" href="#_role_export_detached_volumes">Role - export_detached_volumes</a></h1>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/export_detached_volumes</p>
+</li>
+</ol>
+</div>
+<h1 id="_role_export_images" class="sect0"><a class="anchor" href="#_role_export_images"></a><a class="link" href="#_role_export_images">Role - export_images</a></h1>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/export_images</p>
+</li>
+</ol>
+</div>
+<div class="sect1">
+<h2 id="_network_resources"><a class="anchor" href="#_network_resources"></a><a class="link" href="#_network_resources">Network Resources</a></h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<h1 id="_role_export_networks" class="sect0"><a class="anchor" href="#_role_export_networks"></a><a class="link" href="#_role_export_networks">Role - export_networks</a></h1>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/export_networks</p>
+</li>
+</ol>
+</div>
+<h1 id="_role_export_subnets" class="sect0"><a class="anchor" href="#_role_export_subnets"></a><a class="link" href="#_role_export_subnets">Role - export_subnets</a></h1>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/export_subnets</p>
+</li>
+</ol>
+</div>
+<h1 id="_role_export_routers" class="sect0"><a class="anchor" href="#_role_export_routers"></a><a class="link" href="#_role_export_routers">Role - export_routers</a></h1>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/export_routers</p>
+</li>
+</ol>
+</div>
+<h1 id="_role_export_router_interfaces" class="sect0"><a class="anchor" href="#_role_export_router_interfaces"></a><a class="link" href="#_role_export_router_interfaces">Role - export_router_interfaces</a></h1>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/export_router_interfaces</p>
+</li>
+</ol>
+</div>
+<h1 id="_role_export_security_groups" class="sect0"><a class="anchor" href="#_role_export_security_groups"></a><a class="link" href="#_role_export_security_groups">Role - export_security_groups</a></h1>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/export_security_groups</p>
+</li>
+</ol>
+</div>
+<h1 id="_role_export_security_group_rules" class="sect0"><a class="anchor" href="#_role_export_security_group_rules"></a><a class="link" href="#_role_export_security_group_rules">Role - export_security_group_rules</a></h1>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/export_security_group_rules</p>
+</li>
+</ol>
+</div>
+<h1 id="_import_roles" class="sect0"><a class="anchor" href="#_import_roles"></a><a class="link" href="#_import_roles">Import Roles</a></h1>
+<div class="sect1">
+<h2 id="_identity_and_access_2"><a class="anchor" href="#_identity_and_access_2"></a><a class="link" href="#_identity_and_access_2">Identity and Access</a></h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<h1 id="_role_import_projects" class="sect0"><a class="anchor" href="#_role_import_projects"></a><a class="link" href="#_role_import_projects">Role - import_projects</a></h1>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/import_projects</p>
+</li>
+</ol>
+</div>
+<h1 id="_role_import_users" class="sect0"><a class="anchor" href="#_role_import_users"></a><a class="link" href="#_role_import_users">Role - import_users</a></h1>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/import_users</p>
+</li>
+</ol>
+</div>
+<h1 id="_role_import_user_project_role_assignments" class="sect0"><a class="anchor" href="#_role_import_user_project_role_assignments"></a><a class="link" href="#_role_import_user_project_role_assignments">Role - import_user_project_role_assignments</a></h1>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/import_user_project_role_assignments</p>
+</li>
+</ol>
+</div>
+<h1 id="_role_import_keypairs" class="sect0"><a class="anchor" href="#_role_import_keypairs"></a><a class="link" href="#_role_import_keypairs">Role - import_keypairs</a></h1>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/import_keypairs</p>
+</li>
+</ol>
+</div>
+<h1 id="_role_import_users_keypairs" class="sect0"><a class="anchor" href="#_role_import_users_keypairs"></a><a class="link" href="#_role_import_users_keypairs">Role - import_users_keypairs</a></h1>
+<div class="paragraph">
+<p>This role is meant to be run with admin privileges. It exports Nova
+keypairs matching <code>os_migrate_keypairs_filter</code> for all users
+matching <code>os_migrate_users_filter</code>.</p>
+</div>
+<div class="paragraph">
+<p>When using this role, make sure you have recent enough OpenStack SDK
+(0.57+).</p>
+</div>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/import_users_keypairs</p>
+</li>
+</ol>
+</div>
+<div class="sect1">
+<h2 id="_compute_resources_2"><a class="anchor" href="#_compute_resources_2"></a><a class="link" href="#_compute_resources_2">Compute Resources</a></h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<h1 id="_role_import_flavors" class="sect0"><a class="anchor" href="#_role_import_flavors"></a><a class="link" href="#_role_import_flavors">Role - import_flavors</a></h1>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/import_flavors</p>
+</li>
+</ol>
+</div>
+<h1 id="_role_import_workloads" class="sect0"><a class="anchor" href="#_role_import_workloads"></a><a class="link" href="#_role_import_workloads">Role - import_workloads</a></h1>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/import_workloads</p>
+</li>
+</ol>
+</div>
+<div class="sect1">
+<h2 id="_storage_resources_2"><a class="anchor" href="#_storage_resources_2"></a><a class="link" href="#_storage_resources_2">Storage Resources</a></h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<h1 id="_role_import_detached_volumes" class="sect0"><a class="anchor" href="#_role_import_detached_volumes"></a><a class="link" href="#_role_import_detached_volumes">Role - import_detached_volumes</a></h1>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/import_detached_volumes</p>
+</li>
+</ol>
+</div>
+<h1 id="_role_import_images" class="sect0"><a class="anchor" href="#_role_import_images"></a><a class="link" href="#_role_import_images">Role - import_images</a></h1>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/import_images</p>
+</li>
+</ol>
+</div>
+<div class="sect1">
+<h2 id="_network_resources_2"><a class="anchor" href="#_network_resources_2"></a><a class="link" href="#_network_resources_2">Network Resources</a></h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<h1 id="_role_import_networks" class="sect0"><a class="anchor" href="#_role_import_networks"></a><a class="link" href="#_role_import_networks">Role - import_networks</a></h1>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/import_networks</p>
+</li>
+</ol>
+</div>
+<h1 id="_role_import_subnets" class="sect0"><a class="anchor" href="#_role_import_subnets"></a><a class="link" href="#_role_import_subnets">Role - import_subnets</a></h1>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/import_subnets</p>
+</li>
+</ol>
+</div>
+<h1 id="_role_import_routers" class="sect0"><a class="anchor" href="#_role_import_routers"></a><a class="link" href="#_role_import_routers">Role - import_routers</a></h1>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/import_routers</p>
+</li>
+</ol>
+</div>
+<h1 id="_role_import_router_interfaces" class="sect0"><a class="anchor" href="#_role_import_router_interfaces"></a><a class="link" href="#_role_import_router_interfaces">Role - import_router_interfaces</a></h1>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/import_router_interfaces</p>
+</li>
+</ol>
+</div>
+<h1 id="_role_import_security_groups" class="sect0"><a class="anchor" href="#_role_import_security_groups"></a><a class="link" href="#_role_import_security_groups">Role - import_security_groups</a></h1>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/import_security_groups</p>
+</li>
+</ol>
+</div>
+<h1 id="_role_import_security_group_rules" class="sect0"><a class="anchor" href="#_role_import_security_group_rules"></a><a class="link" href="#_role_import_security_group_rules">Role - import_security_group_rules</a></h1>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ansibleautoplugin::
+:role: os_migrate/roles/import_security_group_rules</p>
+</li>
+</ol>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-09-17 19:55:02 -0400
+Last updated 2025-09-17 20:52:25 -0400
 </div>
 </div>
 <script src="../../assets/js/toc-fold.js"></script>

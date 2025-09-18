@@ -2,20 +2,20 @@
 :toc:
 :toclevels: 3
 
-// Architecture and Design
-include::chapter_os-migrate-design.adoc[]
+== Architecture and Design
+include::chapter_os-migrate-design.adoc[leveloffset=+1]
 
-// Development Environment
-include::chapter_os-migrate-dev-env-setup.adoc[]
+== Development Environment
+include::chapter_os-migrate-dev-env-setup.adoc[leveloffset=+1]
 
-include::chapter_os-migrate-dev-env-vagrant-non-containerized.adoc[]
+include::chapter_os-migrate-dev-env-vagrant-non-containerized.adoc[leveloffset=+1]
 
-// Contributing Guidelines
-include::chapter_os-migrate-contributing-general.adoc[]
+== Contributing Guidelines
+include::chapter_os-migrate-contributing-general.adoc[leveloffset=+1]
 
-include::chapter_os-migrate-contributing-code.adoc[]
+include::chapter_os-migrate-contributing-code.adoc[leveloffset=+1]
 
-include::chapter_os-migrate-contributing-docs.adoc[]
+include::chapter_os-migrate-contributing-docs.adoc[leveloffset=+1]
 
-// Release Management
-include::chapter_os-migrate-releasing.adoc[]
+== Release Management
+include::chapter_os-migrate-releasing.adoc[leveloffset=+1]

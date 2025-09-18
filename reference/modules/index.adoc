@@ -1,97 +1,112 @@
 = Documented modules in os-migrate
 
 :toc:
+:toclevels: 3
 
-== Contents
+== Authentication and Information
+include::module-auth_info.adoc[leveloffset=+1]
 
-include::module-auth_info.adoc[]
+include::module-os_conversion_host_info.adoc[leveloffset=+1]
 
-include::module-export_detached_volume.adoc[]
+include::module-os_keypairs_info.adoc[leveloffset=+1]
 
-include::module-export_flavor.adoc[]
+include::module-os_role_assignments_info.adoc[leveloffset=+1]
 
-include::module-export_image_blob.adoc[]
+include::module-os_routers_info.adoc[leveloffset=+1]
 
-include::module-export_image_meta.adoc[]
+include::module-os_security_groups_info.adoc[leveloffset=+1]
 
-include::module-export_keypair.adoc[]
+== Export Modules
 
-include::module-export_network.adoc[]
+=== Identity and Access
+include::module-export_project.adoc[leveloffset=+2]
 
-include::module-export_project.adoc[]
+include::module-export_user.adoc[leveloffset=+2]
 
-include::module-export_router.adoc[]
+include::module-export_user_project_role_assignment.adoc[leveloffset=+2]
 
-include::module-export_router_interfaces.adoc[]
+include::module-export_keypair.adoc[leveloffset=+2]
 
-include::module-export_security_group.adoc[]
+=== Compute Resources
+include::module-export_flavor.adoc[leveloffset=+2]
 
-include::module-export_security_group_rules.adoc[]
+include::module-export_workload.adoc[leveloffset=+2]
 
-include::module-export_subnet.adoc[]
+=== Storage Resources
+include::module-export_detached_volume.adoc[leveloffset=+2]
 
-include::module-export_user.adoc[]
+include::module-export_image_blob.adoc[leveloffset=+2]
 
-include::module-export_user_project_role_assignment.adoc[]
+include::module-export_image_meta.adoc[leveloffset=+2]
 
-include::module-export_workload.adoc[]
+=== Network Resources
+include::module-export_network.adoc[leveloffset=+2]
 
-include::module-import_flavor.adoc[]
+include::module-export_subnet.adoc[leveloffset=+2]
 
-include::module-import_image.adoc[]
+include::module-export_router.adoc[leveloffset=+2]
 
-include::module-import_keypair.adoc[]
+include::module-export_router_interfaces.adoc[leveloffset=+2]
 
-include::module-import_network.adoc[]
+include::module-export_security_group.adoc[leveloffset=+2]
 
-include::module-import_project.adoc[]
+include::module-export_security_group_rules.adoc[leveloffset=+2]
 
-include::module-import_router.adoc[]
+== Import Modules
 
-include::module-import_router_interface.adoc[]
+=== Identity and Access
+include::module-import_project.adoc[leveloffset=+2]
 
-include::module-import_security_group.adoc[]
+include::module-import_user.adoc[leveloffset=+2]
 
-include::module-import_security_group_rule.adoc[]
+include::module-import_user_project_role_assignment.adoc[leveloffset=+2]
 
-include::module-import_subnet.adoc[]
+include::module-import_keypair.adoc[leveloffset=+2]
 
-include::module-import_user.adoc[]
+=== Compute Resources
+include::module-import_flavor.adoc[leveloffset=+2]
 
-include::module-import_user_project_role_assignment.adoc[]
+=== Storage Resources
+include::module-import_image.adoc[leveloffset=+2]
 
-include::module-import_volumes_export.adoc[]
+=== Network Resources
+include::module-import_network.adoc[leveloffset=+2]
 
-include::module-import_volumes_src_cleanup.adoc[]
+include::module-import_subnet.adoc[leveloffset=+2]
 
-include::module-import_volumes_transfer.adoc[]
+include::module-import_router.adoc[leveloffset=+2]
 
-include::module-import_workload_create_instance.adoc[]
+include::module-import_router_interface.adoc[leveloffset=+2]
 
-include::module-import_workload_dst_check.adoc[]
+include::module-import_security_group.adoc[leveloffset=+2]
 
-include::module-import_workload_dst_failure_cleanup.adoc[]
+include::module-import_security_group_rule.adoc[leveloffset=+2]
 
-include::module-import_workload_export_volumes.adoc[]
+=== Volume Import and Transfer
+include::module-import_volumes_export.adoc[leveloffset=+2]
 
-include::module-import_workload_prelim.adoc[]
+include::module-import_volumes_src_cleanup.adoc[leveloffset=+2]
 
-include::module-import_workload_src_check.adoc[]
+include::module-import_volumes_transfer.adoc[leveloffset=+2]
 
-include::module-import_workload_src_cleanup.adoc[]
+=== Workload Import and Management
+include::module-import_workload_create_instance.adoc[leveloffset=+2]
 
-include::module-import_workload_transfer_volumes.adoc[]
+include::module-import_workload_dst_check.adoc[leveloffset=+2]
 
-include::module-os_conversion_host_info.adoc[]
+include::module-import_workload_dst_failure_cleanup.adoc[leveloffset=+2]
 
-include::module-os_keypairs_info.adoc[]
+include::module-import_workload_export_volumes.adoc[leveloffset=+2]
 
-include::module-os_role_assignments_info.adoc[]
+include::module-import_workload_prelim.adoc[leveloffset=+2]
 
-include::module-os_routers_info.adoc[]
+include::module-import_workload_src_check.adoc[leveloffset=+2]
 
-include::module-os_security_groups_info.adoc[]
+include::module-import_workload_src_cleanup.adoc[leveloffset=+2]
 
-include::module-read_resources.adoc[]
+include::module-import_workload_transfer_volumes.adoc[leveloffset=+2]
 
-include::module-validate_resource_files.adoc[]
+== Utilities and Validation
+include::module-read_resources.adoc[leveloffset=+1]
+
+include::module-validate_resource_files.adoc[leveloffset=+1]
