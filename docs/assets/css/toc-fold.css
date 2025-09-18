@@ -7,7 +7,8 @@
 
 /* Style for items that have sub-items */
 #toc ul li.has-children > a {
-    padding-right: 20px;
+    padding-right: 25px;
+    font-weight: 500;
 }
 
 /* Toggle button styling */
@@ -16,23 +17,28 @@
     right: 5px;
     top: 50%;
     transform: translateY(-50%);
-    width: 12px;
-    height: 12px;
+    width: 16px;
+    height: 16px;
     cursor: pointer;
     user-select: none;
-    font-size: 12px;
-    line-height: 12px;
+    font-size: 14px;
+    line-height: 16px;
     text-align: center;
     color: #7a2518;
     font-weight: bold;
-    border: none;
-    background: none;
+    border: 1px solid #ddd;
+    background: #f8f8f8;
+    border-radius: 3px;
     padding: 0;
     margin: 0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
 .toc-toggle:hover {
     color: #a53221;
+    background: #fff;
+    border-color: #7a2518;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
 }
 
 /* Collapsed state - hide sub-lists */
@@ -40,14 +46,24 @@
     display: none;
 }
 
+/* Visual hint for collapsed sections */
+#toc ul li.collapsed > a::after {
+    content: " (...)";
+    color: #999;
+    font-size: 0.8em;
+    font-style: italic;
+}
+
 /* Expanded state indicator */
 .toc-toggle.expanded::before {
-    content: "−";
+    content: "▼";
+    font-size: 10px;
 }
 
 /* Collapsed state indicator */
 .toc-toggle.collapsed::before {
-    content: "+";
+    content: "▶";
+    font-size: 10px;
 }
 
 /* Smooth transitions for expand/collapse */
@@ -76,7 +92,7 @@
 
 /* Better spacing for toggle buttons in toc2 layout */
 body.toc2 .toc-toggle {
-    right: 2px;
+    right: 5px;
 }
 
 /* Ensure proper positioning in different screen sizes */
@@ -94,12 +110,18 @@ body.toc2 .toc-toggle {
 
 /* Style for top-level sections - make them more prominent */
 #toc ul.sectlevel0 > li > .toc-toggle {
+    width: 18px;
+    height: 18px;
     font-size: 14px;
     font-weight: bold;
+    line-height: 18px;
 }
 
 #toc ul.sectlevel1 > li > .toc-toggle {
+    width: 16px;
+    height: 16px;
     font-size: 12px;
+    line-height: 16px;
 }
 
 /* Hover effects for better UX */
@@ -108,8 +130,8 @@ body.toc2 .toc-toggle {
 }
 
 .toc-toggle {
-    opacity: 0.7;
-    transition: opacity 0.2s ease;
+    opacity: 0.9;
+    transition: all 0.2s ease;
 }
 
 /* Focus styles for accessibility */
