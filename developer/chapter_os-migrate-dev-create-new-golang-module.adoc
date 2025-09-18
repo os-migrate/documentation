@@ -1,0 +1,191 @@
+= Creating New Go-based Ansible Modules
+:toc: left
+:toclevels: 3
+:sectnums:
+
+This document provides a comprehensive guide for developers on creating new Ansible modules written in Go for the `os-migrate/vmware-migration-kit` project. 
+
+== 1. Introduction to Go-based Ansible Modules
+
+Ansible can be extended with modules written in any programming language, including Go. These are referred to as "binary modules." Instead of being interpreted Python files, they are compiled executables that Ansible runs. They work by reading a JSON file of arguments from the command line and printing a JSON string of results to standard output.
+
+For more detailed background information on how binary modules work in Ansible, please refer to the official documentation.
+
+* **Official Ansible Documentation:** https://docs.ansible.com/ansible/latest/dev_guide/developing_program_flow_modules.html#binary-modules
+
+== 2. Project Structure for Go Modules
+
+To integrate properly with the existing project structure and build system, your new module must follow these conventions.
+
+* **Go Source Code:** All Go source files for your new module, let's call it `my_new_module`, must reside in their own subdirectory within `plugins/modules/src/`.
+    * Example: `plugins/modules/src/my_new_module/my_new_module.go`
+* **Shared Go Code:** If you create utility functions or types that could be shared across multiple Go modules, place them in `plugins/module_utils/`.
+* **Python Documentation File:** Every binary module requires a corresponding Python file in `plugins/modules/` that contains the Ansible documentation string. This file is what `ansible-doc` reads, and it also serves as a pointer to the compiled binary.
+    * Example: `plugins/modules/my_new_module.py`
+
+== 3. Step-by-Step Development Guide
+
+=== 3.1. Create the Directory and Files
+
+First, create the necessary directory for your Go source code and the documentation file.
+
+[source,bash]
+----
+# Replace 'my_new_module' with the name of your module
+MODULE_NAME="my_new_module"
+
+# Create the source directory
+mkdir -p "plugins/modules/src/${MODULE_NAME}"
+
+# Create the Go source file and the Python documentation file
+touch "plugins/modules/src/${MODULE_NAME}/${MODULE_NAME}.go"
+touch "plugins/modules/${MODULE_NAME}.py"
+----
+
+=== 3.2. Write the Go Module Code
+
+Your Go program will form the core logic of the Ansible module. The `main` function should be the entry point. Common dependencies you might need include:
+
+* **govmomi:** for interacting with VMware vSphere (`github.com/vmware/govmomi`)
+* **gophercloud:** for interacting with OpenStack (`github.com/gophercloud/gophercloud`)
+
+=== 3.3. Create the Python Documentation File
+
+This file does not contain Go code. It's a Python file that holds the documentation and metadata for your module in pydoc format. Ansible uses this to understand your module's parameters, return values, and to generate documentation.
+
+Copy the contents of an existing module like `plugins/modules/create_server.py` and adapt it for your new module.
+
+Here is a template for `plugins/modules/my_new_module.py`:
+
+[source,python]
+----
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# ANSIBLE_METADATA is a machine-readable block that provides metadata
+# about the module.
+ANSIBLE_METADATA = {'metadata_version': '1.1',
+                    'status': ['preview'],
+                    'supported_by': 'community'}
+
+# DOCUMENTATION is a string in YAML format that provides human-readable
+# documentation for the module.
+DOCUMENTATION = '''
+---
+module: my_new_module
+short_description: A brief description of what this module does.
+version_added: "1.0.0"
+description:
+    - "A more detailed description of the module's purpose and functionality."
+options:
+    name:
+        description:
+            - A required parameter for this example.
+        required: true
+        type: str
+author:
+    - Your Name (@your-github-handle)
+'''
+
+# EXAMPLES provides one or more examples of how to use the module in a playbook.
+EXAMPLES = '''
+- name: Run my new module
+  my_new_module:
+    name: "World"
+'''
+
+# RETURN provides documentation on the values returned by the module upon success.
+RETURN = '''
+original_message:
+    description: A message constructed from the input parameters.
+    type: str
+    returned: always
+    sample: 'Hello, World!'
+message:
+    description: A static success message.
+    type: str
+    returned: always
+    sample: 'This is a successful result from the Go module.'
+'''
+----
+
+=== 3.4. Build the Module Binary
+
+The project's `Makefile` provides a target to compile all Go-based modules. This process runs inside a container to ensure a clean and consistent build environment, using the `scripts/build.sh` script.
+
+To compile your new module, simply run:
+
+[source,bash]
+----
+make binaries
+----
+
+After the build completes, your compiled binary will be located at `plugins/modules/my_new_module`. Ansible will now be able to execute it.
+
+== 4. Handling CI Sanity Tests
+
+The `ansible-test sanity` checks can cause issues with Go code. The following sections describe the required workarounds.
+
+=== 4.1. Bypassing `ansible-test sanity` for Go Source
+
+The `ansible-test sanity` tool does not recognize Go source code and will fail. To prevent this, you must exclude your module's source directory from the test.
+
+1.  Open the `Makefile` in the root of the project.
+2.  Locate the `test-ansible-sanity` target.
+3.  Add your module's source directory to the `--exclude` list.
+
+**Example Modification in `Makefile`:**
+
+```makefile
+# ... (other parts of the Makefile)
+
+test-ansible-sanity:
+	# ... (other commands)
+	$(CONTAINER_ENGINE) run --rm \
+		-v $(CURDIR):/work:z \
+		$(AEE_IMAGE) \
+		ansible-test sanity \
+		--docker \
+		--color \
+		--junit \
+		--exclude plugins/modules/src/create_server/ \
+		--exclude plugins/modules/src/delete_server/ \
+		--exclude plugins/modules/src/my_new_module/ \ # <--- ADD THIS LINE
+		--skip-test validate-modules \
+		$(ANSIBLE_TEST_OPTS)
+
+# ... (rest of the Makefile)
+```
+[NOTE]
+====
+When you submit your pull request, mention this change so that it can be properly handled by the project maintainers.
+====
+
+=== 4.2. Ignoring the GPLv3 License Check
+
+The sanity tests will also report a `missing-gplv3-license` error for your Python documentation file. You need to add an entry to the `ignore-*.txt` file to suppress this error.
+
+1.  Navigate to the `tests/sanity/` directory.
+2.  Find the `ignore-X.Y.txt` file that corresponds to the Ansible version being used (e.g., `ignore-2.18.txt`).
+3.  Add a line for your module's documentation file.
+
+**Example for `tests/sanity/ignore-2.18.txt`:**
+
+```
+# ... (other entries)
+plugins/modules/create_server.py validate-modules:missing-gplv3-license
+plugins/modules/delete_server.py validate-modules:missing-gplv3-license
+plugins/modules/my_new_module.py validate-modules:missing-gplv3-license # <--- ADD THIS LINE
+```
+
+== 5. Contribution Workflow
+
+Once you have developed and tested your module, follow the standard GitHub workflow to contribute it to the project:
+
+1.  **Fork** the repository.
+2.  Create a new **feature branch**.
+3.  **Commit** your changes.
+4.  **Push** the branch to your fork.
+5.  Open a **Pull Request** against the main repository.
+
+Congratulations! You are now ready to develop and contribute new Go-based Ansible modules.
