@@ -37,38 +37,23 @@ on GitHub with your question.
 If you want to contribute to the project (code, docs, ...), please
 refer to the link:developer/index.html[developer docs].
 
-== Documentation Sections
+== Contents
 
-=== link:operator/index.html[Operator Guide]
+// Quickstart
+=== link:operator/index.html[OS Migrate Operator Guide]
 
 Comprehensive information for operators planning and executing OpenStack cloud migrations using OS Migrate.
 
-Topics covered:
-- Capacity planning and conversion host setup
-- Migration walkthrough and process summary
-- VMware to OpenStack migration guide
-- Troubleshooting and performance expectations
-
-=== link:developer/index.html[Developer Documentation]
+// Developer
+=== link:developer/index.html[OS Migrate Developer Documentation]
 
 Information for developers contributing to OS Migrate.
 
-Topics covered:
-- Design principles and architecture
-- Development environment setup
-- Contributing guidelines for code and documentation
-- Release processes and workflows
-
-=== link:reference/modules/index.html[Ansible Modules Reference]
+// Reference
+=== link:reference/modules/index.html[Documented modules in os-migrate]
 
 Complete reference documentation for all OS Migrate Ansible modules.
 
-=== link:reference/roles/index.html[Ansible Roles Reference]
+=== link:reference/roles/index.html[Documented roles in os-migrate]
 
 Complete reference documentation for all OS Migrate Ansible roles.
-
-== Quick Start
-
-New to OS Migrate? Start with the link:operator/index.html[Operator Guide] for installation and usage instructions.
-
-For developers wanting to contribute, begin with the link:developer/index.html[Developer Documentation].
