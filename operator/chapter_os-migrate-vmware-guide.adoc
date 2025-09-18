@@ -6,15 +6,14 @@
 
 An important auxilliary function included in OS Migrate is our VMware tooling,
 which allows you to migrade a virtual machine from an ESXi/Vcenter environment
-to OpenStack or OpenShift environments.
+to OpenStack environments.
 
 The code used os-migrate Ansible collection in order to deploy conversion host and setup
 correctly the prerequists in the Openstack destination cloud.
 It also used the vmware community collection in order to gather informations from the source
 VMWare environment.
 
-The Ansible collection provides different steps to scale your migration from VMWare to Openstack
-and Openshift:
+The Ansible collection provides different steps to scale your migration from VMWare to Openstack:
 
 * A discovery phase where it analizes the VMWare source environment and provides collected data
 to help for the migration.
