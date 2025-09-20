@@ -684,40 +684,75 @@ pre.rouge {
 </ul>
 </li>
 <li><a href="#_installing_vagrant_directly_on_host_alternative_path">Installing Vagrant directly on host (alternative path)</a></li>
+<li><a href="#_cicd_and_automation">CI/CD and Automation</a></li>
+<li><a href="#_github_actions_documentation_for_os_migrate_repositories">GitHub Actions Documentation for os-migrate Repositories</a></li>
+<li><a href="#_os_migrateos_migrate">os-migrate/os-migrate</a>
+<ul class="sectlevel1">
+<li><a href="#_existing_github_actions">1. Existing GitHub Actions</a></li>
+</ul>
+</li>
+<li><a href="#_os_migratevmware_migration_kit">os-migrate/vmware-migration-kit</a>
+<ul class="sectlevel1">
+<li><a href="#_existing_github_actions_2">1. Existing GitHub Actions</a></li>
+</ul>
+</li>
+<li><a href="#_how_to_add_a_new_github_action">How to Add a New GitHub Action</a>
+<ul class="sectlevel1">
+<li><a href="#_see_also">1. See Also</a></li>
+</ul>
+</li>
 <li><a href="#_contributing_guidelines">Contributing Guidelines</a></li>
 <li><a href="#_general_contribution_guidelines">General Contribution Guidelines</a></li>
 <li><a href="#_commit_messages_for_changelog">Commit Messages for Changelog</a>
 <ul class="sectlevel1">
-<li><a href="#_format">Format</a></li>
-<li><a href="#_keeping_changelog_clean">Keeping Changelog Clean</a></li>
-<li><a href="#_summary_first_line">Summary (First Line)</a></li>
-<li><a href="#_message_body">Message Body</a></li>
+<li><a href="#_format">1. Format</a></li>
+<li><a href="#_keeping_changelog_clean">2. Keeping Changelog Clean</a></li>
+<li><a href="#_summary_first_line">3. Summary (First Line)</a></li>
+<li><a href="#_message_body">4. Message Body</a></li>
 </ul>
 </li>
 <li><a href="#_contributing_code">Contributing Code</a></li>
 <li><a href="#_adding_a_new_role">Adding a New Role</a>
 <ul class="sectlevel1">
-<li><a href="#_creating_the_role_skeleton_automatically">Creating the role skeleton automatically</a></li>
-<li><a href="#_resources">Resources</a></li>
-<li><a href="#_export_roles">Export Roles</a></li>
-<li><a href="#_import_roles">Import Roles</a></li>
+<li><a href="#_creating_the_role_skeleton_automatically">1. Creating the role skeleton automatically</a></li>
+<li><a href="#_resources">2. Resources</a></li>
+<li><a href="#_export_roles">3. Export Roles</a></li>
+<li><a href="#_import_roles">4. Import Roles</a></li>
 </ul>
 </li>
 <li><a href="#_writing_tests">Writing Tests</a>
 <ul class="sectlevel1">
-<li><a href="#_functional_tests">Functional Tests</a></li>
-<li><a href="#_unit_tests">Unit Tests</a></li>
-<li><a href="#_integration_tests">Integration Tests</a></li>
-<li><a href="#_documentation_and_examples">Documentation and Examples</a></li>
-<li><a href="#_test_execution_in_ci">Test Execution in CI</a></li>
-<li><a href="#_review_and_inspection">Review and Inspection</a></li>
-<li><a href="#_location_of_tests">Location of Tests</a></li>
-<li><a href="#_special_considerations">Special Considerations</a></li>
-<li><a href="#_necessary_documentation">Necessary Documentation</a></li>
+<li><a href="#_functional_tests">1. Functional Tests</a></li>
+<li><a href="#_unit_tests">2. Unit Tests</a></li>
+<li><a href="#_integration_tests">3. Integration Tests</a></li>
+<li><a href="#_documentation_and_examples">4. Documentation and Examples</a></li>
+<li><a href="#_test_execution_in_ci">5. Test Execution in CI</a></li>
+<li><a href="#_review_and_inspection">6. Review and Inspection</a></li>
+<li><a href="#_location_of_tests">7. Location of Tests</a></li>
+<li><a href="#_special_considerations">8. Special Considerations</a></li>
+<li><a href="#_necessary_documentation">9. Necessary Documentation</a></li>
 </ul>
 </li>
 <li><a href="#_contributing_documentation">Contributing Documentation</a></li>
 <li><a href="#_rendering_the_documentation">Rendering the Documentation</a></li>
+<li><a href="#_creating_new_go_based_ansible_modules">Creating New Go-based Ansible Modules</a></li>
+<li><a href="#_1_introduction_to_go_based_ansible_modules">1. Introduction to Go-based Ansible Modules</a></li>
+<li><a href="#_2_project_structure_for_go_modules">2. Project Structure for Go Modules</a></li>
+<li><a href="#_3_step_by_step_development_guide">3. Step-by-Step Development Guide</a>
+<ul class="sectlevel1">
+<li><a href="#_3_1_create_the_directory_and_files">1. 3.1. Create the Directory and Files</a></li>
+<li><a href="#_3_2_write_the_go_module_code">2. 3.2. Write the Go Module Code</a></li>
+<li><a href="#_3_3_create_the_python_documentation_file">3. 3.3. Create the Python Documentation File</a></li>
+<li><a href="#_3_4_build_the_module_binary">4. 3.4. Build the Module Binary</a></li>
+</ul>
+</li>
+<li><a href="#_4_handling_ci_sanity_tests">4. Handling CI Sanity Tests</a>
+<ul class="sectlevel1">
+<li><a href="#_4_1_bypassing_ansible_test_sanity_for_go_source">1. 4.1. Bypassing <code>ansible-test sanity</code> for Go Source</a></li>
+<li><a href="#_4_2_ignoring_the_gplv3_license_check">2. 4.2. Ignoring the GPLv3 License Check</a></li>
+</ul>
+</li>
+<li><a href="#_5_contribution_workflow">5. Contribution Workflow</a></li>
 <li><a href="#_release_management">Release Management</a></li>
 <li><a href="#_releasing_the_os_migrate_collection">Releasing the OS Migrate collection</a></li>
 </ul>
@@ -1398,6 +1433,235 @@ systemctl restart libvirtd</pre>
 <pre>vagrant up --provider libvirt</pre>
 </div>
 </div>
+<h1 id="_cicd_and_automation" class="sect0"><a class="anchor" href="#_cicd_and_automation"></a><a class="link" href="#_cicd_and_automation">CI/CD and Automation</a></h1>
+
+<h1 id="_github_actions_documentation_for_os_migrate_repositories" class="sect0"><a class="anchor" href="#_github_actions_documentation_for_os_migrate_repositories"></a><a class="link" href="#_github_actions_documentation_for_os_migrate_repositories">GitHub Actions Documentation for os-migrate Repositories</a></h1>
+<div class="paragraph">
+<p>This document provides a definitive and accurate overview of the GitHub Actions used in the <code>os-migrate/os-migrate</code> and <code>os-migrate/vmware-migration-kit</code> repositories, based on their current <code>main</code> branch.</p>
+</div>
+<hr>
+<h1 id="_os_migrateos_migrate" class="sect0"><a class="anchor" href="#_os_migrateos_migrate"></a><a class="link" href="#_os_migrateos_migrate">os-migrate/os-migrate</a></h1>
+<div class="sect1">
+<h2 id="_existing_github_actions"><a class="anchor" href="#_existing_github_actions"></a><a class="link" href="#_existing_github_actions">1. Existing GitHub Actions</a></h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><code>ansible-lint.yml</code></p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p>Triggered on: <code>pull_request</code> and <code>push</code> to the <code>main</code> branch.</p>
+</div>
+<div class="paragraph">
+<p>This workflow ensures code quality by <strong>linting the Ansible collection</strong>. It uses the official <code>ansible/ansible-lint-action</code> to check all Ansible playbooks for best practices and potential errors.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p><code>ansible-test.yml</code></p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p>Triggered on: <code>pull_request</code> and <code>push</code> to the <code>main</code> branch.</p>
+</div>
+<div class="paragraph">
+<p>This is the main <strong>integration testing</strong> workflow. It runs <code>ansible-test</code> to validate the collection&#8217;s functionality across a matrix of different Python and Ansible Core versions, ensuring broad compatibility.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p><code>build-aee.yml</code></p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p>Triggered on: <code>pull_request</code> and <code>push</code> to the <code>main</code> branch.</p>
+</div>
+<div class="paragraph">
+<p>This workflow builds the <strong>Ansible Execution Environment (AEE)</strong>. It uses <code>ansible-builder</code> to create a container image with all the necessary dependencies, which is then pushed to <code>quay.io</code>.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p><code>docs-build-pr.yml</code></p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p>Triggered on: <code>pull_request</code>.</p>
+</div>
+<div class="paragraph">
+<p>This workflow specifically validates documentation changes in pull requests. It <strong>builds the Sphinx documentation</strong> to ensure that proposed changes do not break the doc generation process before merging.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p><code>docs-build.yml</code></p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p>Triggered on: <code>push</code> to the <code>main</code> branch.</p>
+</div>
+<div class="paragraph">
+<p>This workflow <strong>builds and deploys the official documentation</strong>. After a successful build, it pushes the generated HTML to the <code>gh-pages</code> branch, making it live on the project&#8217;s GitHub Pages site.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p><code>import-galaxy.yml</code></p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p>Triggered on: <code>workflow_dispatch</code> (manual) and a daily <code>schedule</code>.</p>
+</div>
+<div class="paragraph">
+<p>This workflow <strong>tests the collection&#8217;s compatibility with the Galaxy importer</strong>. It uses the <code>ansible-community/github-action-test-galaxy-import</code> action to take the built collection artifact and simulate the import process used by Ansible Galaxy, ensuring the package is correctly structured for publication.</p>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<hr>
+</div>
+</div>
+<h1 id="_os_migratevmware_migration_kit" class="sect0"><a class="anchor" href="#_os_migratevmware_migration_kit"></a><a class="link" href="#_os_migratevmware_migration_kit">os-migrate/vmware-migration-kit</a></h1>
+<div class="sect1">
+<h2 id="_existing_github_actions_2"><a class="anchor" href="#_existing_github_actions_2"></a><a class="link" href="#_existing_github_actions_2">1. Existing GitHub Actions</a></h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><code>ansible-lint.yml</code></p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p>Triggered on: <code>pull_request</code> and <code>push</code> to the <code>main</code> branch.</p>
+</div>
+<div class="paragraph">
+<p>This workflow <strong>lints all Ansible content</strong> in the repository using <code>ansible-lint</code> to maintain code quality and adherence to best practices.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p><code>ansible-test.yaml</code></p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p>Triggered on: <code>pull_request</code> and <code>push</code> to the <code>main</code> branch.</p>
+</div>
+<div class="paragraph">
+<p>This workflow performs <strong>integration testing for the Ansible collection</strong>. It runs <code>ansible-test sanity</code> to catch common structural issues.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p><code>build-aee.yml</code></p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p>Triggered on: <code>pull_request</code> and <code>push</code> to the <code>main</code> branch.</p>
+</div>
+<div class="paragraph">
+<p>This workflow builds the <strong>Ansible Execution Environment (AEE)</strong> using <code>ansible-builder</code> and pushes the resulting container image to <code>quay.io</code>, ensuring the project&#8217;s runtime is always up-to-date.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p><code>golang-lint.yml</code></p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p>Triggered on: <code>pull_request</code> and <code>push</code> to the <code>main</code> branch.</p>
+</div>
+<div class="paragraph">
+<p>This workflow ensures <strong>Go code quality</strong>. It runs <code>golangci-lint</code> to perform static analysis and check for formatting issues, bugs, and stylistic errors in the Go source code.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p><code>import-galaxy.yml</code></p>
+<div class="openblock">
+<div class="content">
+<div class="paragraph">
+<p>Triggered on: <code>workflow_dispatch</code> (manual) and a daily <code>schedule</code>.</p>
+</div>
+<div class="paragraph">
+<p>This workflow <strong>tests the collection&#8217;s compatibility with the Galaxy importer</strong>. It takes the built collection artifact and uses the <code>ansible-community/github-action-test-galaxy-import</code> action to verify that the package is properly structured for a successful import into Ansible Galaxy.</p>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<hr>
+</div>
+</div>
+<h1 id="_how_to_add_a_new_github_action" class="sect0"><a class="anchor" href="#_how_to_add_a_new_github_action"></a><a class="link" href="#_how_to_add_a_new_github_action">How to Add a New GitHub Action</a></h1>
+<div class="paragraph">
+<p>To add a new GitHub Action to either of the repositories, follow these steps:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Create a new YAML file</strong> in the <code>.github/workflows</code> directory of the repository.</p>
+</li>
+<li>
+<p><strong>Define the workflow</strong> in the YAML file. Here&#8217;s a basic template you can use:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">name</span><span class="pi">:</span> <span class="s">My New Workflow</span>
+
+<span class="na">on</span><span class="pi">:</span>
+  <span class="na">push</span><span class="pi">:</span>
+    <span class="na">branches</span><span class="pi">:</span> <span class="pi">[</span> <span class="nv">main</span> <span class="pi">]</span>
+  <span class="na">pull_request</span><span class="pi">:</span>
+    <span class="na">branches</span><span class="pi">:</span> <span class="pi">[</span> <span class="nv">main</span> <span class="pi">]</span>
+
+<span class="na">jobs</span><span class="pi">:</span>
+  <span class="na">build</span><span class="pi">:</span>
+    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
+
+    <span class="na">steps</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Check out code</span>
+      <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v3</span>
+
+    <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Run a one-line script</span>
+      <span class="na">run</span><span class="pi">:</span> <span class="s">echo Hello, world!</span></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Customize the workflow</strong> to your needs, including the <code>name</code>, <code>on</code> triggers, and <code>jobs</code>.</p>
+</li>
+<li>
+<p><strong>Commit and push</strong> the new workflow file to the repository.</p>
+</li>
+</ol>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a><a class="link" href="#_see_also">1. See Also</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For more detailed information on syntax and features, refer to the official documentation.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://docs.github.com/en/actions">Official GitHub Actions Documentation</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
 <h1 id="_contributing_guidelines" class="sect0"><a class="anchor" href="#_contributing_guidelines"></a><a class="link" href="#_contributing_guidelines">Contributing Guidelines</a></h1>
 
 <h1 id="_general_contribution_guidelines" class="sect0"><a class="anchor" href="#_general_contribution_guidelines"></a><a class="link" href="#_general_contribution_guidelines">General Contribution Guidelines</a></h1>
@@ -1409,7 +1673,7 @@ changelog. For every pull request we request contributors to be
 compliant with the following commit message notation.</p>
 </div>
 <div class="sect1">
-<h2 id="_format"><a class="anchor" href="#_format"></a><a class="link" href="#_format">Format</a></h2>
+<h2 id="_format"><a class="anchor" href="#_format"></a><a class="link" href="#_format">1. Format</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -1444,7 +1708,7 @@ new/chg/fix status</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_keeping_changelog_clean"><a class="anchor" href="#_keeping_changelog_clean"></a><a class="link" href="#_keeping_changelog_clean">Keeping Changelog Clean</a></h2>
+<h2 id="_keeping_changelog_clean"><a class="anchor" href="#_keeping_changelog_clean"></a><a class="link" href="#_keeping_changelog_clean">2. Keeping Changelog Clean</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>If the commit message subject starts with <code>dev:</code>, it will be omitted
@@ -1459,7 +1723,7 @@ changes (developer environment, CI, developer-only docs) or miniature
 </div>
 </div>
 <div class="sect1">
-<h2 id="_summary_first_line"><a class="anchor" href="#_summary_first_line"></a><a class="link" href="#_summary_first_line">Summary (First Line)</a></h2>
+<h2 id="_summary_first_line"><a class="anchor" href="#_summary_first_line"></a><a class="link" href="#_summary_first_line">3. Summary (First Line)</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The first line should not be longer than 75 characters, the second
@@ -1469,7 +1733,7 @@ characters.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_message_body"><a class="anchor" href="#_message_body"></a><a class="link" href="#_message_body">Message Body</a></h2>
+<h2 id="_message_body"><a class="anchor" href="#_message_body"></a><a class="link" href="#_message_body">4. Message Body</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Uses the imperative, present tense: "change" not "changed" nor
@@ -1528,7 +1792,7 @@ Update developer or user documentation as needed.</p>
 </ul>
 </div>
 <div class="sect1">
-<h2 id="_creating_the_role_skeleton_automatically"><a class="anchor" href="#_creating_the_role_skeleton_automatically"></a><a class="link" href="#_creating_the_role_skeleton_automatically">Creating the role skeleton automatically</a></h2>
+<h2 id="_creating_the_role_skeleton_automatically"><a class="anchor" href="#_creating_the_role_skeleton_automatically"></a><a class="link" href="#_creating_the_role_skeleton_automatically">1. Creating the role skeleton automatically</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Adding roles into os-migrate can be easily achieved by
@@ -1553,7 +1817,7 @@ and the documentation stub.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_resources"><a class="anchor" href="#_resources"></a><a class="link" href="#_resources">Resources</a></h2>
+<h2 id="_resources"><a class="anchor" href="#_resources"></a><a class="link" href="#_resources">2. Resources</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Resources are the primary data structures that are exported from and
@@ -1592,7 +1856,7 @@ imported before are not attempted to be imported again.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_export_roles"><a class="anchor" href="#_export_roles"></a><a class="link" href="#_export_roles">Export Roles</a></h2>
+<h2 id="_export_roles"><a class="anchor" href="#_export_roles"></a><a class="link" href="#_export_roles">3. Export Roles</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>In the <code>defaults/main.yml</code> file, at a minimum you will need to
@@ -1632,7 +1896,7 @@ export.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_import_roles"><a class="anchor" href="#_import_roles"></a><a class="link" href="#_import_roles">Import Roles</a></h2>
+<h2 id="_import_roles"><a class="anchor" href="#_import_roles"></a><a class="link" href="#_import_roles">4. Import Roles</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>In the <code>defaults/main.yml</code> file, at a minimum you will need to
@@ -1676,7 +1940,7 @@ module you created for import.</p>
 <p>For newly implemented resources, ensure comprehensive test coverage by following this checklist:</p>
 </div>
 <div class="sect1">
-<h2 id="_functional_tests"><a class="anchor" href="#_functional_tests"></a><a class="link" href="#_functional_tests">Functional Tests</a></h2>
+<h2 id="_functional_tests"><a class="anchor" href="#_functional_tests"></a><a class="link" href="#_functional_tests">1. Functional Tests</a></h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
@@ -1697,7 +1961,7 @@ module you created for import.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_unit_tests"><a class="anchor" href="#_unit_tests"></a><a class="link" href="#_unit_tests">Unit Tests</a></h2>
+<h2 id="_unit_tests"><a class="anchor" href="#_unit_tests"></a><a class="link" href="#_unit_tests">2. Unit Tests</a></h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
@@ -1712,7 +1976,7 @@ module you created for import.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_integration_tests"><a class="anchor" href="#_integration_tests"></a><a class="link" href="#_integration_tests">Integration Tests</a></h2>
+<h2 id="_integration_tests"><a class="anchor" href="#_integration_tests"></a><a class="link" href="#_integration_tests">3. Integration Tests</a></h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
@@ -1727,7 +1991,7 @@ module you created for import.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_documentation_and_examples"><a class="anchor" href="#_documentation_and_examples"></a><a class="link" href="#_documentation_and_examples">Documentation and Examples</a></h2>
+<h2 id="_documentation_and_examples"><a class="anchor" href="#_documentation_and_examples"></a><a class="link" href="#_documentation_and_examples">4. Documentation and Examples</a></h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
@@ -1742,7 +2006,7 @@ module you created for import.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_test_execution_in_ci"><a class="anchor" href="#_test_execution_in_ci"></a><a class="link" href="#_test_execution_in_ci">Test Execution in CI</a></h2>
+<h2 id="_test_execution_in_ci"><a class="anchor" href="#_test_execution_in_ci"></a><a class="link" href="#_test_execution_in_ci">5. Test Execution in CI</a></h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
@@ -1757,7 +2021,7 @@ module you created for import.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_review_and_inspection"><a class="anchor" href="#_review_and_inspection"></a><a class="link" href="#_review_and_inspection">Review and Inspection</a></h2>
+<h2 id="_review_and_inspection"><a class="anchor" href="#_review_and_inspection"></a><a class="link" href="#_review_and_inspection">6. Review and Inspection</a></h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
@@ -1772,7 +2036,7 @@ module you created for import.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_location_of_tests"><a class="anchor" href="#_location_of_tests"></a><a class="link" href="#_location_of_tests">Location of Tests</a></h2>
+<h2 id="_location_of_tests"><a class="anchor" href="#_location_of_tests"></a><a class="link" href="#_location_of_tests">7. Location of Tests</a></h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
@@ -1787,7 +2051,7 @@ module you created for import.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_special_considerations"><a class="anchor" href="#_special_considerations"></a><a class="link" href="#_special_considerations">Special Considerations</a></h2>
+<h2 id="_special_considerations"><a class="anchor" href="#_special_considerations"></a><a class="link" href="#_special_considerations">8. Special Considerations</a></h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
@@ -1802,7 +2066,7 @@ module you created for import.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_necessary_documentation"><a class="anchor" href="#_necessary_documentation"></a><a class="link" href="#_necessary_documentation">Necessary Documentation</a></h2>
+<h2 id="_necessary_documentation"><a class="anchor" href="#_necessary_documentation"></a><a class="link" href="#_necessary_documentation">9. Necessary Documentation</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>If this is your first time adding a pull request to the os-migrate
@@ -1872,6 +2136,294 @@ development, do so now:</p>
 <p>You can inspect the rendered documentation by opening
 <code>docs/src/_build/html/index.html</code> in your web browser.</p>
 </div>
+<h1 id="_creating_new_go_based_ansible_modules" class="sect0"><a class="anchor" href="#_creating_new_go_based_ansible_modules"></a><a class="link" href="#_creating_new_go_based_ansible_modules">Creating New Go-based Ansible Modules</a></h1>
+<div class="paragraph">
+<p>This document provides a comprehensive guide for developers on creating new Ansible modules written in Go for the <code>os-migrate/vmware-migration-kit</code> project.</p>
+</div>
+<h1 id="_1_introduction_to_go_based_ansible_modules" class="sect0"><a class="anchor" href="#_1_introduction_to_go_based_ansible_modules"></a><a class="link" href="#_1_introduction_to_go_based_ansible_modules">1. Introduction to Go-based Ansible Modules</a></h1>
+<div class="paragraph">
+<p>Ansible can be extended with modules written in any programming language, including Go. These are referred to as "binary modules." Instead of being interpreted Python files, they are compiled executables that Ansible runs. They work by reading a JSON file of arguments from the command line and printing a JSON string of results to standard output.</p>
+</div>
+<div class="paragraph">
+<p>For more detailed background information on how binary modules work in Ansible, please refer to the official documentation.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Official Ansible Documentation:</strong> <a href="https://docs.ansible.com/ansible/latest/dev_guide/developing_program_flow_modules.html#binary-modules" class="bare">https://docs.ansible.com/ansible/latest/dev_guide/developing_program_flow_modules.html#binary-modules</a></p>
+</li>
+</ul>
+</div>
+<h1 id="_2_project_structure_for_go_modules" class="sect0"><a class="anchor" href="#_2_project_structure_for_go_modules"></a><a class="link" href="#_2_project_structure_for_go_modules">2. Project Structure for Go Modules</a></h1>
+<div class="paragraph">
+<p>To integrate properly with the existing project structure and build system, your new module must follow these conventions.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Go Source Code:</strong> All Go source files for your new module, let&#8217;s call it <code>my_new_module</code>, must reside in their own subdirectory within <code>plugins/modules/src/</code>.</p>
+</li>
+<li>
+<p>Example: <code>plugins/modules/src/my_new_module/my_new_module.go</code></p>
+</li>
+<li>
+<p><strong>Shared Go Code:</strong> If you create utility functions or types that could be shared across multiple Go modules, place them in <code>plugins/module_utils/</code>.</p>
+</li>
+<li>
+<p><strong>Python Documentation File:</strong> Every binary module requires a corresponding Python file in <code>plugins/modules/</code> that contains the Ansible documentation string. This file is what <code>ansible-doc</code> reads, and it also serves as a pointer to the compiled binary.</p>
+</li>
+<li>
+<p>Example: <code>plugins/modules/my_new_module.py</code></p>
+</li>
+</ul>
+</div>
+<h1 id="_3_step_by_step_development_guide" class="sect0"><a class="anchor" href="#_3_step_by_step_development_guide"></a><a class="link" href="#_3_step_by_step_development_guide">3. Step-by-Step Development Guide</a></h1>
+<div class="sect1">
+<h2 id="_3_1_create_the_directory_and_files"><a class="anchor" href="#_3_1_create_the_directory_and_files"></a><a class="link" href="#_3_1_create_the_directory_and_files">1. 3.1. Create the Directory and Files</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>First, create the necessary directory for your Go source code and the documentation file.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="c"># Replace 'my_new_module' with the name of your module</span>
+<span class="nv">MODULE_NAME</span><span class="o">=</span><span class="s2">"my_new_module"</span>
+
+<span class="c"># Create the source directory</span>
+<span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"plugins/modules/src/</span><span class="k">${</span><span class="nv">MODULE_NAME</span><span class="k">}</span><span class="s2">"</span>
+
+<span class="c"># Create the Go source file and the Python documentation file</span>
+<span class="nb">touch</span> <span class="s2">"plugins/modules/src/</span><span class="k">${</span><span class="nv">MODULE_NAME</span><span class="k">}</span><span class="s2">/</span><span class="k">${</span><span class="nv">MODULE_NAME</span><span class="k">}</span><span class="s2">.go"</span>
+<span class="nb">touch</span> <span class="s2">"plugins/modules/</span><span class="k">${</span><span class="nv">MODULE_NAME</span><span class="k">}</span><span class="s2">.py"</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_3_2_write_the_go_module_code"><a class="anchor" href="#_3_2_write_the_go_module_code"></a><a class="link" href="#_3_2_write_the_go_module_code">2. 3.2. Write the Go Module Code</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Your Go program will form the core logic of the Ansible module. The <code>main</code> function should be the entry point. Common dependencies you might need include:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>govmomi:</strong> for interacting with VMware vSphere (<code>github.com/vmware/govmomi</code>)</p>
+</li>
+<li>
+<p><strong>gophercloud:</strong> for interacting with OpenStack (<code>github.com/gophercloud/gophercloud</code>)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_3_3_create_the_python_documentation_file"><a class="anchor" href="#_3_3_create_the_python_documentation_file"></a><a class="link" href="#_3_3_create_the_python_documentation_file">3. 3.3. Create the Python Documentation File</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This file does not contain Go code. It&#8217;s a Python file that holds the documentation and metadata for your module in pydoc format. Ansible uses this to understand your module&#8217;s parameters, return values, and to generate documentation.</p>
+</div>
+<div class="paragraph">
+<p>Copy the contents of an existing module like <code>plugins/modules/create_server.py</code> and adapt it for your new module.</p>
+</div>
+<div class="paragraph">
+<p>Here is a template for <code>plugins/modules/my_new_module.py</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="python"><span class="c1">#!/usr/bin/python
+# -*- coding: utf-8 -*-
+</span>
+<span class="c1"># ANSIBLE_METADATA is a machine-readable block that provides metadata
+# about the module.
+</span><span class="n">ANSIBLE_METADATA</span> <span class="o">=</span> <span class="p">{</span><span class="s">'metadata_version'</span><span class="p">:</span> <span class="s">'1.1'</span><span class="p">,</span>
+                    <span class="s">'status'</span><span class="p">:</span> <span class="p">[</span><span class="s">'preview'</span><span class="p">],</span>
+                    <span class="s">'supported_by'</span><span class="p">:</span> <span class="s">'community'</span><span class="p">}</span>
+
+<span class="c1"># DOCUMENTATION is a string in YAML format that provides human-readable
+# documentation for the module.
+</span><span class="n">DOCUMENTATION</span> <span class="o">=</span> <span class="s">'''
+---
+module: my_new_module
+short_description: A brief description of what this module does.
+version_added: "1.0.0"
+description:
+    - "A more detailed description of the module's purpose and functionality."
+options:
+    name:
+        description:
+            - A required parameter for this example.
+        required: true
+        type: str
+author:
+    - Your Name (@your-github-handle)
+'''</span>
+
+<span class="c1"># EXAMPLES provides one or more examples of how to use the module in a playbook.
+</span><span class="n">EXAMPLES</span> <span class="o">=</span> <span class="s">'''
+- name: Run my new module
+  my_new_module:
+    name: "World"
+'''</span>
+
+<span class="c1"># RETURN provides documentation on the values returned by the module upon success.
+</span><span class="n">RETURN</span> <span class="o">=</span> <span class="s">'''
+original_message:
+    description: A message constructed from the input parameters.
+    type: str
+    returned: always
+    sample: 'Hello, World!'
+message:
+    description: A static success message.
+    type: str
+    returned: always
+    sample: 'This is a successful result from the Go module.'
+'''</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_3_4_build_the_module_binary"><a class="anchor" href="#_3_4_build_the_module_binary"></a><a class="link" href="#_3_4_build_the_module_binary">4. 3.4. Build the Module Binary</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The project&#8217;s <code>Makefile</code> provides a target to compile all Go-based modules. This process runs inside a container to ensure a clean and consistent build environment, using the <code>scripts/build.sh</code> script.</p>
+</div>
+<div class="paragraph">
+<p>To compile your new module, simply run:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash">make binaries</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>After the build completes, your compiled binary will be located at <code>plugins/modules/my_new_module</code>. Ansible will now be able to execute it.</p>
+</div>
+</div>
+</div>
+<h1 id="_4_handling_ci_sanity_tests" class="sect0"><a class="anchor" href="#_4_handling_ci_sanity_tests"></a><a class="link" href="#_4_handling_ci_sanity_tests">4. Handling CI Sanity Tests</a></h1>
+<div class="paragraph">
+<p>The <code>ansible-test sanity</code> checks can cause issues with Go code. The following sections describe the required workarounds.</p>
+</div>
+<div class="sect1">
+<h2 id="_4_1_bypassing_ansible_test_sanity_for_go_source"><a class="anchor" href="#_4_1_bypassing_ansible_test_sanity_for_go_source"></a><a class="link" href="#_4_1_bypassing_ansible_test_sanity_for_go_source">1. 4.1. Bypassing <code>ansible-test sanity</code> for Go Source</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>ansible-test sanity</code> tool does not recognize Go source code and will fail. To prevent this, you must exclude your module&#8217;s source directory from the test.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open the <code>Makefile</code> in the root of the project.</p>
+</li>
+<li>
+<p>Locate the <code>test-ansible-sanity</code> target.</p>
+</li>
+<li>
+<p>Add your module&#8217;s source directory to the <code>--exclude</code> list.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Example Modification in <code>Makefile</code>:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="makefile"><span class="c"># ... (other parts of the Makefile)
+</span>
+<span class="nl">test-ansible-sanity</span><span class="o">:</span>
+	<span class="c"># ... </span><span class="o">(</span>other commands<span class="o">)</span>
+	<span class="nv">$(CONTAINER_ENGINE)</span> run <span class="nt">--rm</span> <span class="se">\</span>
+		<span class="nt">-v</span> <span class="nv">$(CURDIR)</span>:/work:z <span class="se">\</span>
+		<span class="nv">$(AEE_IMAGE)</span> <span class="se">\</span>
+		ansible-test sanity <span class="se">\</span>
+		<span class="nt">--docker</span> <span class="se">\</span>
+		<span class="nt">--color</span> <span class="se">\</span>
+		<span class="nt">--junit</span> <span class="se">\</span>
+		<span class="nt">--exclude</span> plugins/modules/src/create_server/ <span class="se">\</span>
+		<span class="nt">--exclude</span> plugins/modules/src/delete_server/ <span class="se">\</span>
+		<span class="nt">--exclude</span> plugins/modules/src/my_new_module/ <span class="se">\ </span><span class="c"># &lt;--- ADD THIS LINE</span>
+		<span class="p">-</span><span class="nt">-skip-test</span> validate-modules <span class="se">\</span>
+		<span class="nv">$(ANSIBLE_TEST_OPTS)</span>
+
+<span class="err">#</span> <span class="err">...</span> <span class="err">(rest</span> <span class="err">of</span> <span class="err">the</span> <span class="err">Makefile)</span></code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>When you submit your pull request, mention this change so that it can be properly handled by the project maintainers.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_4_2_ignoring_the_gplv3_license_check"><a class="anchor" href="#_4_2_ignoring_the_gplv3_license_check"></a><a class="link" href="#_4_2_ignoring_the_gplv3_license_check">2. 4.2. Ignoring the GPLv3 License Check</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The sanity tests will also report a <code>missing-gplv3-license</code> error for your Python documentation file. You need to add an entry to the <code>ignore-*.txt</code> file to suppress this error.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Navigate to the <code>tests/sanity/</code> directory.</p>
+</li>
+<li>
+<p>Find the <code>ignore-X.Y.txt</code> file that corresponds to the Ansible version being used (e.g., <code>ignore-2.18.txt</code>).</p>
+</li>
+<li>
+<p>Add a line for your module&#8217;s documentation file.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Example for <code>tests/sanity/ignore-2.18.txt</code>:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code># ... (other entries)
+plugins/modules/create_server.py validate-modules:missing-gplv3-license
+plugins/modules/delete_server.py validate-modules:missing-gplv3-license
+plugins/modules/my_new_module.py validate-modules:missing-gplv3-license # &lt;--- ADD THIS LINE</code></pre>
+</div>
+</div>
+</div>
+</div>
+<h1 id="_5_contribution_workflow" class="sect0"><a class="anchor" href="#_5_contribution_workflow"></a><a class="link" href="#_5_contribution_workflow">5. Contribution Workflow</a></h1>
+<div class="paragraph">
+<p>Once you have developed and tested your module, follow the standard GitHub workflow to contribute it to the project:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Fork</strong> the repository.</p>
+</li>
+<li>
+<p>Create a new <strong>feature branch</strong>.</p>
+</li>
+<li>
+<p><strong>Commit</strong> your changes.</p>
+</li>
+<li>
+<p><strong>Push</strong> the branch to your fork.</p>
+</li>
+<li>
+<p>Open a <strong>Pull Request</strong> against the main repository.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Congratulations! You are now ready to develop and contribute new Go-based Ansible modules.</p>
+</div>
 <h1 id="_release_management" class="sect0"><a class="anchor" href="#_release_management"></a><a class="link" href="#_release_management">Release Management</a></h1>
 
 <h1 id="_releasing_the_os_migrate_collection" class="sect0"><a class="anchor" href="#_releasing_the_os_migrate_collection"></a><a class="link" href="#_releasing_the_os_migrate_collection">Releasing the OS Migrate collection</a></h1>
@@ -1939,7 +2491,7 @@ git push upstream stable/$STABLE_VERSION</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-09-17 20:49:27 -0400
+Last updated 2025-09-20 09:05:19 -0400
 </div>
 </div>
 <script src="../assets/js/toc-fold.js"></script>

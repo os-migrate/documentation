@@ -34,26 +34,9 @@ To get help, feel free to also create an
 https://github.com/os-migrate/os-migrate/issues[issue]
 on GitHub with your question.
 
-If you want to contribute to the project (code, docs, ...), please
-refer to the link:developer/index.html[developer docs].
-
 == Contents
 
 // Quickstart
 === link:operator/index.html[OS Migrate Operator Guide]
 
 Comprehensive information for operators planning and executing OpenStack cloud migrations using OS Migrate.
-
-// Developer
-=== link:developer/index.html[OS Migrate Developer Documentation]
-
-Information for developers contributing to OS Migrate.
-
-// Reference
-=== link:reference/modules/index.html[Documented modules in os-migrate]
-
-Complete reference documentation for all OS Migrate Ansible modules.
-
-=== link:reference/roles/index.html[Documented roles in os-migrate]
-
-Complete reference documentation for all OS Migrate Ansible roles.
