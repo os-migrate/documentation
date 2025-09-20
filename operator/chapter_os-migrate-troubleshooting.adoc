@@ -1,11 +1,13 @@
-== Troubleshooting
+[id="os-migrate-troubleshooting_troubleshooting"]
 
-=== General tips
+= Troubleshooting
+
+== General tips
 
 * Run `ansible-playbook` with `-v` parameter to get more detailed
   output.
 
-=== Common issues
+== Common issues
 
 * `DataVersionMismatch: OS Migrate runtime is version 'X.Y.Z', but
   tried to parse data file 'abc.yml' with os_migrate_version field

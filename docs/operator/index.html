@@ -655,68 +655,44 @@ pre.rouge {
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
+<h1>OS Migrate Operator Guide</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
-<ul class="sectlevel0">
-<li><a href="#_os_migrate_operator_guide">OS Migrate Operator Guide</a></li>
+<ul class="sectlevel1">
 <li><a href="#_overview">Overview</a></li>
 <li><a href="#os-migrate-overview_planning">os-migrate overview</a></li>
 <li><a href="#_planning_and_setup">Planning and Setup</a></li>
-<li><a href="#os-migrate-capacity-planning_planning">OS Migrate Capacity Planning</a></li>
-<li><a href="#os-migrate-migrator-host_planning">Migrator Host Requirements</a></li>
-<li><a href="#_overview_2">Overview</a></li>
-<li><a href="#_system_requirements">System Requirements</a>
-<ul class="sectlevel1">
-<li><a href="#_operating_system">Operating System</a></li>
-<li><a href="#_software_dependencies">Software Dependencies</a>
+<li><a href="#os-migrate-capacity-planning_planning">OS Migrate Capacity Planning</a>
 <ul class="sectlevel2">
-<li><a href="#_core_requirements">Core Requirements</a></li>
-<li><a href="#_python_packages">Python Packages</a></li>
-<li><a href="#_ansible_collections">Ansible Collections</a></li>
+<li><a href="#os-migrate-migrator-host_planning">Migrator Host Requirements</a>
+<ul class="sectlevel3">
+<li><a href="#_overview_2">Overview</a></li>
+<li><a href="#_system_requirements">System Requirements</a></li>
+<li><a href="#_configuration_requirements">Configuration Requirements</a></li>
+<li><a href="#_deployment_options">Deployment Options</a></li>
+<li><a href="#_special_considerations">Special Considerations</a></li>
 </ul>
 </li>
-<li><a href="#_storage_requirements">Storage Requirements</a></li>
-<li><a href="#_network_access">Network Access</a></li>
 </ul>
 </li>
-<li><a href="#_configuration_requirements">Configuration Requirements</a>
-<ul class="sectlevel1">
-<li><a href="#_authentication">Authentication</a></li>
-<li><a href="#_inventory_configuration">Inventory Configuration</a></li>
-<li><a href="#_required_variables">Required Variables</a></li>
-</ul>
-</li>
-<li><a href="#_deployment_options">Deployment Options</a>
-<ul class="sectlevel1">
-<li><a href="#_1_source_cloud_instance">1. Source Cloud Instance</a></li>
-<li><a href="#_2_third_party_machine">2. Third-Party Machine</a></li>
-<li><a href="#_3_ansible_execution_environment">3. Ansible Execution Environment</a></li>
-</ul>
-</li>
-<li><a href="#_special_considerations">Special Considerations</a>
-<ul class="sectlevel1">
-<li><a href="#_workload_migration">Workload Migration</a></li>
-<li><a href="#_multi_project_migrations">Multi-Project Migrations</a></li>
-<li><a href="#_security">Security</a></li>
-</ul>
-</li>
-<li><a href="#os-migrate-conversion-host-guide_planning">Conversion Host Guide</a></li>
+<li><a href="#os-migrate-conversion-host-guide_planning">Conversion Host Guide</a>
+<ul class="sectlevel2">
 <li><a href="#_purpose">Purpose</a></li>
 <li><a href="#_architecture">Architecture</a>
-<ul class="sectlevel1">
+<ul class="sectlevel3">
 <li><a href="#_conversion_host_role"><code>conversion_host</code> Role</a></li>
 <li><a href="#_conversion_host_content_role"><code>conversion_host_content</code> Role</a></li>
 </ul>
 </li>
 <li><a href="#_how_it_works">How It Works</a>
-<ul class="sectlevel1">
+<ul class="sectlevel3">
 <li><a href="#_deployment_process">Deployment Process</a></li>
 <li><a href="#_migration_workflow_integration">Migration Workflow Integration</a></li>
 <li><a href="#_network_architecture">Network Architecture</a></li>
 </ul>
 </li>
 <li><a href="#_configuration">Configuration</a>
-<ul class="sectlevel1">
+<ul class="sectlevel3">
 <li><a href="#_required_variables_2">Required Variables</a></li>
 <li><a href="#_network_configuration">Network Configuration</a></li>
 <li><a href="#_host_configuration">Host Configuration</a></li>
@@ -725,7 +701,7 @@ pre.rouge {
 </ul>
 </li>
 <li><a href="#_usage">Usage</a>
-<ul class="sectlevel1">
+<ul class="sectlevel3">
 <li><a href="#_deploy_conversion_hosts">Deploy Conversion Hosts</a></li>
 <li><a href="#_delete_conversion_hosts">Delete Conversion Hosts</a></li>
 <li><a href="#_manual_role_usage">Manual Role Usage</a></li>
@@ -733,19 +709,19 @@ pre.rouge {
 </li>
 <li><a href="#_integration_with_workload_migration">Integration with Workload Migration</a></li>
 <li><a href="#_prerequisites">Prerequisites</a>
-<ul class="sectlevel1">
+<ul class="sectlevel3">
 <li><a href="#_cloud_requirements">Cloud Requirements</a></li>
 <li><a href="#_permissions">Permissions</a></li>
 </ul>
 </li>
 <li><a href="#_troubleshooting">Troubleshooting</a>
-<ul class="sectlevel1">
+<ul class="sectlevel3">
 <li><a href="#_common_issues">Common Issues</a></li>
 <li><a href="#_debugging_steps">Debugging Steps</a></li>
 </ul>
 </li>
 <li><a href="#_best_practices">Best Practices</a>
-<ul class="sectlevel1">
+<ul class="sectlevel3">
 <li><a href="#_security_2">Security</a></li>
 <li><a href="#_performance">Performance</a></li>
 <li><a href="#_cleanup">Cleanup</a></li>
@@ -754,216 +730,243 @@ pre.rouge {
 </li>
 <li><a href="#_related_components">Related Components</a></li>
 <li><a href="#_examples">Examples</a>
-<ul class="sectlevel1">
+<ul class="sectlevel3">
 <li><a href="#_basic_deployment">Basic Deployment</a></li>
 <li><a href="#_advanced_configuration">Advanced Configuration</a></li>
 </ul>
 </li>
-<li><a href="#os-migrate-performance-expectations_planning">OS Migrate Performance Expectations</a></li>
+</ul>
+</li>
+<li><a href="#os-migrate-performance-expectations_planning">OS Migrate Performance Expectations</a>
+<ul class="sectlevel2">
 <li><a href="#_red_hat_testing_results">Red Hat Testing Results</a></li>
 <li><a href="#_expectations">Expectations</a></li>
 <li><a href="#_formulas">Formulas</a></li>
+</ul>
+</li>
 <li><a href="#_installation">Installation</a></li>
-<li><a href="#_installation_from_galaxy_recommended">Installation from Galaxy (recommended)</a>
-<ul class="sectlevel1">
+<li><a href="#os-migrate-install-from-galaxy_installation">Installation from Galaxy (recommended)</a>
+<ul class="sectlevel2">
 <li><a href="#_prerequisites_2">Prerequisites</a></li>
 <li><a href="#_using_virtualenv_for_prerequisites">Using virtualenv for prerequisites</a></li>
 <li><a href="#installation-1">Installation of OS Migrate collection</a></li>
 </ul>
 </li>
-<li><a href="#_installation_from_source_when_customizing">Installation from source (when customizing)</a></li>
-<li><a href="#_ansible_execution_environment_aee_images">Ansible Execution Environment (AEE) Images</a></li>
+<li><a href="#os-migrate-install-from-source_installation">Installation from source (when customizing)</a></li>
+<li><a href="#_ansible_execution_environment_aee_images">Ansible Execution Environment (AEE) Images</a>
+<ul class="sectlevel2">
 <li><a href="#_overview_3">Overview</a></li>
 <li><a href="#_available_aee_images">Available AEE Images</a>
-<ul class="sectlevel1">
+<ul class="sectlevel3">
 <li><a href="#_os_migrate_aee">os-migrate AEE</a></li>
 <li><a href="#_vmware_migration_kit_aee">vmware-migration-kit AEE</a></li>
 </ul>
 </li>
 <li><a href="#_building_aee_images">Building AEE Images</a>
-<ul class="sectlevel1">
-<li><a href="#_prerequisites_3">Prerequisites</a>
-<ul class="sectlevel2">
-<li><a href="#_setting_up_a_virtual_environment">Setting Up a Virtual Environment</a></li>
-<li><a href="#_installing_dependencies">Installing Dependencies</a></li>
-<li><a href="#_requirements_files">Requirements Files</a></li>
-<li><a href="#_collection_requirements_in_aee">Collection Requirements in AEE</a></li>
-<li><a href="#_alternative_installation_methods">Alternative Installation Methods</a></li>
-<li><a href="#_virtual_environment_management">Virtual Environment Management</a></li>
-<li><a href="#_troubleshooting_virtual_environment_issues">Troubleshooting Virtual Environment Issues</a></li>
-</ul>
-</li>
+<ul class="sectlevel3">
+<li><a href="#_prerequisites_3">Prerequisites</a></li>
 <li><a href="#_building_os_migrate_aee">Building os-migrate AEE</a></li>
 <li><a href="#_building_vmware_migration_kit_aee">Building vmware-migration-kit AEE</a></li>
 <li><a href="#_automated_build_process">Automated Build Process</a></li>
-<li><a href="#_release_versioning_and_tagging_strategy">Release Versioning and Tagging Strategy</a>
-<ul class="sectlevel2">
-<li><a href="#_main_branch_builds">Main Branch Builds</a></li>
-<li><a href="#_tag_based_builds">Tag-based Builds</a></li>
-<li><a href="#_tagging_strategy">Tagging Strategy</a></li>
-<li><a href="#_usage_examples">Usage Examples</a></li>
-<li><a href="#_workflow_triggers">Workflow Triggers</a></li>
-<li><a href="#_registry_configuration">Registry Configuration</a></li>
-<li><a href="#_configuring_secrets_and_environment_variables">Configuring Secrets and Environment Variables</a>
-<ul class="sectlevel3">
-<li><a href="#_repository_level_secrets">Repository-Level Secrets</a></li>
-<li><a href="#_environment_level_secrets">Environment-Level Secrets</a></li>
-<li><a href="#_organization_level_variables">Organization-Level Variables</a></li>
-<li><a href="#_repository_level_variables">Repository-Level Variables</a></li>
-<li><a href="#_environment_level_variables">Environment-Level Variables</a></li>
-<li><a href="#_using_variables_in_workflows">Using Variables in Workflows</a></li>
-<li><a href="#_variable_precedence">Variable Precedence</a></li>
-<li><a href="#_workflow_configuration_examples">Workflow Configuration Examples</a></li>
-<li><a href="#_basic_registry_authentication">Basic Registry Authentication</a></li>
-<li><a href="#_multi_registry_support">Multi-Registry Support</a></li>
-<li><a href="#_secure_secret_handling">Secure Secret Handling</a></li>
-<li><a href="#_conditional_secret_usage">Conditional Secret Usage</a></li>
-<li><a href="#_secret_rotation_and_management">Secret Rotation and Management</a></li>
-<li><a href="#_environment_specific_configuration">Environment-Specific Configuration</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a href="#_release_versioning_and_tagging_strategy">Release Versioning and Tagging Strategy</a></li>
 </ul>
 </li>
 <li><a href="#_using_aee_images">Using AEE Images</a>
-<ul class="sectlevel1">
+<ul class="sectlevel3">
 <li><a href="#_running_playbooks_with_aee">Running Playbooks with AEE</a></li>
 <li><a href="#_interactive_shell_access">Interactive Shell Access</a></li>
 <li><a href="#_volume_mounts">Volume Mounts</a></li>
 </ul>
 </li>
 <li><a href="#_aee_configuration">AEE Configuration</a>
-<ul class="sectlevel1">
+<ul class="sectlevel3">
 <li><a href="#_execution_environment_definition">Execution Environment Definition</a></li>
 <li><a href="#_customizing_aee_images">Customizing AEE Images</a></li>
 </ul>
 </li>
 <li><a href="#_troubleshooting_2">Troubleshooting</a>
-<ul class="sectlevel1">
-<li><a href="#_secrets_and_variables_issues">Secrets and Variables Issues</a>
-<ul class="sectlevel2">
-<li><a href="#_common_secret_configuration_problems">Common Secret Configuration Problems</a></li>
-<li><a href="#_variable_access_issues">Variable Access Issues</a></li>
-<li><a href="#_registry_authentication_troubleshooting">Registry Authentication Troubleshooting</a></li>
-</ul>
-</li>
+<ul class="sectlevel3">
+<li><a href="#_secrets_and_variables_issues">Secrets and Variables Issues</a></li>
 <li><a href="#_debugging_aee_issues">Debugging AEE Issues</a></li>
 <li><a href="#_performance_optimization">Performance Optimization</a></li>
 </ul>
 </li>
 <li><a href="#_maintenance">Maintenance</a>
-<ul class="sectlevel1">
+<ul class="sectlevel3">
 <li><a href="#_updating_aee_images">Updating AEE Images</a></li>
-<li><a href="#_version_management">Version Management</a>
-<ul class="sectlevel2">
-<li><a href="#_manual_version_management">Manual Version Management</a></li>
-<li><a href="#_automated_version_management">Automated Version Management</a></li>
-<li><a href="#_creating_releases">Creating Releases</a></li>
-<li><a href="#_version_tag_strategy">Version Tag Strategy</a></li>
-</ul>
-</li>
+<li><a href="#_version_management">Version Management</a></li>
 <li><a href="#_security_considerations">Security Considerations</a></li>
 </ul>
 </li>
 <li><a href="#_best_practices_2">Best Practices</a>
-<ul class="sectlevel1">
+<ul class="sectlevel3">
 <li><a href="#_development_workflow">Development Workflow</a></li>
 <li><a href="#_production_usage">Production Usage</a></li>
 <li><a href="#_documentation">Documentation</a></li>
 </ul>
 </li>
 <li><a href="#_todo">TODO</a>
-<ul class="sectlevel1">
+<ul class="sectlevel3">
 <li><a href="#_collection_installation_improvements">Collection Installation Improvements</a></li>
 </ul>
 </li>
+</ul>
+</li>
 <li><a href="#_migration_guides">Migration Guides</a></li>
-<li><a href="#os-migrate-walkthrough_planning">OS Migrate walkthrough</a></li>
+<li><a href="#os-migrate-walkthrough_planning">OS Migrate walkthrough</a>
+<ul class="sectlevel2">
 <li><a href="#_prerequisites_4">Prerequisites</a>
-<ul class="sectlevel1">
+<ul class="sectlevel3">
 <li><a href="#_authentication_2">Authentication</a></li>
-<li><a href="#_parameter_file">Parameter file</a>
+<li><a href="#_parameter_file">Parameter file</a></li>
+<li><a href="#_pre_workload_migration">Pre-workload migration</a></li>
+<li><a href="#_workload_migration_2">Workload migration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#os-migrate-process-summary_planning">How it works: Workload migration</a>
 <ul class="sectlevel2">
-<li><a href="#_shortcuts">Shortcuts</a></li>
-</ul>
-</li>
-<li><a href="#_pre_workload_migration">Pre-workload migration</a>
-<ul class="sectlevel2">
-<li><a href="#_export_and_import">Export and import</a></li>
-<li><a href="#_diagrams">Diagrams</a></li>
-<li><a href="#_demo">Demo</a></li>
-</ul>
-</li>
-<li><a href="#_workload_migration_2">Workload migration</a>
-<ul class="sectlevel2">
-<li><a href="#_process_summary">Process Summary</a></li>
-<li><a href="#_preparation">Preparation</a></li>
-<li><a href="#_conversion_host_deployment">Conversion host deployment</a></li>
-<li><a href="#_export">Export</a></li>
-<li><a href="#_migration_parameters">Migration parameters</a></li>
-<li><a href="#_ansible_variables">Ansible Variables</a></li>
-<li><a href="#_migration">Migration</a></li>
-<li><a href="#_cleanup_of_conversion_hosts">Cleanup of conversion hosts</a></li>
-<li><a href="#_demo_2">Demo</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#os-migrate-process-summary_planning">How it works: Workload migration</a></li>
 <li><a href="#_data_flow">Data flow</a></li>
 <li><a href="#_migration_sequence">Migration sequence</a></li>
-<li><a href="#os-migrate-vmware-guide_vmware">OS Migrate VMware Guide</a></li>
+</ul>
+</li>
+<li><a href="#os-migrate-vmware-guide_vmware">OS Migrate VMware Guide</a>
+<ul class="sectlevel2">
 <li><a href="#_workflow">Workflow</a></li>
 <li><a href="#_features_and_supported_os">Features and supported OS</a>
-<ul class="sectlevel1">
+<ul class="sectlevel3">
 <li><a href="#_features">Features</a></li>
 <li><a href="#_supported_os">Supported OS</a></li>
 <li><a href="#_nbdkit_migration_example">Nbdkit migration example</a></li>
-<li><a href="#_nbdkit_migration_example_with_the_change_block_tracking">Nbdkit migration example with the Change Block Tracking</a>
-<ul class="sectlevel2">
-<li><a href="#_step_1_the_data_are_copied_and_the_change_id_from_the_vmware_disk_are_set_to_the_cinder_volume_as_metadata">Step 1: The data are copied and the change ID from the VMware disk are set to the Cinder volume as metadata</a></li>
-</ul>
-</li>
-<li><a href="#_migration_demo_from_an_aee">Migration demo from an AEE</a></li>
-<li><a href="#_running_migration">Running migration</a>
-<ul class="sectlevel2">
-<li><a href="#_conversion_host">Conversion host</a></li>
-<li><a href="#_inventory_variables_files_and_ansible_command">Inventory, Variables files and Ansible command:</a></li>
-</ul>
-</li>
+<li><a href="#_nbdkit_migration_example_with_the_change_block_tracking">Nbdkit migration example with the Change Block Tracking</a></li>
 </ul>
 </li>
 <li><a href="#_usage_2">Usage</a>
-<ul class="sectlevel1">
+<ul class="sectlevel3">
 <li><a href="#_nbdkit_default">Nbdkit (default)</a></li>
 <li><a href="#_running_migration_from_local_shared_nfs">Running migration from local shared NFS</a></li>
+<li><a href="#_ansible_configuration">Ansible configuration</a></li>
+<li><a href="#_running_migration_outside_of_ansible">Running Migration outside of Ansible</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_configuration_and_usage">Configuration and Usage</a></li>
+<li><a href="#os-migrate-migration-parameters-guide_parameters">Migration Parameters Guide</a>
+<ul class="sectlevel2">
+<li><a href="#_what_are_migration_parameters">What are migration parameters</a></li>
+<li><a href="#_workload_migration_parameters">Workload migration parameters</a></li>
+</ul>
+</li>
+<li><a href="#os-migrate-variables-guide_variables">Variables Guide</a>
+<ul class="sectlevel2">
+<li><a href="#_general_variables">General variables</a>
+<ul class="sectlevel3">
+<li><a href="#_resource_filters">Resource filters</a></li>
+</ul>
+</li>
+<li><a href="#_conversion_host_variables">Conversion host variables</a>
+<ul class="sectlevel3">
+<li><a href="#_conversion_host_name">Conversion host name</a></li>
+<li><a href="#_conversion_host_image_name">Conversion host image name</a></li>
+<li><a href="#_conversion_host_flavor_name">Conversion host flavor name</a></li>
+<li><a href="#_conversion_host_external_network_name">Conversion host external network name</a></li>
+<li><a href="#_other_conversion_host_dependency_names">Other conversion host dependency names</a></li>
+<li><a href="#_conversion_host_availablility_zone_management">Conversion host availablility zone management</a></li>
+<li><a href="#_conversion_host_network_management">Conversion host network management</a></li>
+<li><a href="#_conversion_host_floating_ip_management">Conversion host floating IP management</a></li>
+<li><a href="#_conversion_host_specific_floating_ip">Conversion host specific floating IP</a></li>
+<li><a href="#_attaching_conversion_hosts_onto_public_networks">Attaching conversion hosts onto public networks</a></li>
+<li><a href="#_storage_migration_modes">Storage migration modes</a></li>
+<li><a href="#_conversion_host_boot_from_volume">Conversion host boot from volume</a></li>
+<li><a href="#_conversion_host_rhel_variables">Conversion host RHEL variables</a></li>
+<li><a href="#_enabling_password_based_ssh_access_to_the_conversion_hosts">Enabling password-based SSH access to the conversion hosts</a></li>
+<li><a href="#_running_custom_bash_scripts_in_the_conversion_hosts">Running custom bash scripts in the conversion hosts</a></li>
+<li><a href="#_disabling_the_subscription_manager_tasks">Disabling the subscription manager tasks</a></li>
+</ul>
+</li>
+<li><a href="#_openstack_rest_api_tls_variables">OpenStack REST API TLS variables</a></li>
+<li><a href="#_workload_importexport_variables">Workload import/export variables</a></li>
+<li><a href="#_workload_migration_variables">Workload migration variables</a></li>
+</ul>
+</li>
+<li><a href="#os-migrate-usage-notes_usage">General usage notes</a></li>
+<li><a href="#_maintenance_and_support">Maintenance and Support</a></li>
+<li><a href="#os-migrate-troubleshooting_troubleshooting">Troubleshooting</a>
+<ul class="sectlevel2">
+<li><a href="#_general_tips">General tips</a></li>
+<li><a href="#_common_issues_2">Common issues</a></li>
+<li><a href="#_upgrading">Upgrading</a>
+<ul class="sectlevel3">
+<li><a href="#_collection_upgrade">Collection upgrade</a></li>
+<li><a href="#_usage_notes_related_to_upgrading">Usage notes related to upgrading</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#os-migrate-contributing_development">OS Migrate Contribution Guidelines</a>
+<ul class="sectlevel2">
+<li><a href="#_tbd_but_largely_based_on_combination_of_existing_guide_and_david_roberto_collaboration">TBD - but largely based on combination of existing guide, and David &amp; Roberto collaboration</a></li>
+</ul>
+</li>
+<li><a href="#_reference">Reference</a></li>
+<li><a href="#_os_migrate_glossary">OS Migrate Glossary</a>
+<ul class="sectlevel2">
+<li><a href="#_core_concepts">Core Concepts</a></li>
+<li><a href="#_resource_types">Resource Types</a></li>
+<li><a href="#_migration_infrastructure">Migration Infrastructure</a></li>
+<li><a href="#_data_management">Data Management</a></li>
+<li><a href="#_resource_structure">Resource Structure</a></li>
+<li><a href="#_authentication_configuration">Authentication &amp; Configuration</a></li>
+<li><a href="#_ansible_components">Ansible Components</a></li>
+<li><a href="#_development_testing">Development &amp; Testing</a></li>
+<li><a href="#_container_environment">Container Environment</a></li>
+<li><a href="#_build_deployment">Build &amp; Deployment</a></li>
+<li><a href="#_migration_process">Migration Process</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 <div id="content">
-<h1 id="_os_migrate_operator_guide" class="sect0"><a class="anchor" href="#_os_migrate_operator_guide"></a><a class="link" href="#_os_migrate_operator_guide">OS Migrate Operator Guide</a></h1>
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
 <p>This guide provides comprehensive information for operators planning and executing OpenStack cloud migrations using OS Migrate.</p>
 </div>
-<h1 id="_overview" class="sect0"><a class="anchor" href="#_overview"></a><a class="link" href="#_overview">Overview</a></h1>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_overview"><a class="anchor" href="#_overview"></a><a class="link" href="#_overview">Overview</a></h2>
+<div class="sectionbody">
 
-<h1 id="os-migrate-overview_planning" class="sect0"><a class="anchor" href="#os-migrate-overview_planning"></a><a class="link" href="#os-migrate-overview_planning">os-migrate overview</a></h1>
+</div>
+</div>
+<div class="sect1">
+<h2 id="os-migrate-overview_planning"><a class="anchor" href="#os-migrate-overview_planning"></a><a class="link" href="#os-migrate-overview_planning">os-migrate overview</a></h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>OS-Migrate is a toolsuite designed to assist in the process of moving cloud workloads from one environment to another. Please read the entire workflow notes in order to be sufficiently prepared for this endeavour.</p>
 </div>
 <div class="paragraph">
 <p>TO BE FLESHED OUT</p>
 </div>
-<h1 id="_planning_and_setup" class="sect0"><a class="anchor" href="#_planning_and_setup"></a><a class="link" href="#_planning_and_setup">Planning and Setup</a></h1>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_planning_and_setup"><a class="anchor" href="#_planning_and_setup"></a><a class="link" href="#_planning_and_setup">Planning and Setup</a></h2>
+<div class="sectionbody">
 
-<h1 id="os-migrate-capacity-planning_planning" class="sect0"><a class="anchor" href="#os-migrate-capacity-planning_planning"></a><a class="link" href="#os-migrate-capacity-planning_planning">OS Migrate Capacity Planning</a></h1>
-
-<h1 id="os-migrate-migrator-host_planning" class="sect0"><a class="anchor" href="#os-migrate-migrator-host_planning"></a><a class="link" href="#os-migrate-migrator-host_planning">Migrator Host Requirements</a></h1>
-
-<h1 id="_overview_2" class="sect0"><a class="anchor" href="#_overview_2"></a><a class="link" href="#_overview_2">Overview</a></h1>
+</div>
+</div>
+<div class="sect1">
+<h2 id="os-migrate-capacity-planning_planning"><a class="anchor" href="#os-migrate-capacity-planning_planning"></a><a class="link" href="#os-migrate-capacity-planning_planning">OS Migrate Capacity Planning</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="os-migrate-migrator-host_planning"><a class="anchor" href="#os-migrate-migrator-host_planning"></a><a class="link" href="#os-migrate-migrator-host_planning">Migrator Host Requirements</a></h3>
+<div class="sect3">
+<h4 id="_overview_2"><a class="anchor" href="#_overview_2"></a><a class="link" href="#_overview_2">Overview</a></h4>
 <div class="paragraph">
 <p>The migrator host is the machine that executes OS Migrate Ansible playbooks and serves as the orchestration point for OpenStack cloud migrations. It can be deployed as:</p>
 </div>
@@ -980,10 +983,11 @@ pre.rouge {
 </li>
 </ul>
 </div>
-<h1 id="_system_requirements" class="sect0"><a class="anchor" href="#_system_requirements"></a><a class="link" href="#_system_requirements">System Requirements</a></h1>
-<div class="sect1">
-<h2 id="_operating_system"><a class="anchor" href="#_operating_system"></a><a class="link" href="#_operating_system">Operating System</a></h2>
-<div class="sectionbody">
+</div>
+<div class="sect3">
+<h4 id="_system_requirements"><a class="anchor" href="#_system_requirements"></a><a class="link" href="#_system_requirements">System Requirements</a></h4>
+<div class="sect4">
+<h5 id="_operating_system"><a class="anchor" href="#_operating_system"></a><a class="link" href="#_operating_system">Operating System</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -998,12 +1002,10 @@ pre.rouge {
 </ul>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_software_dependencies"><a class="anchor" href="#_software_dependencies"></a><a class="link" href="#_software_dependencies">Software Dependencies</a></h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_core_requirements"><a class="anchor" href="#_core_requirements"></a><a class="link" href="#_core_requirements">Core Requirements</a></h3>
+<div class="sect4">
+<h5 id="_software_dependencies"><a class="anchor" href="#_software_dependencies"></a><a class="link" href="#_software_dependencies">Software Dependencies</a></h5>
+<div class="sect5">
+<h6 id="_core_requirements"><a class="anchor" href="#_core_requirements"></a><a class="link" href="#_core_requirements">Core Requirements</a></h6>
 <div class="ulist">
 <ul>
 <li>
@@ -1015,8 +1017,8 @@ pre.rouge {
 </ul>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_python_packages"><a class="anchor" href="#_python_packages"></a><a class="link" href="#_python_packages">Python Packages</a></h3>
+<div class="sect5">
+<h6 id="_python_packages"><a class="anchor" href="#_python_packages"></a><a class="link" href="#_python_packages">Python Packages</a></h6>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight"><code data-lang="text">ansible==11.7.0
@@ -1028,8 +1030,8 @@ PyYAML==6.0.2</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_ansible_collections"><a class="anchor" href="#_ansible_collections"></a><a class="link" href="#_ansible_collections">Ansible Collections</a></h3>
+<div class="sect5">
+<h6 id="_ansible_collections"><a class="anchor" href="#_ansible_collections"></a><a class="link" href="#_ansible_collections">Ansible Collections</a></h6>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight"><code data-lang="text">community.crypto: "&gt;=1.4.0"
@@ -1039,10 +1041,8 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_storage_requirements"><a class="anchor" href="#_storage_requirements"></a><a class="link" href="#_storage_requirements">Storage Requirements</a></h2>
-<div class="sectionbody">
+<div class="sect4">
+<h5 id="_storage_requirements"><a class="anchor" href="#_storage_requirements"></a><a class="link" href="#_storage_requirements">Storage Requirements</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1057,10 +1057,8 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 </ul>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_network_access"><a class="anchor" href="#_network_access"></a><a class="link" href="#_network_access">Network Access</a></h2>
-<div class="sectionbody">
+<div class="sect4">
+<h5 id="_network_access"><a class="anchor" href="#_network_access"></a><a class="link" href="#_network_access">Network Access</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1076,10 +1074,10 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 </div>
 </div>
 </div>
-<h1 id="_configuration_requirements" class="sect0"><a class="anchor" href="#_configuration_requirements"></a><a class="link" href="#_configuration_requirements">Configuration Requirements</a></h1>
-<div class="sect1">
-<h2 id="_authentication"><a class="anchor" href="#_authentication"></a><a class="link" href="#_authentication">Authentication</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_configuration_requirements"><a class="anchor" href="#_configuration_requirements"></a><a class="link" href="#_configuration_requirements">Configuration Requirements</a></h4>
+<div class="sect4">
+<h5 id="_authentication"><a class="anchor" href="#_authentication"></a><a class="link" href="#_authentication">Authentication</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1094,10 +1092,8 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 </ul>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_inventory_configuration"><a class="anchor" href="#_inventory_configuration"></a><a class="link" href="#_inventory_configuration">Inventory Configuration</a></h2>
-<div class="sectionbody">
+<div class="sect4">
+<h5 id="_inventory_configuration"><a class="anchor" href="#_inventory_configuration"></a><a class="link" href="#_inventory_configuration">Inventory Configuration</a></h5>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight"><code data-lang="yaml"><span class="na">migrator</span><span class="pi">:</span>
@@ -1108,10 +1104,8 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_required_variables"><a class="anchor" href="#_required_variables"></a><a class="link" href="#_required_variables">Required Variables</a></h2>
-<div class="sectionbody">
+<div class="sect4">
+<h5 id="_required_variables"><a class="anchor" href="#_required_variables"></a><a class="link" href="#_required_variables">Required Variables</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1130,10 +1124,10 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 </div>
 </div>
 </div>
-<h1 id="_deployment_options" class="sect0"><a class="anchor" href="#_deployment_options"></a><a class="link" href="#_deployment_options">Deployment Options</a></h1>
-<div class="sect1">
-<h2 id="_1_source_cloud_instance"><a class="anchor" href="#_1_source_cloud_instance"></a><a class="link" href="#_1_source_cloud_instance">1. Source Cloud Instance</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_deployment_options"><a class="anchor" href="#_deployment_options"></a><a class="link" href="#_deployment_options">Deployment Options</a></h4>
+<div class="sect4">
+<h5 id="_1_source_cloud_instance"><a class="anchor" href="#_1_source_cloud_instance"></a><a class="link" href="#_1_source_cloud_instance">1. Source Cloud Instance</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1148,10 +1142,8 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 </ul>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_2_third_party_machine"><a class="anchor" href="#_2_third_party_machine"></a><a class="link" href="#_2_third_party_machine">2. Third-Party Machine</a></h2>
-<div class="sectionbody">
+<div class="sect4">
+<h5 id="_2_third_party_machine"><a class="anchor" href="#_2_third_party_machine"></a><a class="link" href="#_2_third_party_machine">2. Third-Party Machine</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1166,10 +1158,8 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 </ul>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_3_ansible_execution_environment"><a class="anchor" href="#_3_ansible_execution_environment"></a><a class="link" href="#_3_ansible_execution_environment">3. Ansible Execution Environment</a></h2>
-<div class="sectionbody">
+<div class="sect4">
+<h5 id="_3_ansible_execution_environment"><a class="anchor" href="#_3_ansible_execution_environment"></a><a class="link" href="#_3_ansible_execution_environment">3. Ansible Execution Environment</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1185,10 +1175,10 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 </div>
 </div>
 </div>
-<h1 id="_special_considerations" class="sect0"><a class="anchor" href="#_special_considerations"></a><a class="link" href="#_special_considerations">Special Considerations</a></h1>
-<div class="sect1">
-<h2 id="_workload_migration"><a class="anchor" href="#_workload_migration"></a><a class="link" href="#_workload_migration">Workload Migration</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_special_considerations"><a class="anchor" href="#_special_considerations"></a><a class="link" href="#_special_considerations">Special Considerations</a></h4>
+<div class="sect4">
+<h5 id="_workload_migration"><a class="anchor" href="#_workload_migration"></a><a class="link" href="#_workload_migration">Workload Migration</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1203,10 +1193,8 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 </ul>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_multi_project_migrations"><a class="anchor" href="#_multi_project_migrations"></a><a class="link" href="#_multi_project_migrations">Multi-Project Migrations</a></h2>
-<div class="sectionbody">
+<div class="sect4">
+<h5 id="_multi_project_migrations"><a class="anchor" href="#_multi_project_migrations"></a><a class="link" href="#_multi_project_migrations">Multi-Project Migrations</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1221,10 +1209,8 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 </ul>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_security"><a class="anchor" href="#_security"></a><a class="link" href="#_security">Security</a></h2>
-<div class="sectionbody">
+<div class="sect4">
+<h5 id="_security"><a class="anchor" href="#_security"></a><a class="link" href="#_security">Security</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -1240,11 +1226,17 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 </div>
 </div>
 </div>
-<h1 id="os-migrate-conversion-host-guide_planning" class="sect0"><a class="anchor" href="#os-migrate-conversion-host-guide_planning"></a><a class="link" href="#os-migrate-conversion-host-guide_planning">Conversion Host Guide</a></h1>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="os-migrate-conversion-host-guide_planning"><a class="anchor" href="#os-migrate-conversion-host-guide_planning"></a><a class="link" href="#os-migrate-conversion-host-guide_planning">Conversion Host Guide</a></h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>The conversion host role is a critical component of OS Migrate for migrating OpenStack workloads (instances) and their associated volumes between OpenStack clouds. It deploys dedicated compute instances that act as intermediary hosts for data transfer and conversion operations during workload migration.</p>
 </div>
-<h1 id="_purpose" class="sect0"><a class="anchor" href="#_purpose"></a><a class="link" href="#_purpose">Purpose</a></h1>
+<div class="sect2">
+<h3 id="_purpose"><a class="anchor" href="#_purpose"></a><a class="link" href="#_purpose">Purpose</a></h3>
 <div class="paragraph">
 <p>Conversion hosts serve as temporary staging instances that:</p>
 </div>
@@ -1264,13 +1256,14 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 </li>
 </ul>
 </div>
-<h1 id="_architecture" class="sect0"><a class="anchor" href="#_architecture"></a><a class="link" href="#_architecture">Architecture</a></h1>
+</div>
+<div class="sect2">
+<h3 id="_architecture"><a class="anchor" href="#_architecture"></a><a class="link" href="#_architecture">Architecture</a></h3>
 <div class="paragraph">
 <p>The conversion host system consists of two main Ansible roles:</p>
 </div>
-<div class="sect1">
-<h2 id="_conversion_host_role"><a class="anchor" href="#_conversion_host_role"></a><a class="link" href="#_conversion_host_role"><code>conversion_host</code> Role</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_conversion_host_role"><a class="anchor" href="#_conversion_host_role"></a><a class="link" href="#_conversion_host_role"><code>conversion_host</code> Role</a></h4>
 <div class="paragraph">
 <p><strong>Location</strong>: <code>/roles/conversion_host/</code></p>
 </div>
@@ -1300,10 +1293,8 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 </ul>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_conversion_host_content_role"><a class="anchor" href="#_conversion_host_content_role"></a><a class="link" href="#_conversion_host_content_role"><code>conversion_host_content</code> Role</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_conversion_host_content_role"><a class="anchor" href="#_conversion_host_content_role"></a><a class="link" href="#_conversion_host_content_role"><code>conversion_host_content</code> Role</a></h4>
 <div class="paragraph">
 <p><strong>Location</strong>: <code>/roles/conversion_host_content/</code></p>
 </div>
@@ -1334,10 +1325,10 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 </div>
 </div>
 </div>
-<h1 id="_how_it_works" class="sect0"><a class="anchor" href="#_how_it_works"></a><a class="link" href="#_how_it_works">How It Works</a></h1>
-<div class="sect1">
-<h2 id="_deployment_process"><a class="anchor" href="#_deployment_process"></a><a class="link" href="#_deployment_process">Deployment Process</a></h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_how_it_works"><a class="anchor" href="#_how_it_works"></a><a class="link" href="#_how_it_works">How It Works</a></h3>
+<div class="sect3">
+<h4 id="_deployment_process"><a class="anchor" href="#_deployment_process"></a><a class="link" href="#_deployment_process">Deployment Process</a></h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -1399,10 +1390,8 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 </ol>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_migration_workflow_integration"><a class="anchor" href="#_migration_workflow_integration"></a><a class="link" href="#_migration_workflow_integration">Migration Workflow Integration</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_migration_workflow_integration"><a class="anchor" href="#_migration_workflow_integration"></a><a class="link" href="#_migration_workflow_integration">Migration Workflow Integration</a></h4>
 <div class="paragraph">
 <p>During workload migration, conversion hosts are used in the following workflow:</p>
 </div>
@@ -1423,10 +1412,8 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 </ol>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_network_architecture"><a class="anchor" href="#_network_architecture"></a><a class="link" href="#_network_architecture">Network Architecture</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_network_architecture"><a class="anchor" href="#_network_architecture"></a><a class="link" href="#_network_architecture">Network Architecture</a></h4>
 <div class="literalblock">
 <div class="content">
 <pre>Source Cloud                 Destination Cloud
@@ -1443,10 +1430,10 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 </div>
 </div>
 </div>
-<h1 id="_configuration" class="sect0"><a class="anchor" href="#_configuration"></a><a class="link" href="#_configuration">Configuration</a></h1>
-<div class="sect1">
-<h2 id="_required_variables_2"><a class="anchor" href="#_required_variables_2"></a><a class="link" href="#_required_variables_2">Required Variables</a></h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_configuration"><a class="anchor" href="#_configuration"></a><a class="link" href="#_configuration">Configuration</a></h3>
+<div class="sect3">
+<h4 id="_required_variables_2"><a class="anchor" href="#_required_variables_2"></a><a class="link" href="#_required_variables_2">Required Variables</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># Must be defined</span>
@@ -1455,10 +1442,8 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_network_configuration"><a class="anchor" href="#_network_configuration"></a><a class="link" href="#_network_configuration">Network Configuration</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_network_configuration"><a class="anchor" href="#_network_configuration"></a><a class="link" href="#_network_configuration">Network Configuration</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># Network settings (with defaults)</span>
@@ -1472,10 +1457,8 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_host_configuration"><a class="anchor" href="#_host_configuration"></a><a class="link" href="#_host_configuration">Host Configuration</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_host_configuration"><a class="anchor" href="#_host_configuration"></a><a class="link" href="#_host_configuration">Host Configuration</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># Instance settings</span>
@@ -1492,10 +1475,8 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_security_configuration"><a class="anchor" href="#_security_configuration"></a><a class="link" href="#_security_configuration">Security Configuration</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_security_configuration"><a class="anchor" href="#_security_configuration"></a><a class="link" href="#_security_configuration">Security Configuration</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># SSH and security</span>
@@ -1508,10 +1489,8 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_management_options"><a class="anchor" href="#_management_options"></a><a class="link" href="#_management_options">Management Options</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_management_options"><a class="anchor" href="#_management_options"></a><a class="link" href="#_management_options">Management Options</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># Infrastructure management</span>
@@ -1531,10 +1510,10 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 </div>
 </div>
 </div>
-<h1 id="_usage" class="sect0"><a class="anchor" href="#_usage"></a><a class="link" href="#_usage">Usage</a></h1>
-<div class="sect1">
-<h2 id="_deploy_conversion_hosts"><a class="anchor" href="#_deploy_conversion_hosts"></a><a class="link" href="#_deploy_conversion_hosts">Deploy Conversion Hosts</a></h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_usage"><a class="anchor" href="#_usage"></a><a class="link" href="#_usage">Usage</a></h3>
+<div class="sect3">
+<h4 id="_deploy_conversion_hosts"><a class="anchor" href="#_deploy_conversion_hosts"></a><a class="link" href="#_deploy_conversion_hosts">Deploy Conversion Hosts</a></h4>
 <div class="paragraph">
 <p>Use the provided playbook to deploy conversion hosts:</p>
 </div>
@@ -1566,10 +1545,8 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 </ol>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_delete_conversion_hosts"><a class="anchor" href="#_delete_conversion_hosts"></a><a class="link" href="#_delete_conversion_hosts">Delete Conversion Hosts</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_delete_conversion_hosts"><a class="anchor" href="#_delete_conversion_hosts"></a><a class="link" href="#_delete_conversion_hosts">Delete Conversion Hosts</a></h4>
 <div class="paragraph">
 <p>Clean up conversion hosts and their infrastructure:</p>
 </div>
@@ -1579,10 +1556,8 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_manual_role_usage"><a class="anchor" href="#_manual_role_usage"></a><a class="link" href="#_manual_role_usage">Manual Role Usage</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_manual_role_usage"><a class="anchor" href="#_manual_role_usage"></a><a class="link" href="#_manual_role_usage">Manual Role Usage</a></h4>
 <div class="paragraph">
 <p>You can also use the roles directly for more control:</p>
 </div>
@@ -1609,7 +1584,8 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 </div>
 </div>
 </div>
-<h1 id="_integration_with_workload_migration" class="sect0"><a class="anchor" href="#_integration_with_workload_migration"></a><a class="link" href="#_integration_with_workload_migration">Integration with Workload Migration</a></h1>
+<div class="sect2">
+<h3 id="_integration_with_workload_migration"><a class="anchor" href="#_integration_with_workload_migration"></a><a class="link" href="#_integration_with_workload_migration">Integration with Workload Migration</a></h3>
 <div class="paragraph">
 <p>Conversion hosts are automatically used during workload migration when:</p>
 </div>
@@ -1638,10 +1614,11 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
   <span class="na">register</span><span class="pi">:</span> <span class="s">conversion_host_info</span></code></pre>
 </div>
 </div>
-<h1 id="_prerequisites" class="sect0"><a class="anchor" href="#_prerequisites"></a><a class="link" href="#_prerequisites">Prerequisites</a></h1>
-<div class="sect1">
-<h2 id="_cloud_requirements"><a class="anchor" href="#_cloud_requirements"></a><a class="link" href="#_cloud_requirements">Cloud Requirements</a></h2>
-<div class="sectionbody">
+</div>
+<div class="sect2">
+<h3 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a><a class="link" href="#_prerequisites">Prerequisites</a></h3>
+<div class="sect3">
+<h4 id="_cloud_requirements"><a class="anchor" href="#_cloud_requirements"></a><a class="link" href="#_cloud_requirements">Cloud Requirements</a></h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1659,10 +1636,8 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 </ul>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_permissions"><a class="anchor" href="#_permissions"></a><a class="link" href="#_permissions">Permissions</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_permissions"><a class="anchor" href="#_permissions"></a><a class="link" href="#_permissions">Permissions</a></h4>
 <div class="paragraph">
 <p>The deployment requires OpenStack permissions for:</p>
 </div>
@@ -1687,10 +1662,10 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 </div>
 </div>
 </div>
-<h1 id="_troubleshooting" class="sect0"><a class="anchor" href="#_troubleshooting"></a><a class="link" href="#_troubleshooting">Troubleshooting</a></h1>
-<div class="sect1">
-<h2 id="_common_issues"><a class="anchor" href="#_common_issues"></a><a class="link" href="#_common_issues">Common Issues</a></h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_troubleshooting"><a class="anchor" href="#_troubleshooting"></a><a class="link" href="#_troubleshooting">Troubleshooting</a></h3>
+<div class="sect3">
+<h4 id="_common_issues"><a class="anchor" href="#_common_issues"></a><a class="link" href="#_common_issues">Common Issues</a></h4>
 <div class="paragraph">
 <p><strong>1. Conversion Host Not Reachable</strong></p>
 </div>
@@ -1736,10 +1711,8 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_debugging_steps"><a class="anchor" href="#_debugging_steps"></a><a class="link" href="#_debugging_steps">Debugging Steps</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_debugging_steps"><a class="anchor" href="#_debugging_steps"></a><a class="link" href="#_debugging_steps">Debugging Steps</a></h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -1783,10 +1756,10 @@ openstack security group list <span class="nt">--name</span> os_migrate_conv</co
 </div>
 </div>
 </div>
-<h1 id="_best_practices" class="sect0"><a class="anchor" href="#_best_practices"></a><a class="link" href="#_best_practices">Best Practices</a></h1>
-<div class="sect1">
-<h2 id="_security_2"><a class="anchor" href="#_security_2"></a><a class="link" href="#_security_2">Security</a></h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_best_practices"><a class="anchor" href="#_best_practices"></a><a class="link" href="#_best_practices">Best Practices</a></h3>
+<div class="sect3">
+<h4 id="_security_2"><a class="anchor" href="#_security_2"></a><a class="link" href="#_security_2">Security</a></h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1804,10 +1777,8 @@ openstack security group list <span class="nt">--name</span> os_migrate_conv</co
 </ul>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_performance"><a class="anchor" href="#_performance"></a><a class="link" href="#_performance">Performance</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_performance"><a class="anchor" href="#_performance"></a><a class="link" href="#_performance">Performance</a></h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1825,10 +1796,8 @@ openstack security group list <span class="nt">--name</span> os_migrate_conv</co
 </ul>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_cleanup"><a class="anchor" href="#_cleanup"></a><a class="link" href="#_cleanup">Cleanup</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_cleanup"><a class="anchor" href="#_cleanup"></a><a class="link" href="#_cleanup">Cleanup</a></h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1846,10 +1815,8 @@ openstack security group list <span class="nt">--name</span> os_migrate_conv</co
 </ul>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_testing"><a class="anchor" href="#_testing"></a><a class="link" href="#_testing">Testing</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_testing"><a class="anchor" href="#_testing"></a><a class="link" href="#_testing">Testing</a></h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1868,7 +1835,8 @@ openstack security group list <span class="nt">--name</span> os_migrate_conv</co
 </div>
 </div>
 </div>
-<h1 id="_related_components" class="sect0"><a class="anchor" href="#_related_components"></a><a class="link" href="#_related_components">Related Components</a></h1>
+<div class="sect2">
+<h3 id="_related_components"><a class="anchor" href="#_related_components"></a><a class="link" href="#_related_components">Related Components</a></h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1885,10 +1853,11 @@ openstack security group list <span class="nt">--name</span> os_migrate_conv</co
 </li>
 </ul>
 </div>
-<h1 id="_examples" class="sect0"><a class="anchor" href="#_examples"></a><a class="link" href="#_examples">Examples</a></h1>
-<div class="sect1">
-<h2 id="_basic_deployment"><a class="anchor" href="#_basic_deployment"></a><a class="link" href="#_basic_deployment">Basic Deployment</a></h2>
-<div class="sectionbody">
+</div>
+<div class="sect2">
+<h3 id="_examples"><a class="anchor" href="#_examples"></a><a class="link" href="#_examples">Examples</a></h3>
+<div class="sect3">
+<h4 id="_basic_deployment"><a class="anchor" href="#_basic_deployment"></a><a class="link" href="#_basic_deployment">Basic Deployment</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># Minimal configuration for conversion host deployment</span>
@@ -1899,10 +1868,8 @@ openstack security group list <span class="nt">--name</span> os_migrate_conv</co
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_advanced_configuration"><a class="anchor" href="#_advanced_configuration"></a><a class="link" href="#_advanced_configuration">Advanced Configuration</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_advanced_configuration"><a class="anchor" href="#_advanced_configuration"></a><a class="link" href="#_advanced_configuration">Advanced Configuration</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># Advanced configuration with custom networks</span>
@@ -1919,24 +1886,40 @@ openstack security group list <span class="nt">--name</span> os_migrate_conv</co
 </div>
 </div>
 </div>
-<h1 id="os-migrate-performance-expectations_planning" class="sect0"><a class="anchor" href="#os-migrate-performance-expectations_planning"></a><a class="link" href="#os-migrate-performance-expectations_planning">OS Migrate Performance Expectations</a></h1>
+</div>
+</div>
+<div class="sect1">
+<h2 id="os-migrate-performance-expectations_planning"><a class="anchor" href="#os-migrate-performance-expectations_planning"></a><a class="link" href="#os-migrate-performance-expectations_planning">OS Migrate Performance Expectations</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_red_hat_testing_results"><a class="anchor" href="#_red_hat_testing_results"></a><a class="link" href="#_red_hat_testing_results">Red Hat Testing Results</a></h3>
 
-<h1 id="_red_hat_testing_results" class="sect0"><a class="anchor" href="#_red_hat_testing_results"></a><a class="link" href="#_red_hat_testing_results">Red Hat Testing Results</a></h1>
+</div>
+<div class="sect2">
+<h3 id="_expectations"><a class="anchor" href="#_expectations"></a><a class="link" href="#_expectations">Expectations</a></h3>
 
-<h1 id="_expectations" class="sect0"><a class="anchor" href="#_expectations"></a><a class="link" href="#_expectations">Expectations</a></h1>
+</div>
+<div class="sect2">
+<h3 id="_formulas"><a class="anchor" href="#_formulas"></a><a class="link" href="#_formulas">Formulas</a></h3>
 
-<h1 id="_formulas" class="sect0"><a class="anchor" href="#_formulas"></a><a class="link" href="#_formulas">Formulas</a></h1>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_installation"><a class="anchor" href="#_installation"></a><a class="link" href="#_installation">Installation</a></h2>
+<div class="sectionbody">
 
-<h1 id="_installation" class="sect0"><a class="anchor" href="#_installation"></a><a class="link" href="#_installation">Installation</a></h1>
-
-<h1 id="_installation_from_galaxy_recommended" class="sect0"><a class="anchor" href="#_installation_from_galaxy_recommended"></a><a class="link" href="#_installation_from_galaxy_recommended">Installation from Galaxy (recommended)</a></h1>
+</div>
+</div>
+<div class="sect1">
+<h2 id="os-migrate-install-from-galaxy_installation"><a class="anchor" href="#os-migrate-install-from-galaxy_installation"></a><a class="link" href="#os-migrate-install-from-galaxy_installation">Installation from Galaxy (recommended)</a></h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>This document describes the recommended method of installing OS Migrate,
 from Ansible Galaxy. Alternatively, you can <a href="#">install from source</a>.</p>
 </div>
-<div class="sect1">
-<h2 id="_prerequisites_2"><a class="anchor" href="#_prerequisites_2"></a><a class="link" href="#_prerequisites_2">Prerequisites</a></h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_prerequisites_2"><a class="anchor" href="#_prerequisites_2"></a><a class="link" href="#_prerequisites_2">Prerequisites</a></h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1953,10 +1936,8 @@ packages, this means running on RHEL 8 or newer.)</p>
 </ul>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_using_virtualenv_for_prerequisites"><a class="anchor" href="#_using_virtualenv_for_prerequisites"></a><a class="link" href="#_using_virtualenv_for_prerequisites">Using virtualenv for prerequisites</a></h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_using_virtualenv_for_prerequisites"><a class="anchor" href="#_using_virtualenv_for_prerequisites"></a><a class="link" href="#_using_virtualenv_for_prerequisites">Using virtualenv for prerequisites</a></h3>
 <div class="paragraph">
 <p>If your distribution doesn&#8217;t ship the required dependency versions,
 you can use virtualenv, e.g.:</p>
@@ -1970,10 +1951,8 @@ python3 <span class="nt">-m</span> pip <span class="nb">install</span> <span cla
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="installation-1"><a class="anchor" href="#installation-1"></a><a class="link" href="#installation-1">Installation of OS Migrate collection</a></h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="installation-1"><a class="anchor" href="#installation-1"></a><a class="link" href="#installation-1">Installation of OS Migrate collection</a></h3>
 <div class="paragraph">
 <p>To install latest release:</p>
 </div>
@@ -1995,7 +1974,10 @@ python3 <span class="nt">-m</span> pip <span class="nb">install</span> <span cla
 </div>
 </div>
 </div>
-<h1 id="_installation_from_source_when_customizing" class="sect0"><a class="anchor" href="#_installation_from_source_when_customizing"></a><a class="link" href="#_installation_from_source_when_customizing">Installation from source (when customizing)</a></h1>
+</div>
+<div class="sect1">
+<h2 id="os-migrate-install-from-source_installation"><a class="anchor" href="#os-migrate-install-from-source_installation"></a><a class="link" href="#os-migrate-install-from-source_installation">Installation from source (when customizing)</a></h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Install prerequisites as documented in <a href="#">install from Galaxy</a>. Then install OS Migrate from source:</p>
 </div>
@@ -2013,11 +1995,16 @@ ansible-galaxy collection <span class="nb">install</span> <span class="nt">--for
 <span class="nb">popd</span></code></pre>
 </div>
 </div>
-<h1 id="_ansible_execution_environment_aee_images" class="sect0"><a class="anchor" href="#_ansible_execution_environment_aee_images"></a><a class="link" href="#_ansible_execution_environment_aee_images">Ansible Execution Environment (AEE) Images</a></h1>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ansible_execution_environment_aee_images"><a class="anchor" href="#_ansible_execution_environment_aee_images"></a><a class="link" href="#_ansible_execution_environment_aee_images">Ansible Execution Environment (AEE) Images</a></h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>os-migrate and vmware-migration-kit provide containerized Ansible Execution Environment (AEE) images that encapsulate all necessary dependencies for running migration playbooks in a consistent, isolated environment.</p>
 </div>
-<h1 id="_overview_3" class="sect0"><a class="anchor" href="#_overview_3"></a><a class="link" href="#_overview_3">Overview</a></h1>
+<div class="sect2">
+<h3 id="_overview_3"><a class="anchor" href="#_overview_3"></a><a class="link" href="#_overview_3">Overview</a></h3>
 <div class="paragraph">
 <p>Ansible Execution Environments are container images that provide a standardized runtime environment for Ansible automation. They include:</p>
 </div>
@@ -2040,10 +2027,11 @@ ansible-galaxy collection <span class="nb">install</span> <span class="nt">--for
 <div class="paragraph">
 <p>This approach ensures consistent behavior across different environments and simplifies deployment and maintenance.</p>
 </div>
-<h1 id="_available_aee_images" class="sect0"><a class="anchor" href="#_available_aee_images"></a><a class="link" href="#_available_aee_images">Available AEE Images</a></h1>
-<div class="sect1">
-<h2 id="_os_migrate_aee"><a class="anchor" href="#_os_migrate_aee"></a><a class="link" href="#_os_migrate_aee">os-migrate AEE</a></h2>
-<div class="sectionbody">
+</div>
+<div class="sect2">
+<h3 id="_available_aee_images"><a class="anchor" href="#_available_aee_images"></a><a class="link" href="#_available_aee_images">Available AEE Images</a></h3>
+<div class="sect3">
+<h4 id="_os_migrate_aee"><a class="anchor" href="#_os_migrate_aee"></a><a class="link" href="#_os_migrate_aee">os-migrate AEE</a></h4>
 <div class="paragraph">
 <p>The os-migrate AEE image contains:</p>
 </div>
@@ -2064,10 +2052,8 @@ ansible-galaxy collection <span class="nb">install</span> <span class="nt">--for
 </ul>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_vmware_migration_kit_aee"><a class="anchor" href="#_vmware_migration_kit_aee"></a><a class="link" href="#_vmware_migration_kit_aee">vmware-migration-kit AEE</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_vmware_migration_kit_aee"><a class="anchor" href="#_vmware_migration_kit_aee"></a><a class="link" href="#_vmware_migration_kit_aee">vmware-migration-kit AEE</a></h4>
 <div class="paragraph">
 <p>The vmware-migration-kit AEE image contains:</p>
 </div>
@@ -2089,10 +2075,10 @@ ansible-galaxy collection <span class="nb">install</span> <span class="nt">--for
 </div>
 </div>
 </div>
-<h1 id="_building_aee_images" class="sect0"><a class="anchor" href="#_building_aee_images"></a><a class="link" href="#_building_aee_images">Building AEE Images</a></h1>
-<div class="sect1">
-<h2 id="_prerequisites_3"><a class="anchor" href="#_prerequisites_3"></a><a class="link" href="#_prerequisites_3">Prerequisites</a></h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_building_aee_images"><a class="anchor" href="#_building_aee_images"></a><a class="link" href="#_building_aee_images">Building AEE Images</a></h3>
+<div class="sect3">
+<h4 id="_prerequisites_3"><a class="anchor" href="#_prerequisites_3"></a><a class="link" href="#_prerequisites_3">Prerequisites</a></h4>
 <div class="paragraph">
 <p>Before building AEE images, ensure you have the following tools installed:</p>
 </div>
@@ -2112,8 +2098,8 @@ ansible-galaxy collection <span class="nb">install</span> <span class="nt">--for
 </li>
 </ul>
 </div>
-<div class="sect2">
-<h3 id="_setting_up_a_virtual_environment"><a class="anchor" href="#_setting_up_a_virtual_environment"></a><a class="link" href="#_setting_up_a_virtual_environment">Setting Up a Virtual Environment</a></h3>
+<div class="sect4">
+<h5 id="_setting_up_a_virtual_environment"><a class="anchor" href="#_setting_up_a_virtual_environment"></a><a class="link" href="#_setting_up_a_virtual_environment">Setting Up a Virtual Environment</a></h5>
 <div class="paragraph">
 <p>It&#8217;s recommended to use a Python virtual environment to isolate dependencies and avoid conflicts with system packages.</p>
 </div>
@@ -2133,8 +2119,8 @@ python3 <span class="nt">-m</span> venv .venv
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_installing_dependencies"><a class="anchor" href="#_installing_dependencies"></a><a class="link" href="#_installing_dependencies">Installing Dependencies</a></h3>
+<div class="sect4">
+<h5 id="_installing_dependencies"><a class="anchor" href="#_installing_dependencies"></a><a class="link" href="#_installing_dependencies">Installing Dependencies</a></h5>
 <div class="paragraph">
 <p>Install the required dependencies using the project-specific requirements files:</p>
 </div>
@@ -2173,8 +2159,8 @@ pip <span class="nb">install</span> <span class="nt">-r</span> requirements-buil
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_requirements_files"><a class="anchor" href="#_requirements_files"></a><a class="link" href="#_requirements_files">Requirements Files</a></h3>
+<div class="sect4">
+<h5 id="_requirements_files"><a class="anchor" href="#_requirements_files"></a><a class="link" href="#_requirements_files">Requirements Files</a></h5>
 <div class="paragraph">
 <p>Both repositories provide <code>requirements-build.txt</code> files that contain all necessary dependencies for building AEE images:</p>
 </div>
@@ -2196,8 +2182,8 @@ pip <span class="nb">install</span> <span class="nt">-r</span> requirements-buil
 * Additional Python packages required for the build process</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_collection_requirements_in_aee"><a class="anchor" href="#_collection_requirements_in_aee"></a><a class="link" href="#_collection_requirements_in_aee">Collection Requirements in AEE</a></h3>
+<div class="sect4">
+<h5 id="_collection_requirements_in_aee"><a class="anchor" href="#_collection_requirements_in_aee"></a><a class="link" href="#_collection_requirements_in_aee">Collection Requirements in AEE</a></h5>
 <div class="paragraph">
 <p>The AEE images use <code>requirements.yml</code> files to specify which Ansible collections to install. The collection installation method depends on the build context:</p>
 </div>
@@ -2255,8 +2241,8 @@ pip <span class="nb">install</span> <span class="nt">-r</span> requirements-buil
 </ul>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_alternative_installation_methods"><a class="anchor" href="#_alternative_installation_methods"></a><a class="link" href="#_alternative_installation_methods">Alternative Installation Methods</a></h3>
+<div class="sect4">
+<h5 id="_alternative_installation_methods"><a class="anchor" href="#_alternative_installation_methods"></a><a class="link" href="#_alternative_installation_methods">Alternative Installation Methods</a></h5>
 <div class="paragraph">
 <p>If you prefer not to use virtual environments, you can install ansible-builder globally:</p>
 </div>
@@ -2273,8 +2259,8 @@ pip <span class="nb">install</span> <span class="nt">-r</span> requirements-buil
 <p><strong>Note</strong>: Global installation may cause dependency conflicts with other Python projects on your system.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_virtual_environment_management"><a class="anchor" href="#_virtual_environment_management"></a><a class="link" href="#_virtual_environment_management">Virtual Environment Management</a></h3>
+<div class="sect4">
+<h5 id="_virtual_environment_management"><a class="anchor" href="#_virtual_environment_management"></a><a class="link" href="#_virtual_environment_management">Virtual Environment Management</a></h5>
 <div class="paragraph">
 <p>After completing your work, you can deactivate the virtual environment:</p>
 </div>
@@ -2297,8 +2283,8 @@ deactivate</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_troubleshooting_virtual_environment_issues"><a class="anchor" href="#_troubleshooting_virtual_environment_issues"></a><a class="link" href="#_troubleshooting_virtual_environment_issues">Troubleshooting Virtual Environment Issues</a></h3>
+<div class="sect4">
+<h5 id="_troubleshooting_virtual_environment_issues"><a class="anchor" href="#_troubleshooting_virtual_environment_issues"></a><a class="link" href="#_troubleshooting_virtual_environment_issues">Troubleshooting Virtual Environment Issues</a></h5>
 <div class="dlist">
 <dl>
 <dt class="hdlist1"><strong>Virtual environment not found</strong></dt>
@@ -2327,10 +2313,8 @@ ansible-builder <span class="nt">--version</span></code></pre>
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_building_os_migrate_aee"><a class="anchor" href="#_building_os_migrate_aee"></a><a class="link" href="#_building_os_migrate_aee">Building os-migrate AEE</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_building_os_migrate_aee"><a class="anchor" href="#_building_os_migrate_aee"></a><a class="link" href="#_building_os_migrate_aee">Building os-migrate AEE</a></h4>
 <div class="paragraph">
 <p>Navigate to the os-migrate repository and build the AEE:</p>
 </div>
@@ -2350,10 +2334,8 @@ ansible-builder build <span class="nt">--tag</span> os-migrate:latest</code></pr
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_building_vmware_migration_kit_aee"><a class="anchor" href="#_building_vmware_migration_kit_aee"></a><a class="link" href="#_building_vmware_migration_kit_aee">Building vmware-migration-kit AEE</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_building_vmware_migration_kit_aee"><a class="anchor" href="#_building_vmware_migration_kit_aee"></a><a class="link" href="#_building_vmware_migration_kit_aee">Building vmware-migration-kit AEE</a></h4>
 <div class="paragraph">
 <p>Navigate to the vmware-migration-kit repository and build the AEE:</p>
 </div>
@@ -2373,10 +2355,8 @@ ansible-builder build <span class="nt">--tag</span> vmware-migration-kit:latest<
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_automated_build_process"><a class="anchor" href="#_automated_build_process"></a><a class="link" href="#_automated_build_process">Automated Build Process</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_automated_build_process"><a class="anchor" href="#_automated_build_process"></a><a class="link" href="#_automated_build_process">Automated Build Process</a></h4>
 <div class="paragraph">
 <p>Both repositories include GitHub Actions workflows that automatically build and test AEE images:</p>
 </div>
@@ -2410,15 +2390,13 @@ ansible-builder build <span class="nt">--tag</span> vmware-migration-kit:latest<
 </ul>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_release_versioning_and_tagging_strategy"><a class="anchor" href="#_release_versioning_and_tagging_strategy"></a><a class="link" href="#_release_versioning_and_tagging_strategy">Release Versioning and Tagging Strategy</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_release_versioning_and_tagging_strategy"><a class="anchor" href="#_release_versioning_and_tagging_strategy"></a><a class="link" href="#_release_versioning_and_tagging_strategy">Release Versioning and Tagging Strategy</a></h4>
 <div class="paragraph">
 <p>The GitHub Actions workflows implement a sophisticated versioning strategy for AEE images:</p>
 </div>
-<div class="sect2">
-<h3 id="_main_branch_builds"><a class="anchor" href="#_main_branch_builds"></a><a class="link" href="#_main_branch_builds">Main Branch Builds</a></h3>
+<div class="sect4">
+<h5 id="_main_branch_builds"><a class="anchor" href="#_main_branch_builds"></a><a class="link" href="#_main_branch_builds">Main Branch Builds</a></h5>
 <div class="paragraph">
 <p>Images built from the <code>main</code> branch are tagged as <code>latest</code>:</p>
 </div>
@@ -2433,8 +2411,8 @@ ansible-builder build <span class="nt">--tag</span> vmware-migration-kit:latest<
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_tag_based_builds"><a class="anchor" href="#_tag_based_builds"></a><a class="link" href="#_tag_based_builds">Tag-based Builds</a></h3>
+<div class="sect4">
+<h5 id="_tag_based_builds"><a class="anchor" href="#_tag_based_builds"></a><a class="link" href="#_tag_based_builds">Tag-based Builds</a></h5>
 <div class="paragraph">
 <p>When building from Git tags, images receive multiple tags for maximum compatibility:</p>
 </div>
@@ -2453,8 +2431,8 @@ ansible-builder build <span class="nt">--tag</span> vmware-migration-kit:latest<
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_tagging_strategy"><a class="anchor" href="#_tagging_strategy"></a><a class="link" href="#_tagging_strategy">Tagging Strategy</a></h3>
+<div class="sect4">
+<h5 id="_tagging_strategy"><a class="anchor" href="#_tagging_strategy"></a><a class="link" href="#_tagging_strategy">Tagging Strategy</a></h5>
 <div class="paragraph">
 <p>The versioning strategy follows these rules:</p>
 </div>
@@ -2472,8 +2450,8 @@ ansible-builder build <span class="nt">--tag</span> vmware-migration-kit:latest<
 </ul>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_usage_examples"><a class="anchor" href="#_usage_examples"></a><a class="link" href="#_usage_examples">Usage Examples</a></h3>
+<div class="sect4">
+<h5 id="_usage_examples"><a class="anchor" href="#_usage_examples"></a><a class="link" href="#_usage_examples">Usage Examples</a></h5>
 <div class="paragraph">
 <p>Use the appropriate tag based on your requirements:</p>
 </div>
@@ -2490,8 +2468,8 @@ podman run <span class="nt">--rm</span> os-migrate:1.2.3 ansible <span class="nt
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_workflow_triggers"><a class="anchor" href="#_workflow_triggers"></a><a class="link" href="#_workflow_triggers">Workflow Triggers</a></h3>
+<div class="sect4">
+<h5 id="_workflow_triggers"><a class="anchor" href="#_workflow_triggers"></a><a class="link" href="#_workflow_triggers">Workflow Triggers</a></h5>
 <div class="paragraph">
 <p>The GitHub Actions workflows are triggered by:</p>
 </div>
@@ -2509,8 +2487,8 @@ podman run <span class="nt">--rm</span> os-migrate:1.2.3 ansible <span class="nt
 </ul>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_registry_configuration"><a class="anchor" href="#_registry_configuration"></a><a class="link" href="#_registry_configuration">Registry Configuration</a></h3>
+<div class="sect4">
+<h5 id="_registry_configuration"><a class="anchor" href="#_registry_configuration"></a><a class="link" href="#_registry_configuration">Registry Configuration</a></h5>
 <div class="paragraph">
 <p>Configure the container registry in the workflow using environment variables and secrets:</p>
 </div>
@@ -2533,13 +2511,13 @@ podman run <span class="nt">--rm</span> os-migrate:1.2.3 ansible <span class="nt
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_configuring_secrets_and_environment_variables"><a class="anchor" href="#_configuring_secrets_and_environment_variables"></a><a class="link" href="#_configuring_secrets_and_environment_variables">Configuring Secrets and Environment Variables</a></h3>
+<div class="sect4">
+<h5 id="_configuring_secrets_and_environment_variables"><a class="anchor" href="#_configuring_secrets_and_environment_variables"></a><a class="link" href="#_configuring_secrets_and_environment_variables">Configuring Secrets and Environment Variables</a></h5>
 <div class="paragraph">
 <p>GitHub Actions supports multiple levels of configuration for secrets and variables. Understanding these levels is crucial for proper AEE workflow configuration.</p>
 </div>
-<div class="sect3">
-<h4 id="_repository_level_secrets"><a class="anchor" href="#_repository_level_secrets"></a><a class="link" href="#_repository_level_secrets">Repository-Level Secrets</a></h4>
+<div class="sect5">
+<h6 id="_repository_level_secrets"><a class="anchor" href="#_repository_level_secrets"></a><a class="link" href="#_repository_level_secrets">Repository-Level Secrets</a></h6>
 <div class="paragraph">
 <p>Create secrets at the repository level for AEE workflows:</p>
 </div>
@@ -2568,8 +2546,8 @@ podman run <span class="nt">--rm</span> os-migrate:1.2.3 ansible <span class="nt
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_environment_level_secrets"><a class="anchor" href="#_environment_level_secrets"></a><a class="link" href="#_environment_level_secrets">Environment-Level Secrets</a></h4>
+<div class="sect5">
+<h6 id="_environment_level_secrets"><a class="anchor" href="#_environment_level_secrets"></a><a class="link" href="#_environment_level_secrets">Environment-Level Secrets</a></h6>
 <div class="paragraph">
 <p>For production deployments, use environment-level secrets:</p>
 </div>
@@ -2599,8 +2577,8 @@ podman run <span class="nt">--rm</span> os-migrate:1.2.3 ansible <span class="nt
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_organization_level_variables"><a class="anchor" href="#_organization_level_variables"></a><a class="link" href="#_organization_level_variables">Organization-Level Variables</a></h4>
+<div class="sect5">
+<h6 id="_organization_level_variables"><a class="anchor" href="#_organization_level_variables"></a><a class="link" href="#_organization_level_variables">Organization-Level Variables</a></h6>
 <div class="paragraph">
 <p>Use organization-level variables for shared configuration:</p>
 </div>
@@ -2623,8 +2601,8 @@ podman run <span class="nt">--rm</span> os-migrate:1.2.3 ansible <span class="nt
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_repository_level_variables"><a class="anchor" href="#_repository_level_variables"></a><a class="link" href="#_repository_level_variables">Repository-Level Variables</a></h4>
+<div class="sect5">
+<h6 id="_repository_level_variables"><a class="anchor" href="#_repository_level_variables"></a><a class="link" href="#_repository_level_variables">Repository-Level Variables</a></h6>
 <div class="paragraph">
 <p>Create repository-level variables for project-specific configuration:</p>
 </div>
@@ -2655,8 +2633,8 @@ podman run <span class="nt">--rm</span> os-migrate:1.2.3 ansible <span class="nt
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_environment_level_variables"><a class="anchor" href="#_environment_level_variables"></a><a class="link" href="#_environment_level_variables">Environment-Level Variables</a></h4>
+<div class="sect5">
+<h6 id="_environment_level_variables"><a class="anchor" href="#_environment_level_variables"></a><a class="link" href="#_environment_level_variables">Environment-Level Variables</a></h6>
 <div class="paragraph">
 <p>Configure environment-specific variables:</p>
 </div>
@@ -2693,8 +2671,8 @@ podman run <span class="nt">--rm</span> os-migrate:1.2.3 ansible <span class="nt
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_using_variables_in_workflows"><a class="anchor" href="#_using_variables_in_workflows"></a><a class="link" href="#_using_variables_in_workflows">Using Variables in Workflows</a></h4>
+<div class="sect5">
+<h6 id="_using_variables_in_workflows"><a class="anchor" href="#_using_variables_in_workflows"></a><a class="link" href="#_using_variables_in_workflows">Using Variables in Workflows</a></h6>
 <div class="paragraph">
 <p>Access variables using the <code>vars</code> context in your workflows:</p>
 </div>
@@ -2729,8 +2707,8 @@ podman run <span class="nt">--rm</span> os-migrate:1.2.3 ansible <span class="nt
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_variable_precedence"><a class="anchor" href="#_variable_precedence"></a><a class="link" href="#_variable_precedence">Variable Precedence</a></h4>
+<div class="sect5">
+<h6 id="_variable_precedence"><a class="anchor" href="#_variable_precedence"></a><a class="link" href="#_variable_precedence">Variable Precedence</a></h6>
 <div class="paragraph">
 <p>GitHub Actions follows this precedence order for variables and secrets:</p>
 </div>
@@ -2777,12 +2755,12 @@ podman run <span class="nt">--rm</span> os-migrate:1.2.3 ansible <span class="nt
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_workflow_configuration_examples"><a class="anchor" href="#_workflow_configuration_examples"></a><a class="link" href="#_workflow_configuration_examples">Workflow Configuration Examples</a></h4>
+<div class="sect5">
+<h6 id="_workflow_configuration_examples"><a class="anchor" href="#_workflow_configuration_examples"></a><a class="link" href="#_workflow_configuration_examples">Workflow Configuration Examples</a></h6>
 
 </div>
-<div class="sect3">
-<h4 id="_basic_registry_authentication"><a class="anchor" href="#_basic_registry_authentication"></a><a class="link" href="#_basic_registry_authentication">Basic Registry Authentication</a></h4>
+<div class="sect5">
+<h6 id="_basic_registry_authentication"><a class="anchor" href="#_basic_registry_authentication"></a><a class="link" href="#_basic_registry_authentication">Basic Registry Authentication</a></h6>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight"><code data-lang="yaml"><span class="na">name</span><span class="pi">:</span> <span class="s">Build AEE Image</span>
@@ -2822,8 +2800,8 @@ podman run <span class="nt">--rm</span> os-migrate:1.2.3 ansible <span class="nt
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_multi_registry_support"><a class="anchor" href="#_multi_registry_support"></a><a class="link" href="#_multi_registry_support">Multi-Registry Support</a></h4>
+<div class="sect5">
+<h6 id="_multi_registry_support"><a class="anchor" href="#_multi_registry_support"></a><a class="link" href="#_multi_registry_support">Multi-Registry Support</a></h6>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight"><code data-lang="yaml"><span class="na">name</span><span class="pi">:</span> <span class="s">Build and Push to Multiple Registries</span>
@@ -2866,8 +2844,8 @@ podman run <span class="nt">--rm</span> os-migrate:1.2.3 ansible <span class="nt
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_secure_secret_handling"><a class="anchor" href="#_secure_secret_handling"></a><a class="link" href="#_secure_secret_handling">Secure Secret Handling</a></h4>
+<div class="sect5">
+<h6 id="_secure_secret_handling"><a class="anchor" href="#_secure_secret_handling"></a><a class="link" href="#_secure_secret_handling">Secure Secret Handling</a></h6>
 <div class="paragraph">
 <p>Follow security best practices when using secrets:</p>
 </div>
@@ -2889,8 +2867,8 @@ podman run <span class="nt">--rm</span> os-migrate:1.2.3 ansible <span class="nt
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_conditional_secret_usage"><a class="anchor" href="#_conditional_secret_usage"></a><a class="link" href="#_conditional_secret_usage">Conditional Secret Usage</a></h4>
+<div class="sect5">
+<h6 id="_conditional_secret_usage"><a class="anchor" href="#_conditional_secret_usage"></a><a class="link" href="#_conditional_secret_usage">Conditional Secret Usage</a></h6>
 <div class="paragraph">
 <p>Use secrets conditionally based on workflow context:</p>
 </div>
@@ -2923,8 +2901,8 @@ podman run <span class="nt">--rm</span> os-migrate:1.2.3 ansible <span class="nt
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_secret_rotation_and_management"><a class="anchor" href="#_secret_rotation_and_management"></a><a class="link" href="#_secret_rotation_and_management">Secret Rotation and Management</a></h4>
+<div class="sect5">
+<h6 id="_secret_rotation_and_management"><a class="anchor" href="#_secret_rotation_and_management"></a><a class="link" href="#_secret_rotation_and_management">Secret Rotation and Management</a></h6>
 <div class="paragraph">
 <p>Implement secret rotation strategies:</p>
 </div>
@@ -2954,8 +2932,8 @@ podman run <span class="nt">--rm</span> os-migrate:1.2.3 ansible <span class="nt
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_environment_specific_configuration"><a class="anchor" href="#_environment_specific_configuration"></a><a class="link" href="#_environment_specific_configuration">Environment-Specific Configuration</a></h4>
+<div class="sect5">
+<h6 id="_environment_specific_configuration"><a class="anchor" href="#_environment_specific_configuration"></a><a class="link" href="#_environment_specific_configuration">Environment-Specific Configuration</a></h6>
 <div class="paragraph">
 <p>Use different configurations for different environments:</p>
 </div>
@@ -3012,10 +2990,10 @@ podman run <span class="nt">--rm</span> os-migrate:1.2.3 ansible <span class="nt
 </div>
 </div>
 </div>
-<h1 id="_using_aee_images" class="sect0"><a class="anchor" href="#_using_aee_images"></a><a class="link" href="#_using_aee_images">Using AEE Images</a></h1>
-<div class="sect1">
-<h2 id="_running_playbooks_with_aee"><a class="anchor" href="#_running_playbooks_with_aee"></a><a class="link" href="#_running_playbooks_with_aee">Running Playbooks with AEE</a></h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_using_aee_images"><a class="anchor" href="#_using_aee_images"></a><a class="link" href="#_using_aee_images">Using AEE Images</a></h3>
+<div class="sect3">
+<h4 id="_running_playbooks_with_aee"><a class="anchor" href="#_running_playbooks_with_aee"></a><a class="link" href="#_running_playbooks_with_aee">Running Playbooks with AEE</a></h4>
 <div class="paragraph">
 <p>Execute os-migrate playbooks using the AEE container:</p>
 </div>
@@ -3029,10 +3007,8 @@ podman run <span class="nt">--rm</span> os-migrate:1.2.3 ansible <span class="nt
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_interactive_shell_access"><a class="anchor" href="#_interactive_shell_access"></a><a class="link" href="#_interactive_shell_access">Interactive Shell Access</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_interactive_shell_access"><a class="anchor" href="#_interactive_shell_access"></a><a class="link" href="#_interactive_shell_access">Interactive Shell Access</a></h4>
 <div class="paragraph">
 <p>Access the AEE container interactively for debugging:</p>
 </div>
@@ -3046,10 +3022,8 @@ podman run <span class="nt">--rm</span> os-migrate:1.2.3 ansible <span class="nt
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_volume_mounts"><a class="anchor" href="#_volume_mounts"></a><a class="link" href="#_volume_mounts">Volume Mounts</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_volume_mounts"><a class="anchor" href="#_volume_mounts"></a><a class="link" href="#_volume_mounts">Volume Mounts</a></h4>
 <div class="paragraph">
 <p>Common volume mounts for AEE usage:</p>
 </div>
@@ -3071,10 +3045,10 @@ podman run <span class="nt">--rm</span> os-migrate:1.2.3 ansible <span class="nt
 </div>
 </div>
 </div>
-<h1 id="_aee_configuration" class="sect0"><a class="anchor" href="#_aee_configuration"></a><a class="link" href="#_aee_configuration">AEE Configuration</a></h1>
-<div class="sect1">
-<h2 id="_execution_environment_definition"><a class="anchor" href="#_execution_environment_definition"></a><a class="link" href="#_execution_environment_definition">Execution Environment Definition</a></h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_aee_configuration"><a class="anchor" href="#_aee_configuration"></a><a class="link" href="#_aee_configuration">AEE Configuration</a></h3>
+<div class="sect3">
+<h4 id="_execution_environment_definition"><a class="anchor" href="#_execution_environment_definition"></a><a class="link" href="#_execution_environment_definition">Execution Environment Definition</a></h4>
 <div class="paragraph">
 <p>AEE images are defined using <code>execution-environment.yml</code> files that specify:</p>
 </div>
@@ -3113,10 +3087,8 @@ podman run <span class="nt">--rm</span> os-migrate:1.2.3 ansible <span class="nt
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_customizing_aee_images"><a class="anchor" href="#_customizing_aee_images"></a><a class="link" href="#_customizing_aee_images">Customizing AEE Images</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_customizing_aee_images"><a class="anchor" href="#_customizing_aee_images"></a><a class="link" href="#_customizing_aee_images">Customizing AEE Images</a></h4>
 <div class="paragraph">
 <p>To customize AEE images for specific requirements:</p>
 </div>
@@ -3140,12 +3112,12 @@ podman run <span class="nt">--rm</span> os-migrate:1.2.3 ansible <span class="nt
 </div>
 </div>
 </div>
-<h1 id="_troubleshooting_2" class="sect0"><a class="anchor" href="#_troubleshooting_2"></a><a class="link" href="#_troubleshooting_2">Troubleshooting</a></h1>
-<div class="sect1">
-<h2 id="_secrets_and_variables_issues"><a class="anchor" href="#_secrets_and_variables_issues"></a><a class="link" href="#_secrets_and_variables_issues">Secrets and Variables Issues</a></h2>
-<div class="sectionbody">
 <div class="sect2">
-<h3 id="_common_secret_configuration_problems"><a class="anchor" href="#_common_secret_configuration_problems"></a><a class="link" href="#_common_secret_configuration_problems">Common Secret Configuration Problems</a></h3>
+<h3 id="_troubleshooting_2"><a class="anchor" href="#_troubleshooting_2"></a><a class="link" href="#_troubleshooting_2">Troubleshooting</a></h3>
+<div class="sect3">
+<h4 id="_secrets_and_variables_issues"><a class="anchor" href="#_secrets_and_variables_issues"></a><a class="link" href="#_secrets_and_variables_issues">Secrets and Variables Issues</a></h4>
+<div class="sect4">
+<h5 id="_common_secret_configuration_problems"><a class="anchor" href="#_common_secret_configuration_problems"></a><a class="link" href="#_common_secret_configuration_problems">Common Secret Configuration Problems</a></h5>
 <div class="dlist">
 <dl>
 <dt class="hdlist1"><strong>Secret Not Found</strong></dt>
@@ -3180,8 +3152,8 @@ podman run <span class="nt">--rm</span> os-migrate:1.2.3 ansible <span class="nt
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_variable_access_issues"><a class="anchor" href="#_variable_access_issues"></a><a class="link" href="#_variable_access_issues">Variable Access Issues</a></h3>
+<div class="sect4">
+<h5 id="_variable_access_issues"><a class="anchor" href="#_variable_access_issues"></a><a class="link" href="#_variable_access_issues">Variable Access Issues</a></h5>
 <div class="dlist">
 <dl>
 <dt class="hdlist1"><strong>Variable Not Defined</strong></dt>
@@ -3211,8 +3183,8 @@ podman run <span class="nt">--rm</span> os-migrate:1.2.3 ansible <span class="nt
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_registry_authentication_troubleshooting"><a class="anchor" href="#_registry_authentication_troubleshooting"></a><a class="link" href="#_registry_authentication_troubleshooting">Registry Authentication Troubleshooting</a></h3>
+<div class="sect4">
+<h5 id="_registry_authentication_troubleshooting"><a class="anchor" href="#_registry_authentication_troubleshooting"></a><a class="link" href="#_registry_authentication_troubleshooting">Registry Authentication Troubleshooting</a></h5>
 <div class="dlist">
 <dl>
 <dt class="hdlist1"><strong>Authentication Failed</strong></dt>
@@ -3247,10 +3219,8 @@ podman run <span class="nt">--rm</span> os-migrate:1.2.3 ansible <span class="nt
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_debugging_aee_issues"><a class="anchor" href="#_debugging_aee_issues"></a><a class="link" href="#_debugging_aee_issues">Debugging AEE Issues</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_debugging_aee_issues"><a class="anchor" href="#_debugging_aee_issues"></a><a class="link" href="#_debugging_aee_issues">Debugging AEE Issues</a></h4>
 <div class="paragraph">
 <p>Enable verbose output for troubleshooting:</p>
 </div>
@@ -3271,10 +3241,8 @@ podman run <span class="nt">--rm</span> os-migrate:1.2.3 ansible <span class="nt
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_performance_optimization"><a class="anchor" href="#_performance_optimization"></a><a class="link" href="#_performance_optimization">Performance Optimization</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_performance_optimization"><a class="anchor" href="#_performance_optimization"></a><a class="link" href="#_performance_optimization">Performance Optimization</a></h4>
 <div class="ulist">
 <ul>
 <li>
@@ -3293,10 +3261,10 @@ podman run <span class="nt">--rm</span> os-migrate:1.2.3 ansible <span class="nt
 </div>
 </div>
 </div>
-<h1 id="_maintenance" class="sect0"><a class="anchor" href="#_maintenance"></a><a class="link" href="#_maintenance">Maintenance</a></h1>
-<div class="sect1">
-<h2 id="_updating_aee_images"><a class="anchor" href="#_updating_aee_images"></a><a class="link" href="#_updating_aee_images">Updating AEE Images</a></h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_maintenance"><a class="anchor" href="#_maintenance"></a><a class="link" href="#_maintenance">Maintenance</a></h3>
+<div class="sect3">
+<h4 id="_updating_aee_images"><a class="anchor" href="#_updating_aee_images"></a><a class="link" href="#_updating_aee_images">Updating AEE Images</a></h4>
 <div class="paragraph">
 <p>Regular updates ensure security and compatibility:</p>
 </div>
@@ -3320,15 +3288,13 @@ podman run <span class="nt">--rm</span> os-migrate:1.2.3 ansible <span class="nt
 </ol>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_version_management"><a class="anchor" href="#_version_management"></a><a class="link" href="#_version_management">Version Management</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_version_management"><a class="anchor" href="#_version_management"></a><a class="link" href="#_version_management">Version Management</a></h4>
 <div class="paragraph">
 <p>The automated GitHub Actions workflows handle version management based on Git references:</p>
 </div>
-<div class="sect2">
-<h3 id="_manual_version_management"><a class="anchor" href="#_manual_version_management"></a><a class="link" href="#_manual_version_management">Manual Version Management</a></h3>
+<div class="sect4">
+<h5 id="_manual_version_management"><a class="anchor" href="#_manual_version_management"></a><a class="link" href="#_manual_version_management">Manual Version Management</a></h5>
 <div class="paragraph">
 <p>For local development, you can manually tag images:</p>
 </div>
@@ -3342,8 +3308,8 @@ ansible-builder build <span class="nt">--tag</span> os-migrate:latest</code></pr
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_automated_version_management"><a class="anchor" href="#_automated_version_management"></a><a class="link" href="#_automated_version_management">Automated Version Management</a></h3>
+<div class="sect4">
+<h5 id="_automated_version_management"><a class="anchor" href="#_automated_version_management"></a><a class="link" href="#_automated_version_management">Automated Version Management</a></h5>
 <div class="paragraph">
 <p>The GitHub Actions workflows automatically handle versioning:</p>
 </div>
@@ -3361,8 +3327,8 @@ ansible-builder build <span class="nt">--tag</span> os-migrate:latest</code></pr
 </ul>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_creating_releases"><a class="anchor" href="#_creating_releases"></a><a class="link" href="#_creating_releases">Creating Releases</a></h3>
+<div class="sect4">
+<h5 id="_creating_releases"><a class="anchor" href="#_creating_releases"></a><a class="link" href="#_creating_releases">Creating Releases</a></h5>
 <div class="paragraph">
 <p>To create a new release:</p>
 </div>
@@ -3395,8 +3361,8 @@ git push origin 1.2.3
 </ol>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_version_tag_strategy"><a class="anchor" href="#_version_tag_strategy"></a><a class="link" href="#_version_tag_strategy">Version Tag Strategy</a></h3>
+<div class="sect4">
+<h5 id="_version_tag_strategy"><a class="anchor" href="#_version_tag_strategy"></a><a class="link" href="#_version_tag_strategy">Version Tag Strategy</a></h5>
 <div class="ulist">
 <ul>
 <li>
@@ -3412,10 +3378,8 @@ git push origin 1.2.3
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_security_considerations"><a class="anchor" href="#_security_considerations"></a><a class="link" href="#_security_considerations">Security Considerations</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_security_considerations"><a class="anchor" href="#_security_considerations"></a><a class="link" href="#_security_considerations">Security Considerations</a></h4>
 <div class="ulist">
 <ul>
 <li>
@@ -3434,10 +3398,10 @@ git push origin 1.2.3
 </div>
 </div>
 </div>
-<h1 id="_best_practices_2" class="sect0"><a class="anchor" href="#_best_practices_2"></a><a class="link" href="#_best_practices_2">Best Practices</a></h1>
-<div class="sect1">
-<h2 id="_development_workflow"><a class="anchor" href="#_development_workflow"></a><a class="link" href="#_development_workflow">Development Workflow</a></h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_best_practices_2"><a class="anchor" href="#_best_practices_2"></a><a class="link" href="#_best_practices_2">Best Practices</a></h3>
+<div class="sect3">
+<h4 id="_development_workflow"><a class="anchor" href="#_development_workflow"></a><a class="link" href="#_development_workflow">Development Workflow</a></h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -3455,10 +3419,8 @@ git push origin 1.2.3
 </ol>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_production_usage"><a class="anchor" href="#_production_usage"></a><a class="link" href="#_production_usage">Production Usage</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_production_usage"><a class="anchor" href="#_production_usage"></a><a class="link" href="#_production_usage">Production Usage</a></h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -3476,10 +3438,8 @@ git push origin 1.2.3
 </ol>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_documentation"><a class="anchor" href="#_documentation"></a><a class="link" href="#_documentation">Documentation</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_documentation"><a class="anchor" href="#_documentation"></a><a class="link" href="#_documentation">Documentation</a></h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -3498,10 +3458,10 @@ git push origin 1.2.3
 </div>
 </div>
 </div>
-<h1 id="_todo" class="sect0"><a class="anchor" href="#_todo"></a><a class="link" href="#_todo">TODO</a></h1>
-<div class="sect1">
-<h2 id="_collection_installation_improvements"><a class="anchor" href="#_collection_installation_improvements"></a><a class="link" href="#_collection_installation_improvements">Collection Installation Improvements</a></h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_todo"><a class="anchor" href="#_todo"></a><a class="link" href="#_todo">TODO</a></h3>
+<div class="sect3">
+<h4 id="_collection_installation_improvements"><a class="anchor" href="#_collection_installation_improvements"></a><a class="link" href="#_collection_installation_improvements">Collection Installation Improvements</a></h4>
 <div class="paragraph">
 <p>Improve the way collections (os-migrate or vmware-migration-kit) are installed within AEE images to ensure proper version alignment:</p>
 </div>
@@ -3526,9 +3486,17 @@ git push origin 1.2.3
 </div>
 </div>
 </div>
-<h1 id="_migration_guides" class="sect0"><a class="anchor" href="#_migration_guides"></a><a class="link" href="#_migration_guides">Migration Guides</a></h1>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_guides"><a class="anchor" href="#_migration_guides"></a><a class="link" href="#_migration_guides">Migration Guides</a></h2>
+<div class="sectionbody">
 
-<h1 id="os-migrate-walkthrough_planning" class="sect0"><a class="anchor" href="#os-migrate-walkthrough_planning"></a><a class="link" href="#os-migrate-walkthrough_planning">OS Migrate walkthrough</a></h1>
+</div>
+</div>
+<div class="sect1">
+<h2 id="os-migrate-walkthrough_planning"><a class="anchor" href="#os-migrate-walkthrough_planning"></a><a class="link" href="#os-migrate-walkthrough_planning">OS Migrate walkthrough</a></h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>OS Migrate is a framework for OpenStack parallel cloud migration
 (migrating content between OpenStack tenants which are not necessarily
@@ -3573,10 +3541,10 @@ volumes).</p>
 </li>
 </ul>
 </div>
-<h1 id="_prerequisites_4" class="sect0"><a class="anchor" href="#_prerequisites_4"></a><a class="link" href="#_prerequisites_4">Prerequisites</a></h1>
-<div class="sect1">
-<h2 id="_authentication_2"><a class="anchor" href="#_authentication_2"></a><a class="link" href="#_authentication_2">Authentication</a></h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_prerequisites_4"><a class="anchor" href="#_prerequisites_4"></a><a class="link" href="#_prerequisites_4">Prerequisites</a></h3>
+<div class="sect3">
+<h4 id="_authentication_2"><a class="anchor" href="#_authentication_2"></a><a class="link" href="#_authentication_2">Authentication</a></h4>
 <div class="paragraph">
 <p>Users are encouraged to use os-migrate using specific credentials for
 each project/tenant, this means <strong>not using the admin user to execute
@@ -3615,10 +3583,8 @@ will be removed automatically.</pre>
 </ul>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_parameter_file"><a class="anchor" href="#_parameter_file"></a><a class="link" href="#_parameter_file">Parameter file</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_parameter_file"><a class="anchor" href="#_parameter_file"></a><a class="link" href="#_parameter_file">Parameter file</a></h4>
 <div class="paragraph">
 <p>Let&#8217;s create an <code>os-migrate-vars.yml</code> file with Ansible variables:</p>
 </div>
@@ -3688,8 +3654,8 @@ following error will be raised:</p>
 <code>user_domain_name</code> are removed and the <code>auth_url</code> parameter points
 to the Keystone v2 endpoint.</p>
 </div>
-<div class="sect2">
-<h3 id="_shortcuts"><a class="anchor" href="#_shortcuts"></a><a class="link" href="#_shortcuts">Shortcuts</a></h3>
+<div class="sect4">
+<h5 id="_shortcuts"><a class="anchor" href="#_shortcuts"></a><a class="link" href="#_shortcuts">Shortcuts</a></h5>
 <div class="paragraph">
 <p>We will use the OS Migrate collection path and an ansible-playbook
 command with the following arguments routinely, so let&#8217;s save them as
@@ -3703,10 +3669,8 @@ export OSM_CMD="ansible-playbook -v -i $OSM_DIR/localhost_inventory.yml -e @os-m
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_pre_workload_migration"><a class="anchor" href="#_pre_workload_migration"></a><a class="link" href="#_pre_workload_migration">Pre-workload migration</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_pre_workload_migration"><a class="anchor" href="#_pre_workload_migration"></a><a class="link" href="#_pre_workload_migration">Pre-workload migration</a></h4>
 <div class="paragraph">
 <p>Workloads require the support of several resources in a given cloud to
 operate properly. Some of these resources include networks, subnets,
@@ -3720,8 +3684,8 @@ resources if desired, and importing them into the destination cloud.</p>
 playbook from OS Migrate. Let&#8217;s look at a concrete example. To export
 the networks, run the "export_networks" playbook.</p>
 </div>
-<div class="sect2">
-<h3 id="_export_and_import"><a class="anchor" href="#_export_and_import"></a><a class="link" href="#_export_and_import">Export and import</a></h3>
+<div class="sect4">
+<h5 id="_export_and_import"><a class="anchor" href="#_export_and_import"></a><a class="link" href="#_export_and_import">Export and import</a></h5>
 <div class="paragraph">
 <p>To export the networks:</p>
 </div>
@@ -3796,8 +3760,8 @@ keypairs.</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_diagrams"><a class="anchor" href="#_diagrams"></a><a class="link" href="#_diagrams">Diagrams</a></h3>
+<div class="sect4">
+<h5 id="_diagrams"><a class="anchor" href="#_diagrams"></a><a class="link" href="#_diagrams">Diagrams</a></h5>
 <div class="paragraph">
 <p>///TODO need to figure out these UMLs in the source
 .. figure:: ../images/render/pre-workload-migration-workflow.png
@@ -3824,8 +3788,8 @@ keypairs.</p>
 </ol>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_demo"><a class="anchor" href="#_demo"></a><a class="link" href="#_demo">Demo</a></h3>
+<div class="sect4">
+<h5 id="_demo"><a class="anchor" href="#_demo"></a><a class="link" href="#_demo">Demo</a></h5>
 <div class="paragraph">
 <p>///TODO: Video link
 `Pre-workload migration recorded demo &lt;<a href="https://youtu.be/e7KXy5Hq4CMA&gt;`_" class="bare">https://youtu.be/e7KXy5Hq4CMA&gt;`_</a>:</p>
@@ -3835,10 +3799,8 @@ keypairs.</p>
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_workload_migration_2"><a class="anchor" href="#_workload_migration_2"></a><a class="link" href="#_workload_migration_2">Workload migration</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_workload_migration_2"><a class="anchor" href="#_workload_migration_2"></a><a class="link" href="#_workload_migration_2">Workload migration</a></h4>
 <div class="paragraph">
 <p>Workload information is exported in a similar method to networks,
 security groups, etc. as in the previous sections. Run the
@@ -3876,8 +3838,8 @@ import_workloads playbook. The data is transfered directly between the
 clouds, meaning both clouds have to be running and reachable at the
 same time. The following sections describe the process in more detail.</p>
 </div>
-<div class="sect2">
-<h3 id="_process_summary"><a class="anchor" href="#_process_summary"></a><a class="link" href="#_process_summary">Process Summary</a></h3>
+<div class="sect4">
+<h5 id="_process_summary"><a class="anchor" href="#_process_summary"></a><a class="link" href="#_process_summary">Process Summary</a></h5>
 <div class="paragraph">
 <p>This flowchart illustrates the high-level migration workflow, from a
 user&#8217;s point of view:</p>
@@ -3968,8 +3930,8 @@ possible, while allowing the use of libguestfs-based tooling to minimize
 total data transfer.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_preparation"><a class="anchor" href="#_preparation"></a><a class="link" href="#_preparation">Preparation</a></h3>
+<div class="sect4">
+<h5 id="_preparation"><a class="anchor" href="#_preparation"></a><a class="link" href="#_preparation">Preparation</a></h5>
 <div class="paragraph">
 <p>We&#8217;ll put additional parameters into <code>os-migrate-vars.yml</code>:</p>
 </div>
@@ -3995,8 +3957,8 @@ or
 <p>When using RHEL as conversion host, make sure to set the necessary <a href="https://os-migrate.github.io/os-migrate/user/variables-guide.html#conversion-host-rhel-variables">RHEL Variables</a></p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_conversion_host_deployment"><a class="anchor" href="#_conversion_host_deployment"></a><a class="link" href="#_conversion_host_deployment">Conversion host deployment</a></h3>
+<div class="sect4">
+<h5 id="_conversion_host_deployment"><a class="anchor" href="#_conversion_host_deployment"></a><a class="link" href="#_conversion_host_deployment">Conversion host deployment</a></h5>
 <div class="paragraph">
 <p>The conversion host deployment playbook creates the servers, installs
 additional required packages, and authorizes the destination conversion
@@ -4009,8 +3971,8 @@ transfer.</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_export"><a class="anchor" href="#_export"></a><a class="link" href="#_export">Export</a></h3>
+<div class="sect4">
+<h5 id="_export"><a class="anchor" href="#_export"></a><a class="link" href="#_export">Export</a></h5>
 <div class="paragraph">
 <p>Before migrating workloads, the destination cloud must have imported all
 other resources (networks, security groups, etc.) or the migration will
@@ -4092,8 +4054,8 @@ host server.</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_migration_parameters"><a class="anchor" href="#_migration_parameters"></a><a class="link" href="#_migration_parameters">Migration parameters</a></h3>
+<div class="sect4">
+<h5 id="_migration_parameters"><a class="anchor" href="#_migration_parameters"></a><a class="link" href="#_migration_parameters">Migration parameters</a></h5>
 <div class="paragraph">
 <p>///TODO next chapter, inc. link
 You can edit the exported <code>workloads.yml</code> to adjust desired
@@ -4104,8 +4066,8 @@ control how a workload should be migrated. Refer to
 for more information.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_ansible_variables"><a class="anchor" href="#_ansible_variables"></a><a class="link" href="#_ansible_variables">Ansible Variables</a></h3>
+<div class="sect4">
+<h5 id="_ansible_variables"><a class="anchor" href="#_ansible_variables"></a><a class="link" href="#_ansible_variables">Ansible Variables</a></h5>
 <div class="paragraph">
 <p>///TODO next chapter, inc. link
 In addition to the migration parameters in the resource YAML files,
@@ -4115,8 +4077,8 @@ or imported. Refer to the `Variables Guide &lt;variables-guide.html&gt;`_ for
 details.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_migration"><a class="anchor" href="#_migration"></a><a class="link" href="#_migration">Migration</a></h3>
+<div class="sect4">
+<h5 id="_migration"><a class="anchor" href="#_migration"></a><a class="link" href="#_migration">Migration</a></h5>
 <div class="paragraph">
 <p>Then run the import_workloads playbook to migrate the workloads:</p>
 </div>
@@ -4133,8 +4095,8 @@ on the destination matching the name of the current server, it will
 be marked "ok" and no extra work will be performed.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_cleanup_of_conversion_hosts"><a class="anchor" href="#_cleanup_of_conversion_hosts"></a><a class="link" href="#_cleanup_of_conversion_hosts">Cleanup of conversion hosts</a></h3>
+<div class="sect4">
+<h5 id="_cleanup_of_conversion_hosts"><a class="anchor" href="#_cleanup_of_conversion_hosts"></a><a class="link" href="#_cleanup_of_conversion_hosts">Cleanup of conversion hosts</a></h5>
 <div class="paragraph">
 <p>When you are done migrating workloads in given tenants, delete their
 conversion hosts via the delete_conversion_hosts playbook:</p>
@@ -4145,22 +4107,27 @@ conversion hosts via the delete_conversion_hosts playbook:</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_demo_2"><a class="anchor" href="#_demo_2"></a><a class="link" href="#_demo_2">Demo</a></h3>
+<div class="sect4">
+<h5 id="_demo_2"><a class="anchor" href="#_demo_2"></a><a class="link" href="#_demo_2">Demo</a></h5>
 <div class="paragraph">
 <p><a href="https://youtu.be/gEKvgIZqrQY">Workload migration recorded demo</a></p>
 </div>
 </div>
 </div>
 </div>
-<h1 id="os-migrate-process-summary_planning" class="sect0"><a class="anchor" href="#os-migrate-process-summary_planning"></a><a class="link" href="#os-migrate-process-summary_planning">How it works: Workload migration</a></h1>
+</div>
+</div>
+<div class="sect1">
+<h2 id="os-migrate-process-summary_planning"><a class="anchor" href="#os-migrate-process-summary_planning"></a><a class="link" href="#os-migrate-process-summary_planning">How it works: Workload migration</a></h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>The information described in this page is not necessary knowledge for
 using OS Migrate workload migration. However, knowing how the
 migration works under the hood may be useful for troubleshooting or
 forming deeper understanding of OS Migrate.</p>
 </div>
-<h1 id="_data_flow" class="sect0"><a class="anchor" href="#_data_flow"></a><a class="link" href="#_data_flow">Data flow</a></h1>
+<div class="sect2">
+<h3 id="_data_flow"><a class="anchor" href="#_data_flow"></a><a class="link" href="#_data_flow">Data flow</a></h3>
 <div class="paragraph">
 <p>The workload migration utilizes so called <strong>conversion hosts</strong> to
 transfer data from the source cloud to the destination cloud.</p>
@@ -4186,7 +4153,9 @@ volumes).</p>
 </li>
 </ol>
 </div>
-<h1 id="_migration_sequence" class="sect0"><a class="anchor" href="#_migration_sequence"></a><a class="link" href="#_migration_sequence">Migration sequence</a></h1>
+</div>
+<div class="sect2">
+<h3 id="_migration_sequence"><a class="anchor" href="#_migration_sequence"></a><a class="link" href="#_migration_sequence">Migration sequence</a></h3>
 <div class="paragraph">
 <p>The <code>export_workloads.yml</code> playbook simply exports workload metadata
 into <code>workloads.yml</code>.</p>
@@ -4329,7 +4298,12 @@ clean up is necessary in the destination cloud.)</p>
 </li>
 </ul>
 </div>
-<h1 id="os-migrate-vmware-guide_vmware" class="sect0"><a class="anchor" href="#os-migrate-vmware-guide_vmware"></a><a class="link" href="#os-migrate-vmware-guide_vmware">OS Migrate VMware Guide</a></h1>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="os-migrate-vmware-guide_vmware"><a class="anchor" href="#os-migrate-vmware-guide_vmware"></a><a class="link" href="#os-migrate-vmware-guide_vmware">OS Migrate VMware Guide</a></h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>An important auxilliary function included in OS Migrate is our VMware tooling,
 which allows you to migrade a virtual machine from an ESXi/Vcenter environment
@@ -4362,7 +4336,8 @@ machine migration in two steps. The migration can also be done without conversio
 </li>
 </ul>
 </div>
-<h1 id="_workflow" class="sect0"><a class="anchor" href="#_workflow"></a><a class="link" href="#_workflow">Workflow</a></h1>
+<div class="sect2">
+<h3 id="_workflow"><a class="anchor" href="#_workflow"></a><a class="link" href="#_workflow">Workflow</a></h3>
 <div class="paragraph">
 <p>There is different ways to run the migration from VMWare to OpenStack.</p>
 </div>
@@ -4387,10 +4362,11 @@ you have big disk or a huge amount of VMs to migrate: the performance are really
 <div class="paragraph">
 <p>All of these are configurable with Ansible boolean variables.</p>
 </div>
-<h1 id="_features_and_supported_os" class="sect0"><a class="anchor" href="#_features_and_supported_os"></a><a class="link" href="#_features_and_supported_os">Features and supported OS</a></h1>
-<div class="sect1">
-<h2 id="_features"><a class="anchor" href="#_features"></a><a class="link" href="#_features">Features</a></h2>
-<div class="sectionbody">
+</div>
+<div class="sect2">
+<h3 id="_features_and_supported_os"><a class="anchor" href="#_features_and_supported_os"></a><a class="link" href="#_features_and_supported_os">Features and supported OS</a></h3>
+<div class="sect3">
+<h4 id="_features"><a class="anchor" href="#_features"></a><a class="link" href="#_features">Features</a></h4>
 <div class="paragraph">
 <p>The following features are availables:</p>
 </div>
@@ -4432,10 +4408,8 @@ you have big disk or a huge amount of VMs to migrate: the performance are really
 </ul>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_supported_os"><a class="anchor" href="#_supported_os"></a><a class="link" href="#_supported_os">Supported OS</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_supported_os"><a class="anchor" href="#_supported_os"></a><a class="link" href="#_supported_os">Supported OS</a></h4>
 <div class="paragraph">
 <p>Currently we are supporting the following matrice:</p>
 </div>
@@ -4518,22 +4492,18 @@ you have big disk or a huge amount of VMs to migrate: the performance are really
 </tbody>
 </table>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_nbdkit_migration_example"><a class="anchor" href="#_nbdkit_migration_example"></a><a class="link" href="#_nbdkit_migration_example">Nbdkit migration example</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_nbdkit_migration_example"><a class="anchor" href="#_nbdkit_migration_example"></a><a class="link" href="#_nbdkit_migration_example">Nbdkit migration example</a></h4>
 <div class="imageblock">
 <div class="content">
 <img src="images/osm-migration-nbdkit-vmware-workflow-with-osm.drawio.svg" alt="Ndbkit">
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_nbdkit_migration_example_with_the_change_block_tracking"><a class="anchor" href="#_nbdkit_migration_example_with_the_change_block_tracking"></a><a class="link" href="#_nbdkit_migration_example_with_the_change_block_tracking">Nbdkit migration example with the Change Block Tracking</a></h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_step_1_the_data_are_copied_and_the_change_id_from_the_vmware_disk_are_set_to_the_cinder_volume_as_metadata"><a class="anchor" href="#_step_1_the_data_are_copied_and_the_change_id_from_the_vmware_disk_are_set_to_the_cinder_volume_as_metadata"></a><a class="link" href="#_step_1_the_data_are_copied_and_the_change_id_from_the_vmware_disk_are_set_to_the_cinder_volume_as_metadata">Step 1: The data are copied and the change ID from the VMware disk are set to the Cinder volume as metadata</a></h3>
+<div class="sect3">
+<h4 id="_nbdkit_migration_example_with_the_change_block_tracking"><a class="anchor" href="#_nbdkit_migration_example_with_the_change_block_tracking"></a><a class="link" href="#_nbdkit_migration_example_with_the_change_block_tracking">Nbdkit migration example with the Change Block Tracking</a></h4>
+<div class="sect4">
+<h5 id="_step_1_the_data_are_copied_and_the_change_id_from_the_vmware_disk_are_set_to_the_cinder_volume_as_metadata"><a class="anchor" href="#_step_1_the_data_are_copied_and_the_change_id_from_the_vmware_disk_are_set_to_the_cinder_volume_as_metadata"></a><a class="link" href="#_step_1_the_data_are_copied_and_the_change_id_from_the_vmware_disk_are_set_to_the_cinder_volume_as_metadata">Step 1: The data are copied and the change ID from the VMware disk are set to the Cinder volume as metadata</a></h5>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -4562,17 +4532,16 @@ This functionality can be used for large disks with a lot of data to transfer. I
 Then, the conversion to libvirt/KVM is triggered, and the OpenStack instance is created.
 This allows for minimal downtime for the VMs.</p>
 </div>
+<div class="exampleblock">
+<div class="content">
 <div class="imageblock">
 <div class="content">
 <img src="images/osm-migration-nbdkit-vmware-workflow-with-osm_cbt_step2.svg" alt="CBT Step 2">
 </div>
 </div>
+<div class="paragraph">
+<p>=== Migration demo from an AEE</p>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_migration_demo_from_an_aee"><a class="anchor" href="#_migration_demo_from_an_aee"></a><a class="link" href="#_migration_demo_from_an_aee">Migration demo from an AEE</a></h2>
-<div class="sectionbody">
 <div class="paragraph">
 <p>The content of the Ansible Execution Environment could be find here:</p>
 </div>
@@ -4585,13 +4554,12 @@ This allows for minimal downtime for the VMs.</p>
 <div class="paragraph">
 <p><a href="https://www.youtube.com/watch?v=XnEQ8WVGW64">Migration from VMware to OpenStack</a></p>
 </div>
+<div class="paragraph">
+<p>=== Running migration</p>
 </div>
+<div class="paragraph">
+<p>==== Conversion host</p>
 </div>
-<div class="sect1">
-<h2 id="_running_migration"><a class="anchor" href="#_running_migration"></a><a class="link" href="#_running_migration">Running migration</a></h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_conversion_host"><a class="anchor" href="#_conversion_host"></a><a class="link" href="#_conversion_host">Conversion host</a></h3>
 <div class="paragraph">
 <p>You can use os_migrate.os_migration collection to deploy a conversion, but you can
 easily create your conversion host manually.</p>
@@ -4599,13 +4567,8 @@ easily create your conversion host manually.</p>
 <div class="paragraph">
 <p>A conversion host is basically an OpenStack instance.</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
+</div>
+</div>
 <div class="paragraph">
 <p>Important: If you want to take benefit of the current supported OS, it&#8217;s highly recommended to use a <strong>CentOS-10</strong> release or <strong>RHEL-9.5</strong> and superior. If you want to use other Linux distribution, make sure the virtio-win package is equal or higher than 1.40 version.</p>
 </div>
@@ -4622,13 +4585,9 @@ openstack server create <span class="nt">--flavor</span> x.medium <span class="n
 openstack server add floating ip vmware-conv-host 192.168.18.205</code></pre>
 </div>
 </div>
-</td>
-</tr>
-</table>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_inventory_variables_files_and_ansible_command"><a class="anchor" href="#_inventory_variables_files_and_ansible_command"></a><a class="link" href="#_inventory_variables_files_and_ansible_command">Inventory, Variables files and Ansible command:</a></h3>
+<div class="sect4">
+<h5 id="_inventory_variables_files_and_ansible_command"><a class="anchor" href="#_inventory_variables_files_and_ansible_command"></a><a class="link" href="#_inventory_variables_files_and_ansible_command">Inventory, Variables files and Ansible command:</a></h5>
 <div class="paragraph">
 <p><strong>inventory.yml</strong></p>
 </div>
@@ -4717,7 +4676,8 @@ openstack server add floating ip vmware-conv-host 192.168.18.205</code></pre>
 </div>
 </div>
 </div>
-<h1 id="_usage_2" class="sect0"><a class="anchor" href="#_usage_2"></a><a class="link" href="#_usage_2">Usage</a></h1>
+<div class="sect2">
+<h3 id="_usage_2"><a class="anchor" href="#_usage_2"></a><a class="link" href="#_usage_2">Usage</a></h3>
 <div class="paragraph">
 <p>You can find a "how to" here, to start from sratch with a container:
 <a href="https://gist.github.com/matbu/003c300fd99ebfbf383729c249e9956f" class="bare">https://gist.github.com/matbu/003c300fd99ebfbf383729c249e9956f</a></p>
@@ -4731,9 +4691,8 @@ openstack server add floating ip vmware-conv-host 192.168.18.205</code></pre>
 ansible-galaxy collection <span class="nb">install </span>os_migrate.vmware_migration_kit</code></pre>
 </div>
 </div>
-<div class="sect1">
-<h2 id="_nbdkit_default"><a class="anchor" href="#_nbdkit_default"></a><a class="link" href="#_nbdkit_default">Nbdkit (default)</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_nbdkit_default"><a class="anchor" href="#_nbdkit_default"></a><a class="link" href="#_nbdkit_default">Nbdkit (default)</a></h4>
 <div class="paragraph">
 <p>Edit vars.yaml file and add our own setting:</p>
 </div>
@@ -4807,10 +4766,8 @@ ansible-galaxy collection <span class="nb">install </span>os_migrate.vmware_migr
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_running_migration_from_local_shared_nfs"><a class="anchor" href="#_running_migration_from_local_shared_nfs"></a><a class="link" href="#_running_migration_from_local_shared_nfs">Running migration from local shared NFS</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_running_migration_from_local_shared_nfs"><a class="anchor" href="#_running_migration_from_local_shared_nfs"></a><a class="link" href="#_running_migration_from_local_shared_nfs">Running migration from local shared NFS</a></h4>
 <div class="paragraph">
 <p>OS-Migrate can migrate directly from a local shared directory mounted on the
 conversion host. If the VMware virtual machines are located on an NFS datastore
@@ -4837,9 +4794,13 @@ point as follows:</p>
 <div class="paragraph">
 <p>In this mode, only cold migration is supported.</p>
 </div>
-<div class="paragraph">
-<p>=== Ansible configuration</p>
+</td>
+</tr>
+</table>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_ansible_configuration"><a class="anchor" href="#_ansible_configuration"></a><a class="link" href="#_ansible_configuration">Ansible configuration</a></h4>
 <div class="paragraph">
 <p>Create an invenvoty file, and replace the conv_host_ip by the ip address of your
 conversion host:</p>
@@ -4866,9 +4827,9 @@ conversion host:</p>
 <pre class="rouge highlight"><code data-lang="bash">ansible-playbook <span class="nt">-i</span> localhost_inventory.yml os_migrate.vmware_migration_kit.migration <span class="nt">-e</span> @vars.yaml</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>=== Running Migration outside of Ansible</p>
 </div>
+<div class="sect3">
+<h4 id="_running_migration_outside_of_ansible"><a class="anchor" href="#_running_migration_outside_of_ansible"></a><a class="link" href="#_running_migration_outside_of_ansible">Running Migration outside of Ansible</a></h4>
 <div class="paragraph">
 <p>You can also run migration outside of Ansible because the Ansible module are written in Golang.
 The binaries are located in the plugins directory.</p>
@@ -4933,16 +4894,21 @@ Openstack variables:</p>
 <pre class="rouge highlight"><code data-lang="bash"><span class="nb">tail</span> <span class="nt">-f</span> /tmp/osm-nbdkit.log</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>== Configuration and Usage
-:leveloffset: +1</p>
 </div>
-<div class="paragraph">
-<p>== Migration Parameters Guide</p>
 </div>
-<div class="paragraph">
-<p>=== What are migration parameters</p>
 </div>
+</div>
+<div class="sect1">
+<h2 id="_configuration_and_usage"><a class="anchor" href="#_configuration_and_usage"></a><a class="link" href="#_configuration_and_usage">Configuration and Usage</a></h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<div class="sect1">
+<h2 id="os-migrate-migration-parameters-guide_parameters"><a class="anchor" href="#os-migrate-migration-parameters-guide_parameters"></a><a class="link" href="#os-migrate-migration-parameters-guide_parameters">Migration Parameters Guide</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_what_are_migration_parameters"><a class="anchor" href="#_what_are_migration_parameters"></a><a class="link" href="#_what_are_migration_parameters">What are migration parameters</a></h3>
 <div class="paragraph">
 <p>Resource YAML files generated by OS Migrate when exporting are
 editable by the user. The parameters in <code>params</code> section of a
@@ -4954,9 +4920,9 @@ there is another editable section in resource serializations, called
 <code>_migration_params</code>. The descriptions of the most important ones are
 in this guide.</p>
 </div>
-<div class="paragraph">
-<p>=== Workload migration parameters</p>
 </div>
+<div class="sect2">
+<h3 id="_workload_migration_parameters"><a class="anchor" href="#_workload_migration_parameters"></a><a class="link" href="#_workload_migration_parameters">Workload migration parameters</a></h3>
 <div class="ulist">
 <ul>
 <li>
@@ -5075,21 +5041,22 @@ anyway.)</p>
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p>== Variables Guide</p>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="os-migrate-variables-guide_variables"><a class="anchor" href="#os-migrate-variables-guide_variables"></a><a class="link" href="#os-migrate-variables-guide_variables">Variables Guide</a></h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>The goal of this document is to guide users to correctly configure the
 most important variables in OS Migrate. For a complete listing of
 variables configurable for each Ansible role, refer to the
 documentation of the individual roles.</p>
 </div>
-<div class="paragraph">
-<p>=== General variables</p>
-</div>
-<div class="paragraph">
-<p>==== Resource filters</p>
-</div>
+<div class="sect2">
+<h3 id="_general_variables"><a class="anchor" href="#_general_variables"></a><a class="link" href="#_general_variables">General variables</a></h3>
+<div class="sect3">
+<h4 id="_resource_filters"><a class="anchor" href="#_resource_filters"></a><a class="link" href="#_resource_filters">Resource filters</a></h4>
 <div class="paragraph">
 <p>Resource filters allow the user to control which resources will be
 migrated. The filters match against resource <strong>names</strong>.</p>
@@ -5168,16 +5135,16 @@ copy into your variables file and customize:</p>
   <span class="pi">-</span> <span class="na">regex</span><span class="pi">:</span> <span class="s">.*</span></code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>=== Conversion host variables</p>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_conversion_host_variables"><a class="anchor" href="#_conversion_host_variables"></a><a class="link" href="#_conversion_host_variables">Conversion host variables</a></h3>
 <div class="paragraph">
 <p>The following variables are those that need to be configured prior to
 running OS Migrate.</p>
 </div>
-<div class="paragraph">
-<p>==== Conversion host name</p>
-</div>
+<div class="sect3">
+<h4 id="_conversion_host_name"><a class="anchor" href="#_conversion_host_name"></a><a class="link" href="#_conversion_host_name">Conversion host name</a></h4>
 <div class="paragraph">
 <p>The conversion hosts might be configured using different names,
 this is in case an operator needs to have them registered
@@ -5198,9 +5165,9 @@ os_migrate_dst_conversion_host_name</pre>
 for both conversion hosts <code>os_migrate_conv_src</code>
 and <code>os_migrate_conv_dst</code> respectively.</p>
 </div>
-<div class="paragraph">
-<p>==== Conversion host image name</p>
 </div>
+<div class="sect3">
+<h4 id="_conversion_host_image_name"><a class="anchor" href="#_conversion_host_image_name"></a><a class="link" href="#_conversion_host_image_name">Conversion host image name</a></h4>
 <div class="paragraph">
 <p>The conversion host image is the guest configure to execute the
 instances migrations.</p>
@@ -5228,9 +5195,9 @@ should be a
 or
 <a href="https://access.redhat.com/downloads/content/479/ver=/rhel---8/8.3/x86_64/product-software">RHEL 8 KVM Guest Image</a>.</p>
 </div>
-<div class="paragraph">
-<p>==== Conversion host flavor name</p>
 </div>
+<div class="sect3">
+<h4 id="_conversion_host_flavor_name"><a class="anchor" href="#_conversion_host_flavor_name"></a><a class="link" href="#_conversion_host_flavor_name">Conversion host flavor name</a></h4>
 <div class="paragraph">
 <p>The conversion host flavor defines the compute, memory, and storage
 capacity that will be allocated for the conversion hosts. It needs to
@@ -5249,9 +5216,9 @@ os_migrate_dst_conversion_flavor_name</pre>
 <p>Usually, 'm1.medium' will suffice this requirement, but again, it can
 be different between deployments.</p>
 </div>
-<div class="paragraph">
-<p>==== Conversion host external network name</p>
 </div>
+<div class="sect3">
+<h4 id="_conversion_host_external_network_name"><a class="anchor" href="#_conversion_host_external_network_name"></a><a class="link" href="#_conversion_host_external_network_name">Conversion host external network name</a></h4>
 <div class="paragraph">
 <p>The external network configuration allows the connection of the
 conversion host router for external access, this external network must
@@ -5274,9 +5241,9 @@ os_migrate_dst_conversion_external_network_name</pre>
 pre-existing network (when
 <code>os_migrate_src/dst_conversion_manage_network</code> is <code>false</code>).</p>
 </div>
-<div class="paragraph">
-<p>==== Other conversion host dependency names</p>
 </div>
+<div class="sect3">
+<h4 id="_other_conversion_host_dependency_names"><a class="anchor" href="#_other_conversion_host_dependency_names"></a><a class="link" href="#_other_conversion_host_dependency_names">Other conversion host dependency names</a></h4>
 <div class="paragraph">
 <p>In addition to the name variables described above, it is possible to
 customize names of other conversion host dependency resources:</p>
@@ -5295,9 +5262,9 @@ os_migrate_src_conversion_keypair_name
 os_migrate_dst_conversion_keypair_name</pre>
 </div>
 </div>
-<div class="paragraph">
-<p>==== Conversion host availablility zone management</p>
 </div>
+<div class="sect3">
+<h4 id="_conversion_host_availablility_zone_management"><a class="anchor" href="#_conversion_host_availablility_zone_management"></a><a class="link" href="#_conversion_host_availablility_zone_management">Conversion host availablility zone management</a></h4>
 <div class="paragraph">
 <p>Availability zones are defined by attaching specific metadata
 information to an aggregate:</p>
@@ -5315,9 +5282,9 @@ instances to a specific set of hosts belonging to an aggregate.</p>
 <div class="paragraph">
 <p>The default is <code>false</code> (meaning no specification provided).</p>
 </div>
-<div class="paragraph">
-<p>==== Conversion host network management</p>
 </div>
+<div class="sect3">
+<h4 id="_conversion_host_network_management"><a class="anchor" href="#_conversion_host_network_management"></a><a class="link" href="#_conversion_host_network_management">Conversion host network management</a></h4>
 <div class="paragraph">
 <p>It is possible to disable creation and deletion of conversion host
 private network by setting these variables to <code>false</code>:</p>
@@ -5344,9 +5311,9 @@ accordingly:</p>
 os_migrate_dst_conversion_net_name</pre>
 </div>
 </div>
-<div class="paragraph">
-<p>==== Conversion host floating IP management</p>
 </div>
+<div class="sect3">
+<h4 id="_conversion_host_floating_ip_management"><a class="anchor" href="#_conversion_host_floating_ip_management"></a><a class="link" href="#_conversion_host_floating_ip_management">Conversion host floating IP management</a></h4>
 <div class="paragraph">
 <p>OS Migrate can be told to not attempt to create any floating IPs on
 the conversion hosts. This can be useful when attaching a conversion
@@ -5380,9 +5347,9 @@ os_migrate_dst_conversion_host_delete_fip</pre>
 floating IP deletion is not attempted even if <code>&#8230;&#8203;_delete_fip</code> is set
 to <code>true</code>.</p>
 </div>
-<div class="paragraph">
-<p>==== Conversion host specific floating IP</p>
 </div>
+<div class="sect3">
+<h4 id="_conversion_host_specific_floating_ip"><a class="anchor" href="#_conversion_host_specific_floating_ip"></a><a class="link" href="#_conversion_host_specific_floating_ip">Conversion host specific floating IP</a></h4>
 <div class="paragraph">
 <p>Each conversion host needs to have a floating IP,
 these floating IPs can be assigned automatically or
@@ -5399,9 +5366,9 @@ os_migrate_dst_conversion_floating_ip_address</pre>
 <p>When using this variable to specify an exact IP address, the floating
 IP must already exist and be available for attaching.</p>
 </div>
-<div class="paragraph">
-<p>==== Attaching conversion hosts onto public networks</p>
 </div>
+<div class="sect3">
+<h4 id="_attaching_conversion_hosts_onto_public_networks"><a class="anchor" href="#_attaching_conversion_hosts_onto_public_networks"></a><a class="link" href="#_attaching_conversion_hosts_onto_public_networks">Attaching conversion hosts onto public networks</a></h4>
 <div class="paragraph">
 <p>A combination of variables described earlier can be used to attach the
 conversion hosts directly onto pre-existing public networks. We need
@@ -5419,9 +5386,9 @@ os_migrate_src_conversion_net_name: some_public_net_src
 os_migrate_dst_conversion_net_name: some_public_net_dst</pre>
 </div>
 </div>
-<div class="paragraph">
-<p>==== Storage migration modes</p>
 </div>
+<div class="sect3">
+<h4 id="_storage_migration_modes"><a class="anchor" href="#_storage_migration_modes"></a><a class="link" href="#_storage_migration_modes">Storage migration modes</a></h4>
 <div class="paragraph">
 <p>The modes for workload migrations can be changed in either
 cloud. The variable that control the behavior are:</p>
@@ -5440,9 +5407,9 @@ os-migrate is skipped).</p>
 destination cloud that we just want to attach when creating
 the VM in the destination.</p>
 </div>
-<div class="paragraph">
-<p>==== Conversion host boot from volume</p>
 </div>
+<div class="sect3">
+<h4 id="_conversion_host_boot_from_volume"><a class="anchor" href="#_conversion_host_boot_from_volume"></a><a class="link" href="#_conversion_host_boot_from_volume">Conversion host boot from volume</a></h4>
 <div class="paragraph">
 <p>The conversion hosts can be created as boot-from-volume servers in
 either cloud. The variables that control the behavior are:</p>
@@ -5469,9 +5436,9 @@ os_migrate_dst_conversion_host_volume_size</pre>
 <div class="paragraph">
 <p>The size should be 20 or more, the default is 20.</p>
 </div>
-<div class="paragraph">
-<p>==== Conversion host RHEL variables</p>
 </div>
+<div class="sect3">
+<h4 id="_conversion_host_rhel_variables"><a class="anchor" href="#_conversion_host_rhel_variables"></a><a class="link" href="#_conversion_host_rhel_variables">Conversion host RHEL variables</a></h4>
 <div class="paragraph">
 <p>When using RHEL as conversion host, set the SSH user name as follows:</p>
 </div>
@@ -5560,9 +5527,9 @@ conversion hosts using the following variable:</p>
 list of those repositories that will be enabled on the conversion
 host.</p>
 </div>
-<div class="paragraph">
-<p>==== Enabling password-based SSH access to the conversion hosts</p>
 </div>
+<div class="sect3">
+<h4 id="_enabling_password_based_ssh_access_to_the_conversion_hosts"><a class="anchor" href="#_enabling_password_based_ssh_access_to_the_conversion_hosts"></a><a class="link" href="#_enabling_password_based_ssh_access_to_the_conversion_hosts">Enabling password-based SSH access to the conversion hosts</a></h4>
 <div class="paragraph">
 <p>When required, a user can configure password-based SSH access to
 the conversion hosts, this feature might be useful for debugging
@@ -5588,9 +5555,9 @@ following string <code>weak_password_disabled_by_default</code>.</p>
 <p>The user enabled to access the conversion hosts with password-based authentication
 is the one defined in the <code>os_migrate_conversion_host_ssh_user</code> variable.</p>
 </div>
-<div class="paragraph">
-<p>==== Running custom bash scripts in the conversion hosts</p>
 </div>
+<div class="sect3">
+<h4 id="_running_custom_bash_scripts_in_the_conversion_hosts"><a class="anchor" href="#_running_custom_bash_scripts_in_the_conversion_hosts"></a><a class="link" href="#_running_custom_bash_scripts_in_the_conversion_hosts">Running custom bash scripts in the conversion hosts</a></h4>
 <div class="paragraph">
 <p>It is possible to run custom bash scripts in the conversion
 hosts before and after configuring their content.
@@ -5630,9 +5597,9 @@ complex scripts like the following examples:</p>
 <pre>os_migrate_src_conversion_host_pre_content_hook: "echo 'this is a simple command'"</pre>
 </div>
 </div>
-<div class="paragraph">
-<p>==== Disabling the subscription manager tasks</p>
 </div>
+<div class="sect3">
+<h4 id="_disabling_the_subscription_manager_tasks"><a class="anchor" href="#_disabling_the_subscription_manager_tasks"></a><a class="link" href="#_disabling_the_subscription_manager_tasks">Disabling the subscription manager tasks</a></h4>
 <div class="paragraph">
 <p>It is possible to disable the subscription manager
 native tasks by setting to false the following variable:</p>
@@ -5648,9 +5615,10 @@ in the conversion hosts. Disabling RHSM can be useful in
 those cases where the operator has custom scripts they
 need to use instead the standard Ansible module.</p>
 </div>
-<div class="paragraph">
-<p>=== OpenStack REST API TLS variables</p>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_openstack_rest_api_tls_variables"><a class="anchor" href="#_openstack_rest_api_tls_variables"></a><a class="link" href="#_openstack_rest_api_tls_variables">OpenStack REST API TLS variables</a></h3>
 <div class="paragraph">
 <p>If either of your clouds uses TLS endpoints that are not trusted by
 the Migrator host by default (e.g. using self-signed certificates), or
@@ -5678,9 +5646,9 @@ variables.</p>
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p>=== Workload import/export variables</p>
 </div>
+<div class="sect2">
+<h3 id="_workload_importexport_variables"><a class="anchor" href="#_workload_importexport_variables"></a><a class="link" href="#_workload_importexport_variables">Workload import/export variables</a></h3>
 <div class="ulist">
 <ul>
 <li>
@@ -5690,9 +5658,9 @@ only workloads/vms in <code>SHUTOFF</code> state will be migrated.</p>
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p>=== Workload migration variables</p>
 </div>
+<div class="sect2">
+<h3 id="_workload_migration_variables"><a class="anchor" href="#_workload_migration_variables"></a><a class="link" href="#_workload_migration_variables">Workload migration variables</a></h3>
 <div class="paragraph">
 <p>Workloads to be migrated with OS Migrate can have varying storage configurations in
 the source cloud, and the desired way to migrate their storage also varies, per cloud
@@ -5722,9 +5690,12 @@ mode implemented).</p>
 </div>
 <div class="title">Figure 3. Screenshot 2024-07-15 at 3 03 16 PM</div>
 </div>
-<div class="paragraph">
-<p>== General usage notes</p>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="os-migrate-usage-notes_usage"><a class="anchor" href="#os-migrate-usage-notes_usage"></a><a class="link" href="#os-migrate-usage-notes_usage">General usage notes</a></h2>
+<div class="sectionbody">
 <div class="ulist">
 <ul>
 <li>
@@ -5760,16 +5731,19 @@ tested migrations between 13 to 16, 16 to 18 using RHEL 8.</p>
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p>== Maintenance and Support
-:leveloffset: +1</p>
 </div>
-<div class="paragraph">
-<p>== Troubleshooting</p>
 </div>
-<div class="paragraph">
-<p>=== General tips</p>
+<div class="sect1">
+<h2 id="_maintenance_and_support"><a class="anchor" href="#_maintenance_and_support"></a><a class="link" href="#_maintenance_and_support">Maintenance and Support</a></h2>
+<div class="sectionbody">
+
 </div>
+</div>
+<div class="sect1">
+<h2 id="os-migrate-troubleshooting_troubleshooting"><a class="anchor" href="#os-migrate-troubleshooting_troubleshooting"></a><a class="link" href="#os-migrate-troubleshooting_troubleshooting">Troubleshooting</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_general_tips"><a class="anchor" href="#_general_tips"></a><a class="link" href="#_general_tips">General tips</a></h3>
 <div class="ulist">
 <ul>
 <li>
@@ -5778,9 +5752,9 @@ output.</p>
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p>=== Common issues</p>
 </div>
+<div class="sect2">
+<h3 id="_common_issues_2"><a class="anchor" href="#_common_issues_2"></a><a class="link" href="#_common_issues_2">Common issues</a></h3>
 <div class="ulist">
 <ul>
 <li>
@@ -5868,16 +5842,15 @@ perform the migration, having all the necessary public keys.</p>
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p>== Upgrading</p>
 </div>
+<div class="sect2">
+<h3 id="_upgrading"><a class="anchor" href="#_upgrading"></a><a class="link" href="#_upgrading">Upgrading</a></h3>
 <div class="paragraph">
 <p>This document describes the recommended method of upgrading OS Migrate
 from Ansible Galaxy.</p>
 </div>
-<div class="paragraph">
-<p>=== Collection upgrade</p>
-</div>
+<div class="sect3">
+<h4 id="_collection_upgrade"><a class="anchor" href="#_collection_upgrade"></a><a class="link" href="#_collection_upgrade">Collection upgrade</a></h4>
 <div class="paragraph">
 <p>To upgrade to the latest release if you already have the OS Migrate
 collection installed, make sure to pass the <code>-f</code> flag to the
@@ -5900,9 +5873,9 @@ collection even if it is already present:</p>
 <div class="paragraph">
 <p>You can find available releases at <a href="https://galaxy.ansible.com/os_migrate/os_migrate">OS Migrate Galaxy page</a>.</p>
 </div>
-<div class="paragraph">
-<p>=== Usage notes related to upgrading</p>
 </div>
+<div class="sect3">
+<h4 id="_usage_notes_related_to_upgrading"><a class="anchor" href="#_usage_notes_related_to_upgrading"></a><a class="link" href="#_usage_notes_related_to_upgrading">Usage notes related to upgrading</a></h4>
 <div class="ulist">
 <ul>
 <li>
@@ -5922,27 +5895,33 @@ different OS Migrate version.</p>
 </li>
 </ul>
 </div>
-<div id="os-migrate-contributing_development" class="paragraph">
-<p>= OS Migrate Contribution Guidelines</p>
 </div>
-<div class="paragraph">
-<p>== TBD - but largely based on combination of existing guide, and David &amp; Roberto collaboration</p>
 </div>
-<div class="paragraph">
-<p>== Reference
-:leveloffset: +1</p>
 </div>
-<div class="paragraph">
-<p>= OS Migrate Glossary
-:toc:
-:toc-placement: preamble</p>
 </div>
+<div class="sect1">
+<h2 id="os-migrate-contributing_development"><a class="anchor" href="#os-migrate-contributing_development"></a><a class="link" href="#os-migrate-contributing_development">OS Migrate Contribution Guidelines</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_tbd_but_largely_based_on_combination_of_existing_guide_and_david_roberto_collaboration"><a class="anchor" href="#_tbd_but_largely_based_on_combination_of_existing_guide_and_david_roberto_collaboration"></a><a class="link" href="#_tbd_but_largely_based_on_combination_of_existing_guide_and_david_roberto_collaboration">TBD - but largely based on combination of existing guide, and David &amp; Roberto collaboration</a></h3>
+
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_reference"><a class="anchor" href="#_reference"></a><a class="link" href="#_reference">Reference</a></h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<div class="sect1">
+<h2 id="_os_migrate_glossary"><a class="anchor" href="#_os_migrate_glossary"></a><a class="link" href="#_os_migrate_glossary">OS Migrate Glossary</a></h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>A comprehensive glossary of terms for operators learning about the OS Migrate project.</p>
 </div>
-<div class="paragraph">
-<p>== Core Concepts</p>
-</div>
+<div class="sect2">
+<h3 id="_core_concepts"><a class="anchor" href="#_core_concepts"></a><a class="link" href="#_core_concepts">Core Concepts</a></h3>
 <div class="dlist">
 <dl>
 <dt class="hdlist1"><strong>OS Migrate Collection</strong></dt>
@@ -5971,9 +5950,9 @@ different OS Migrate version.</p>
 </dd>
 </dl>
 </div>
-<div class="paragraph">
-<p>== Resource Types</p>
 </div>
+<div class="sect2">
+<h3 id="_resource_types"><a class="anchor" href="#_resource_types"></a><a class="link" href="#_resource_types">Resource Types</a></h3>
 <div class="dlist">
 <dl>
 <dt class="hdlist1"><strong>Workloads</strong></dt>
@@ -6034,9 +6013,9 @@ different OS Migrate version.</p>
 </dd>
 </dl>
 </div>
-<div class="paragraph">
-<p>== Migration Infrastructure</p>
 </div>
+<div class="sect2">
+<h3 id="_migration_infrastructure"><a class="anchor" href="#_migration_infrastructure"></a><a class="link" href="#_migration_infrastructure">Migration Infrastructure</a></h3>
 <div class="dlist">
 <dl>
 <dt class="hdlist1"><strong>Conversion Host</strong></dt>
@@ -6053,9 +6032,9 @@ different OS Migrate version.</p>
 </dd>
 </dl>
 </div>
-<div class="paragraph">
-<p>== Data Management</p>
 </div>
+<div class="sect2">
+<h3 id="_data_management"><a class="anchor" href="#_data_management"></a><a class="link" href="#_data_management">Data Management</a></h3>
 <div class="dlist">
 <dl>
 <dt class="hdlist1"><strong>Data Directory</strong> (<code>os_migrate_data_dir</code>)</dt>
@@ -6080,9 +6059,9 @@ different OS Migrate version.</p>
 </dd>
 </dl>
 </div>
-<div class="paragraph">
-<p>== Resource Structure</p>
 </div>
+<div class="sect2">
+<h3 id="_resource_structure"><a class="anchor" href="#_resource_structure"></a><a class="link" href="#_resource_structure">Resource Structure</a></h3>
 <div class="dlist">
 <dl>
 <dt class="hdlist1"><strong>params_from_sdk</strong></dt>
@@ -6107,9 +6086,9 @@ different OS Migrate version.</p>
 </dd>
 </dl>
 </div>
-<div class="paragraph">
-<p>== Authentication &amp; Configuration</p>
 </div>
+<div class="sect2">
+<h3 id="_authentication_configuration"><a class="anchor" href="#_authentication_configuration"></a><a class="link" href="#_authentication_configuration">Authentication &amp; Configuration</a></h3>
 <div class="dlist">
 <dl>
 <dt class="hdlist1"><strong>Source Auth</strong> (<code>os_migrate_src_auth</code>)</dt>
@@ -6134,9 +6113,9 @@ different OS Migrate version.</p>
 </dd>
 </dl>
 </div>
-<div class="paragraph">
-<p>== Ansible Components</p>
 </div>
+<div class="sect2">
+<h3 id="_ansible_components"><a class="anchor" href="#_ansible_components"></a><a class="link" href="#_ansible_components">Ansible Components</a></h3>
 <div class="dlist">
 <dl>
 <dt class="hdlist1"><strong>Export Roles</strong></dt>
@@ -6178,9 +6157,9 @@ different OS Migrate version.</p>
 </dd>
 </dl>
 </div>
-<div class="paragraph">
-<p>== Development &amp; Testing</p>
 </div>
+<div class="sect2">
+<h3 id="_development_testing"><a class="anchor" href="#_development_testing"></a><a class="link" href="#_development_testing">Development &amp; Testing</a></h3>
 <div class="dlist">
 <dl>
 <dt class="hdlist1"><strong>Role Skeleton</strong></dt>
@@ -6205,9 +6184,9 @@ different OS Migrate version.</p>
 </dd>
 </dl>
 </div>
-<div class="paragraph">
-<p>== Container Environment</p>
 </div>
+<div class="sect2">
+<h3 id="_container_environment"><a class="anchor" href="#_container_environment"></a><a class="link" href="#_container_environment">Container Environment</a></h3>
 <div class="dlist">
 <dl>
 <dt class="hdlist1"><strong>Container Engine</strong></dt>
@@ -6224,9 +6203,9 @@ different OS Migrate version.</p>
 </dd>
 </dl>
 </div>
-<div class="paragraph">
-<p>== Build &amp; Deployment</p>
 </div>
+<div class="sect2">
+<h3 id="_build_deployment"><a class="anchor" href="#_build_deployment"></a><a class="link" href="#_build_deployment">Build &amp; Deployment</a></h3>
 <div class="dlist">
 <dl>
 <dt class="hdlist1"><strong>Collection Build</strong></dt>
@@ -6243,9 +6222,9 @@ different OS Migrate version.</p>
 </dd>
 </dl>
 </div>
-<div class="paragraph">
-<p>== Migration Process</p>
 </div>
+<div class="sect2">
+<h3 id="_migration_process"><a class="anchor" href="#_migration_process"></a><a class="link" href="#_migration_process">Migration Process</a></h3>
 <div class="dlist">
 <dl>
 <dt class="hdlist1"><strong>Three-Phase Migration</strong></dt>
@@ -6266,9 +6245,6 @@ different OS Migrate version.</p>
 </dd>
 </dl>
 </div>
-</td>
-</tr>
-</table>
 </div>
 </div>
 </div>

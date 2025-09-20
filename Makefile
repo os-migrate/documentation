@@ -91,7 +91,7 @@ $(HTML_OUTPUT_DIR)/operator/index.html: operator/index.adoc $(wildcard operator/
 	@cp -r $(PLANTUML_OUTPUT_DIR)/*.png $(HTML_OUTPUT_DIR)/operator/images/ 2>/dev/null || true
 	@cp -r $(ASSETS_DIR)/css/*.css $(HTML_OUTPUT_DIR)/operator/assets/css/ 2>/dev/null || true
 	@cp -r $(ASSETS_DIR)/js/*.js $(HTML_OUTPUT_DIR)/operator/assets/js/ 2>/dev/null || true
-	$(ASCIIDOCTOR) $(ASCIIDOC_OPTS) $(DIAGRAM_OPTS) -a leveloffset=-1 -D $(HTML_OUTPUT_DIR)/operator operator/index.adoc
+	$(ASCIIDOCTOR) $(ASCIIDOC_OPTS) $(DIAGRAM_OPTS) -D $(HTML_OUTPUT_DIR)/operator operator/index.adoc
 
 $(HTML_OUTPUT_DIR)/developer/index.html: developer/index.adoc $(wildcard developer/*.adoc) diagrams
 	@echo "Building developer documentation..."
@@ -103,7 +103,7 @@ $(HTML_OUTPUT_DIR)/developer/index.html: developer/index.adoc $(wildcard develop
 	@cp -r $(PLANTUML_OUTPUT_DIR)/*.png $(HTML_OUTPUT_DIR)/developer/images/ 2>/dev/null || true
 	@cp -r $(ASSETS_DIR)/css/*.css $(HTML_OUTPUT_DIR)/developer/assets/css/ 2>/dev/null || true
 	@cp -r $(ASSETS_DIR)/js/*.js $(HTML_OUTPUT_DIR)/developer/assets/js/ 2>/dev/null || true
-	$(ASCIIDOCTOR) $(ASCIIDOC_OPTS) $(DIAGRAM_OPTS) -a leveloffset=-1 -D $(HTML_OUTPUT_DIR)/developer developer/index.adoc
+	$(ASCIIDOCTOR) $(ASCIIDOC_OPTS) $(DIAGRAM_OPTS) -D $(HTML_OUTPUT_DIR)/developer developer/index.adoc
 
 $(HTML_OUTPUT_DIR)/reference/modules/index.html: reference/modules/index.adoc $(wildcard reference/modules/*.adoc) diagrams
 	@echo "Building modules reference..."
@@ -115,7 +115,7 @@ $(HTML_OUTPUT_DIR)/reference/modules/index.html: reference/modules/index.adoc $(
 	@cp -r $(PLANTUML_OUTPUT_DIR)/*.png $(HTML_OUTPUT_DIR)/reference/modules/images/ 2>/dev/null || true
 	@cp -r $(ASSETS_DIR)/css/*.css $(HTML_OUTPUT_DIR)/reference/modules/assets/css/ 2>/dev/null || true
 	@cp -r $(ASSETS_DIR)/js/*.js $(HTML_OUTPUT_DIR)/reference/modules/assets/js/ 2>/dev/null || true
-	$(ASCIIDOCTOR) $(ASCIIDOC_OPTS) $(DIAGRAM_OPTS) -a leveloffset=-1 -D $(HTML_OUTPUT_DIR)/reference/modules reference/modules/index.adoc
+	$(ASCIIDOCTOR) $(ASCIIDOC_OPTS) $(DIAGRAM_OPTS) -D $(HTML_OUTPUT_DIR)/reference/modules reference/modules/index.adoc
 
 $(HTML_OUTPUT_DIR)/reference/roles/index.html: reference/roles/index.adoc $(wildcard reference/roles/*.adoc) diagrams
 	@echo "Building roles reference..."
@@ -127,7 +127,7 @@ $(HTML_OUTPUT_DIR)/reference/roles/index.html: reference/roles/index.adoc $(wild
 	@cp -r $(PLANTUML_OUTPUT_DIR)/*.png $(HTML_OUTPUT_DIR)/reference/roles/images/ 2>/dev/null || true
 	@cp -r $(ASSETS_DIR)/css/*.css $(HTML_OUTPUT_DIR)/reference/roles/assets/css/ 2>/dev/null || true
 	@cp -r $(ASSETS_DIR)/js/*.js $(HTML_OUTPUT_DIR)/reference/roles/assets/js/ 2>/dev/null || true
-	$(ASCIIDOCTOR) $(ASCIIDOC_OPTS) $(DIAGRAM_OPTS) -a leveloffset=-1 -D $(HTML_OUTPUT_DIR)/reference/roles reference/roles/index.adoc
+	$(ASCIIDOCTOR) $(ASCIIDOC_OPTS) $(DIAGRAM_OPTS) -D $(HTML_OUTPUT_DIR)/reference/roles reference/roles/index.adoc
 
 $(PDF_OUTPUT_DIR)/index.pdf: $(MAIN_DOC) $(wildcard **/*.adoc) diagrams
 	@echo "Building PDF documentation..."

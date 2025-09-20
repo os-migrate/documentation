@@ -1,4 +1,6 @@
-== Installation from source (when customizing)
+[id="os-migrate-install-from-source_installation"]
+
+= Installation from source (when customizing)
 
 Install prerequisites as documented in <<chapter_os-migrate-install-from-galaxy.adoc#,install from Galaxy>>. Then install OS Migrate from source:
 

@@ -1,9 +1,11 @@
-== Installation from Galaxy (recommended)
+[id="os-migrate-install-from-galaxy_installation"]
+
+= Installation from Galaxy (recommended)
 
 This document describes the recommended method of installing OS Migrate,
 from Ansible Galaxy. Alternatively, you can <<chapter_os-migrate-install-from-source.adoc#,install from source>>.
 
-=== Prerequisites
+== Prerequisites
 
 * Ansible 2.9 or newer.
 
@@ -13,7 +15,7 @@ from Ansible Galaxy. Alternatively, you can <<chapter_os-migrate-install-from-so
 * Additional package requirements from Ansible modules:
   `iputils python3-openstackclient python3-openstacksdk`
 
-=== Using virtualenv for prerequisites
+== Using virtualenv for prerequisites
 
 If your distribution doesn't ship the required dependency versions,
 you can use virtualenv, e.g.:
@@ -27,7 +29,7 @@ python3 -m pip install --upgrade 'ansible-core'
 ----
 
 [[installation-1]]
-=== Installation of OS Migrate collection
+== Installation of OS Migrate collection
 
 To install latest release:
 

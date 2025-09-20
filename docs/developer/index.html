@@ -655,21 +655,25 @@ pre.rouge {
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
+<h1>OS Migrate Developer Documentation</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
-<ul class="sectlevel0">
-<li><a href="#_os_migrate_developer_documentation">OS Migrate Developer Documentation</a></li>
+<ul class="sectlevel1">
 <li><a href="#_architecture_and_design">Architecture and Design</a></li>
-<li><a href="#_os_migrate_design">OS Migrate Design</a></li>
+<li><a href="#_os_migrate_design">OS Migrate Design</a>
+<ul class="sectlevel2">
 <li><a href="#_high_level_development_goals">High-level development goals</a></li>
 <li><a href="#_challenges_of_the_problem_domain">Challenges of the problem domain</a></li>
 <li><a href="#_basic_ansible_workflow_design">Basic Ansible workflow design</a></li>
 <li><a href="#_misc">Misc</a></li>
+</ul>
+</li>
 <li><a href="#_development_environment">Development Environment</a></li>
-<li><a href="#_development_environment_setup">Development Environment Setup</a></li>
+<li><a href="#_development_environment_setup">Development Environment Setup</a>
+<ul class="sectlevel2">
 <li><a href="#_prerequisites">Prerequisites</a></li>
 <li><a href="#_running_e2e_tests">Running e2e tests</a>
-<ul class="sectlevel1">
+<ul class="sectlevel3">
 <li><a href="#_prerequisites_for_e2e_test">Prerequisites for e2e test</a></li>
 <li><a href="#_create_source_environment_and_destination_environment_projects_and_users">Create source environment and destination environment projects and users</a></li>
 <li><a href="#_create_images">Create images</a></li>
@@ -683,89 +687,110 @@ pre.rouge {
 <li><a href="#_environment_variables">Environment variables</a></li>
 </ul>
 </li>
+</ul>
+</li>
 <li><a href="#_installing_vagrant_directly_on_host_alternative_path">Installing Vagrant directly on host (alternative path)</a></li>
 <li><a href="#_cicd_and_automation">CI/CD and Automation</a></li>
-<li><a href="#_github_actions_documentation_for_os_migrate_repositories">GitHub Actions Documentation for os-migrate Repositories</a></li>
-<li><a href="#_os_migrateos_migrate">os-migrate/os-migrate</a>
-<ul class="sectlevel1">
-<li><a href="#_existing_github_actions">1. Existing GitHub Actions</a></li>
+<li><a href="#_github_actions_documentation_for_os_migrate_repositories">GitHub Actions Documentation for os-migrate Repositories</a>
+<ul class="sectlevel2">
+<li><a href="#_os_migrateos_migrate">.1. os-migrate/os-migrate</a>
+<ul class="sectlevel3">
+<li><a href="#_existing_github_actions">.1.1. Existing GitHub Actions</a></li>
 </ul>
 </li>
-<li><a href="#_os_migratevmware_migration_kit">os-migrate/vmware-migration-kit</a>
-<ul class="sectlevel1">
-<li><a href="#_existing_github_actions_2">1. Existing GitHub Actions</a></li>
+<li><a href="#_os_migratevmware_migration_kit">.2. os-migrate/vmware-migration-kit</a>
+<ul class="sectlevel3">
+<li><a href="#_existing_github_actions_2">.2.1. Existing GitHub Actions</a></li>
 </ul>
 </li>
-<li><a href="#_how_to_add_a_new_github_action">How to Add a New GitHub Action</a>
-<ul class="sectlevel1">
-<li><a href="#_see_also">1. See Also</a></li>
+<li><a href="#_how_to_add_a_new_github_action">.3. How to Add a New GitHub Action</a>
+<ul class="sectlevel3">
+<li><a href="#_see_also">.3.1. See Also</a></li>
 </ul>
 </li>
-<li><a href="#_contributing_guidelines">Contributing Guidelines</a></li>
-<li><a href="#_general_contribution_guidelines">General Contribution Guidelines</a></li>
-<li><a href="#_commit_messages_for_changelog">Commit Messages for Changelog</a>
-<ul class="sectlevel1">
-<li><a href="#_format">1. Format</a></li>
-<li><a href="#_keeping_changelog_clean">2. Keeping Changelog Clean</a></li>
-<li><a href="#_summary_first_line">3. Summary (First Line)</a></li>
-<li><a href="#_message_body">4. Message Body</a></li>
 </ul>
 </li>
-<li><a href="#_contributing_code">Contributing Code</a></li>
-<li><a href="#_adding_a_new_role">Adding a New Role</a>
-<ul class="sectlevel1">
-<li><a href="#_creating_the_role_skeleton_automatically">1. Creating the role skeleton automatically</a></li>
-<li><a href="#_resources">2. Resources</a></li>
-<li><a href="#_export_roles">3. Export Roles</a></li>
-<li><a href="#_import_roles">4. Import Roles</a></li>
+<li><a href="#_contributing_guidelines">1. Contributing Guidelines</a></li>
+<li><a href="#_general_contribution_guidelines">2. General Contribution Guidelines</a>
+<ul class="sectlevel2">
+<li><a href="#_commit_messages_for_changelog">2.1. Commit Messages for Changelog</a>
+<ul class="sectlevel3">
+<li><a href="#_format">2.1.1. Format</a></li>
+<li><a href="#_keeping_changelog_clean">2.1.2. Keeping Changelog Clean</a></li>
+<li><a href="#_summary_first_line">2.1.3. Summary (First Line)</a></li>
+<li><a href="#_message_body">2.1.4. Message Body</a></li>
 </ul>
 </li>
-<li><a href="#_writing_tests">Writing Tests</a>
-<ul class="sectlevel1">
-<li><a href="#_functional_tests">1. Functional Tests</a></li>
-<li><a href="#_unit_tests">2. Unit Tests</a></li>
-<li><a href="#_integration_tests">3. Integration Tests</a></li>
-<li><a href="#_documentation_and_examples">4. Documentation and Examples</a></li>
-<li><a href="#_test_execution_in_ci">5. Test Execution in CI</a></li>
-<li><a href="#_review_and_inspection">6. Review and Inspection</a></li>
-<li><a href="#_location_of_tests">7. Location of Tests</a></li>
-<li><a href="#_special_considerations">8. Special Considerations</a></li>
-<li><a href="#_necessary_documentation">9. Necessary Documentation</a></li>
 </ul>
 </li>
-<li><a href="#_contributing_documentation">Contributing Documentation</a></li>
-<li><a href="#_rendering_the_documentation">Rendering the Documentation</a></li>
-<li><a href="#_creating_new_go_based_ansible_modules">Creating New Go-based Ansible Modules</a></li>
-<li><a href="#_1_introduction_to_go_based_ansible_modules">1. Introduction to Go-based Ansible Modules</a></li>
-<li><a href="#_2_project_structure_for_go_modules">2. Project Structure for Go Modules</a></li>
-<li><a href="#_3_step_by_step_development_guide">3. Step-by-Step Development Guide</a>
-<ul class="sectlevel1">
-<li><a href="#_3_1_create_the_directory_and_files">1. 3.1. Create the Directory and Files</a></li>
-<li><a href="#_3_2_write_the_go_module_code">2. 3.2. Write the Go Module Code</a></li>
-<li><a href="#_3_3_create_the_python_documentation_file">3. 3.3. Create the Python Documentation File</a></li>
-<li><a href="#_3_4_build_the_module_binary">4. 3.4. Build the Module Binary</a></li>
+<li><a href="#_contributing_code">3. Contributing Code</a>
+<ul class="sectlevel2">
+<li><a href="#_adding_a_new_role">3.1. Adding a New Role</a>
+<ul class="sectlevel3">
+<li><a href="#_creating_the_role_skeleton_automatically">3.1.1. Creating the role skeleton automatically</a></li>
+<li><a href="#_resources">3.1.2. Resources</a></li>
+<li><a href="#_export_roles">3.1.3. Export Roles</a></li>
+<li><a href="#_import_roles">3.1.4. Import Roles</a></li>
 </ul>
 </li>
-<li><a href="#_4_handling_ci_sanity_tests">4. Handling CI Sanity Tests</a>
-<ul class="sectlevel1">
-<li><a href="#_4_1_bypassing_ansible_test_sanity_for_go_source">1. 4.1. Bypassing <code>ansible-test sanity</code> for Go Source</a></li>
-<li><a href="#_4_2_ignoring_the_gplv3_license_check">2. 4.2. Ignoring the GPLv3 License Check</a></li>
+<li><a href="#_writing_tests">3.2. Writing Tests</a>
+<ul class="sectlevel3">
+<li><a href="#_functional_tests">3.2.1. Functional Tests</a></li>
+<li><a href="#_unit_tests">3.2.2. Unit Tests</a></li>
+<li><a href="#_integration_tests">3.2.3. Integration Tests</a></li>
+<li><a href="#_documentation_and_examples">3.2.4. Documentation and Examples</a></li>
+<li><a href="#_test_execution_in_ci">3.2.5. Test Execution in CI</a></li>
+<li><a href="#_review_and_inspection">3.2.6. Review and Inspection</a></li>
+<li><a href="#_location_of_tests">3.2.7. Location of Tests</a></li>
+<li><a href="#_special_considerations">3.2.8. Special Considerations</a></li>
+<li><a href="#_necessary_documentation">3.2.9. Necessary Documentation</a></li>
 </ul>
 </li>
-<li><a href="#_5_contribution_workflow">5. Contribution Workflow</a></li>
-<li><a href="#_release_management">Release Management</a></li>
-<li><a href="#_releasing_the_os_migrate_collection">Releasing the OS Migrate collection</a></li>
+</ul>
+</li>
+<li><a href="#_contributing_documentation">4. Contributing Documentation</a>
+<ul class="sectlevel2">
+<li><a href="#_rendering_the_documentation">4.1. Rendering the Documentation</a></li>
+</ul>
+</li>
+<li><a href="#_creating_new_go_based_ansible_modules">5. Creating New Go-based Ansible Modules</a>
+<ul class="sectlevel2">
+<li><a href="#_1_introduction_to_go_based_ansible_modules">5.1. 1. Introduction to Go-based Ansible Modules</a></li>
+<li><a href="#_2_project_structure_for_go_modules">5.2. 2. Project Structure for Go Modules</a></li>
+<li><a href="#_3_step_by_step_development_guide">5.3. 3. Step-by-Step Development Guide</a>
+<ul class="sectlevel3">
+<li><a href="#_3_1_create_the_directory_and_files">5.3.1. 3.1. Create the Directory and Files</a></li>
+<li><a href="#_3_2_write_the_go_module_code">5.3.2. 3.2. Write the Go Module Code</a></li>
+<li><a href="#_3_3_create_the_python_documentation_file">5.3.3. 3.3. Create the Python Documentation File</a></li>
+<li><a href="#_3_4_build_the_module_binary">5.3.4. 3.4. Build the Module Binary</a></li>
+</ul>
+</li>
+<li><a href="#_4_handling_ci_sanity_tests">5.4. 4. Handling CI Sanity Tests</a>
+<ul class="sectlevel3">
+<li><a href="#_4_1_bypassing_ansible_test_sanity_for_go_source">5.4.1. 4.1. Bypassing <code>ansible-test sanity</code> for Go Source</a></li>
+<li><a href="#_4_2_ignoring_the_gplv3_license_check">5.4.2. 4.2. Ignoring the GPLv3 License Check</a></li>
+</ul>
+</li>
+<li><a href="#_5_contribution_workflow">5.5. 5. Contribution Workflow</a></li>
+</ul>
+</li>
+<li><a href="#_release_management">6. Release Management</a></li>
+<li><a href="#_releasing_the_os_migrate_collection">7. Releasing the OS Migrate collection</a></li>
 </ul>
 </div>
 </div>
 <div id="content">
-<h1 id="_os_migrate_developer_documentation" class="sect0"><a class="anchor" href="#_os_migrate_developer_documentation"></a><a class="link" href="#_os_migrate_developer_documentation">OS Migrate Developer Documentation</a></h1>
+<div class="sect1">
+<h2 id="_architecture_and_design"><a class="anchor" href="#_architecture_and_design"></a><a class="link" href="#_architecture_and_design">Architecture and Design</a></h2>
+<div class="sectionbody">
 
-<h1 id="_architecture_and_design" class="sect0"><a class="anchor" href="#_architecture_and_design"></a><a class="link" href="#_architecture_and_design">Architecture and Design</a></h1>
-
-<h1 id="_os_migrate_design" class="sect0"><a class="anchor" href="#_os_migrate_design"></a><a class="link" href="#_os_migrate_design">OS Migrate Design</a></h1>
-
-<h1 id="_high_level_development_goals" class="sect0"><a class="anchor" href="#_high_level_development_goals"></a><a class="link" href="#_high_level_development_goals">High-level development goals</a></h1>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_os_migrate_design"><a class="anchor" href="#_os_migrate_design"></a><a class="link" href="#_os_migrate_design">OS Migrate Design</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_high_level_development_goals"><a class="anchor" href="#_high_level_development_goals"></a><a class="link" href="#_high_level_development_goals">High-level development goals</a></h3>
 <div class="ulist">
 <ul>
 <li>
@@ -852,7 +877,9 @@ running OS Migrate manually and/or has tweaked it to their needs.</p>
 </li>
 </ul>
 </div>
-<h1 id="_challenges_of_the_problem_domain" class="sect0"><a class="anchor" href="#_challenges_of_the_problem_domain"></a><a class="link" href="#_challenges_of_the_problem_domain">Challenges of the problem domain</a></h1>
+</div>
+<div class="sect2">
+<h3 id="_challenges_of_the_problem_domain"><a class="anchor" href="#_challenges_of_the_problem_domain"></a><a class="link" href="#_challenges_of_the_problem_domain">Challenges of the problem domain</a></h3>
 <div class="ulist">
 <ul>
 <li>
@@ -895,7 +922,9 @@ per resource type.</p>
 </li>
 </ul>
 </div>
-<h1 id="_basic_ansible_workflow_design" class="sect0"><a class="anchor" href="#_basic_ansible_workflow_design"></a><a class="link" href="#_basic_ansible_workflow_design">Basic Ansible workflow design</a></h1>
+</div>
+<div class="sect2">
+<h3 id="_basic_ansible_workflow_design"><a class="anchor" href="#_basic_ansible_workflow_design"></a><a class="link" href="#_basic_ansible_workflow_design">Basic Ansible workflow design</a></h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1007,7 +1036,9 @@ change those tags any time without breaking user expectations.</p>
 </li>
 </ul>
 </div>
-<h1 id="_misc" class="sect0"><a class="anchor" href="#_misc"></a><a class="link" href="#_misc">Misc</a></h1>
+</div>
+<div class="sect2">
+<h3 id="_misc"><a class="anchor" href="#_misc"></a><a class="link" href="#_misc">Misc</a></h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1028,11 +1059,20 @@ Galaxy.</p>
 </li>
 </ul>
 </div>
-<h1 id="_development_environment" class="sect0"><a class="anchor" href="#_development_environment"></a><a class="link" href="#_development_environment">Development Environment</a></h1>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_development_environment"><a class="anchor" href="#_development_environment"></a><a class="link" href="#_development_environment">Development Environment</a></h2>
+<div class="sectionbody">
 
-<h1 id="_development_environment_setup" class="sect0"><a class="anchor" href="#_development_environment_setup"></a><a class="link" href="#_development_environment_setup">Development Environment Setup</a></h1>
-
-<h1 id="_prerequisites" class="sect0"><a class="anchor" href="#_prerequisites"></a><a class="link" href="#_prerequisites">Prerequisites</a></h1>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_development_environment_setup"><a class="anchor" href="#_development_environment_setup"></a><a class="link" href="#_development_environment_setup">Development Environment Setup</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a><a class="link" href="#_prerequisites">Prerequisites</a></h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1045,7 +1085,9 @@ for running rootless development environment containers.</p>
 </li>
 </ul>
 </div>
-<h1 id="_running_e2e_tests" class="sect0"><a class="anchor" href="#_running_e2e_tests"></a><a class="link" href="#_running_e2e_tests">Running e2e tests</a></h1>
+</div>
+<div class="sect2">
+<h3 id="_running_e2e_tests"><a class="anchor" href="#_running_e2e_tests"></a><a class="link" href="#_running_e2e_tests">Running e2e tests</a></h3>
 <div class="paragraph">
 <p>OS Migrate also has a suite of end to end, e2e, tests which tests a migration from one existing openstack deployment
 to another existing openstack deployment.</p>
@@ -1059,9 +1101,8 @@ to another existing openstack deployment.</p>
 <div class="paragraph">
 <p>The concepts and prerequisites are the same for other deployments.</p>
 </div>
-<div class="sect1">
-<h2 id="_prerequisites_for_e2e_test"><a class="anchor" href="#_prerequisites_for_e2e_test"></a><a class="link" href="#_prerequisites_for_e2e_test">Prerequisites for e2e test</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_prerequisites_for_e2e_test"><a class="anchor" href="#_prerequisites_for_e2e_test"></a><a class="link" href="#_prerequisites_for_e2e_test">Prerequisites for e2e test</a></h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1105,10 +1146,8 @@ to another existing openstack deployment.</p>
 resources from one project to another.</p>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_create_source_environment_and_destination_environment_projects_and_users"><a class="anchor" href="#_create_source_environment_and_destination_environment_projects_and_users"></a><a class="link" href="#_create_source_environment_and_destination_environment_projects_and_users">Create source environment and destination environment projects and users</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_create_source_environment_and_destination_environment_projects_and_users"><a class="anchor" href="#_create_source_environment_and_destination_environment_projects_and_users"></a><a class="link" href="#_create_source_environment_and_destination_environment_projects_and_users">Create source environment and destination environment projects and users</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight"><code data-lang="bash"><span class="c"># Create the src user in the default domain with password 'redhat'</span>
@@ -1141,10 +1180,8 @@ openstack role assignment list <span class="nt">--project</span> dst</code></pre
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_create_images"><a class="anchor" href="#_create_images"></a><a class="link" href="#_create_images">Create images</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_create_images"><a class="anchor" href="#_create_images"></a><a class="link" href="#_create_images">Create images</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight"><code data-lang="bash"><span class="c"># Download images</span>
@@ -1158,10 +1195,8 @@ openstack image create <span class="nt">--public</span> <span class="nt">--disk-
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_create_flavors"><a class="anchor" href="#_create_flavors"></a><a class="link" href="#_create_flavors">Create flavors</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_create_flavors"><a class="anchor" href="#_create_flavors"></a><a class="link" href="#_create_flavors">Create flavors</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight"><code data-lang="bash">openstack flavor create <span class="nt">--public</span> <span class="se">\</span>
@@ -1172,10 +1207,8 @@ openstack flavor create <span class="nt">--public</span> <span class="se">\</spa
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_create_public_network"><a class="anchor" href="#_create_public_network"></a><a class="link" href="#_create_public_network">Create public network</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_create_public_network"><a class="anchor" href="#_create_public_network"></a><a class="link" href="#_create_public_network">Create public network</a></h4>
 <div class="paragraph">
 <p>If your OpenStack environment doesn&#8217;t have a public network created
 yet, you&#8217;ll need to create one. The parameters below should work if
@@ -1201,10 +1234,8 @@ openstack subnet create <span class="se">\</span>
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_sample_e2e_config_yaml_using_the_above_prerequisites"><a class="anchor" href="#_sample_e2e_config_yaml_using_the_above_prerequisites"></a><a class="link" href="#_sample_e2e_config_yaml_using_the_above_prerequisites">Sample e2e config yaml using the above prerequisites</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_sample_e2e_config_yaml_using_the_above_prerequisites"><a class="anchor" href="#_sample_e2e_config_yaml_using_the_above_prerequisites"></a><a class="link" href="#_sample_e2e_config_yaml_using_the_above_prerequisites">Sample e2e config yaml using the above prerequisites</a></h4>
 <div class="paragraph">
 <p>Also see <a href="https://github.com/os-migrate/os-migrate/blob/main/tests/e2e/tenant/scenario_variables.yml" class="bare">https://github.com/os-migrate/os-migrate/blob/main/tests/e2e/tenant/scenario_variables.yml</a></p>
 </div>
@@ -1253,10 +1284,8 @@ openstack subnet create <span class="se">\</span>
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_run_e2e_test_using_the_os_migrate_toolbox_and_the_above_config"><a class="anchor" href="#_run_e2e_test_using_the_os_migrate_toolbox_and_the_above_config"></a><a class="link" href="#_run_e2e_test_using_the_os_migrate_toolbox_and_the_above_config">Run e2e test using the OS Migrate toolbox and the above config</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_run_e2e_test_using_the_os_migrate_toolbox_and_the_above_config"><a class="anchor" href="#_run_e2e_test_using_the_os_migrate_toolbox_and_the_above_config"></a><a class="link" href="#_run_e2e_test_using_the_os_migrate_toolbox_and_the_above_config">Run e2e test using the OS Migrate toolbox and the above config</a></h4>
 <div class="paragraph">
 <p>Copy the above config to file <code>custom-config.yaml</code> in the <code>local</code> directory of your local <code>os-migrate</code> source.</p>
 </div>
@@ -1269,10 +1298,8 @@ openstack subnet create <span class="se">\</span>
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_expected_output_from_successful_e2e_test_run"><a class="anchor" href="#_expected_output_from_successful_e2e_test_run"></a><a class="link" href="#_expected_output_from_successful_e2e_test_run">Expected output from successful e2e test run</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_expected_output_from_successful_e2e_test_run"><a class="anchor" href="#_expected_output_from_successful_e2e_test_run"></a><a class="link" href="#_expected_output_from_successful_e2e_test_run">Expected output from successful e2e test run</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight"><code data-lang="bash">PLAY RECAP <span class="k">********************************************************************************************************</span>
@@ -1305,10 +1332,8 @@ Shutdown osm_server <span class="nt">-------------------------------------------
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_optional_tags_to_pass_to_e2e_tests"><a class="anchor" href="#_optional_tags_to_pass_to_e2e_tests"></a><a class="link" href="#_optional_tags_to_pass_to_e2e_tests">Optional tags to pass to e2e tests</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_optional_tags_to_pass_to_e2e_tests"><a class="anchor" href="#_optional_tags_to_pass_to_e2e_tests"></a><a class="link" href="#_optional_tags_to_pass_to_e2e_tests">Optional tags to pass to e2e tests</a></h4>
 <div class="paragraph">
 <p>There are a set of tags that can be used to filter which tasks to run during test.</p>
 </div>
@@ -1338,19 +1363,15 @@ Shutdown osm_server <span class="nt">-------------------------------------------
 </ul>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_optional_playbook_variable"><a class="anchor" href="#_optional_playbook_variable"></a><a class="link" href="#_optional_playbook_variable">Optional playbook variable</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_optional_playbook_variable"><a class="anchor" href="#_optional_playbook_variable"></a><a class="link" href="#_optional_playbook_variable">Optional playbook variable</a></h4>
 <div class="paragraph">
 <p>There is also an optional variable <code>test_clean_conversion_hosts_after</code> which can be set to <code>false</code> if you do not wish
 to clean up conversion hosts after test is complete.</p>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_environment_variables"><a class="anchor" href="#_environment_variables"></a><a class="link" href="#_environment_variables">Environment variables</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_environment_variables"><a class="anchor" href="#_environment_variables"></a><a class="link" href="#_environment_variables">Environment variables</a></h4>
 <div class="paragraph">
 <p>The following environment variables can be used when running e2e tests.</p>
 </div>
@@ -1379,7 +1400,11 @@ os-migrate developer toolbox this is set to <code>/root/.ansible/collections/ans
 </div>
 </div>
 </div>
-<h1 id="_installing_vagrant_directly_on_host_alternative_path" class="sect0"><a class="anchor" href="#_installing_vagrant_directly_on_host_alternative_path"></a><a class="link" href="#_installing_vagrant_directly_on_host_alternative_path">Installing Vagrant directly on host (alternative path)</a></h1>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_installing_vagrant_directly_on_host_alternative_path"><a class="anchor" href="#_installing_vagrant_directly_on_host_alternative_path"></a><a class="link" href="#_installing_vagrant_directly_on_host_alternative_path">Installing Vagrant directly on host (alternative path)</a></h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Normally you should run Vagrant containerized as the <a href="chapter_os-migrate-dev-env-setup.adoc">developer environment setup</a> doc suggests. If you have a
 reason to install on bare metal instead, here are relevant
@@ -1433,17 +1458,25 @@ systemctl restart libvirtd</pre>
 <pre>vagrant up --provider libvirt</pre>
 </div>
 </div>
-<h1 id="_cicd_and_automation" class="sect0"><a class="anchor" href="#_cicd_and_automation"></a><a class="link" href="#_cicd_and_automation">CI/CD and Automation</a></h1>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_cicd_and_automation"><a class="anchor" href="#_cicd_and_automation"></a><a class="link" href="#_cicd_and_automation">CI/CD and Automation</a></h2>
+<div class="sectionbody">
 
-<h1 id="_github_actions_documentation_for_os_migrate_repositories" class="sect0"><a class="anchor" href="#_github_actions_documentation_for_os_migrate_repositories"></a><a class="link" href="#_github_actions_documentation_for_os_migrate_repositories">GitHub Actions Documentation for os-migrate Repositories</a></h1>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_github_actions_documentation_for_os_migrate_repositories"><a class="anchor" href="#_github_actions_documentation_for_os_migrate_repositories"></a><a class="link" href="#_github_actions_documentation_for_os_migrate_repositories">GitHub Actions Documentation for os-migrate Repositories</a></h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>This document provides a definitive and accurate overview of the GitHub Actions used in the <code>os-migrate/os-migrate</code> and <code>os-migrate/vmware-migration-kit</code> repositories, based on their current <code>main</code> branch.</p>
 </div>
 <hr>
-<h1 id="_os_migrateos_migrate" class="sect0"><a class="anchor" href="#_os_migrateos_migrate"></a><a class="link" href="#_os_migrateos_migrate">os-migrate/os-migrate</a></h1>
-<div class="sect1">
-<h2 id="_existing_github_actions"><a class="anchor" href="#_existing_github_actions"></a><a class="link" href="#_existing_github_actions">1. Existing GitHub Actions</a></h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_os_migrateos_migrate"><a class="anchor" href="#_os_migrateos_migrate"></a><a class="link" href="#_os_migrateos_migrate">.1. os-migrate/os-migrate</a></h3>
+<div class="sect3">
+<h4 id="_existing_github_actions"><a class="anchor" href="#_existing_github_actions"></a><a class="link" href="#_existing_github_actions">.1.1. Existing GitHub Actions</a></h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1529,10 +1562,10 @@ systemctl restart libvirtd</pre>
 <hr>
 </div>
 </div>
-<h1 id="_os_migratevmware_migration_kit" class="sect0"><a class="anchor" href="#_os_migratevmware_migration_kit"></a><a class="link" href="#_os_migratevmware_migration_kit">os-migrate/vmware-migration-kit</a></h1>
-<div class="sect1">
-<h2 id="_existing_github_actions_2"><a class="anchor" href="#_existing_github_actions_2"></a><a class="link" href="#_existing_github_actions_2">1. Existing GitHub Actions</a></h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_os_migratevmware_migration_kit"><a class="anchor" href="#_os_migratevmware_migration_kit"></a><a class="link" href="#_os_migratevmware_migration_kit">.2. os-migrate/vmware-migration-kit</a></h3>
+<div class="sect3">
+<h4 id="_existing_github_actions_2"><a class="anchor" href="#_existing_github_actions_2"></a><a class="link" href="#_existing_github_actions_2">.2.1. Existing GitHub Actions</a></h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1605,7 +1638,8 @@ systemctl restart libvirtd</pre>
 <hr>
 </div>
 </div>
-<h1 id="_how_to_add_a_new_github_action" class="sect0"><a class="anchor" href="#_how_to_add_a_new_github_action"></a><a class="link" href="#_how_to_add_a_new_github_action">How to Add a New GitHub Action</a></h1>
+<div class="sect2">
+<h3 id="_how_to_add_a_new_github_action"><a class="anchor" href="#_how_to_add_a_new_github_action"></a><a class="link" href="#_how_to_add_a_new_github_action">.3. How to Add a New GitHub Action</a></h3>
 <div class="paragraph">
 <p>To add a new GitHub Action to either of the repositories, follow these steps:</p>
 </div>
@@ -1647,9 +1681,8 @@ systemctl restart libvirtd</pre>
 </li>
 </ol>
 </div>
-<div class="sect1">
-<h2 id="_see_also"><a class="anchor" href="#_see_also"></a><a class="link" href="#_see_also">1. See Also</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_see_also"><a class="anchor" href="#_see_also"></a><a class="link" href="#_see_also">.3.1. See Also</a></h4>
 <div class="paragraph">
 <p>For more detailed information on syntax and features, refer to the official documentation.</p>
 </div>
@@ -1662,19 +1695,26 @@ systemctl restart libvirtd</pre>
 </div>
 </div>
 </div>
-<h1 id="_contributing_guidelines" class="sect0"><a class="anchor" href="#_contributing_guidelines"></a><a class="link" href="#_contributing_guidelines">Contributing Guidelines</a></h1>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contributing_guidelines"><a class="anchor" href="#_contributing_guidelines"></a><a class="link" href="#_contributing_guidelines">1. Contributing Guidelines</a></h2>
+<div class="sectionbody">
 
-<h1 id="_general_contribution_guidelines" class="sect0"><a class="anchor" href="#_general_contribution_guidelines"></a><a class="link" href="#_general_contribution_guidelines">General Contribution Guidelines</a></h1>
-
-<h1 id="_commit_messages_for_changelog" class="sect0"><a class="anchor" href="#_commit_messages_for_changelog"></a><a class="link" href="#_commit_messages_for_changelog">Commit Messages for Changelog</a></h1>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_general_contribution_guidelines"><a class="anchor" href="#_general_contribution_guidelines"></a><a class="link" href="#_general_contribution_guidelines">2. General Contribution Guidelines</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_commit_messages_for_changelog"><a class="anchor" href="#_commit_messages_for_changelog"></a><a class="link" href="#_commit_messages_for_changelog">2.1. Commit Messages for Changelog</a></h3>
 <div class="paragraph">
 <p>OS Migrate uses commit messages for automated generation of project
 changelog. For every pull request we request contributors to be
 compliant with the following commit message notation.</p>
 </div>
-<div class="sect1">
-<h2 id="_format"><a class="anchor" href="#_format"></a><a class="link" href="#_format">1. Format</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_format"><a class="anchor" href="#_format"></a><a class="link" href="#_format">2.1.1. Format</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight"><code data-lang="console"><span class="gp">&lt;type&gt;</span>: &lt;summary&gt;
@@ -1706,10 +1746,8 @@ new/chg/fix status</p>
 </ul>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_keeping_changelog_clean"><a class="anchor" href="#_keeping_changelog_clean"></a><a class="link" href="#_keeping_changelog_clean">2. Keeping Changelog Clean</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_keeping_changelog_clean"><a class="anchor" href="#_keeping_changelog_clean"></a><a class="link" href="#_keeping_changelog_clean">2.1.2. Keeping Changelog Clean</a></h4>
 <div class="paragraph">
 <p>If the commit message subject starts with <code>dev:</code>, it will be omitted
 when rendering the changelog.</p>
@@ -1721,20 +1759,16 @@ changes (developer environment, CI, developer-only docs) or miniature
 "cosmetic" edits should be tagged as <code>dev</code>.</p>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_summary_first_line"><a class="anchor" href="#_summary_first_line"></a><a class="link" href="#_summary_first_line">3. Summary (First Line)</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_summary_first_line"><a class="anchor" href="#_summary_first_line"></a><a class="link" href="#_summary_first_line">2.1.3. Summary (First Line)</a></h4>
 <div class="paragraph">
 <p>The first line should not be longer than 75 characters, the second
 line is always blank and other lines should be wrapped at 80
 characters.</p>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_message_body"><a class="anchor" href="#_message_body"></a><a class="link" href="#_message_body">4. Message Body</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_message_body"><a class="anchor" href="#_message_body"></a><a class="link" href="#_message_body">2.1.4. Message Body</a></h4>
 <div class="paragraph">
 <p>Uses the imperative, present tense: "change" not "changed" nor
 "changes" and includes motivation for the change and contrasts with
@@ -1743,7 +1777,11 @@ project changelog.</p>
 </div>
 </div>
 </div>
-<h1 id="_contributing_code" class="sect0"><a class="anchor" href="#_contributing_code"></a><a class="link" href="#_contributing_code">Contributing Code</a></h1>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contributing_code"><a class="anchor" href="#_contributing_code"></a><a class="link" href="#_contributing_code">3. Contributing Code</a></h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>As an open source project, OS Migrate welcomes contributions from the
 community at large. The following guide provides information on how to
@@ -1752,7 +1790,8 @@ documentation artifacts should be added. This isn&#8217;t an exhaustive
 reference and is a living document subject to change as needed when
 the project formalizes any practice or pattern.</p>
 </div>
-<h1 id="_adding_a_new_role" class="sect0"><a class="anchor" href="#_adding_a_new_role"></a><a class="link" href="#_adding_a_new_role">Adding a New Role</a></h1>
+<div class="sect2">
+<h3 id="_adding_a_new_role"><a class="anchor" href="#_adding_a_new_role"></a><a class="link" href="#_adding_a_new_role">3.1. Adding a New Role</a></h3>
 <div class="paragraph">
 <p>The most common contribution to OS Migrate is adding a new role to
 support the export or import of resources. The construction of the roles
@@ -1791,9 +1830,8 @@ Update developer or user documentation as needed.</p>
 </li>
 </ul>
 </div>
-<div class="sect1">
-<h2 id="_creating_the_role_skeleton_automatically"><a class="anchor" href="#_creating_the_role_skeleton_automatically"></a><a class="link" href="#_creating_the_role_skeleton_automatically">1. Creating the role skeleton automatically</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_creating_the_role_skeleton_automatically"><a class="anchor" href="#_creating_the_role_skeleton_automatically"></a><a class="link" href="#_creating_the_role_skeleton_automatically">3.1.1. Creating the role skeleton automatically</a></h4>
 <div class="paragraph">
 <p>Adding roles into os-migrate can be easily achieved by
 creating the role structure skeleton automatically.</p>
@@ -1815,10 +1853,8 @@ creating the role structure skeleton automatically.</p>
 and the documentation stub.</p>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_resources"><a class="anchor" href="#_resources"></a><a class="link" href="#_resources">2. Resources</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_resources"><a class="anchor" href="#_resources"></a><a class="link" href="#_resources">3.1.2. Resources</a></h4>
 <div class="paragraph">
 <p>Resources are the primary data structures that are exported from and
 imported to clouds. In
@@ -1854,10 +1890,8 @@ imported before are not attempted to be imported again.</p>
 </ul>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_export_roles"><a class="anchor" href="#_export_roles"></a><a class="link" href="#_export_roles">3. Export Roles</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_export_roles"><a class="anchor" href="#_export_roles"></a><a class="link" href="#_export_roles">3.1.3. Export Roles</a></h4>
 <div class="paragraph">
 <p>In the <code>defaults/main.yml</code> file, at a minimum you will need to
 define the <code>os_migrate_[resource]_filter</code> variable to support
@@ -1894,10 +1928,8 @@ for specific resources, and then calling the module you created for
 export.</p>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_import_roles"><a class="anchor" href="#_import_roles"></a><a class="link" href="#_import_roles">4. Import Roles</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_import_roles"><a class="anchor" href="#_import_roles"></a><a class="link" href="#_import_roles">3.1.4. Import Roles</a></h4>
 <div class="paragraph">
 <p>In the <code>defaults/main.yml</code> file, at a minimum you will need to
 define the same <code>os_migrate_[resource]<em>filter</code> variable as with
@@ -1935,13 +1967,13 @@ module you created for import.</p>
 </div>
 </div>
 </div>
-<h1 id="_writing_tests" class="sect0"><a class="anchor" href="#_writing_tests"></a><a class="link" href="#_writing_tests">Writing Tests</a></h1>
+<div class="sect2">
+<h3 id="_writing_tests"><a class="anchor" href="#_writing_tests"></a><a class="link" href="#_writing_tests">3.2. Writing Tests</a></h3>
 <div class="paragraph">
 <p>For newly implemented resources, ensure comprehensive test coverage by following this checklist:</p>
 </div>
-<div class="sect1">
-<h2 id="_functional_tests"><a class="anchor" href="#_functional_tests"></a><a class="link" href="#_functional_tests">1. Functional Tests</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_functional_tests"><a class="anchor" href="#_functional_tests"></a><a class="link" href="#_functional_tests">3.2.1. Functional Tests</a></h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1959,10 +1991,8 @@ module you created for import.</p>
 </ul>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_unit_tests"><a class="anchor" href="#_unit_tests"></a><a class="link" href="#_unit_tests">2. Unit Tests</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_unit_tests"><a class="anchor" href="#_unit_tests"></a><a class="link" href="#_unit_tests">3.2.2. Unit Tests</a></h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1974,10 +2004,8 @@ module you created for import.</p>
 </ul>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_integration_tests"><a class="anchor" href="#_integration_tests"></a><a class="link" href="#_integration_tests">3. Integration Tests</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_integration_tests"><a class="anchor" href="#_integration_tests"></a><a class="link" href="#_integration_tests">3.2.3. Integration Tests</a></h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1989,10 +2017,8 @@ module you created for import.</p>
 </ul>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_documentation_and_examples"><a class="anchor" href="#_documentation_and_examples"></a><a class="link" href="#_documentation_and_examples">4. Documentation and Examples</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_documentation_and_examples"><a class="anchor" href="#_documentation_and_examples"></a><a class="link" href="#_documentation_and_examples">3.2.4. Documentation and Examples</a></h4>
 <div class="ulist">
 <ul>
 <li>
@@ -2004,10 +2030,8 @@ module you created for import.</p>
 </ul>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_test_execution_in_ci"><a class="anchor" href="#_test_execution_in_ci"></a><a class="link" href="#_test_execution_in_ci">5. Test Execution in CI</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_test_execution_in_ci"><a class="anchor" href="#_test_execution_in_ci"></a><a class="link" href="#_test_execution_in_ci">3.2.5. Test Execution in CI</a></h4>
 <div class="ulist">
 <ul>
 <li>
@@ -2019,10 +2043,8 @@ module you created for import.</p>
 </ul>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_review_and_inspection"><a class="anchor" href="#_review_and_inspection"></a><a class="link" href="#_review_and_inspection">6. Review and Inspection</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_review_and_inspection"><a class="anchor" href="#_review_and_inspection"></a><a class="link" href="#_review_and_inspection">3.2.6. Review and Inspection</a></h4>
 <div class="ulist">
 <ul>
 <li>
@@ -2034,10 +2056,8 @@ module you created for import.</p>
 </ul>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_location_of_tests"><a class="anchor" href="#_location_of_tests"></a><a class="link" href="#_location_of_tests">7. Location of Tests</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_location_of_tests"><a class="anchor" href="#_location_of_tests"></a><a class="link" href="#_location_of_tests">3.2.7. Location of Tests</a></h4>
 <div class="ulist">
 <ul>
 <li>
@@ -2049,10 +2069,8 @@ module you created for import.</p>
 </ul>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_special_considerations"><a class="anchor" href="#_special_considerations"></a><a class="link" href="#_special_considerations">8. Special Considerations</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_special_considerations"><a class="anchor" href="#_special_considerations"></a><a class="link" href="#_special_considerations">3.2.8. Special Considerations</a></h4>
 <div class="ulist">
 <ul>
 <li>
@@ -2064,10 +2082,8 @@ module you created for import.</p>
 </ul>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_necessary_documentation"><a class="anchor" href="#_necessary_documentation"></a><a class="link" href="#_necessary_documentation">9. Necessary Documentation</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_necessary_documentation"><a class="anchor" href="#_necessary_documentation"></a><a class="link" href="#_necessary_documentation">3.2.9. Necessary Documentation</a></h4>
 <div class="paragraph">
 <p>If this is your first time adding a pull request to the os-migrate
 repository, add your author information to <code>galaxy.yml</code>.</p>
@@ -2084,7 +2100,11 @@ Ansible Galaxy publishing.</p>
 </div>
 </div>
 </div>
-<h1 id="_contributing_documentation" class="sect0"><a class="anchor" href="#_contributing_documentation"></a><a class="link" href="#_contributing_documentation">Contributing Documentation</a></h1>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contributing_documentation"><a class="anchor" href="#_contributing_documentation"></a><a class="link" href="#_contributing_documentation">4. Contributing Documentation</a></h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>If you notice missing or errorneous documentation, you can either
 create an <a href="https://github.com/os-migrate/os-migrate/issues">issue on Github</a>,
@@ -2109,7 +2129,8 @@ with the desired documentation changes.</p>
 </li>
 </ul>
 </div>
-<h1 id="_rendering_the_documentation" class="sect0"><a class="anchor" href="#_rendering_the_documentation"></a><a class="link" href="#_rendering_the_documentation">Rendering the Documentation</a></h1>
+<div class="sect2">
+<h3 id="_rendering_the_documentation"><a class="anchor" href="#_rendering_the_documentation"></a><a class="link" href="#_rendering_the_documentation">4.1. Rendering the Documentation</a></h3>
 <div class="paragraph">
 <p>After you make your change and before you submit a pull request, it&#8217;s
 good to verify that the changes you made are getting rendered into
@@ -2136,11 +2157,17 @@ development, do so now:</p>
 <p>You can inspect the rendered documentation by opening
 <code>docs/src/_build/html/index.html</code> in your web browser.</p>
 </div>
-<h1 id="_creating_new_go_based_ansible_modules" class="sect0"><a class="anchor" href="#_creating_new_go_based_ansible_modules"></a><a class="link" href="#_creating_new_go_based_ansible_modules">Creating New Go-based Ansible Modules</a></h1>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_creating_new_go_based_ansible_modules"><a class="anchor" href="#_creating_new_go_based_ansible_modules"></a><a class="link" href="#_creating_new_go_based_ansible_modules">5. Creating New Go-based Ansible Modules</a></h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>This document provides a comprehensive guide for developers on creating new Ansible modules written in Go for the <code>os-migrate/vmware-migration-kit</code> project.</p>
 </div>
-<h1 id="_1_introduction_to_go_based_ansible_modules" class="sect0"><a class="anchor" href="#_1_introduction_to_go_based_ansible_modules"></a><a class="link" href="#_1_introduction_to_go_based_ansible_modules">1. Introduction to Go-based Ansible Modules</a></h1>
+<div class="sect2">
+<h3 id="_1_introduction_to_go_based_ansible_modules"><a class="anchor" href="#_1_introduction_to_go_based_ansible_modules"></a><a class="link" href="#_1_introduction_to_go_based_ansible_modules">5.1. 1. Introduction to Go-based Ansible Modules</a></h3>
 <div class="paragraph">
 <p>Ansible can be extended with modules written in any programming language, including Go. These are referred to as "binary modules." Instead of being interpreted Python files, they are compiled executables that Ansible runs. They work by reading a JSON file of arguments from the command line and printing a JSON string of results to standard output.</p>
 </div>
@@ -2154,7 +2181,9 @@ development, do so now:</p>
 </li>
 </ul>
 </div>
-<h1 id="_2_project_structure_for_go_modules" class="sect0"><a class="anchor" href="#_2_project_structure_for_go_modules"></a><a class="link" href="#_2_project_structure_for_go_modules">2. Project Structure for Go Modules</a></h1>
+</div>
+<div class="sect2">
+<h3 id="_2_project_structure_for_go_modules"><a class="anchor" href="#_2_project_structure_for_go_modules"></a><a class="link" href="#_2_project_structure_for_go_modules">5.2. 2. Project Structure for Go Modules</a></h3>
 <div class="paragraph">
 <p>To integrate properly with the existing project structure and build system, your new module must follow these conventions.</p>
 </div>
@@ -2177,10 +2206,11 @@ development, do so now:</p>
 </li>
 </ul>
 </div>
-<h1 id="_3_step_by_step_development_guide" class="sect0"><a class="anchor" href="#_3_step_by_step_development_guide"></a><a class="link" href="#_3_step_by_step_development_guide">3. Step-by-Step Development Guide</a></h1>
-<div class="sect1">
-<h2 id="_3_1_create_the_directory_and_files"><a class="anchor" href="#_3_1_create_the_directory_and_files"></a><a class="link" href="#_3_1_create_the_directory_and_files">1. 3.1. Create the Directory and Files</a></h2>
-<div class="sectionbody">
+</div>
+<div class="sect2">
+<h3 id="_3_step_by_step_development_guide"><a class="anchor" href="#_3_step_by_step_development_guide"></a><a class="link" href="#_3_step_by_step_development_guide">5.3. 3. Step-by-Step Development Guide</a></h3>
+<div class="sect3">
+<h4 id="_3_1_create_the_directory_and_files"><a class="anchor" href="#_3_1_create_the_directory_and_files"></a><a class="link" href="#_3_1_create_the_directory_and_files">5.3.1. 3.1. Create the Directory and Files</a></h4>
 <div class="paragraph">
 <p>First, create the necessary directory for your Go source code and the documentation file.</p>
 </div>
@@ -2198,10 +2228,8 @@ development, do so now:</p>
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_3_2_write_the_go_module_code"><a class="anchor" href="#_3_2_write_the_go_module_code"></a><a class="link" href="#_3_2_write_the_go_module_code">2. 3.2. Write the Go Module Code</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_3_2_write_the_go_module_code"><a class="anchor" href="#_3_2_write_the_go_module_code"></a><a class="link" href="#_3_2_write_the_go_module_code">5.3.2. 3.2. Write the Go Module Code</a></h4>
 <div class="paragraph">
 <p>Your Go program will form the core logic of the Ansible module. The <code>main</code> function should be the entry point. Common dependencies you might need include:</p>
 </div>
@@ -2216,10 +2244,8 @@ development, do so now:</p>
 </ul>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_3_3_create_the_python_documentation_file"><a class="anchor" href="#_3_3_create_the_python_documentation_file"></a><a class="link" href="#_3_3_create_the_python_documentation_file">3. 3.3. Create the Python Documentation File</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_3_3_create_the_python_documentation_file"><a class="anchor" href="#_3_3_create_the_python_documentation_file"></a><a class="link" href="#_3_3_create_the_python_documentation_file">5.3.3. 3.3. Create the Python Documentation File</a></h4>
 <div class="paragraph">
 <p>This file does not contain Go code. It&#8217;s a Python file that holds the documentation and metadata for your module in pydoc format. Ansible uses this to understand your module&#8217;s parameters, return values, and to generate documentation.</p>
 </div>
@@ -2282,10 +2308,8 @@ message:
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_3_4_build_the_module_binary"><a class="anchor" href="#_3_4_build_the_module_binary"></a><a class="link" href="#_3_4_build_the_module_binary">4. 3.4. Build the Module Binary</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_3_4_build_the_module_binary"><a class="anchor" href="#_3_4_build_the_module_binary"></a><a class="link" href="#_3_4_build_the_module_binary">5.3.4. 3.4. Build the Module Binary</a></h4>
 <div class="paragraph">
 <p>The project&#8217;s <code>Makefile</code> provides a target to compile all Go-based modules. This process runs inside a container to ensure a clean and consistent build environment, using the <code>scripts/build.sh</code> script.</p>
 </div>
@@ -2302,13 +2326,13 @@ message:
 </div>
 </div>
 </div>
-<h1 id="_4_handling_ci_sanity_tests" class="sect0"><a class="anchor" href="#_4_handling_ci_sanity_tests"></a><a class="link" href="#_4_handling_ci_sanity_tests">4. Handling CI Sanity Tests</a></h1>
+<div class="sect2">
+<h3 id="_4_handling_ci_sanity_tests"><a class="anchor" href="#_4_handling_ci_sanity_tests"></a><a class="link" href="#_4_handling_ci_sanity_tests">5.4. 4. Handling CI Sanity Tests</a></h3>
 <div class="paragraph">
 <p>The <code>ansible-test sanity</code> checks can cause issues with Go code. The following sections describe the required workarounds.</p>
 </div>
-<div class="sect1">
-<h2 id="_4_1_bypassing_ansible_test_sanity_for_go_source"><a class="anchor" href="#_4_1_bypassing_ansible_test_sanity_for_go_source"></a><a class="link" href="#_4_1_bypassing_ansible_test_sanity_for_go_source">1. 4.1. Bypassing <code>ansible-test sanity</code> for Go Source</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_4_1_bypassing_ansible_test_sanity_for_go_source"><a class="anchor" href="#_4_1_bypassing_ansible_test_sanity_for_go_source"></a><a class="link" href="#_4_1_bypassing_ansible_test_sanity_for_go_source">5.4.1. 4.1. Bypassing <code>ansible-test sanity</code> for Go Source</a></h4>
 <div class="paragraph">
 <p>The <code>ansible-test sanity</code> tool does not recognize Go source code and will fail. To prevent this, you must exclude your module&#8217;s source directory from the test.</p>
 </div>
@@ -2365,10 +2389,8 @@ message:
 </table>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_4_2_ignoring_the_gplv3_license_check"><a class="anchor" href="#_4_2_ignoring_the_gplv3_license_check"></a><a class="link" href="#_4_2_ignoring_the_gplv3_license_check">2. 4.2. Ignoring the GPLv3 License Check</a></h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_4_2_ignoring_the_gplv3_license_check"><a class="anchor" href="#_4_2_ignoring_the_gplv3_license_check"></a><a class="link" href="#_4_2_ignoring_the_gplv3_license_check">5.4.2. 4.2. Ignoring the GPLv3 License Check</a></h4>
 <div class="paragraph">
 <p>The sanity tests will also report a <code>missing-gplv3-license</code> error for your Python documentation file. You need to add an entry to the <code>ignore-*.txt</code> file to suppress this error.</p>
 </div>
@@ -2398,7 +2420,8 @@ plugins/modules/my_new_module.py validate-modules:missing-gplv3-license # &lt;--
 </div>
 </div>
 </div>
-<h1 id="_5_contribution_workflow" class="sect0"><a class="anchor" href="#_5_contribution_workflow"></a><a class="link" href="#_5_contribution_workflow">5. Contribution Workflow</a></h1>
+<div class="sect2">
+<h3 id="_5_contribution_workflow"><a class="anchor" href="#_5_contribution_workflow"></a><a class="link" href="#_5_contribution_workflow">5.5. 5. Contribution Workflow</a></h3>
 <div class="paragraph">
 <p>Once you have developed and tested your module, follow the standard GitHub workflow to contribute it to the project:</p>
 </div>
@@ -2424,9 +2447,18 @@ plugins/modules/my_new_module.py validate-modules:missing-gplv3-license # &lt;--
 <div class="paragraph">
 <p>Congratulations! You are now ready to develop and contribute new Go-based Ansible modules.</p>
 </div>
-<h1 id="_release_management" class="sect0"><a class="anchor" href="#_release_management"></a><a class="link" href="#_release_management">Release Management</a></h1>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_release_management"><a class="anchor" href="#_release_management"></a><a class="link" href="#_release_management">6. Release Management</a></h2>
+<div class="sectionbody">
 
-<h1 id="_releasing_the_os_migrate_collection" class="sect0"><a class="anchor" href="#_releasing_the_os_migrate_collection"></a><a class="link" href="#_releasing_the_os_migrate_collection">Releasing the OS Migrate collection</a></h1>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_releasing_the_os_migrate_collection"><a class="anchor" href="#_releasing_the_os_migrate_collection"></a><a class="link" href="#_releasing_the_os_migrate_collection">7. Releasing the OS Migrate collection</a></h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Set env vars with old and new versions:</p>
 </div>
@@ -2486,6 +2518,8 @@ a stable branch to allow us to create ".Z" releases:</p>
 <pre>STABLE_VERSION=$(awk -F. '{ print $1 "." $2; }' &lt;&lt;&lt;"$NEW_VERSION")
 git checkout -b stable/$STABLE_VERSION
 git push upstream stable/$STABLE_VERSION</pre>
+</div>
+</div>
 </div>
 </div>
 </div>

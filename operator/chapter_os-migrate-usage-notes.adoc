@@ -1,4 +1,6 @@
-== General usage notes
+[id="os-migrate-usage-notes_usage"]
+
+= General usage notes
 
 * Run against **testing/staging clouds first**, verify that you are
   getting the expected results.
