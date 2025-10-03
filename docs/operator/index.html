@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.18">
+<meta name="generator" content="Asciidoctor 2.0.23">
 <title>OS Migrate Operator Guide</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -140,7 +140,7 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #content::before{content:none}
 #header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
 #header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
-#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header>h1:only-child{border-bottom:1px solid #dddddf;padding-bottom:8px}
 #header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:flex;flex-flow:row wrap}
 #header .details span:first-child{margin-left:-.125em}
 #header .details span.email a{color:rgba(0,0,0,.85)}
@@ -162,6 +162,7 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #toctitle{color:#7a2518;font-size:1.2em}
 @media screen and (min-width:768px){#toctitle{font-size:1.375em}
 body.toc2{padding-left:15em;padding-right:0}
+body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
 #toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
 #toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
 #toc.toc2>ul{font-size:.9em;margin-bottom:0}
@@ -208,13 +209,10 @@ table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
 .admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
 .admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
 .exampleblock>.content{border:1px solid #e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;border-radius:4px}
-.exampleblock>.content>:first-child{margin-top:0}
-.exampleblock>.content>:last-child{margin-bottom:0}
 .sidebarblock{border:1px solid #dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;border-radius:4px}
-.sidebarblock>:first-child{margin-top:0}
-.sidebarblock>:last-child{margin-bottom:0}
 .sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
-.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content>:first-child,.sidebarblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child,.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
 .literalblock pre,.listingblock>.content>pre{border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
 @media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
 @media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
@@ -330,7 +328,7 @@ a.image{text-decoration:none;display:inline-block}
 a.image object{pointer-events:none}
 sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
 sup.footnote a,sup.footnoteref a{text-decoration:none}
-sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+sup.footnote a:active,sup.footnoteref a:active,#footnotes .footnote a:first-of-type:active{text-decoration:underline}
 #footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
 #footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
 #footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
@@ -393,7 +391,7 @@ b.conum *{color:inherit!important}
 dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
 h1,h2,p,td.content,span.alt,summary{letter-spacing:-.01em}
 p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
-p,blockquote,dt,td.content,span.alt,summary{font-size:1.0625rem}
+p,blockquote,dt,td.content,td.hdlist1,span.alt,summary{font-size:1.0625rem}
 p{margin-bottom:1.25rem}
 .sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
 .exampleblock>.content{background:#fffef7;border-color:#e0e0dc;box-shadow:0 1px 4px #e0e0dc}
@@ -439,216 +437,119 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <style>
 pre.rouge table td { padding: 5px; }
 pre.rouge table pre { margin: 0; }
-pre.rouge .cm {
-  color: #999988;
-  font-style: italic;
+pre.rouge, pre.rouge .w {
+  color: #24292f;
+  background-color: #f6f8fa;
 }
-pre.rouge .cp {
-  color: #999999;
-  font-weight: bold;
-}
-pre.rouge .c1 {
-  color: #999988;
-  font-style: italic;
-}
-pre.rouge .cs {
-  color: #999999;
-  font-weight: bold;
-  font-style: italic;
-}
-pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cpf {
-  color: #999988;
-  font-style: italic;
-}
-pre.rouge .err {
-  color: #a61717;
-  background-color: #e3d2d2;
-}
-pre.rouge .gd {
-  color: #000000;
-  background-color: #ffdddd;
-}
-pre.rouge .ge {
-  color: #000000;
-  font-style: italic;
+pre.rouge .k, pre.rouge .kd, pre.rouge .kn, pre.rouge .kp, pre.rouge .kr, pre.rouge .kt, pre.rouge .kv {
+  color: #cf222e;
 }
 pre.rouge .gr {
-  color: #aa0000;
+  color: #f6f8fa;
 }
-pre.rouge .gh {
-  color: #999999;
+pre.rouge .gd {
+  color: #82071e;
+  background-color: #ffebe9;
+}
+pre.rouge .nb {
+  color: #953800;
+}
+pre.rouge .nc {
+  color: #953800;
+}
+pre.rouge .no {
+  color: #953800;
+}
+pre.rouge .nn {
+  color: #953800;
+}
+pre.rouge .sr {
+  color: #116329;
+}
+pre.rouge .na {
+  color: #116329;
+}
+pre.rouge .nt {
+  color: #116329;
 }
 pre.rouge .gi {
-  color: #000000;
-  background-color: #ddffdd;
+  color: #116329;
+  background-color: #dafbe1;
 }
-pre.rouge .go {
-  color: #888888;
+pre.rouge .ges {
+  font-weight: bold;
+  font-style: italic;
 }
-pre.rouge .gp {
-  color: #555555;
+pre.rouge .kc {
+  color: #0550ae;
 }
-pre.rouge .gs {
+pre.rouge .l, pre.rouge .ld, pre.rouge .m, pre.rouge .mb, pre.rouge .mf, pre.rouge .mh, pre.rouge .mi, pre.rouge .il, pre.rouge .mo, pre.rouge .mx {
+  color: #0550ae;
+}
+pre.rouge .sb {
+  color: #0550ae;
+}
+pre.rouge .bp {
+  color: #0550ae;
+}
+pre.rouge .ne {
+  color: #0550ae;
+}
+pre.rouge .nl {
+  color: #0550ae;
+}
+pre.rouge .py {
+  color: #0550ae;
+}
+pre.rouge .nv, pre.rouge .vc, pre.rouge .vg, pre.rouge .vi, pre.rouge .vm {
+  color: #0550ae;
+}
+pre.rouge .o, pre.rouge .ow {
+  color: #0550ae;
+}
+pre.rouge .gh {
+  color: #0550ae;
   font-weight: bold;
 }
 pre.rouge .gu {
-  color: #aaaaaa;
-}
-pre.rouge .gt {
-  color: #aa0000;
-}
-pre.rouge .kc {
-  color: #000000;
+  color: #0550ae;
   font-weight: bold;
 }
-pre.rouge .kd {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .kn {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .kp {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .kr {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .kt {
-  color: #445588;
-  font-weight: bold;
-}
-pre.rouge .k, pre.rouge .kv {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .mf {
-  color: #009999;
-}
-pre.rouge .mh {
-  color: #009999;
-}
-pre.rouge .il {
-  color: #009999;
-}
-pre.rouge .mi {
-  color: #009999;
-}
-pre.rouge .mo {
-  color: #009999;
-}
-pre.rouge .m, pre.rouge .mb, pre.rouge .mx {
-  color: #009999;
-}
-pre.rouge .sa {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .sb {
-  color: #d14;
-}
-pre.rouge .sc {
-  color: #d14;
-}
-pre.rouge .sd {
-  color: #d14;
-}
-pre.rouge .s2 {
-  color: #d14;
-}
-pre.rouge .se {
-  color: #d14;
-}
-pre.rouge .sh {
-  color: #d14;
-}
-pre.rouge .si {
-  color: #d14;
-}
-pre.rouge .sx {
-  color: #d14;
-}
-pre.rouge .sr {
-  color: #009926;
-}
-pre.rouge .s1 {
-  color: #d14;
-}
-pre.rouge .ss {
-  color: #990073;
-}
-pre.rouge .s, pre.rouge .dl {
-  color: #d14;
-}
-pre.rouge .na {
-  color: #008080;
-}
-pre.rouge .bp {
-  color: #999999;
-}
-pre.rouge .nb {
-  color: #0086B3;
-}
-pre.rouge .nc {
-  color: #445588;
-  font-weight: bold;
-}
-pre.rouge .no {
-  color: #008080;
+pre.rouge .s, pre.rouge .sa, pre.rouge .sc, pre.rouge .dl, pre.rouge .sd, pre.rouge .s2, pre.rouge .se, pre.rouge .sh, pre.rouge .sx, pre.rouge .s1, pre.rouge .ss {
+  color: #0a3069;
 }
 pre.rouge .nd {
-  color: #3c5d5d;
-  font-weight: bold;
-}
-pre.rouge .ni {
-  color: #800080;
-}
-pre.rouge .ne {
-  color: #990000;
-  font-weight: bold;
+  color: #8250df;
 }
 pre.rouge .nf, pre.rouge .fm {
-  color: #990000;
+  color: #8250df;
+}
+pre.rouge .err {
+  color: #f6f8fa;
+  background-color: #82071e;
+}
+pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cm, pre.rouge .cp, pre.rouge .cpf, pre.rouge .c1, pre.rouge .cs {
+  color: #6e7781;
+}
+pre.rouge .gl {
+  color: #6e7781;
+}
+pre.rouge .gt {
+  color: #6e7781;
+}
+pre.rouge .ni {
+  color: #24292f;
+}
+pre.rouge .si {
+  color: #24292f;
+}
+pre.rouge .ge {
+  color: #24292f;
+  font-style: italic;
+}
+pre.rouge .gs {
+  color: #24292f;
   font-weight: bold;
-}
-pre.rouge .nl {
-  color: #990000;
-  font-weight: bold;
-}
-pre.rouge .nn {
-  color: #555555;
-}
-pre.rouge .nt {
-  color: #000080;
-}
-pre.rouge .vc {
-  color: #008080;
-}
-pre.rouge .vg {
-  color: #008080;
-}
-pre.rouge .vi {
-  color: #008080;
-}
-pre.rouge .nv, pre.rouge .vm {
-  color: #008080;
-}
-pre.rouge .ow {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .o {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .w {
-  color: #bbbbbb;
-}
-pre.rouge {
-  background-color: #f8f8f8;
 }
 </style>
 <link rel="stylesheet" href="../assets/css/toc-fold.css">
@@ -691,6 +592,7 @@ pre.rouge {
 <li><a href="#_network_architecture">Network Architecture</a></li>
 </ul>
 </li>
+<li><a href="#_vmware_as_source">VMware as source</a></li>
 <li><a href="#_configuration">Configuration</a>
 <ul class="sectlevel3">
 <li><a href="#_required_variables_2">Required Variables</a></li>
@@ -737,11 +639,14 @@ pre.rouge {
 </li>
 </ul>
 </li>
-<li><a href="#os-migrate-performance-expectations_planning">OS Migrate Performance Expectations</a>
-<ul class="sectlevel2">
-<li><a href="#_red_hat_testing_results">Red Hat Testing Results</a></li>
-<li><a href="#_expectations">Expectations</a></li>
-<li><a href="#_formulas">Formulas</a></li>
+<li><a href="#os-migrate-performance-expectations_planning">VMware to OpenStack OS Migrate Performance Expectations</a>
+<ul class="sectlevel3">
+<li><a href="#_table_1">Table 1</a></li>
+<li><a href="#_table_2">Table 2</a></li>
+<li><a href="#_table_3">Table 3</a></li>
+<li><a href="#_table_4">Table 4</a></li>
+<li><a href="#_conversion_host_requirements_and_recommendations">Conversion host requirements and recommendations</a></li>
+<li><a href="#_how_to_proceed_with_a_large_workload">How to proceed with a large workload</a></li>
 </ul>
 </li>
 <li><a href="#_installation">Installation</a></li>
@@ -1431,6 +1336,49 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 </div>
 </div>
 <div class="sect2">
+<h3 id="_vmware_as_source"><a class="anchor" href="#_vmware_as_source"></a><a class="link" href="#_vmware_as_source">VMware as source</a></h3>
+<div class="paragraph">
+<p>In the case of VMware vCenter or ESXi as the source cloud, there is no conversion host
+in the source cloud (VMware), but only in the OpenStack destination cloud.
+The conversion host in the destination cloud will handle all connections and
+data transfers from VMware to OpenStack.
+This is done first via the VMware APIs on port 443 to set up and collect the required
+information, and then using NBD on port 902 during the data transfer. Ensure that the
+ports are correctly configured at the firewall level and that the FQDN of the VMware target
+is functional.</p>
+</div>
+<div class="paragraph">
+<p>The diagram below explains how OS-Migrate uses the conversion host to handle data transfer.
+First, the migration process connects to the vCenter or ESXi host via HTTPS to gather
+information such as the full disk path in the datastore, take a snapshot of the running VMs, retrieve
+the change block tracking ID (CBT), manage the power state of the VMs, and finally clean up the
+snapshots after the migration succeeds.
+In the second phase, the migration process starts an NBD (Network Block Device) server to
+connect to the VMware datastore and read the disk from the previously taken snapshot.
+Port 902 is used for this connection, and once established, the data transfer occurs
+via the conversion host to a Cinder volume created by OS-Migrate.
+It is important to ensure that all ports and host resolutions are correctly configured on
+the conversion host side.
+Once the data transfer is complete, the migration process converts the filesystem to run under
+KVM. At this point, the migration is finished.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>Source VMware                       Destination Cloud
++------------------+                +------------------+
+|                  |    902 (nbd)   |                  |
+| VCenter/ESXi     |&lt;--------------&gt;| Conversion Host  |
+| IP/FQDN          |   443 (https)  | (os_migrate_conv)|
+| Guest Snapshots  |&lt;--------------&gt;| 192.168.10.x     |
++------------------+                +------------------+
+         |                                   |
+                                       [Floating IP]
+         |                                   |
+                                       [External Net]</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_configuration"><a class="anchor" href="#_configuration"></a><a class="link" href="#_configuration">Configuration</a></h3>
 <div class="sect3">
 <h4 id="_required_variables_2"><a class="anchor" href="#_required_variables_2"></a><a class="link" href="#_required_variables_2">Required Variables</a></h4>
@@ -1468,8 +1416,8 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 <span class="na">os_migrate_conversion_host_ssh_user</span><span class="pi">:</span> <span class="s">cloud-user</span>
 
 <span class="c1"># Boot from volume options</span>
-<span class="na">os_migrate_src_conversion_host_boot_from_volume</span><span class="pi">:</span> <span class="no">false</span>
-<span class="na">os_migrate_dst_conversion_host_boot_from_volume</span><span class="pi">:</span> <span class="no">false</span>
+<span class="na">os_migrate_src_conversion_host_boot_from_volume</span><span class="pi">:</span> <span class="kc">false</span>
+<span class="na">os_migrate_dst_conversion_host_boot_from_volume</span><span class="pi">:</span> <span class="kc">false</span>
 <span class="na">os_migrate_src_conversion_host_volume_size</span><span class="pi">:</span> <span class="m">20</span>
 <span class="na">os_migrate_dst_conversion_host_volume_size</span><span class="pi">:</span> <span class="s">20</span></code></pre>
 </div>
@@ -1485,7 +1433,7 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 <span class="na">os_migrate_conversion_secgroup_name</span><span class="pi">:</span> <span class="s">os_migrate_conv</span>
 
 <span class="c1"># Password access (disabled by default)</span>
-<span class="na">os_migrate_conversion_host_ssh_user_enable_password_access</span><span class="pi">:</span> <span class="no">false</span></code></pre>
+<span class="na">os_migrate_conversion_host_ssh_user_enable_password_access</span><span class="pi">:</span> <span class="kc">false</span></code></pre>
 </div>
 </div>
 </div>
@@ -1494,18 +1442,18 @@ openstack.cloud: "&gt;=2.3.0,&lt;2.4.0"</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># Infrastructure management</span>
-<span class="na">os_migrate_conversion_manage_network</span><span class="pi">:</span> <span class="no">true</span>
-<span class="na">os_migrate_conversion_manage_fip</span><span class="pi">:</span> <span class="no">true</span>
-<span class="na">os_migrate_conversion_delete_fip</span><span class="pi">:</span> <span class="no">true</span>
+<span class="na">os_migrate_conversion_manage_network</span><span class="pi">:</span> <span class="kc">true</span>
+<span class="na">os_migrate_conversion_manage_fip</span><span class="pi">:</span> <span class="kc">true</span>
+<span class="na">os_migrate_conversion_delete_fip</span><span class="pi">:</span> <span class="kc">true</span>
 
 <span class="c1"># Content installation</span>
-<span class="na">os_migrate_conversion_host_content_install</span><span class="pi">:</span> <span class="no">true</span>
+<span class="na">os_migrate_conversion_host_content_install</span><span class="pi">:</span> <span class="kc">true</span>
 
 <span class="c1"># Deployment control</span>
-<span class="na">os_migrate_deploy_src_conversion_host</span><span class="pi">:</span> <span class="no">true</span>
-<span class="na">os_migrate_deploy_dst_conversion_host</span><span class="pi">:</span> <span class="no">true</span>
-<span class="na">os_migrate_link_conversion_hosts</span><span class="pi">:</span> <span class="no">true</span>
-<span class="na">os_migrate_reboot_conversion_hosts</span><span class="pi">:</span> <span class="no">false</span></code></pre>
+<span class="na">os_migrate_deploy_src_conversion_host</span><span class="pi">:</span> <span class="kc">true</span>
+<span class="na">os_migrate_deploy_dst_conversion_host</span><span class="pi">:</span> <span class="kc">true</span>
+<span class="na">os_migrate_link_conversion_hosts</span><span class="pi">:</span> <span class="kc">true</span>
+<span class="na">os_migrate_reboot_conversion_hosts</span><span class="pi">:</span> <span class="kc">false</span></code></pre>
 </div>
 </div>
 </div>
@@ -1878,8 +1826,8 @@ openstack security group list <span class="nt">--name</span> os_migrate_conv</co
 <span class="na">os_migrate_src_conversion_net_name</span><span class="pi">:</span> <span class="s">migration_src_net</span>
 <span class="na">os_migrate_dst_conversion_net_name</span><span class="pi">:</span> <span class="s">migration_dst_net</span>
 <span class="na">os_migrate_conversion_subnet_cidr</span><span class="pi">:</span> <span class="s">10.10.10.0/24</span>
-<span class="na">os_migrate_src_conversion_host_boot_from_volume</span><span class="pi">:</span> <span class="no">true</span>
-<span class="na">os_migrate_dst_conversion_host_boot_from_volume</span><span class="pi">:</span> <span class="no">true</span>
+<span class="na">os_migrate_src_conversion_host_boot_from_volume</span><span class="pi">:</span> <span class="kc">true</span>
+<span class="na">os_migrate_dst_conversion_host_boot_from_volume</span><span class="pi">:</span> <span class="kc">true</span>
 <span class="na">os_migrate_src_conversion_host_volume_size</span><span class="pi">:</span> <span class="m">50</span>
 <span class="na">os_migrate_dst_conversion_host_volume_size</span><span class="pi">:</span> <span class="s">50</span></code></pre>
 </div>
@@ -1889,19 +1837,344 @@ openstack security group list <span class="nt">--name</span> os_migrate_conv</co
 </div>
 </div>
 <div class="sect1">
-<h2 id="os-migrate-performance-expectations_planning"><a class="anchor" href="#os-migrate-performance-expectations_planning"></a><a class="link" href="#os-migrate-performance-expectations_planning">OS Migrate Performance Expectations</a></h2>
+<h2 id="os-migrate-performance-expectations_planning"><a class="anchor" href="#os-migrate-performance-expectations_planning"></a><a class="link" href="#os-migrate-performance-expectations_planning">VMware to OpenStack OS Migrate Performance Expectations</a></h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_red_hat_testing_results"><a class="anchor" href="#_red_hat_testing_results"></a><a class="link" href="#_red_hat_testing_results">Red Hat Testing Results</a></h3>
-
+<div class="paragraph">
+<p>This document outlines some performance expectations for VMware to OpenStack transfers via the os-migrate tooling.
+For the purposes of the these metrics, we are considering the following hardware for a Conversion Host:</p>
 </div>
-<div class="sect2">
-<h3 id="_expectations"><a class="anchor" href="#_expectations"></a><a class="link" href="#_expectations">Expectations</a></h3>
-
+<div class="ulist">
+<ul>
+<li>
+<p>6 vCPU</p>
+</li>
+<li>
+<p>8GB RAM</p>
+</li>
+<li>
+<p>20GB disk unless otherwise stated</p>
+</li>
+</ul>
 </div>
-<div class="sect2">
-<h3 id="_formulas"><a class="anchor" href="#_formulas"></a><a class="link" href="#_formulas">Formulas</a></h3>
-
+<div class="paragraph">
+<p><em>All of the below metrics apply to VMware to OpenStack via the Ansible Automation Platform</em></p>
+</div>
+<div class="sect3">
+<h4 id="_table_1"><a class="anchor" href="#_table_1"></a><a class="link" href="#_table_1">Table 1</a></h4>
+<div class="paragraph">
+<p>Time of execution to completion including instance boot &amp; ping for RHEL machines in our lab.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">VMs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Conversion Hosts</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Threads</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2 minutes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">31 minutes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">15 minutes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8 minutes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">100</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20 minutes</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><strong>Note</strong>: The average time for 1 virtual machine is around 2 minutes. The migration can be parallelized on the same conversion host (threads) or on multiple conversion hosts.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_table_2"><a class="anchor" href="#_table_2"></a><a class="link" href="#_table_2">Table 2</a></h4>
+<div class="paragraph">
+<p>Time for RHEL machines with a larger disk for a full migration run with and without CBT<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup> options:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Disk size</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CBT enabled</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time total</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cutover time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Expected downtime</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">100 GB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8 minutes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2 minutes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2 minutes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">100 GB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7 minutes</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7 minutes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">200 GB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10 minutes 30 secondes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2 minutes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2 minutes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">200 GB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9 minutes 30 secondes</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9 minutes 30 secondes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">300 GB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">17 minutes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2 minutes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2 minutes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">300 GB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">15 minutes</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">15 minutes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 TB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">39 minutes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2 minutes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2 minutes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 TB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">35 minutes</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">35 minutes</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><strong>Note 1</strong>: The disks are 99% full of random data during the test.</p>
+</div>
+<div class="paragraph">
+<p><strong>Note 2</strong>: The CBT option takes a bit more time overall but the downtime is actually lower due to the smaller data cutover time.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_table_3"><a class="anchor" href="#_table_3"></a><a class="link" href="#_table_3">Table 3</a></h4>
+<div class="paragraph">
+<p>Example of a Migration plan for 55 VMs with 200 GB of disk full. <em>(estimation)</em></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.667%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Disk size</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Conversion Hosts</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Threads</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CBT enabled</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Migration time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sync time</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">200 GB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">115 minutes</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">200 GB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">105 minutes</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">200 GB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">22 minutes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">110 minutes</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>For this example, the best plan is to parallelize the migration on a single Conversion Host to 5 threads and use the CBT option to pre-migrate the volume data; this will shortern the cutover time (2 minutes in our lab environment), reducing the downtime overall.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_table_4"><a class="anchor" href="#_table_4"></a><a class="link" href="#_table_4">Table 4</a></h4>
+<div class="paragraph">
+<p>Migration of 1500 VMs: Time for RHEL machines in our lab with a disk capacity of 20GB, with a full migration run which comprises of migration of data, conversion and instance creation, boot time, and ability to ping.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">VMs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Conversion Hosts</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Threads</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">250</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">60 minutes (without the preparation steps)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5 hours</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1500</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><strong>Note 1</strong>: The conversion flavor was set to: <strong>12GB of RAM and 6 vcpus</strong> which allow OS-Migrate to comfortably run 6 migrations in parallel on the same host. There is space to execute more parallel migrations with this configuration but it&#8217;s a best practice to let 2GB of RAM and 1 CPU for each migration.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_conversion_host_requirements_and_recommendations"><a class="anchor" href="#_conversion_host_requirements_and_recommendations"></a><a class="link" href="#_conversion_host_requirements_and_recommendations">Conversion host requirements and recommendations</a></h4>
+<div class="paragraph">
+<p>Recommended guidelines:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>For 1 migration allocate 2GB of RAM and 1 vCPU on your Conversion Host</strong></p>
+</li>
+<li>
+<p>RHEL 9.5 or CentOS 10 to benefit from the latest drivers (virtio-win) to convert the recent Windows distributions.</p>
+</li>
+<li>
+<p>Fedora (38 and +) if you want to convert btrfs file system</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_how_to_proceed_with_a_large_workload"><a class="anchor" href="#_how_to_proceed_with_a_large_workload"></a><a class="link" href="#_how_to_proceed_with_a_large_workload">How to proceed with a large workload</a></h4>
+<div class="paragraph">
+<p>It&#8217;s important to first focus on sizing your target OpenStack environment adequately. It will of course receive large numbers of instances, ports, volumes, floating ips and all the OpenStack resources that the instances will require. So set the OpenStack quotas with the correct values.</p>
+</div>
+<div class="paragraph">
+<p>Second you need to split your workload regarding the number of conversion hosts you will create.</p>
+</div>
+<div class="paragraph">
+<p>For example, with a workload of 1000 VMs, you can use two conversion hosts which will run the migration in parallel and execute 5 or 6 migrations simultaneously on each conversion host.</p>
+</div>
+<div class="paragraph">
+<p>If you followed the requirements for the conversion host above, the migration time will be linear:</p>
+</div>
+<div class="paragraph">
+<p>If 1 virtual machine takes 5 minutes to be migrated then the 1000 Vms will take:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>5*1000/12 (where 12 is 6 parallel migrations x 2 conversion hosts): 6 hours and 56 minutes</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The more you divide your workload, the faster you will move it to OpenStack.</p>
+</div>
+<div class="paragraph">
+<p>In the example above, if we decide to add 2 more conversion hosts then:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>5*1000/24 = 3h and 28 minutes.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Finally, some known issues we have seen may happen during a large-scale migration.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>First, when the conversion hosts are too solicited. For example, a single conversion host which has performed more than 5 000 of migrations in a very short time may have some issues with the device mount mechanism in the OS itself.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>When this behavior appears, sometimes just a reboot might help to clean the /dev/ devices.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Another issue may appear on the Vmware side with the message "snapshot hierarchy is too deep" because OS-Migrate is working with Snapshot. If this error appears, then clean the guest snapshots hierarchy and re-run the migration.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Note 1</strong> - Make sure all the OpenStack services are configured to support a large amount of requests. OS-Migrate is driven by Ansible but the core of the migration is a binary which does not consume a lot of resources. So the more you use the binary, the more the OpenStack Api will receive requests. For example Rabbitmq, Galera and also Nova or Cinder will be impacted.</p>
+</div>
 </div>
 </div>
 </div>
@@ -3709,7 +3982,7 @@ this:</p>
          <span class="na">created_at</span><span class="pi">:</span> <span class="s1">'</span><span class="s">2020-04-07T14:08:30Z'</span>
          <span class="na">id</span><span class="pi">:</span> <span class="s">a1eb31f6-2cdc-4896-b582-8950dafa34aa</span>
          <span class="na">project_id</span><span class="pi">:</span> <span class="s">2f444c71265048f7a9d21f81db6f21a4</span>
-         <span class="na">qos_policy_id</span><span class="pi">:</span> <span class="no">null</span>
+         <span class="na">qos_policy_id</span><span class="pi">:</span> <span class="kc">null</span>
          <span class="na">revision_number</span><span class="pi">:</span> <span class="m">3</span>
          <span class="na">status</span><span class="pi">:</span> <span class="s">ACTIVE</span>
          <span class="na">subnet_ids</span><span class="pi">:</span>
@@ -3719,20 +3992,20 @@ this:</p>
        <span class="na">params</span><span class="pi">:</span>
          <span class="na">availability_zone_hints</span><span class="pi">:</span> <span class="pi">[]</span>
          <span class="na">description</span><span class="pi">:</span> <span class="s1">'</span><span class="s">'</span>
-         <span class="na">dns_domain</span><span class="pi">:</span> <span class="no">null</span>
-         <span class="na">is_admin_state_up</span><span class="pi">:</span> <span class="no">true</span>
-         <span class="na">is_default</span><span class="pi">:</span> <span class="no">null</span>
-         <span class="na">is_port_security_enabled</span><span class="pi">:</span> <span class="no">true</span>
-         <span class="na">is_router_external</span><span class="pi">:</span> <span class="no">false</span>
-         <span class="na">is_shared</span><span class="pi">:</span> <span class="no">false</span>
-         <span class="na">is_vlan_transparent</span><span class="pi">:</span> <span class="no">null</span>
+         <span class="na">dns_domain</span><span class="pi">:</span> <span class="kc">null</span>
+         <span class="na">is_admin_state_up</span><span class="pi">:</span> <span class="kc">true</span>
+         <span class="na">is_default</span><span class="pi">:</span> <span class="kc">null</span>
+         <span class="na">is_port_security_enabled</span><span class="pi">:</span> <span class="kc">true</span>
+         <span class="na">is_router_external</span><span class="pi">:</span> <span class="kc">false</span>
+         <span class="na">is_shared</span><span class="pi">:</span> <span class="kc">false</span>
+         <span class="na">is_vlan_transparent</span><span class="pi">:</span> <span class="kc">null</span>
          <span class="na">mtu</span><span class="pi">:</span> <span class="m">1450</span>
          <span class="na">name</span><span class="pi">:</span> <span class="s">osm_net</span>
-         <span class="na">provider_network_type</span><span class="pi">:</span> <span class="no">null</span>
-         <span class="na">provider_physical_network</span><span class="pi">:</span> <span class="no">null</span>
-         <span class="na">provider_segmentation_id</span><span class="pi">:</span> <span class="no">null</span>
-         <span class="na">qos_policy_name</span><span class="pi">:</span> <span class="no">null</span>
-         <span class="na">segments</span><span class="pi">:</span> <span class="no">null</span>
+         <span class="na">provider_network_type</span><span class="pi">:</span> <span class="kc">null</span>
+         <span class="na">provider_physical_network</span><span class="pi">:</span> <span class="kc">null</span>
+         <span class="na">provider_segmentation_id</span><span class="pi">:</span> <span class="kc">null</span>
+         <span class="na">qos_policy_name</span><span class="pi">:</span> <span class="kc">null</span>
+         <span class="na">segments</span><span class="pi">:</span> <span class="kc">null</span>
        <span class="na">type</span><span class="pi">:</span> <span class="s">openstack.network.Network</span></code></pre>
 </div>
 </div>
@@ -3792,7 +4065,7 @@ keypairs.</p>
 <h5 id="_demo"><a class="anchor" href="#_demo"></a><a class="link" href="#_demo">Demo</a></h5>
 <div class="paragraph">
 <p>///TODO: Video link
-`Pre-workload migration recorded demo &lt;<a href="https://youtu.be/e7KXy5Hq4CMA&gt;`_" class="bare">https://youtu.be/e7KXy5Hq4CMA&gt;`_</a>:</p>
+`Pre-workload migration recorded demo <a href="https://youtu.be/e7KXy5Hq4CMA" class="bare">https://youtu.be/e7KXy5Hq4CMA</a>`_:</p>
 </div>
 <div class="paragraph">
 <p>|Watch the video1|</p>
@@ -3814,10 +4087,10 @@ desired:</p>
    <span class="pi">-</span> <span class="na">_info</span><span class="pi">:</span>
        <span class="na">addresses</span><span class="pi">:</span>
          <span class="na">external_network</span><span class="pi">:</span>
-         <span class="pi">-</span> <span class="s">OS-EXT-IPS-MAC:mac_addr: fa:16:3e:98:19:a0</span>
-           <span class="s">OS-EXT-IPS:type: fixed</span>
-           <span class="s">addr</span><span class="err">:</span> <span class="s">10.19.2.41</span>
-           <span class="s">version</span><span class="err">:</span> <span class="m">4</span>
+         <span class="pi">-</span> <span class="na">OS-EXT-IPS-MAC:mac_addr</span><span class="pi">:</span> <span class="s">fa:16:3e:98:19:a0</span>
+           <span class="na">OS-EXT-IPS:type</span><span class="pi">:</span> <span class="s">fixed</span>
+           <span class="na">addr</span><span class="pi">:</span> <span class="s">10.19.2.41</span>
+           <span class="na">version</span><span class="pi">:</span> <span class="m">4</span>
        <span class="na">flavor_id</span><span class="pi">:</span> <span class="s">a96b2815-3525-4eea-9ab4-14ba58e17835</span>
        <span class="na">id</span><span class="pi">:</span> <span class="s">0025f062-f684-4e02-9da2-3219e011ec74</span>
        <span class="na">status</span><span class="pi">:</span> <span class="s">SHUTOFF</span>
@@ -4008,20 +4281,20 @@ host server.</p>
        <span class="na">updated_at</span><span class="pi">:</span> <span class="s1">'</span><span class="s">2020-11-12T17:56:30Z'</span>
        <span class="na">user_id</span><span class="pi">:</span> <span class="s">48be0a2e86a84682b8e4992a65d39e3e</span>
      <span class="na">_migration_params</span><span class="pi">:</span>
-       <span class="na">boot_disk_copy</span><span class="pi">:</span> <span class="no">false</span>
+       <span class="na">boot_disk_copy</span><span class="pi">:</span> <span class="kc">false</span>
      <span class="na">params</span><span class="pi">:</span>
        <span class="na">availability_zone</span><span class="pi">:</span> <span class="s">nova</span>
-       <span class="na">config_drive</span><span class="pi">:</span> <span class="no">null</span>
+       <span class="na">config_drive</span><span class="pi">:</span> <span class="kc">null</span>
        <span class="na">description</span><span class="pi">:</span> <span class="s">osm_server</span>
        <span class="na">disk_config</span><span class="pi">:</span> <span class="s">MANUAL</span>
        <span class="na">flavor_ref</span><span class="pi">:</span>
-         <span class="na">domain_name</span><span class="pi">:</span> <span class="no">null</span>
+         <span class="na">domain_name</span><span class="pi">:</span> <span class="kc">null</span>
          <span class="na">name</span><span class="pi">:</span> <span class="s">m1.xtiny</span>
-         <span class="na">project_name</span><span class="pi">:</span> <span class="no">null</span>
+         <span class="na">project_name</span><span class="pi">:</span> <span class="kc">null</span>
        <span class="na">image_ref</span><span class="pi">:</span>
-         <span class="na">domain_name</span><span class="pi">:</span> <span class="no">null</span>
+         <span class="na">domain_name</span><span class="pi">:</span> <span class="kc">null</span>
          <span class="na">name</span><span class="pi">:</span> <span class="s">cirros-0.4.0-x86_64-disk.img</span>
-         <span class="na">project_name</span><span class="pi">:</span> <span class="no">null</span>
+         <span class="na">project_name</span><span class="pi">:</span> <span class="kc">null</span>
        <span class="na">key_name</span><span class="pi">:</span> <span class="s">osm_key</span>
        <span class="na">metadata</span><span class="pi">:</span> <span class="pi">{}</span>
        <span class="na">name</span><span class="pi">:</span> <span class="s">osm_server</span>
@@ -4043,13 +4316,13 @@ host server.</p>
              <span class="na">name</span><span class="pi">:</span> <span class="s">osm_net</span>
              <span class="na">project_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">%auth%'</span>
          <span class="na">type</span><span class="pi">:</span> <span class="s">openstack.network.ServerPort</span>
-       <span class="na">scheduler_hints</span><span class="pi">:</span> <span class="no">null</span>
+       <span class="na">scheduler_hints</span><span class="pi">:</span> <span class="kc">null</span>
        <span class="na">security_group_refs</span><span class="pi">:</span>
        <span class="pi">-</span> <span class="na">domain_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">%auth%'</span>
          <span class="na">name</span><span class="pi">:</span> <span class="s">osm_security_group</span>
          <span class="na">project_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">%auth%'</span>
        <span class="na">tags</span><span class="pi">:</span> <span class="pi">[]</span>
-       <span class="na">user_data</span><span class="pi">:</span> <span class="no">null</span>
+       <span class="na">user_data</span><span class="pi">:</span> <span class="kc">null</span>
      <span class="na">type</span><span class="pi">:</span> <span class="s">openstack.compute.Server</span></code></pre>
 </div>
 </div>
@@ -4612,27 +4885,27 @@ openstack server add floating ip vmware-conv-host 192.168.18.205</code></pre>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># if you run the migration from an Ansible Execution Environment (AEE)</span>
 <span class="c1"># set this to true:</span>
-<span class="na">runner_from_aee</span><span class="pi">:</span> <span class="no">true</span>
+<span class="na">runner_from_aee</span><span class="pi">:</span> <span class="kc">true</span>
 
 <span class="c1"># osm working directory:</span>
 <span class="na">os_migrate_vmw_data_dir</span><span class="pi">:</span> <span class="s">/opt/os-migrate</span>
-<span class="na">copy_openstack_credentials_to_conv_host</span><span class="pi">:</span> <span class="no">false</span>
+<span class="na">copy_openstack_credentials_to_conv_host</span><span class="pi">:</span> <span class="kc">false</span>
 
 <span class="c1"># Re-use an already deployed conversion host:</span>
-<span class="na">already_deploy_conversion_host</span><span class="pi">:</span> <span class="no">true</span>
+<span class="na">already_deploy_conversion_host</span><span class="pi">:</span> <span class="kc">true</span>
 
 <span class="c1"># If no mapped network then set the openstack network:</span>
 <span class="na">openstack_private_network</span><span class="pi">:</span> <span class="s">81cc01d2-5e47-4fad-b387-32686ec71fa4</span>
 
 <span class="c1"># Security groups for the instance:</span>
 <span class="na">security_groups</span><span class="pi">:</span> <span class="s">ab7e2b1a-b9d3-4d31-9d2a-bab63f823243</span>
-<span class="na">use_existing_flavor</span><span class="pi">:</span> <span class="no">true</span>
+<span class="na">use_existing_flavor</span><span class="pi">:</span> <span class="kc">true</span>
 <span class="c1"># key pair name, could be left blank</span>
 <span class="na">ssh_key_name</span><span class="pi">:</span> <span class="s">default</span>
 <span class="c1"># network settings for openstack:</span>
-<span class="na">os_migrate_create_network_port</span><span class="pi">:</span> <span class="no">true</span>
-<span class="na">copy_metadata_to_conv_host</span><span class="pi">:</span> <span class="no">true</span>
-<span class="na">used_mapped_networks</span><span class="pi">:</span> <span class="no">false</span>
+<span class="na">os_migrate_create_network_port</span><span class="pi">:</span> <span class="kc">true</span>
+<span class="na">copy_metadata_to_conv_host</span><span class="pi">:</span> <span class="kc">true</span>
+<span class="na">used_mapped_networks</span><span class="pi">:</span> <span class="kc">false</span>
 
 <span class="na">vms_list</span><span class="pi">:</span>
   <span class="pi">-</span> <span class="s">rhel-9.4-1</span></code></pre>
@@ -4661,7 +4934,7 @@ openstack server add floating ip vmware-conv-host 192.168.18.205</code></pre>
     <span class="na">password</span><span class="pi">:</span> <span class="s">openstack</span>
   <span class="na">region_name</span><span class="pi">:</span> <span class="s">regionOne</span>
   <span class="na">interface</span><span class="pi">:</span> <span class="s">public</span>
-  <span class="na">insecure</span><span class="pi">:</span> <span class="no">true</span>
+  <span class="na">insecure</span><span class="pi">:</span> <span class="kc">true</span>
   <span class="na">identity_api_version</span><span class="pi">:</span> <span class="s">3</span></code></pre>
 </div>
 </div>
@@ -4710,7 +4983,7 @@ ansible-galaxy collection <span class="nb">install </span>os_migrate.vmware_migr
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="na">already_deploy_conversion_host</span><span class="pi">:</span> <span class="no">true</span></code></pre>
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">already_deploy_conversion_host</span><span class="pi">:</span> <span class="kc">true</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4733,7 +5006,7 @@ ansible-galaxy collection <span class="nb">install </span>os_migrate.vmware_migr
 
 <span class="c1"># OpenStack migration parameters:</span>
 <span class="c1"># Use mapped networks or not:</span>
-<span class="na">used_mapped_networks</span><span class="pi">:</span> <span class="no">true</span>
+<span class="na">used_mapped_networks</span><span class="pi">:</span> <span class="kc">true</span>
 <span class="na">network_map</span><span class="pi">:</span>
   <span class="na">VM Network</span><span class="pi">:</span> <span class="s">private</span>
 
@@ -4742,9 +5015,9 @@ ansible-galaxy collection <span class="nb">install </span>os_migrate.vmware_migr
 
 <span class="c1"># Security groups for the instance:</span>
 <span class="na">security_groups</span><span class="pi">:</span> <span class="s">4f077e64-bdf6-4d2a-9f2c-c5588f4948ce</span>
-<span class="na">use_existing_flavor</span><span class="pi">:</span> <span class="no">true</span>
+<span class="na">use_existing_flavor</span><span class="pi">:</span> <span class="kc">true</span>
 
-<span class="na">os_migrate_create_network_port</span><span class="pi">:</span> <span class="no">false</span>
+<span class="na">os_migrate_create_network_port</span><span class="pi">:</span> <span class="kc">false</span>
 
 <span class="c1"># OS-migrate parameters:</span>
 <span class="c1"># osm working directory:</span>
@@ -4753,11 +5026,11 @@ ansible-galaxy collection <span class="nb">install </span>os_migrate.vmware_migr
 <span class="c1"># Set this to true if the Openstack "dst_cloud" is a clouds.yaml file</span>
 <span class="c1"># other, if the dest_cloud is a dict of authentication parameters, set</span>
 <span class="c1"># this to false:</span>
-<span class="na">copy_openstack_credentials_to_conv_host</span><span class="pi">:</span> <span class="no">false</span>
+<span class="na">copy_openstack_credentials_to_conv_host</span><span class="pi">:</span> <span class="kc">false</span>
 
 <span class="c1"># Teardown</span>
 <span class="c1"># Set to true if you want osm to delete everything on the destination cloud.</span>
-<span class="na">os_migrate_tear_down</span><span class="pi">:</span> <span class="no">true</span>
+<span class="na">os_migrate_tear_down</span><span class="pi">:</span> <span class="kc">true</span>
 
 <span class="c1"># VMs list</span>
 <span class="na">vms_list</span><span class="pi">:</span>
@@ -5018,9 +5291,6 @@ IP. If this is not possible for some reason, fail.</p>
 <p><code>auto</code> (default): Attempt the <code>existing</code> method of floating
 IP assignment first, but should it fail, fall back to the
 <code>new</code> method instead.</p>
-</li>
-</ul>
-</div>
 <div class="paragraph">
 <p>General remarks regarding floating IPs:</p>
 </div>
@@ -5037,6 +5307,9 @@ floating IP will be automatically selected by the cloud, it will
 not match the floating IP address of the source server. (In most
 cases, the floating IP ranges of src/dst clouds don&#8217;t overlap
 anyway.)</p>
+</div>
+</li>
+</ul>
 </div>
 </li>
 </ul>
@@ -6247,6 +6520,12 @@ different OS Migrate version.</p>
 </div>
 </div>
 </div>
+</div>
+</div>
+<div id="footnotes">
+<hr>
+<div class="footnote" id="_footnotedef_1">
+<a href="#_footnoteref_1">1</a>. CBT = <a href="https://knowledge.broadcom.com/external/article/320557/changed-block-tracking-cbt-on-virtual-ma.html" class="bare">https://knowledge.broadcom.com/external/article/320557/changed-block-tracking-cbt-on-virtual-ma.html</a>
 </div>
 </div>
 <div id="footer">
