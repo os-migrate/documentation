@@ -4,8 +4,116 @@
 
 = OS Migrate Performance Expectations
 
-== Red Hat Testing Results
+== Host hardware
 
-== Expectations
+* 6 virtual CPUS
+* 8 GB RAM
+* 20GB disk
 
-== Formulas
+=== VMware to OpenStack via CLI 
+
+TODO: Are we to include this?
+
+=== AAP
+
+
+== VMware migration - performance tables and recommendations
+
+=== Table 1
+
+Time with AAP for RHEL machines in our lab with a disk capacity of 20 Gb, with a full migration run: migration of the disk, conversion and instance creation + boot and pingable.
+
+|===
+|VMs nb|Conversion Hosts nb|Threads|Time (playbook execution with migration)
+|1|1|1|2 minutes
+|20|1|1|31 minutes
+|20|1|2|15 minutes
+|30|1|10|8 minutes
+|100|1|10|20 minutes
+|===
+
+*Note*: The time average for 1 virtual machine is around 2 minutes. The migration can be parallelized on the same conversion host (threads) or on multiple conversion hosts.
+
+=== Table 2
+
+Time with AAP for RHEL machines with a larger disk than the test VMs for a full migration run with and without CBTfootnote:[CBT = https://knowledge.broadcom.com/external/article/320557/changed-block-tracking-cbt-on-virtual-ma.html] options:
+
+|===
+|Disk size|CBT enabled|Time total|Cutover time|Expected downtime
+|100 GB|yes|8 minutes|2 minutes|2 minutes
+|100 GB|no|7 minutes||7 minutes
+|200 GB|yes|10 minutes 30 secondes|2 minutes|2 minutes
+|200 GB|no|9 minutes 30 secondes||9 minutes 30 secondes
+|300 GB|yes|17 minutes|2 minutes|2 minutes
+|300 GB|no|15 minutes||15 minutes
+|1 TB|yes|39 minutes|2 minutes|2 minutes
+|1 TB|no|35 minutes||35 minutes
+|===
+
+*Note 1*: The disks are 99% full of random data during the test.
+
+*Note 2*: The CBT option takes a bit more time overall but the downtime is really lower. Mainly for the test VMs in our lab around 2 minutes, which correspond to the time when the VM will be down.
+
+=== Table 3
+
+Example of a Migration plan for 55 VMs with 200 GB of disk full. _(estimation)_
+
+|===
+|Disk size|Conversion host nb|Threads|CBT enabled|Migration time|Sync time
+|200 GB|1|1|yes|115 minutes|
+|200 GB|1|5|no|105 minutes|
+|200 GB|1|5|yes|22 minutes|110 minutes
+|===
+
+For this example, the best plan is to parallelize the migration on a single conversion host to 5 threads and use the CBT option so we can pre-migrate the volume data and only make the cutover (2 minutes in our lab environment) in order to minimize the downtime.
+
+=== Table 4
+
+Migration of 1500 VMs: Time for RHEL machines in our lab with a disk capacity of 20 Gb, with a full migration run: migration of the disk, conversion and instance creation + boot and pingable.
+
+|===
+|VMs nb|Conversion Hosts nb|Threads|Time (playbook execution with preparation Ansible steps)
+|250|2|6|60 minutes (without the preparation steps)
+|1000|2|6|5 hours
+|1500|2|6|
+|===
+
+*Note 1*: The conversion flavor was set to: *12 Gb or RAM and 6 vcpus* which allow OS-Migrate to run comfortably 6 migrations in parallel on the same host. There is space to execute more parallel migrations with this configuration but it's a best practice to let 2Gb of ram and 1 cpu for each migration.
+
+=== Conversion host requirements and recommendations
+
+We recommend to follow the rules:
+
+* *For 1 migration allocate 2Gb of ram and 1 vcpus on your host*
+* RHEL 9.5 or CentOS 10 to benefit from the latest drivers (virtio-win) to convert the recent Windows distributions.
+* Fedora (38 and +) if you want to convert btrfs file system
+
+=== How to proceed with a large workload
+
+First you need to make sure that your OpenStack environment is ready to receive a large amount of instances, ports, volumes, floating ips and all the OpenStack resources that the instances will require. So set the OpenStack quotas with the correct values.
+
+Second you need to split your workload regarding the number of conversion hosts you will create.
+
+For example, with a workload of 1000 VMs, you can use two conversion hosts which will run the migration in parallel and execute 5 or 6 migrations simultaneously on each conversion host.
+
+If you followed the requirements for the conversion host above, the migration time will be linear:
+
+If 1 virtual machine takes 5 minutes to be migrated then the 1000 Vms will take:
+
+* 5*1000/12 (where 12 is 6 parallel migrations x 2 conversion hosts): 6 hours and 56 minutes
+
+The more you divide your workload, the faster you will move it to OpenStack.
+
+In the example above, if we decide to add 2 more conversion hosts then:
+
+* 5*1000/24 = 3h and 28 minutes.
+
+Finally, some known issues we have seen may happen during a large-scale migration.
+
+* First, when the conversion hosts are too solicited. For example, a single conversion host which has performed more than 5 000 of migrations in a very short time may have some issues with the device mount mechanism in the OS itself.
+
+When this behavior appears, sometimes just a reboot might help to clean the /dev/ devices.
+
+* Another issue may appear on the Vmware side with the message "snapshot hierarchy is too deep" because OS-Migrate is working with Snapshot. If this error appears, then clean the guest snapshots hierarchy and re-run the migration.
+
+*Note 1* - Make sure all the OpenStack services are configured to support a large amount of requests. OS-Migrate is driven by Ansible but the core of the migration is a binary which does not consume a lot of resources. So the more you use the binary, the more the OpenStack Api will receive requests. For example Rabbitmq, Galera and also Nova or Cinder will be impacted. 
