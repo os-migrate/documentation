@@ -118,6 +118,20 @@ information, and then using NBD on port 902 during the data transfer. Ensure tha
 ports are correctly configured at the firewall level and that the FQDN of the VMware target
 is functional.
 
+The diagram below explains how OS-Migrate uses the conversion host to handle data transfer.
+First, the migration process connects to the vCenter or ESXi host via HTTPS to gather
+information such as the full disk path in the datastore, take a snapshot of the running VMs, retrieve
+the change block tracking ID (CBT), manage the power state of the VMs, and finally clean up the
+snapshots after the migration succeeds.
+In the second phase, the migration process starts an NBD (Network Block Device) server to
+connect to the VMware datastore and read the disk from the previously taken snapshot.
+Port 902 is used for this connection, and once established, the data transfer occurs
+via the conversion host to a Cinder volume created by OS-Migrate.
+It is important to ensure that all ports and host resolutions are correctly configured on
+the conversion host side.
+Once the data transfer is complete, the migration process converts the filesystem to run under
+KVM. At this point, the migration is finished.
+
 ....
 Source VMware                       Destination Cloud
 +------------------+                +------------------+
