@@ -107,6 +107,31 @@ Source Cloud                 Destination Cloud
     [External Net]             [External Net]
 ....
 
+== VMware as source
+
+In the case of VMware vCenter or ESXi as the source cloud, there is no conversion host
+in the source cloud (VMware), but only in the OpenStack destination cloud.
+The conversion host in the destination cloud will handle all connections and
+data transfers from VMware to OpenStack.
+This is done first via the VMware APIs on port 443 to set up and collect the required
+information, and then using NBD on port 902 during the data transfer. Ensure that the
+ports are correctly configured at the firewall level and that the FQDN of the VMware target
+is functional.
+
+....
+Source VMware                       Destination Cloud
++------------------+                +------------------+
+|                  |    902 (nbd)   |                  |
+| VCenter/ESXi     |<-------------->| Conversion Host  |
+| IP/FQDN          |   443 (https)  | (os_migrate_conv)|
+| Guest Snapshots  |<-------------->| 192.168.10.x     |
++------------------+                +------------------+
+         |                                   |
+                                       [Floating IP]
+         |                                   |
+                                       [External Net]
+....
+
 == Configuration
 
 === Required Variables
