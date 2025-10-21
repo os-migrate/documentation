@@ -4,7 +4,7 @@
 
 = VMware to OpenStack Guide
 
-An important auxilliary function included in OS Migrate is our VMware tooling,
+An important function included in OS Migrate is our VMware tooling,
 which allows you to migrade a virtual machine from an ESXi/Vcenter environment
 to OpenStack environments.
 
@@ -64,7 +64,7 @@ Currently we are supporting the following matrice:
 
 [cols="1,1,1,1"]
 |===
-|OS Family|Version|Supported & Tested|Not Tested Yet|
+|OS Family|Version|Supported & Tested|Not Tested Yet
 
 |RHEL
 |9.4
@@ -114,8 +114,8 @@ Currently we are supporting the following matrice:
 
 |Suse
 |X
-|-
 |Yes
+|-
 |===
 
 
