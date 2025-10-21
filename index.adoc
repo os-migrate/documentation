@@ -22,6 +22,10 @@ utilize direct database access or other methods to export or import
 data. The Ansible playbooks contained in OS Migrate are idempotent.
 If a command fails, you can retry with the same command.
 
+include::operator/chapter_os-migrate-vmware-guide.adoc[leveloffset=+1]
+
+include::operator/chapter_os-migrate-aee.adoc[leveloffset=+1]
+
 == Community
 
 The https://github.com/os-migrate/os-migrate[source code of OS Migrate]
@@ -33,11 +37,3 @@ https://github.com/os-migrate/os-migrate/issues[OS Migrate issue tracker].
 To get help, feel free to also create an
 https://github.com/os-migrate/os-migrate/issues[issue]
 on GitHub with your question.
-
-If you want to contribute to the project (code, docs, ...), please
-refer to the link:developer/index.adoc[developer docs].
-
-== Contents
-
-// Quickstart
-include::operator/index.adoc[leveloffset=+1]

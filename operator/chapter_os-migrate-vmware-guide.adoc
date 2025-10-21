@@ -2,7 +2,7 @@
 [id="os-migrate-vmware-guide_vmware"]
 
 
-= OS Migrate VMware Guide
+= VMware to OpenStack Guide
 
 An important auxilliary function included in OS Migrate is our VMware tooling,
 which allows you to migrade a virtual machine from an ESXi/Vcenter environment
