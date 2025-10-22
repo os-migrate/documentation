@@ -55,12 +55,17 @@ Output locations:
 
 The documentation uses AsciiDoc format with the following structure:
 
-- `index.adoc` - Main documentation entry point
+- `index.adoc` - Main documentation source (used for single-page HTML and PDF)
+- `index-multi.adoc` - Landing page for multi-page HTML build (links to subsections)
 - `operator/` - Operator documentation (capacity planning, guides, walkthrough, VMware migration)
+  - `operator/index.adoc` - Operator guide entry point
 - `developer/` - Developer documentation (contributing, design, development setup)
+  - `developer/index.adoc` - Developer guide entry point
 - `reference/` - Reference documentation
   - `modules/` - Ansible module documentation
+    - `reference/modules/index.adoc` - Modules reference entry point
   - `roles/` - Ansible role documentation
+    - `reference/roles/index.adoc` - Roles reference entry point
 - `images/` - Static images and diagrams
   - `*.svg` - SVG workflow diagrams (especially VMware migration workflows)
   - `*.plantuml` - PlantUML diagram sources
@@ -71,12 +76,34 @@ The documentation uses AsciiDoc format with the following structure:
 - **Single-page HTML option**: Complete documentation in one file when needed
 - PlantUML diagram generation from source to PNG
 - SVG workflow diagrams with automatic copying
-- Working table of contents with proper section linking
-- Cross-references and automatic TOC generation
+- Native AsciiDoctor table of contents (left sidebar, 3 levels deep)
+- Cross-references and automatic section linking
 - Multiple output formats (HTML/PDF)
 - Syntax highlighting with Rouge
 - Modular structure using include directives
-- Clean rendering without preprocessing artifacts
+- Clean rendering using only AsciiDoctor native features
+
+## Build Architecture
+
+The project supports two distinct HTML build modes:
+
+### Multi-page HTML (default)
+- Uses `index-multi.adoc` as the landing page
+- Builds separate HTML files for each major section (operator, developer, reference/modules, reference/roles)
+- Each section's `index.adoc` includes its chapter files
+- Provides better performance and easier navigation for large documentation sets
+- Output: `docs/index.html` (landing page) + section-specific index.html files
+
+### Single-page HTML
+- Uses `index.adoc` as the complete documentation
+- Builds one comprehensive HTML file with all content
+- Useful for offline viewing or printing
+- Output: `docs/index-single.html`
+
+### PDF
+- Uses `index.adoc` (same as single-page HTML)
+- Generates complete documentation as PDF
+- Output: `pdf/index.pdf`
 
 ## Development Workflow
 
@@ -88,6 +115,8 @@ When working with documentation:
 4. Static SVG images are automatically copied during build
 5. Both HTML and PDF outputs are supported
 6. Use `make clean` to reset build state
+7. For multi-page HTML, edit individual section index.adoc files (operator/index.adoc, developer/index.adoc, etc.)
+8. For single-page HTML and PDF, the content comes from the main index.adoc
 
 ## Important Notes for Code Assistance
 
@@ -96,6 +125,7 @@ When working with documentation:
 2. **Include paths**: Reference documentation uses direct file names (e.g., `module-auth_info.adoc`) not subdirectories
 3. **Preprocessing directives**: No `ifdev::` or similar directives should appear in rendered output
 4. **Image handling**: SVG files are automatically copied by the Makefile during build
+5. **Custom assets removed**: The build no longer uses custom CSS/JS assets or TOC injection scripts - all styling and TOC functionality now uses AsciiDoctor native features only
 
 ### File Path Patterns
 - Operator chapters: `operator/chapter_os-migrate-*.adoc`

@@ -17,7 +17,7 @@ For the purposes of the these metrics, we are considering the following hardware
 
 _All of the below metrics apply to VMware to OpenStack via the Ansible Automation Platform_
 
-=== Table 1
+== Table 1
 
 Time of execution to completion including instance boot & ping for RHEL machines in our lab.
 
@@ -32,7 +32,7 @@ Time of execution to completion including instance boot & ping for RHEL machines
 
 *Note*: The average time for 1 virtual machine is around 2 minutes. The migration can be parallelized on the same conversion host (threads) or on multiple conversion hosts.
 
-=== Table 2
+== Table 2
 
 Time for RHEL machines with a larger disk for a full migration run with and without CBTfootnote:[CBT = https://knowledge.broadcom.com/external/article/320557/changed-block-tracking-cbt-on-virtual-ma.html] options:
 
@@ -52,7 +52,7 @@ Time for RHEL machines with a larger disk for a full migration run with and with
 
 *Note 2*: The CBT option takes a bit more time overall but the downtime is actually lower due to the smaller data cutover time.
 
-=== Table 3
+== Table 3
 
 Example of a Migration plan for 55 VMs with 200 GB of disk full. _(estimation)_
 
@@ -65,7 +65,7 @@ Example of a Migration plan for 55 VMs with 200 GB of disk full. _(estimation)_
 
 For this example, the best plan is to parallelize the migration on a single Conversion Host to 5 threads and use the CBT option to pre-migrate the volume data; this will shortern the cutover time (2 minutes in our lab environment), reducing the downtime overall.
 
-=== Table 4
+== Table 4
 
 Migration of 1500 VMs: Time for RHEL machines in our lab with a disk capacity of 20GB, with a full migration run which comprises of migration of data, conversion and instance creation, boot time, and ability to ping.
 
@@ -78,7 +78,7 @@ Migration of 1500 VMs: Time for RHEL machines in our lab with a disk capacity of
 
 *Note 1*: The conversion flavor was set to: *12GB of RAM and 6 vcpus* which allow OS-Migrate to comfortably run 6 migrations in parallel on the same host. There is space to execute more parallel migrations with this configuration but it's a best practice to let 2GB of RAM and 1 CPU for each migration.
 
-=== Conversion host requirements and recommendations
+== Conversion host requirements and recommendations
 
 Recommended guidelines:
 
@@ -86,7 +86,7 @@ Recommended guidelines:
 * RHEL 9.5 or CentOS 10 to benefit from the latest drivers (virtio-win) to convert the recent Windows distributions.
 * Fedora (38 and +) if you want to convert btrfs file system
 
-=== How to proceed with a large workload
+== How to proceed with a large workload
 
 It's important to first focus on sizing your target OpenStack environment adequately. It will of course receive large numbers of instances, ports, volumes, floating ips and all the OpenStack resources that the instances will require. So set the OpenStack quotas with the correct values.
 

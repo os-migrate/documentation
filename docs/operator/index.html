@@ -552,7 +552,6 @@ pre.rouge .gs {
   font-weight: bold;
 }
 </style>
-<link rel="stylesheet" href="../assets/css/toc-fold.css">
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
@@ -640,7 +639,7 @@ pre.rouge .gs {
 </ul>
 </li>
 <li><a href="#os-migrate-performance-expectations_planning">VMware to OpenStack OS Migrate Performance Expectations</a>
-<ul class="sectlevel3">
+<ul class="sectlevel2">
 <li><a href="#_table_1">Table 1</a></li>
 <li><a href="#_table_2">Table 2</a></li>
 <li><a href="#_table_3">Table 3</a></li>
@@ -736,7 +735,7 @@ pre.rouge .gs {
 <li><a href="#_migration_sequence">Migration sequence</a></li>
 </ul>
 </li>
-<li><a href="#os-migrate-vmware-guide_vmware">OS Migrate VMware Guide</a>
+<li><a href="#os-migrate-vmware-guide_vmware">VMware to OpenStack Guide</a>
 <ul class="sectlevel2">
 <li><a href="#_workflow">Workflow</a></li>
 <li><a href="#_features_and_supported_os">Features and supported OS</a>
@@ -1859,8 +1858,8 @@ For the purposes of the these metrics, we are considering the following hardware
 <div class="paragraph">
 <p><em>All of the below metrics apply to VMware to OpenStack via the Ansible Automation Platform</em></p>
 </div>
-<div class="sect3">
-<h4 id="_table_1"><a class="anchor" href="#_table_1"></a><a class="link" href="#_table_1">Table 1</a></h4>
+<div class="sect2">
+<h3 id="_table_1"><a class="anchor" href="#_table_1"></a><a class="link" href="#_table_1">Table 1</a></h3>
 <div class="paragraph">
 <p>Time of execution to completion including instance boot &amp; ping for RHEL machines in our lab.</p>
 </div>
@@ -1914,8 +1913,8 @@ For the purposes of the these metrics, we are considering the following hardware
 <p><strong>Note</strong>: The average time for 1 virtual machine is around 2 minutes. The migration can be parallelized on the same conversion host (threads) or on multiple conversion hosts.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_table_2"><a class="anchor" href="#_table_2"></a><a class="link" href="#_table_2">Table 2</a></h4>
+<div class="sect2">
+<h3 id="_table_2"><a class="anchor" href="#_table_2"></a><a class="link" href="#_table_2">Table 2</a></h3>
 <div class="paragraph">
 <p>Time for RHEL machines with a larger disk for a full migration run with and without CBT<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup> options:</p>
 </div>
@@ -2000,8 +1999,8 @@ For the purposes of the these metrics, we are considering the following hardware
 <p><strong>Note 2</strong>: The CBT option takes a bit more time overall but the downtime is actually lower due to the smaller data cutover time.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_table_3"><a class="anchor" href="#_table_3"></a><a class="link" href="#_table_3">Table 3</a></h4>
+<div class="sect2">
+<h3 id="_table_3"><a class="anchor" href="#_table_3"></a><a class="link" href="#_table_3">Table 3</a></h3>
 <div class="paragraph">
 <p>Example of a Migration plan for 55 VMs with 200 GB of disk full. <em>(estimation)</em></p>
 </div>
@@ -2053,8 +2052,8 @@ For the purposes of the these metrics, we are considering the following hardware
 <p>For this example, the best plan is to parallelize the migration on a single Conversion Host to 5 threads and use the CBT option to pre-migrate the volume data; this will shortern the cutover time (2 minutes in our lab environment), reducing the downtime overall.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_table_4"><a class="anchor" href="#_table_4"></a><a class="link" href="#_table_4">Table 4</a></h4>
+<div class="sect2">
+<h3 id="_table_4"><a class="anchor" href="#_table_4"></a><a class="link" href="#_table_4">Table 4</a></h3>
 <div class="paragraph">
 <p>Migration of 1500 VMs: Time for RHEL machines in our lab with a disk capacity of 20GB, with a full migration run which comprises of migration of data, conversion and instance creation, boot time, and ability to ping.</p>
 </div>
@@ -2096,8 +2095,8 @@ For the purposes of the these metrics, we are considering the following hardware
 <p><strong>Note 1</strong>: The conversion flavor was set to: <strong>12GB of RAM and 6 vcpus</strong> which allow OS-Migrate to comfortably run 6 migrations in parallel on the same host. There is space to execute more parallel migrations with this configuration but it&#8217;s a best practice to let 2GB of RAM and 1 CPU for each migration.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_conversion_host_requirements_and_recommendations"><a class="anchor" href="#_conversion_host_requirements_and_recommendations"></a><a class="link" href="#_conversion_host_requirements_and_recommendations">Conversion host requirements and recommendations</a></h4>
+<div class="sect2">
+<h3 id="_conversion_host_requirements_and_recommendations"><a class="anchor" href="#_conversion_host_requirements_and_recommendations"></a><a class="link" href="#_conversion_host_requirements_and_recommendations">Conversion host requirements and recommendations</a></h3>
 <div class="paragraph">
 <p>Recommended guidelines:</p>
 </div>
@@ -2115,8 +2114,8 @@ For the purposes of the these metrics, we are considering the following hardware
 </ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_how_to_proceed_with_a_large_workload"><a class="anchor" href="#_how_to_proceed_with_a_large_workload"></a><a class="link" href="#_how_to_proceed_with_a_large_workload">How to proceed with a large workload</a></h4>
+<div class="sect2">
+<h3 id="_how_to_proceed_with_a_large_workload"><a class="anchor" href="#_how_to_proceed_with_a_large_workload"></a><a class="link" href="#_how_to_proceed_with_a_large_workload">How to proceed with a large workload</a></h3>
 <div class="paragraph">
 <p>It&#8217;s important to first focus on sizing your target OpenStack environment adequately. It will of course receive large numbers of instances, ports, volumes, floating ips and all the OpenStack resources that the instances will require. So set the OpenStack quotas with the correct values.</p>
 </div>
@@ -4575,10 +4574,10 @@ clean up is necessary in the destination cloud.)</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="os-migrate-vmware-guide_vmware"><a class="anchor" href="#os-migrate-vmware-guide_vmware"></a><a class="link" href="#os-migrate-vmware-guide_vmware">OS Migrate VMware Guide</a></h2>
+<h2 id="os-migrate-vmware-guide_vmware"><a class="anchor" href="#os-migrate-vmware-guide_vmware"></a><a class="link" href="#os-migrate-vmware-guide_vmware">VMware to OpenStack Guide</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>An important auxilliary function included in OS Migrate is our VMware tooling,
+<p>An important function included in OS Migrate is our VMware tooling,
 which allows you to migrade a virtual machine from an ESXi/Vcenter environment
 to OpenStack environments.</p>
 </div>
@@ -4703,63 +4702,63 @@ you have big disk or a huge amount of VMs to migrate: the performance are really
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">RHEL</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">9.4</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">RHEL</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">9.3 and lower</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">RHEL</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">8.5</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">RHEL</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">8.4 and lower</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">CentOS</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">CentOS</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Ubuntu Server</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">24</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Windows</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Windows Server</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2k22</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Suse</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">X</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
 </tr>
 </tbody>
@@ -6533,6 +6532,5 @@ different OS Migrate version.</p>
 Last updated 2025-09-17 20:51:25 -0400
 </div>
 </div>
-<script src="../assets/js/toc-fold.js"></script>
 </body>
 </html>
