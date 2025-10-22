@@ -5,15 +5,12 @@ This is the documentation repository for OS Migrate, an open source toolbox for 
 ## Structure
 
 - `index.adoc` - Main documentation entry point
-- `operator/` - Operator documentation (capacity planning, guides, walkthrough, VMware migration)
+- `operator/` - Operator documentation (guides, VMware migration, troubleshooting)
 - `developer/` - Developer documentation (contributing, design, development setup)
 - `reference/` - Reference documentation
   - `modules/` - Ansible module documentation
   - `roles/` - Ansible role documentation
-- `images/` - Static images and diagrams
-  - `*.svg` - SVG workflow diagrams (especially VMware migration workflows)
-  - `*.plantuml` - PlantUML diagram sources
-  - `render/` - Generated PlantUML diagrams (PNG format)
+- `images/` - Static SVG workflow diagrams
 
 ## Building Documentation
 
@@ -22,30 +19,17 @@ This is the documentation repository for OS Migrate, an open source toolbox for 
 Install Ruby dependencies using bundler:
 
 ```bash
-# Install Ruby gems
 bundle install
 ```
 
 ### Build Commands
 
 ```bash
-# Build multi-page HTML documentation (default)
+# Build HTML documentation
 make html
 
-# Build multi-page HTML documentation (explicit)
-make html-multi
-
-# Build single-page HTML documentation
-make html-single
-
-# Build PDF documentation
-make pdf
-
-# Build both formats
-make all
-
-# Build PlantUML diagrams only
-make diagrams
+# or simply
+make
 
 # Clean build artifacts
 make clean
@@ -56,33 +40,21 @@ make help
 
 ### Output
 
-Built documentation will be available in:
-- **Multi-page HTML**: `docs/index.html` (main page with links to sections)
-  - `docs/operator/index.html` - Operator guide
-  - `docs/developer/index.html` - Developer documentation
-  - `docs/reference/modules/index.html` - Modules reference
-  - `docs/reference/roles/index.html` - Roles reference
-- **Single-page HTML**: `docs/index-single.html` (complete documentation in one file)
-- **PDF**: `pdf/index.pdf`
-- **Images**: `docs/images/` and subdirectories (automatically copied during build)
+Built documentation will be available at:
+- **HTML**: `docs/index.html`
+- **Images**: `docs/images/` (SVG files automatically copied during build)
 
 ## Features
 
 - **AsciiDoc format**: Human-readable documentation source format
-- **PlantUML diagrams**: Automatic diagram generation from source to PNG
-- **SVG workflow diagrams**: Static SVG diagrams for complex workflows (VMware migration)
-- **Multiple output formats**: HTML and PDF generation
-- **Working table of contents**: Properly linked section navigation
-- **Image handling**: Automatic copying of static and generated images
-- **Cross-references**: Maintained document linking
-- **Include directives**: Modular documentation structure
+- **SVG workflow diagrams**: Static diagrams for VMware migration workflows
+- **Table of contents**: Left sidebar navigation (3 levels deep)
 - **Syntax highlighting**: Code block highlighting with Rouge
+- **Modular structure**: Include directives for organizing content
+- **Cross-references**: Automatic section linking and anchors
 
-## Recent Improvements
+## Ruby Dependencies
 
-- **Multi-page HTML output**: Documentation now generates as separate pages per section for better navigation and performance
-- **Fixed TOC links**: Section links now properly navigate to correct locations
-- **Clean rendering**: Removed preprocessing directive artifacts from output
-- **SVG image support**: VMware workflow diagrams now render correctly
-- **Improved build process**: Automatic image copying and proper file structure
-- **Flexible build options**: Choose between single-page or multi-page HTML output
+The project uses these Ruby gems (defined in `Gemfile`):
+- `asciidoctor` (~> 2.0) - Core AsciiDoc processor
+- `rouge` (~> 4.1) - Syntax highlighting
