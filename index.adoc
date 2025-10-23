@@ -22,9 +22,9 @@ utilize direct database access or other methods to export or import
 data. The Ansible playbooks contained in OS Migrate are idempotent.
 If a command fails, you can retry with the same command.
 
-include::operator/chapter_os-migrate-vmware-guide.adoc[leveloffset=+1]
+include::source/operator-vmware-guide.adoc[leveloffset=+1]
 
-include::operator/chapter_os-migrate-aee.adoc[leveloffset=+1]
+include::source/operator-aee.adoc[leveloffset=+1]
 
 == Community
 
