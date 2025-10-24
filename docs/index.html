@@ -640,7 +640,17 @@ pre.rouge .gs {
 </li>
 </ul>
 </li>
-<li><a href="#_community">4. Community</a></li>
+<li><a href="#os-migrate-performance-expectations_planning">4. VMware to OpenStack OS Migrate Performance Expectations</a>
+<ul class="sectlevel2">
+<li><a href="#_table_1">4.1. Table 1</a></li>
+<li><a href="#_table_2">4.2. Table 2</a></li>
+<li><a href="#_table_3">4.3. Table 3</a></li>
+<li><a href="#_table_4">4.4. Table 4</a></li>
+<li><a href="#_conversion_host_requirements_and_recommendations">4.5. Conversion host requirements and recommendations</a></li>
+<li><a href="#_how_to_proceed_with_a_large_workload">4.6. How to proceed with a large workload</a></li>
+</ul>
+</li>
+<li><a href="#_community">5. Community</a></li>
 </ul>
 </div>
 </div>
@@ -2756,7 +2766,349 @@ git push origin 1.2.3
 </div>
 </div>
 <div class="sect1">
-<h2 id="_community"><a class="anchor" href="#_community"></a><a class="link" href="#_community">4. Community</a></h2>
+<h2 id="os-migrate-performance-expectations_planning"><a class="anchor" href="#os-migrate-performance-expectations_planning"></a><a class="link" href="#os-migrate-performance-expectations_planning">4. VMware to OpenStack OS Migrate Performance Expectations</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This document outlines some performance expectations for VMware to OpenStack transfers via the os-migrate tooling.
+For the purposes of the these metrics, we are considering the following hardware for a Conversion Host:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>6 vCPU</p>
+</li>
+<li>
+<p>8GB RAM</p>
+</li>
+<li>
+<p>20GB disk unless otherwise stated</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><em>All of the below metrics apply to VMware to OpenStack via the Ansible Automation Platform</em></p>
+</div>
+<div class="sect2">
+<h3 id="_table_1"><a class="anchor" href="#_table_1"></a><a class="link" href="#_table_1">4.1. Table 1</a></h3>
+<div class="paragraph">
+<p>Time of execution to completion including instance boot &amp; ping for RHEL machines in our lab.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">VMs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Conversion Hosts</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Threads</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2 minutes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">31 minutes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">15 minutes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8 minutes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">100</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20 minutes</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><strong>Note</strong>: The average time for 1 virtual machine is around 2 minutes. The migration can be parallelized on the same conversion host (threads) or on multiple conversion hosts.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_table_2"><a class="anchor" href="#_table_2"></a><a class="link" href="#_table_2">4.2. Table 2</a></h3>
+<div class="paragraph">
+<p>Time for RHEL machines with a larger disk for a full migration run with and without CBT<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup> options:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Disk size</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CBT enabled</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time total</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cutover time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Expected downtime</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">100 GB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8 minutes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2 minutes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2 minutes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">100 GB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7 minutes</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7 minutes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">200 GB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10 minutes 30 secondes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2 minutes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2 minutes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">200 GB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9 minutes 30 secondes</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9 minutes 30 secondes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">300 GB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">17 minutes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2 minutes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2 minutes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">300 GB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">15 minutes</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">15 minutes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 TB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">39 minutes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2 minutes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2 minutes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 TB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">35 minutes</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">35 minutes</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><strong>Note 1</strong>: The disks are 99% full of random data during the test.</p>
+</div>
+<div class="paragraph">
+<p><strong>Note 2</strong>: The CBT option takes a bit more time overall but the downtime is actually lower due to the smaller data cutover time.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_table_3"><a class="anchor" href="#_table_3"></a><a class="link" href="#_table_3">4.3. Table 3</a></h3>
+<div class="paragraph">
+<p>Example of a Migration plan for 55 VMs with 200 GB of disk full. <em>(estimation)</em></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.667%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Disk size</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Conversion Hosts</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Threads</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CBT enabled</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Migration time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sync time</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">200 GB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">115 minutes</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">200 GB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">105 minutes</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">200 GB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">22 minutes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">110 minutes</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>For this example, the best plan is to parallelize the migration on a single Conversion Host to 5 threads and use the CBT option to pre-migrate the volume data; this will shortern the cutover time (2 minutes in our lab environment), reducing the downtime overall.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_table_4"><a class="anchor" href="#_table_4"></a><a class="link" href="#_table_4">4.4. Table 4</a></h3>
+<div class="paragraph">
+<p>Migration of 1500 VMs: Time for RHEL machines in our lab with a disk capacity of 20GB, with a full migration run which comprises of migration of data, conversion and instance creation, boot time, and ability to ping.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">VMs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Conversion Hosts</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Threads</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">250</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">60 minutes (without the preparation steps)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5 hours</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1500</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><strong>Note 1</strong>: The conversion flavor was set to: <strong>12GB of RAM and 6 vcpus</strong> which allow OS-Migrate to comfortably run 6 migrations in parallel on the same host. There is space to execute more parallel migrations with this configuration but it&#8217;s a best practice to let 2GB of RAM and 1 CPU for each migration.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_conversion_host_requirements_and_recommendations"><a class="anchor" href="#_conversion_host_requirements_and_recommendations"></a><a class="link" href="#_conversion_host_requirements_and_recommendations">4.5. Conversion host requirements and recommendations</a></h3>
+<div class="paragraph">
+<p>Recommended guidelines:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>For 1 migration allocate 2GB of RAM and 1 vCPU on your Conversion Host</strong></p>
+</li>
+<li>
+<p>RHEL 9.5 or CentOS 10 to benefit from the latest drivers (virtio-win) to convert the recent Windows distributions.</p>
+</li>
+<li>
+<p>Fedora (38 and +) if you want to convert btrfs file system</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_how_to_proceed_with_a_large_workload"><a class="anchor" href="#_how_to_proceed_with_a_large_workload"></a><a class="link" href="#_how_to_proceed_with_a_large_workload">4.6. How to proceed with a large workload</a></h3>
+<div class="paragraph">
+<p>It&#8217;s important to first focus on sizing your target OpenStack environment adequately. It will of course receive large numbers of instances, ports, volumes, floating ips and all the OpenStack resources that the instances will require. So set the OpenStack quotas with the correct values.</p>
+</div>
+<div class="paragraph">
+<p>Second you need to split your workload regarding the number of conversion hosts you will create.</p>
+</div>
+<div class="paragraph">
+<p>For example, with a workload of 1000 VMs, you can use two conversion hosts which will run the migration in parallel and execute 5 or 6 migrations simultaneously on each conversion host.</p>
+</div>
+<div class="paragraph">
+<p>If you followed the requirements for the conversion host above, the migration time will be linear:</p>
+</div>
+<div class="paragraph">
+<p>If 1 virtual machine takes 5 minutes to be migrated then the 1000 Vms will take:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>5*1000/12 (where 12 is 6 parallel migrations x 2 conversion hosts): 6 hours and 56 minutes</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The more you divide your workload, the faster you will move it to OpenStack.</p>
+</div>
+<div class="paragraph">
+<p>In the example above, if we decide to add 2 more conversion hosts then:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>5*1000/24 = 3h and 28 minutes.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Finally, some known issues we have seen may happen during a large-scale migration.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>First, when the conversion hosts are too solicited. For example, a single conversion host which has performed more than 5 000 of migrations in a very short time may have some issues with the device mount mechanism in the OS itself.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>When this behavior appears, sometimes just a reboot might help to clean the /dev/ devices.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Another issue may appear on the Vmware side with the message "snapshot hierarchy is too deep" because OS-Migrate is working with Snapshot. If this error appears, then clean the guest snapshots hierarchy and re-run the migration.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Note 1</strong> - Make sure all the OpenStack services are configured to support a large amount of requests. OS-Migrate is driven by Ansible but the core of the migration is a binary which does not consume a lot of resources. So the more you use the binary, the more the OpenStack Api will receive requests. For example Rabbitmq, Galera and also Nova or Cinder will be impacted.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_community"><a class="anchor" href="#_community"></a><a class="link" href="#_community">5. Community</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The <a href="https://github.com/os-migrate/os-migrate">source code of OS Migrate</a>
@@ -2774,9 +3126,15 @@ on GitHub with your question.</p>
 </div>
 </div>
 </div>
+<div id="footnotes">
+<hr>
+<div class="footnote" id="_footnotedef_1">
+<a href="#_footnoteref_1">1</a>. CBT = <a href="https://knowledge.broadcom.com/external/article/320557/changed-block-tracking-cbt-on-virtual-ma.html" class="bare">https://knowledge.broadcom.com/external/article/320557/changed-block-tracking-cbt-on-virtual-ma.html</a>
+</div>
+</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-10-23 11:32:11 -0400
+Last updated 2025-10-24 08:00:04 -0400
 </div>
 </div>
 </body>
