@@ -26,6 +26,8 @@ include::source/operator-vmware-guide.adoc[leveloffset=+1]
 
 include::source/operator-aee.adoc[leveloffset=+1]
 
+include::source/operator-performance-expectations.adoc[leveloffset=+1]
+
 == Community
 
 The https://github.com/os-migrate/os-migrate[source code of OS Migrate]
