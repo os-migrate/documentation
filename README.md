@@ -5,12 +5,13 @@ This is the documentation repository for OS Migrate, an open source toolbox for 
 ## Structure
 
 - `index.adoc` - Main documentation entry point
-- `operator/` - Operator documentation (guides, VMware migration, troubleshooting)
-- `developer/` - Developer documentation (contributing, design, development setup)
-- `reference/` - Reference documentation
-  - `modules/` - Ansible module documentation
-  - `roles/` - Ansible role documentation
+- `source/` - All AsciiDoc documentation files
+  - `operator-*.adoc` - Operator documentation (guides, VMware migration, troubleshooting)
+  - `developer-*.adoc` - Developer documentation (contributing, design, development setup)
+  - `reference-module-*.adoc` - Ansible module reference documentation
+  - `reference-role-*.adoc` - Ansible role reference documentation
 - `images/` - Static SVG workflow diagrams
+- `docs/` - Build output directory (generated)
 
 ## Building Documentation
 
@@ -47,11 +48,22 @@ Built documentation will be available at:
 ## Features
 
 - **AsciiDoc format**: Human-readable documentation source format
+- **Single-page HTML**: All documentation built into one HTML file
 - **SVG workflow diagrams**: Static diagrams for VMware migration workflows
 - **Table of contents**: Left sidebar navigation (3 levels deep)
 - **Syntax highlighting**: Code block highlighting with Rouge
 - **Modular structure**: Include directives for organizing content
 - **Cross-references**: Automatic section linking and anchors
+
+## Build Configuration
+
+The Makefile uses AsciiDoctor with the following configuration:
+- `toc=left` - Table of contents on left sidebar
+- `toclevels=3` - Show 3 levels in TOC
+- `sectlinks` - Make section titles clickable links
+- `sectanchors` - Add anchor symbols to sections
+- `icons=font` - Use Font Awesome icons
+- `source-highlighter=rouge` - Syntax highlighting with Rouge
 
 ## Ruby Dependencies
 

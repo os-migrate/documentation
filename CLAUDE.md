@@ -38,17 +38,21 @@ Output locations:
 The documentation uses AsciiDoc format with the following structure:
 
 - `index.adoc` - Main documentation source (used for HTML generation)
-- `operator/` - Operator documentation (guides, VMware migration, troubleshooting)
-  - `operator/chapter_os-migrate-vmware-guide.adoc` - VMware migration guide
-  - `operator/chapter_os-migrate-aee.adoc` - Ansible Execution Environment guide
-  - `operator/chapter_os-migrate-*.adoc` - Additional operator guides
-- `developer/` - Developer documentation (contributing, design, development setup)
-  - `developer/chapter_os-migrate-*.adoc` - Developer guides
-- `reference/` - Reference documentation
-  - `modules/` - Ansible module documentation
-  - `roles/` - Ansible role documentation
+- `source/` - All AsciiDoc documentation files
+  - `operator-*.adoc` - Operator documentation (guides, VMware migration, troubleshooting)
+    - `operator-vmware-guide.adoc` - VMware migration guide
+    - `operator-aee.adoc` - Ansible Execution Environment guide
+    - `operator-quickstart-guide.adoc` - Quickstart guide
+    - `operator-troubleshooting.adoc` - Troubleshooting guide
+  - `developer-*.adoc` - Developer documentation (contributing, design, development setup)
+    - `developer-contributing-code.adoc` - Code contribution guide
+    - `developer-design.adoc` - Design documentation
+    - `developer-dev-env-setup.adoc` - Development environment setup
+  - `reference-module-*.adoc` - Ansible module reference documentation
+  - `reference-role-*.adoc` - Ansible role reference documentation
 - `images/` - Static SVG workflow diagrams
   - `*.svg` - VMware migration workflow diagrams
+- `docs/` - Build output directory (generated, not in source control)
 
 ### Key Documentation Features
 - Single-page HTML generation
@@ -82,10 +86,11 @@ When working with documentation:
 ## Important Notes for Code Assistance
 
 ### File Path Patterns
-- Operator chapters: `operator/chapter_os-migrate-*.adoc`
-- Developer chapters: `developer/chapter_os-migrate-*.adoc`
-- Module docs: `reference/modules/module-*.adoc`
-- Role docs: `reference/roles/role-*.adoc`
+All AsciiDoc files are located in the `source/` directory:
+- Operator documentation: `source/operator-*.adoc`
+- Developer documentation: `source/developer-*.adoc`
+- Module reference docs: `source/reference-module-*.adoc`
+- Role reference docs: `source/reference-role-*.adoc`
 
 ### AsciiDoc Configuration
 The build uses these AsciiDoctor attributes (defined in Makefile):
