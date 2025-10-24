@@ -5,7 +5,7 @@
 = VMware to OpenStack Guide
 
 An important function included in OS Migrate is our VMware tooling,
-which allows you to migrade a virtual machine from an ESXi/Vcenter environment
+which allows you to migrate a virtual machine from an ESXi/Vcenter environment
 to OpenStack environments.
 
 The code used os-migrate Ansible collection in order to deploy conversion host and setup

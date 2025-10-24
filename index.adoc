@@ -30,12 +30,7 @@ include::source/operator-performance-expectations.adoc[leveloffset=+1]
 
 == Community
 
-The https://github.com/os-migrate/os-migrate[source code of OS Migrate]
-is hosted on GitHub.
+https://github.com/os-migrate/vmware-migration-kit/[GitHub hosted source code]
 
 For issue reports please use the GitHub
-https://github.com/os-migrate/os-migrate/issues[OS Migrate issue tracker].
-
-To get help, feel free to also create an
-https://github.com/os-migrate/os-migrate/issues[issue]
-on GitHub with your question.
+https://github.com/os-migrate/vmware-migration-kit/issues[issue tracker]
