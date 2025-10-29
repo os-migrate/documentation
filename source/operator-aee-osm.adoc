@@ -1,0 +1,76 @@
+= Ansible Execution Environment (AEE) Images
+
+vmware-migration-kit provide containerized Ansible Execution Environment (AEE) image that encapsulate all necessary dependencies for running migration playbooks in a consistent, isolated environment.
+
+== Overview
+
+Ansible Execution Environments are container images that provide a standardized runtime environment for Ansible automation. It includes:
+
+* Ansible Core
+* vmware-migration-kit Ansible collection
+* VMware SDK and related Python packages
+* All required dependencies for VMware to OpenStack migration
+
+This approach ensures consistent behavior across different environments and simplifies deployment and maintenance.
+
+The image is located at `quay.io/os-migrate/vmware-migration-kit`
+
+=== Running Playbooks with AEE
+
+You can pull vmware-migration-kit AEE images from Quay:
+
+[source,bash]
+quay.io/os-migrate/vmware-migration-kit:stable
+
+Make sure this parameter is set in the vars file to avoid attempting to install requirements that are already pre-packaged in the migration container:
+
+[source,yaml]
+runner_from_aee: true
+
+Execute vmware-migration-kit migration playbook:
+
+
+[source,bash]
+----
+podman run --rm -it \
+  -v $(pwd):/runner:z \
+  -v ~/.ssh:/home/runner/.ssh:ro \
+  quay.io/os-migrate/vmware-migration-kit:stable \
+  ansible-playbook -i /runner/inventory \
+  -e @/runner/vars.yaml \
+  os_migrate.vmware_migration_kit.migration 
+    
+----
+
+=== Interactive Shell Access
+
+Access the AEE container interactively for debugging:
+
+[source,bash]
+----
+podman run --rm -it \
+  -v $(pwd):/runner:z \
+  -v ~/.ssh:/home/runner/.ssh:ro \
+  quay.io/os-migrate/vmware-migration-kit:stable \
+  /bin/bash
+----
+
+=== Volume Mounts
+
+Common volume mounts for AEE usage:
+
+* `$(pwd):/runner:z` - Mount current directory as working directory, adjusting the SELinux context of the volume to allow the container to access the files.
+* `~/.ssh:/home/runner/.ssh:ro` - Mount SSH keys (read-only)
+* `~/.config/openstack:/home/runner/.config/openstack:ro` - Mount OpenStack credentials
+* `/path/to/inventory:/runner/inventory:ro` - Mount inventory files
+
+== Using AEE Images with AWX platform
+
+This allows you to leverage the benefits of AEE—such as consistent execution environments, isolation from host dependencies, and simplified dependency management—while AWX for orchestration and management.
+For configuring AWX to launch a migration:
+
+* Create the inventory and add the conversion host
+* Create the execution environment using the desired AEE image (os-migrate or vmware-migration-kit)
+* Create a project that points to the repository containing the migration playbooks
+* Create the job template adding the inventory created before, the project, the execution environment and adding the variables file as extra variables.
+* Run the migration

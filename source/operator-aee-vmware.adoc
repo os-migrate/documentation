@@ -1,0 +1,67 @@
+== Ansible Execution Environment (AEE) Images
+ 
+vmware-migration-kit provides a containerized Ansible Execution Environment (AEE) image that encapsulates all necessary dependencies for running migration playbooks in a consistent, isolated environment.They include:
+
+* Ansible Core
+* os-migrate Ansible collection
+* OpenStack SDK and related Python packages
+* All required dependencies for OpenStack resource migration
+
+This approach ensures consistent behavior across different environments and simplifies deployment and maintenance.
+
+=== Using AEE Images
+
+==== Running Playbooks with AEE
+AEE images are distributed in Quay; use the following command to pull the latest stable image:
+
+[source,bash]
+----
+podman pull quay.io/os-migrate/vmware-migration-kit:stable
+----
+
+Set `runner_from_aee: true` in your vars file to prevent redundant installation of requirements already included in the migration container. To execute migration playbooks inside the AEE container, use the following command:
+
+[source,bash]
+----
+podman run --rm -it \
+  -v $(pwd):/runner:z \
+  -v ~/.ssh:/home/runner/.ssh:ro \
+  quay.io/os-migrate/vmware-migration-kit:stable \
+  ansible-playbook -i /runner/inventory \
+  -e @/runner/vars.yaml \
+  os_migrate.vmware_migration_kit.migration
+----
+
+==== Interactive Shell Access
+To open a shell inside the AEE container for troubleshooting or inspecting the environment, run:
+
+[source,bash]
+----
+podman run --rm -it \
+  -v $(pwd):/runner:z \
+  -v ~/.ssh:/home/runner/.ssh:ro \
+  quay.io/os-migrate/vmware-migration-kit:stable \
+  /bin/bash
+----
+
+==== Volume Mounts
+Common volume mounts for AEE usage:
+
+* `$(pwd):/runner:z` - Mount current directory as working directory, with SELinux context adjustment for accessing the files.
+* `~/.ssh:/home/runner/.ssh:ro` - Mount SSH keys (read-only)
+* `~/.config/openstack:/home/runner/.config/openstack:ro` - Mount OpenStack credentials
+* `/path/to/inventory:/runner/inventory:ro` - Mount inventory files
+
+=== Using AEE Images with AWX platform
+This allows you to leverage the benefits of AEE—such as consistent execution environments, isolation from host dependencies, and simplified dependency management—while AWX for orchestration and management. For configuring AWX to launch a migration:
+
+* Create the inventory and add the conversion host
+
+* Create the execution environment using the desired AEE image (os-migrate or vmware-migration-kit)
+
+* Create a project that points to the repository containing the migration playbooks
+
+* Create the job template adding the inventory created before, the project, the execution environment and adding the variables file as extra variables.
+
+* Run the migration
+
