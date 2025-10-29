@@ -48,15 +48,7 @@ To consolidate disks:
 
 === Snapshot Hierarchy Depth
 
-Verify that the snapshot hierarchy is not too deep (recommended maximum: 2-3 levels).
-
-Deep snapshot hierarchies can cause:
-
-* Performance degradation during migration
-* Increased risk of migration failures
-* Longer consolidation times
-
-To check snapshot hierarchy:
+Verify that the snapshot hierarchy.
 
 * In vSphere Client: Right-click the VM → Snapshots → Manage Snapshots
 * Review the snapshot tree depth
@@ -64,31 +56,40 @@ To check snapshot hierarchy:
 
 === VMware User Access Control Lists (ACLs)
 
-Ensure the VMware user account has the correct permissions to perform migration operations.
+To avoid using the Administrator role and in order to be able to connect, parse the vCenter datastore, manipulate the snapshots and migrate virtual machines, OS-Migrate needs the following ACLs for the vCenter user:
 
-Required privileges:
+[cols="1,2,3"]
+|===
+|Category |Privilege Group |Privileges
 
-* **Virtual machine permissions:**
-** Virtual machine.Interaction.Power Off
-** Virtual machine.Interaction.Power On
-** Virtual machine.Provisioning.Allow disk access
-** Virtual machine.Provisioning.Allow read-only disk access
-** Virtual machine.State.Create snapshot
-** Virtual machine.State.Remove snapshot
+|**Datastore**
+|—
+|Browse datastore
 
-* **Datastore permissions:**
-** Datastore.Browse datastore
-** Datastore.Low level file operations
+|**Virtual Machine**
+|Guest operations
+|All
 
-* **General permissions:**
-** System.Anonymous
-** System.Read
-** System.View
+|
+|Provisioning
+|Allow disk access +
+Allow file access +
+Allow read-only disk access +
+Allow virtual machine download
 
-For CBT-based migrations, additional privileges may be required:
+|
+|Service configuration
+|Allow notifications +
+Allow polling of global event notifications +
+Read service configuration
 
-** Virtual machine.Configuration.Change tracking
-** Virtual machine.Configuration.Disk change tracking
+|
+|Snapshot management
+|Create snapshot +
+Remove snapshot +
+Rename snapshot +
+Revert to snapshot
+|===
 
 To verify permissions:
 
@@ -126,12 +127,6 @@ CBT must be enabled on the virtual machine before migration.
 . Power on the virtual machine
 
 **Verify CBT is enabled:**
-
-Via PowerCLI:
-[source,powershell]
-----
-Get-VM <vm-name> | Select Name, @{N='CBT';E={$_.ExtensionData.Config.ChangeTrackingEnabled}}
-----
 
 Via vSphere Web Client:
 [source,bash]
