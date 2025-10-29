@@ -562,27 +562,36 @@ pre.rouge .gs {
 <li><a href="#_welcome_to_os_migrate">1. Welcome to OS Migrate</a></li>
 <li><a href="#os-migrate-vmware-guide_vmware">2. VMware to OpenStack Guide</a>
 <ul class="sectlevel2">
-<li><a href="#_workflow">2.1. Workflow</a></li>
-<li><a href="#_features_and_supported_os">2.2. Features and supported OS</a>
+<li><a href="#_pre_requisites_and_validation_checks">2.1. Pre-requisites and Validation Checks</a>
 <ul class="sectlevel3">
-<li><a href="#_features">2.2.1. Features</a></li>
-<li><a href="#_supported_os">2.2.2. Supported OS</a></li>
-<li><a href="#_nbdkit_migration_example">2.2.3. Nbdkit migration example</a></li>
-<li><a href="#_nbdkit_migration_example_with_the_change_block_tracking">2.2.4. Nbdkit migration example with the Change Block Tracking</a></li>
+<li><a href="#_disk_consolidation">2.1.1. Disk Consolidation</a></li>
+<li><a href="#_snapshot_hierarchy_depth">2.1.2. Snapshot Hierarchy Depth</a></li>
+<li><a href="#_vmware_user_access_control_lists_acls">2.1.3. VMware User Access Control Lists (ACLs)</a></li>
+<li><a href="#_change_block_tracking_cbt">2.1.4. Change Block Tracking (CBT)</a></li>
+<li><a href="#_vmware_tools_installation">2.1.5. VMware Tools Installation</a></li>
 </ul>
 </li>
-<li><a href="#_usage">2.3. Usage</a>
+<li><a href="#_workflow">2.2. Workflow</a></li>
+<li><a href="#_features_and_supported_os">2.3. Features and supported OS</a>
 <ul class="sectlevel3">
-<li><a href="#_nbdkit_default">2.3.1. Nbdkit (default)</a></li>
-<li><a href="#_running_migration_from_local_shared_nfs">2.3.2. Running migration from local shared NFS</a></li>
-<li><a href="#_ansible_configuration">2.3.3. Ansible configuration</a></li>
-<li><a href="#_running_migration_outside_of_ansible">2.3.4. Running Migration outside of Ansible</a></li>
+<li><a href="#_features">2.3.1. Features</a></li>
+<li><a href="#_supported_os">2.3.2. Supported OS</a></li>
+<li><a href="#_nbdkit_migration_example">2.3.3. Nbdkit migration example</a></li>
+<li><a href="#_nbdkit_migration_example_with_the_change_block_tracking">2.3.4. Nbdkit migration example with the Change Block Tracking</a></li>
 </ul>
 </li>
-<li><a href="#_ansible_execution_environment_aee_images">2.4. Ansible Execution Environment (AEE) Images</a>
+<li><a href="#_usage">2.4. Usage</a>
 <ul class="sectlevel3">
-<li><a href="#_using_aee_images">2.4.1. Using AEE Images</a></li>
-<li><a href="#_using_aee_images_with_awx_platform">2.4.2. Using AEE Images with AWX platform</a></li>
+<li><a href="#_nbdkit_default">2.4.1. Nbdkit (default)</a></li>
+<li><a href="#_running_migration_from_local_shared_nfs">2.4.2. Running migration from local shared NFS</a></li>
+<li><a href="#_ansible_configuration">2.4.3. Ansible configuration</a></li>
+<li><a href="#_running_migration_outside_of_ansible">2.4.4. Running Migration outside of Ansible</a></li>
+</ul>
+</li>
+<li><a href="#_ansible_execution_environment_aee_images">2.5. Ansible Execution Environment (AEE) Images</a>
+<ul class="sectlevel3">
+<li><a href="#_using_aee_images">2.5.1. Using AEE Images</a></li>
+<li><a href="#_using_aee_images_with_awx_platform">2.5.2. Using AEE Images with AWX platform</a></li>
 </ul>
 </li>
 </ul>
@@ -660,7 +669,335 @@ machine migration in two steps. The migration can also be done without conversio
 </ul>
 </div>
 <div class="sect2">
-<h3 id="_workflow"><a class="anchor" href="#_workflow"></a><a class="link" href="#_workflow">2.1. Workflow</a></h3>
+<h3 id="_pre_requisites_and_validation_checks"><a class="anchor" href="#_pre_requisites_and_validation_checks"></a><a class="link" href="#_pre_requisites_and_validation_checks">2.1. Pre-requisites and Validation Checks</a></h3>
+<div class="paragraph">
+<p>Before migrating VMware workloads to OpenStack, ensure the following pre-requisites are met.
+These checks are based on issues encountered in real-world migration engagements.</p>
+</div>
+<div class="sect3">
+<h4 id="_disk_consolidation"><a class="anchor" href="#_disk_consolidation"></a><a class="link" href="#_disk_consolidation">2.1.1. Disk Consolidation</a></h4>
+<div class="paragraph">
+<p>Ensure that all virtual machine disks are consolidated before migration.</p>
+</div>
+<div class="paragraph">
+<p>Virtual machines with unconsolidated disks may fail during migration or result in data inconsistencies.
+Disk consolidation merges redundant delta disks created by snapshots back into the base disk.</p>
+</div>
+<div class="paragraph">
+<p>To check if disks need consolidation:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In vSphere Client, check the VM summary tab for "Consolidation needed" warnings</p>
+</li>
+<li>
+<p>Via PowerCLI: <code>Get-VM | Where-Object {$_.ExtensionData.Runtime.ConsolidationNeeded}</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To consolidate disks:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In vSphere Client: Right-click the VM → Snapshots → Consolidate</p>
+</li>
+<li>
+<p>Ensure the operation completes successfully before proceeding with migration</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_snapshot_hierarchy_depth"><a class="anchor" href="#_snapshot_hierarchy_depth"></a><a class="link" href="#_snapshot_hierarchy_depth">2.1.2. Snapshot Hierarchy Depth</a></h4>
+<div class="paragraph">
+<p>Verify that the snapshot hierarchy.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In vSphere Client: Right-click the VM → Snapshots → Manage Snapshots</p>
+</li>
+<li>
+<p>Review the snapshot tree depth</p>
+</li>
+<li>
+<p>If the hierarchy is too deep, consider consolidating or removing unnecessary snapshots before migration</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_vmware_user_access_control_lists_acls"><a class="anchor" href="#_vmware_user_access_control_lists_acls"></a><a class="link" href="#_vmware_user_access_control_lists_acls">2.1.3. VMware User Access Control Lists (ACLs)</a></h4>
+<div class="paragraph">
+<p>To avoid using the Administrator role and in order to be able to connect, parse the vCenter datastore, manipulate the snapshots and migrate virtual machines, OS-Migrate needs the following ACLs for the vCenter user:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 33.3333%;">
+<col style="width: 50.0001%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Category</th>
+<th class="tableblock halign-left valign-top">Privilege Group</th>
+<th class="tableblock halign-left valign-top">Privileges</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Datastore</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">—</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Browse datastore</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Virtual Machine</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Guest operations</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">All</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provisioning</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allow disk access<br>
+Allow file access<br>
+Allow read-only disk access<br>
+Allow virtual machine download</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Service configuration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allow notifications<br>
+Allow polling of global event notifications<br>
+Read service configuration</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Snapshot management</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create snapshot<br>
+Remove snapshot<br>
+Rename snapshot<br>
+Revert to snapshot</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>To verify permissions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In vCenter: Administration → Access Control → Roles</p>
+</li>
+<li>
+<p>Review the assigned role for the migration user</p>
+</li>
+<li>
+<p>Ensure all required privileges are granted</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_change_block_tracking_cbt"><a class="anchor" href="#_change_block_tracking_cbt"></a><a class="link" href="#_change_block_tracking_cbt">2.1.4. Change Block Tracking (CBT)</a></h4>
+<div class="paragraph">
+<p>Change Block Tracking is recommended for near-zero downtime migrations with large disks.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>CBT allows incremental data transfer by tracking changed disk blocks between snapshots,
+significantly reducing downtime during the final synchronization phase.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_enabling_cbt"><a class="anchor" href="#_enabling_cbt"></a><a class="link" href="#_enabling_cbt">Enabling CBT</a></h5>
+<div class="paragraph">
+<p>CBT must be enabled on the virtual machine before migration.</p>
+</div>
+<div class="paragraph">
+<p><strong>Prerequisites for enabling CBT:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>VMware Tools must be installed on the VM (see below)</p>
+</li>
+<li>
+<p>VM must be powered off or a snapshot must be taken for changes to take effect</p>
+</li>
+<li>
+<p>vSphere 4.0 or later</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>To enable CBT:</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Power off the virtual machine (or plan for a snapshot)</p>
+</li>
+<li>
+<p>Edit VM settings and add/modify the following advanced parameters:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ctkEnabled = TRUE</code></p>
+</li>
+<li>
+<p><code>scsi0:0.ctkEnabled = TRUE</code> (for each disk, e.g., scsi0:1, scsi0:2, etc.)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Power on the virtual machine</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Verify CBT is enabled:</strong></p>
+</div>
+<div class="paragraph">
+<p>Via vSphere Web Client:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="c"># Check VM configuration for changeTrackingEnabled parameter</span></code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If CBT is not enabled, OS Migrate will perform a full disk copy in a single pass,
+which may result in longer downtime for VMs with large disks.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_vmware_tools_installation"><a class="anchor" href="#_vmware_tools_installation"></a><a class="link" href="#_vmware_tools_installation">2.1.5. VMware Tools Installation</a></h4>
+<div class="paragraph">
+<p>VMware Tools installation status should be verified before migration.</p>
+</div>
+<div class="paragraph">
+<p><strong>Importance:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>For standard migrations:</strong> Recommended but not mandatory</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Improves guest OS detection and metadata gathering</p>
+</li>
+<li>
+<p>Enables graceful shutdown capabilities</p>
+</li>
+<li>
+<p>Provides better VM customization options post-migration</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>For CBT-based migrations:</strong> Mandatory</p>
+<div class="ulist">
+<ul>
+<li>
+<p>CBT functionality requires VMware Tools to be installed</p>
+</li>
+<li>
+<p>Without VMware Tools, CBT cannot be enabled or used</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>To check VMware Tools status:</strong></p>
+</div>
+<div class="paragraph">
+<p>Via vSphere Client:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Select the VM and check the Summary tab</p>
+</li>
+<li>
+<p>Look for "VMware Tools" status: should show "Running" or "OK"</p>
+</li>
+<li>
+<p>Status of "Not installed" or "Not running" indicates action is needed</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Via PowerCLI:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="powershell"><span class="n">Get-VM</span><span class="w"> </span><span class="err">&lt;</span><span class="nx">vm-name</span><span class="err">&gt;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Select</span><span class="w"> </span><span class="nx">Name</span><span class="p">,</span><span class="w"> </span><span class="p">@{</span><span class="nx">N</span><span class="o">=</span><span class="s1">'Tools Status'</span><span class="p">;</span><span class="nx">E</span><span class="o">=</span><span class="p">{</span><span class="bp">$_</span><span class="o">.</span><span class="nf">ExtensionData</span><span class="o">.</span><span class="nf">Guest</span><span class="o">.</span><span class="nf">ToolsStatus</span><span class="p">}}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>To install VMware Tools:</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In vSphere Client: Right-click the VM → Guest OS → Install VMware Tools</p>
+</li>
+<li>
+<p>Follow the guest OS-specific installation process</p>
+</li>
+<li>
+<p>Verify the installation completes successfully</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Attempting a CBT-based migration without VMware Tools installed will fail.
+Ensure VMware Tools are installed and running before enabling CBT.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_workflow"><a class="anchor" href="#_workflow"></a><a class="link" href="#_workflow">2.2. Workflow</a></h3>
 <div class="paragraph">
 <p>There is different ways to run the migration from VMWare to OpenStack.</p>
 </div>
@@ -687,9 +1024,9 @@ you have big disk or a huge amount of VMs to migrate: the performance are really
 </div>
 </div>
 <div class="sect2">
-<h3 id="_features_and_supported_os"><a class="anchor" href="#_features_and_supported_os"></a><a class="link" href="#_features_and_supported_os">2.2. Features and supported OS</a></h3>
+<h3 id="_features_and_supported_os"><a class="anchor" href="#_features_and_supported_os"></a><a class="link" href="#_features_and_supported_os">2.3. Features and supported OS</a></h3>
 <div class="sect3">
-<h4 id="_features"><a class="anchor" href="#_features"></a><a class="link" href="#_features">2.2.1. Features</a></h4>
+<h4 id="_features"><a class="anchor" href="#_features"></a><a class="link" href="#_features">2.3.1. Features</a></h4>
 <div class="paragraph">
 <p>The following features are availables:</p>
 </div>
@@ -732,7 +1069,7 @@ you have big disk or a huge amount of VMs to migrate: the performance are really
 </div>
 </div>
 <div class="sect3">
-<h4 id="_supported_os"><a class="anchor" href="#_supported_os"></a><a class="link" href="#_supported_os">2.2.2. Supported OS</a></h4>
+<h4 id="_supported_os"><a class="anchor" href="#_supported_os"></a><a class="link" href="#_supported_os">2.3.2. Supported OS</a></h4>
 <div class="paragraph">
 <p>Currently we are supporting the following matrice:</p>
 </div>
@@ -816,7 +1153,7 @@ you have big disk or a huge amount of VMs to migrate: the performance are really
 </table>
 </div>
 <div class="sect3">
-<h4 id="_nbdkit_migration_example"><a class="anchor" href="#_nbdkit_migration_example"></a><a class="link" href="#_nbdkit_migration_example">2.2.3. Nbdkit migration example</a></h4>
+<h4 id="_nbdkit_migration_example"><a class="anchor" href="#_nbdkit_migration_example"></a><a class="link" href="#_nbdkit_migration_example">2.3.3. Nbdkit migration example</a></h4>
 <div class="imageblock">
 <div class="content">
 <img src="images/osm-migration-nbdkit-vmware-workflow-with-osm.drawio.svg" alt="Ndbkit">
@@ -824,7 +1161,7 @@ you have big disk or a huge amount of VMs to migrate: the performance are really
 </div>
 </div>
 <div class="sect3">
-<h4 id="_nbdkit_migration_example_with_the_change_block_tracking"><a class="anchor" href="#_nbdkit_migration_example_with_the_change_block_tracking"></a><a class="link" href="#_nbdkit_migration_example_with_the_change_block_tracking">2.2.4. Nbdkit migration example with the Change Block Tracking</a></h4>
+<h4 id="_nbdkit_migration_example_with_the_change_block_tracking"><a class="anchor" href="#_nbdkit_migration_example_with_the_change_block_tracking"></a><a class="link" href="#_nbdkit_migration_example_with_the_change_block_tracking">2.3.4. Nbdkit migration example with the Change Block Tracking</a></h4>
 <div class="sect4">
 <h5 id="_step_1_the_data_are_copied_and_the_change_id_from_the_vmware_disk_are_set_to_the_cinder_volume_as_metadata"><a class="anchor" href="#_step_1_the_data_are_copied_and_the_change_id_from_the_vmware_disk_are_set_to_the_cinder_volume_as_metadata"></a><a class="link" href="#_step_1_the_data_are_copied_and_the_change_id_from_the_vmware_disk_are_set_to_the_cinder_volume_as_metadata">Step 1: The data are copied and the change ID from the VMware disk are set to the Cinder volume as metadata</a></h5>
 <div class="admonitionblock note">
@@ -1000,7 +1337,7 @@ openstack server add floating ip vmware-conv-host 192.168.18.205</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_usage"><a class="anchor" href="#_usage"></a><a class="link" href="#_usage">2.3. Usage</a></h3>
+<h3 id="_usage"><a class="anchor" href="#_usage"></a><a class="link" href="#_usage">2.4. Usage</a></h3>
 <div class="paragraph">
 <p>You can find a "how to" here, to start from sratch with a container:
 <a href="https://gist.github.com/matbu/003c300fd99ebfbf383729c249e9956f" class="bare">https://gist.github.com/matbu/003c300fd99ebfbf383729c249e9956f</a></p>
@@ -1015,7 +1352,7 @@ ansible-galaxy collection <span class="nb">install </span>os_migrate.vmware_migr
 </div>
 </div>
 <div class="sect3">
-<h4 id="_nbdkit_default"><a class="anchor" href="#_nbdkit_default"></a><a class="link" href="#_nbdkit_default">2.3.1. Nbdkit (default)</a></h4>
+<h4 id="_nbdkit_default"><a class="anchor" href="#_nbdkit_default"></a><a class="link" href="#_nbdkit_default">2.4.1. Nbdkit (default)</a></h4>
 <div class="paragraph">
 <p>Edit vars.yaml file and add our own setting:</p>
 </div>
@@ -1090,7 +1427,7 @@ ansible-galaxy collection <span class="nb">install </span>os_migrate.vmware_migr
 </div>
 </div>
 <div class="sect3">
-<h4 id="_running_migration_from_local_shared_nfs"><a class="anchor" href="#_running_migration_from_local_shared_nfs"></a><a class="link" href="#_running_migration_from_local_shared_nfs">2.3.2. Running migration from local shared NFS</a></h4>
+<h4 id="_running_migration_from_local_shared_nfs"><a class="anchor" href="#_running_migration_from_local_shared_nfs"></a><a class="link" href="#_running_migration_from_local_shared_nfs">2.4.2. Running migration from local shared NFS</a></h4>
 <div class="paragraph">
 <p>OS-Migrate can migrate directly from a local shared directory mounted on the
 conversion host. If the VMware virtual machines are located on an NFS datastore
@@ -1123,7 +1460,7 @@ point as follows:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ansible_configuration"><a class="anchor" href="#_ansible_configuration"></a><a class="link" href="#_ansible_configuration">2.3.3. Ansible configuration</a></h4>
+<h4 id="_ansible_configuration"><a class="anchor" href="#_ansible_configuration"></a><a class="link" href="#_ansible_configuration">2.4.3. Ansible configuration</a></h4>
 <div class="paragraph">
 <p>Create an invenvoty file, and replace the conv_host_ip by the ip address of your
 conversion host:</p>
@@ -1152,7 +1489,7 @@ conversion host:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_running_migration_outside_of_ansible"><a class="anchor" href="#_running_migration_outside_of_ansible"></a><a class="link" href="#_running_migration_outside_of_ansible">2.3.4. Running Migration outside of Ansible</a></h4>
+<h4 id="_running_migration_outside_of_ansible"><a class="anchor" href="#_running_migration_outside_of_ansible"></a><a class="link" href="#_running_migration_outside_of_ansible">2.4.4. Running Migration outside of Ansible</a></h4>
 <div class="paragraph">
 <p>You can also run migration outside of Ansible because the Ansible module are written in Golang.
 The binaries are located in the plugins directory.</p>
@@ -1220,7 +1557,7 @@ Openstack variables:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_ansible_execution_environment_aee_images"><a class="anchor" href="#_ansible_execution_environment_aee_images"></a><a class="link" href="#_ansible_execution_environment_aee_images">2.4. Ansible Execution Environment (AEE) Images</a></h3>
+<h3 id="_ansible_execution_environment_aee_images"><a class="anchor" href="#_ansible_execution_environment_aee_images"></a><a class="link" href="#_ansible_execution_environment_aee_images">2.5. Ansible Execution Environment (AEE) Images</a></h3>
 <div class="paragraph">
 <p>vmware-migration-kit provides a containerized Ansible Execution Environment (AEE) image that encapsulates all necessary dependencies for running migration playbooks in a consistent, isolated environment.They include:</p>
 </div>
@@ -1244,7 +1581,7 @@ Openstack variables:</p>
 <p>This approach ensures consistent behavior across different environments and simplifies deployment and maintenance.</p>
 </div>
 <div class="sect3">
-<h4 id="_using_aee_images"><a class="anchor" href="#_using_aee_images"></a><a class="link" href="#_using_aee_images">2.4.1. Using AEE Images</a></h4>
+<h4 id="_using_aee_images"><a class="anchor" href="#_using_aee_images"></a><a class="link" href="#_using_aee_images">2.5.1. Using AEE Images</a></h4>
 <div class="sect4">
 <h5 id="_running_playbooks_with_aee"><a class="anchor" href="#_running_playbooks_with_aee"></a><a class="link" href="#_running_playbooks_with_aee">Running Playbooks with AEE</a></h5>
 <div class="paragraph">
@@ -1309,7 +1646,7 @@ Openstack variables:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_using_aee_images_with_awx_platform"><a class="anchor" href="#_using_aee_images_with_awx_platform"></a><a class="link" href="#_using_aee_images_with_awx_platform">2.4.2. Using AEE Images with AWX platform</a></h4>
+<h4 id="_using_aee_images_with_awx_platform"><a class="anchor" href="#_using_aee_images_with_awx_platform"></a><a class="link" href="#_using_aee_images_with_awx_platform">2.5.2. Using AEE Images with AWX platform</a></h4>
 <div class="paragraph">
 <p>This allows you to leverage the benefits of AEE—such as consistent execution environments, isolation from host dependencies, and simplified dependency management—while AWX for orchestration and management. For configuring AWX to launch a migration:</p>
 </div>
