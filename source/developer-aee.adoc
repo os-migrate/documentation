@@ -744,6 +744,12 @@ jobs:
 
 === Running Playbooks with AEE
 
+Depending on your use case, you can pull os-migrate or vmware-migration-kit AEE images from Quay:
+
+For os-migrate:
+[source,bash]
+IMAGE=quay.io/os-migrate/os-migrate:latest
+
 Execute os-migrate playbooks using the AEE container:
 
 [source,bash]
@@ -751,8 +757,32 @@ Execute os-migrate playbooks using the AEE container:
 podman run --rm -it \
   -v $(pwd):/runner \
   -v ~/.ssh:/home/runner/.ssh:ro \
-  os-migrate:latest \
+  $IMAGE \
   ansible-playbook -i inventory playbook.yml
+----
+
+For vmware-migration-kit:
+[source,bash]
+IMAGE=quay.io/os-migrate/vmware-migration-kit:stable
+
+Make sure this parameter is set in the vars file to avoid attempting to install requirements that are already pre-packaged in the migration container:
+
+[source,yaml]
+runner_from_aee: true
+
+Execute vmware-migration-kit migration playbooks similarly:
+
+
+[source,bash]
+----
+podman run --rm -it \
+  -v $(pwd):/runner \
+  -v ~/.ssh:/home/runner/.ssh:ro \
+  $IMAGE \
+  ansible-playbook -i /runner/inventory \
+  -e @/runner/vars.yaml \
+  os_migrate.vmware_migration_kit.migration 
+    
 ----
 
 === Interactive Shell Access
@@ -764,7 +794,7 @@ Access the AEE container interactively for debugging:
 podman run --rm -it \
   -v $(pwd):/runner \
   -v ~/.ssh:/home/runner/.ssh:ro \
-  os-migrate:latest \
+  $IMAGE \
   /bin/bash
 ----
 
@@ -776,6 +806,17 @@ Common volume mounts for AEE usage:
 * `~/.ssh:/home/runner/.ssh:ro` - Mount SSH keys (read-only)
 * `~/.config/openstack:/home/runner/.config/openstack:ro` - Mount OpenStack credentials
 * `/path/to/inventory:/runner/inventory:ro` - Mount inventory files
+
+== Using AEE Images with AWX platform
+
+This allows you to leverage the benefits of AEE—such as consistent execution environments, isolation from host dependencies, and simplified dependency management—while AWX for orchestration and management.
+For configuring AWX to launch a migration:
+
+* Create the inventory and add the conversion host
+* Create the execution environment using the desired AEE image (os-migrate or vmware-migration-kit)
+* Create a project that points to the repository containing the migration playbooks
+* Create the job template adding the inventory created before, the project, the execution environment and adding the variables file as extra variables.
+* Run the migration
 
 == AEE Configuration
 
