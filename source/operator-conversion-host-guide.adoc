@@ -69,7 +69,7 @@ The conversion host system consists of two main Ansible roles:
 # Source Cloud Instance
 os_migrate_src_conversion_host_name: os_migrate_conv_src
 
-# Destination Cloud Instance  
+# Destination Cloud Instance
 os_migrate_dst_conversion_host_name: os_migrate_conv_dst
 ----
 
@@ -146,6 +146,20 @@ Source VMware                       Destination Cloud
                                        [External Net]
 ....
 
+=== Network requirements
+
+|===
+| Port / Protocol | Direction | Source / Destination | Purpose
+
+| 443/TCP | Egress | VMware vCenter | Main VMware communication used for authentication, VM metadata, snapshots, and VDDK operations.
+
+| 902/TCP | Egress | VMware ESXi hosts | Direct disk access used to read VM disk data via NFC/NBD protocols.
+
+| 22/TCP | Ingress | Ansible Controller / Admin | Remote management of the conversion host over SSH.
+
+| 10809/TCP | Internal to host | Conversion host | Local NBDKit server used to stream disk data during conversion (no firewall rule required).
+|===
+
 == Configuration
 
 === Required Variables
@@ -163,7 +177,7 @@ os_migrate_conversion_external_network_name: public
 ----
 # Network settings (with defaults)
 os_migrate_conversion_net_name: os_migrate_conv
-os_migrate_conversion_subnet_name: os_migrate_conv  
+os_migrate_conversion_subnet_name: os_migrate_conv
 os_migrate_conversion_subnet_cidr: 192.168.10.0/24
 os_migrate_conversion_subnet_alloc_start: 192.168.10.10
 os_migrate_conversion_subnet_alloc_end: 192.168.10.99
@@ -205,7 +219,7 @@ os_migrate_conversion_host_ssh_user_enable_password_access: false
 
 [source,yaml]
 ----
-# Infrastructure management  
+# Infrastructure management
 os_migrate_conversion_manage_network: true
 os_migrate_conversion_manage_fip: true
 os_migrate_conversion_delete_fip: true
@@ -234,7 +248,7 @@ ansible-playbook os_migrate.os_migrate.deploy_conversion_hosts
 This playbook will:
 
 . Deploy source conversion host infrastructure and instance
-. Deploy destination conversion host infrastructure and instance  
+. Deploy destination conversion host infrastructure and instance
 . Configure SSH linking between hosts
 . Install required software packages
 . Perform health checks
@@ -263,7 +277,7 @@ You can also use the roles directly for more control:
     os_migrate_conversion_host_name: "{{ os_migrate_src_conversion_host_name }}"
     # ... other source-specific variables
 
-# Deploy destination conversion host  
+# Deploy destination conversion host
 - name: Deploy destination conversion host
   include_role:
     name: os_migrate.os_migrate.conversion_host
