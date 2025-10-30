@@ -24,7 +24,7 @@ If a command fails, you can retry with the same command.
 
 include::source/operator-vmware-guide.adoc[leveloffset=+1]
 
-include::source/operator-aee.adoc[leveloffset=+1]
+include::source/operator-aee-vmware.adoc[leveloffset=+1]
 
 include::source/operator-performance-expectations.adoc[leveloffset=+1]
 

@@ -562,95 +562,51 @@ pre.rouge .gs {
 <li><a href="#_welcome_to_os_migrate">1. Welcome to OS Migrate</a></li>
 <li><a href="#os-migrate-vmware-guide_vmware">2. VMware to OpenStack Guide</a>
 <ul class="sectlevel2">
-<li><a href="#_workflow">2.1. Workflow</a></li>
-<li><a href="#_features_and_supported_os">2.2. Features and supported OS</a>
+<li><a href="#_pre_requisites_and_validation_checks">2.1. Pre-requisites and Validation Checks</a>
 <ul class="sectlevel3">
-<li><a href="#_features">2.2.1. Features</a></li>
-<li><a href="#_supported_os">2.2.2. Supported OS</a></li>
-<li><a href="#_nbdkit_migration_example">2.2.3. Nbdkit migration example</a></li>
-<li><a href="#_nbdkit_migration_example_with_the_change_block_tracking">2.2.4. Nbdkit migration example with the Change Block Tracking</a></li>
+<li><a href="#_disk_consolidation">2.1.1. Disk Consolidation</a></li>
+<li><a href="#_snapshot_hierarchy_depth">2.1.2. Snapshot Hierarchy Depth</a></li>
+<li><a href="#_vmware_user_access_control_lists_acls">2.1.3. VMware User Access Control Lists (ACLs)</a></li>
+<li><a href="#_change_block_tracking_cbt">2.1.4. Change Block Tracking (CBT)</a></li>
+<li><a href="#_vmware_tools_installation">2.1.5. VMware Tools Installation</a></li>
 </ul>
 </li>
-<li><a href="#_usage">2.3. Usage</a>
+<li><a href="#_workflow">2.2. Workflow</a></li>
+<li><a href="#_features_and_supported_os">2.3. Features and supported OS</a>
 <ul class="sectlevel3">
-<li><a href="#_nbdkit_default">2.3.1. Nbdkit (default)</a></li>
-<li><a href="#_running_migration_from_local_shared_nfs">2.3.2. Running migration from local shared NFS</a></li>
-<li><a href="#_ansible_configuration">2.3.3. Ansible configuration</a></li>
-<li><a href="#_running_migration_outside_of_ansible">2.3.4. Running Migration outside of Ansible</a></li>
+<li><a href="#_features">2.3.1. Features</a></li>
+<li><a href="#_supported_os">2.3.2. Supported OS</a></li>
+<li><a href="#_nbdkit_migration_example">2.3.3. Nbdkit migration example</a></li>
+<li><a href="#_nbdkit_migration_example_with_the_change_block_tracking">2.3.4. Nbdkit migration example with the Change Block Tracking</a></li>
+</ul>
+</li>
+<li><a href="#_usage">2.4. Usage</a>
+<ul class="sectlevel3">
+<li><a href="#_nbdkit_default">2.4.1. Nbdkit (default)</a></li>
+<li><a href="#_running_migration_from_local_shared_nfs">2.4.2. Running migration from local shared NFS</a></li>
+<li><a href="#_ansible_configuration">2.4.3. Ansible configuration</a></li>
+<li><a href="#_running_migration_outside_of_ansible">2.4.4. Running Migration outside of Ansible</a></li>
+</ul>
+</li>
+<li><a href="#_ansible_execution_environment_aee_images">2.5. Ansible Execution Environment (AEE) Images</a>
+<ul class="sectlevel3">
+<li><a href="#_using_aee_images">2.5.1. Using AEE Images</a></li>
+<li><a href="#_using_aee_images_with_awx_platform">2.5.2. Using AEE Images with AWX platform</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#_ansible_execution_environment_aee_images">3. Ansible Execution Environment (AEE) Images</a>
+<li><a href="#os-migrate-performance-expectations_planning">3. VMware to OpenStack OS Migrate Performance Expectations</a>
 <ul class="sectlevel2">
-<li><a href="#_overview">3.1. Overview</a></li>
-<li><a href="#_available_aee_images">3.2. Available AEE Images</a>
-<ul class="sectlevel3">
-<li><a href="#_os_migrate_aee">3.2.1. os-migrate AEE</a></li>
-<li><a href="#_vmware_migration_kit_aee">3.2.2. vmware-migration-kit AEE</a></li>
+<li><a href="#_table_1">3.1. Table 1</a></li>
+<li><a href="#_table_2">3.2. Table 2</a></li>
+<li><a href="#_table_3">3.3. Table 3</a></li>
+<li><a href="#_table_4">3.4. Table 4</a></li>
+<li><a href="#_conversion_host_requirements_and_recommendations">3.5. Conversion host requirements and recommendations</a></li>
+<li><a href="#_how_to_proceed_with_a_large_workload">3.6. How to proceed with a large workload</a></li>
 </ul>
 </li>
-<li><a href="#_building_aee_images">3.3. Building AEE Images</a>
-<ul class="sectlevel3">
-<li><a href="#_prerequisites">3.3.1. Prerequisites</a></li>
-<li><a href="#_building_os_migrate_aee">3.3.2. Building os-migrate AEE</a></li>
-<li><a href="#_building_vmware_migration_kit_aee">3.3.3. Building vmware-migration-kit AEE</a></li>
-<li><a href="#_automated_build_process">3.3.4. Automated Build Process</a></li>
-<li><a href="#_release_versioning_and_tagging_strategy">3.3.5. Release Versioning and Tagging Strategy</a></li>
-</ul>
-</li>
-<li><a href="#_using_aee_images">3.4. Using AEE Images</a>
-<ul class="sectlevel3">
-<li><a href="#_running_playbooks_with_aee">3.4.1. Running Playbooks with AEE</a></li>
-<li><a href="#_interactive_shell_access">3.4.2. Interactive Shell Access</a></li>
-<li><a href="#_volume_mounts">3.4.3. Volume Mounts</a></li>
-</ul>
-</li>
-<li><a href="#_aee_configuration">3.5. AEE Configuration</a>
-<ul class="sectlevel3">
-<li><a href="#_execution_environment_definition">3.5.1. Execution Environment Definition</a></li>
-<li><a href="#_customizing_aee_images">3.5.2. Customizing AEE Images</a></li>
-</ul>
-</li>
-<li><a href="#_troubleshooting">3.6. Troubleshooting</a>
-<ul class="sectlevel3">
-<li><a href="#_secrets_and_variables_issues">3.6.1. Secrets and Variables Issues</a></li>
-<li><a href="#_debugging_aee_issues">3.6.2. Debugging AEE Issues</a></li>
-<li><a href="#_performance_optimization">3.6.3. Performance Optimization</a></li>
-</ul>
-</li>
-<li><a href="#_maintenance">3.7. Maintenance</a>
-<ul class="sectlevel3">
-<li><a href="#_updating_aee_images">3.7.1. Updating AEE Images</a></li>
-<li><a href="#_version_management">3.7.2. Version Management</a></li>
-<li><a href="#_security_considerations">3.7.3. Security Considerations</a></li>
-</ul>
-</li>
-<li><a href="#_best_practices">3.8. Best Practices</a>
-<ul class="sectlevel3">
-<li><a href="#_development_workflow">3.8.1. Development Workflow</a></li>
-<li><a href="#_production_usage">3.8.2. Production Usage</a></li>
-<li><a href="#_documentation">3.8.3. Documentation</a></li>
-</ul>
-</li>
-<li><a href="#_todo">3.9. TODO</a>
-<ul class="sectlevel3">
-<li><a href="#_collection_installation_improvements">3.9.1. Collection Installation Improvements</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#os-migrate-performance-expectations_planning">4. VMware to OpenStack OS Migrate Performance Expectations</a>
-<ul class="sectlevel2">
-<li><a href="#_table_1">4.1. Table 1</a></li>
-<li><a href="#_table_2">4.2. Table 2</a></li>
-<li><a href="#_table_3">4.3. Table 3</a></li>
-<li><a href="#_table_4">4.4. Table 4</a></li>
-<li><a href="#_conversion_host_requirements_and_recommendations">4.5. Conversion host requirements and recommendations</a></li>
-<li><a href="#_how_to_proceed_with_a_large_workload">4.6. How to proceed with a large workload</a></li>
-</ul>
-</li>
-<li><a href="#_community">5. Community</a></li>
+<li><a href="#_community">4. Community</a></li>
 </ul>
 </div>
 </div>
@@ -713,7 +669,335 @@ machine migration in two steps. The migration can also be done without conversio
 </ul>
 </div>
 <div class="sect2">
-<h3 id="_workflow"><a class="anchor" href="#_workflow"></a><a class="link" href="#_workflow">2.1. Workflow</a></h3>
+<h3 id="_pre_requisites_and_validation_checks"><a class="anchor" href="#_pre_requisites_and_validation_checks"></a><a class="link" href="#_pre_requisites_and_validation_checks">2.1. Pre-requisites and Validation Checks</a></h3>
+<div class="paragraph">
+<p>Before migrating VMware workloads to OpenStack, ensure the following pre-requisites are met.
+These checks are based on issues encountered in real-world migration engagements.</p>
+</div>
+<div class="sect3">
+<h4 id="_disk_consolidation"><a class="anchor" href="#_disk_consolidation"></a><a class="link" href="#_disk_consolidation">2.1.1. Disk Consolidation</a></h4>
+<div class="paragraph">
+<p>Ensure that all virtual machine disks are consolidated before migration.</p>
+</div>
+<div class="paragraph">
+<p>Virtual machines with unconsolidated disks may fail during migration or result in data inconsistencies.
+Disk consolidation merges redundant delta disks created by snapshots back into the base disk.</p>
+</div>
+<div class="paragraph">
+<p>To check if disks need consolidation:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In vSphere Client, check the VM summary tab for "Consolidation needed" warnings</p>
+</li>
+<li>
+<p>Via PowerCLI: <code>Get-VM | Where-Object {$_.ExtensionData.Runtime.ConsolidationNeeded}</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To consolidate disks:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In vSphere Client: Right-click the VM → Snapshots → Consolidate</p>
+</li>
+<li>
+<p>Ensure the operation completes successfully before proceeding with migration</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_snapshot_hierarchy_depth"><a class="anchor" href="#_snapshot_hierarchy_depth"></a><a class="link" href="#_snapshot_hierarchy_depth">2.1.2. Snapshot Hierarchy Depth</a></h4>
+<div class="paragraph">
+<p>Verify that the snapshot hierarchy.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In vSphere Client: Right-click the VM → Snapshots → Manage Snapshots</p>
+</li>
+<li>
+<p>Review the snapshot tree depth</p>
+</li>
+<li>
+<p>If the hierarchy is too deep, consider consolidating or removing unnecessary snapshots before migration</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_vmware_user_access_control_lists_acls"><a class="anchor" href="#_vmware_user_access_control_lists_acls"></a><a class="link" href="#_vmware_user_access_control_lists_acls">2.1.3. VMware User Access Control Lists (ACLs)</a></h4>
+<div class="paragraph">
+<p>To avoid using the Administrator role and in order to be able to connect, parse the vCenter datastore, manipulate the snapshots and migrate virtual machines, OS-Migrate needs the following ACLs for the vCenter user:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 33.3333%;">
+<col style="width: 50.0001%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Category</th>
+<th class="tableblock halign-left valign-top">Privilege Group</th>
+<th class="tableblock halign-left valign-top">Privileges</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Datastore</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">—</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Browse datastore</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Virtual Machine</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Guest operations</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">All</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provisioning</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allow disk access<br>
+Allow file access<br>
+Allow read-only disk access<br>
+Allow virtual machine download</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Service configuration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allow notifications<br>
+Allow polling of global event notifications<br>
+Read service configuration</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Snapshot management</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create snapshot<br>
+Remove snapshot<br>
+Rename snapshot<br>
+Revert to snapshot</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>To verify permissions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In vCenter: Administration → Access Control → Roles</p>
+</li>
+<li>
+<p>Review the assigned role for the migration user</p>
+</li>
+<li>
+<p>Ensure all required privileges are granted</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_change_block_tracking_cbt"><a class="anchor" href="#_change_block_tracking_cbt"></a><a class="link" href="#_change_block_tracking_cbt">2.1.4. Change Block Tracking (CBT)</a></h4>
+<div class="paragraph">
+<p>Change Block Tracking is recommended for near-zero downtime migrations with large disks.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>CBT allows incremental data transfer by tracking changed disk blocks between snapshots,
+significantly reducing downtime during the final synchronization phase.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_enabling_cbt"><a class="anchor" href="#_enabling_cbt"></a><a class="link" href="#_enabling_cbt">Enabling CBT</a></h5>
+<div class="paragraph">
+<p>CBT must be enabled on the virtual machine before migration.</p>
+</div>
+<div class="paragraph">
+<p><strong>Prerequisites for enabling CBT:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>VMware Tools must be installed on the VM (see below)</p>
+</li>
+<li>
+<p>VM must be powered off or a snapshot must be taken for changes to take effect</p>
+</li>
+<li>
+<p>vSphere 4.0 or later</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>To enable CBT:</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Power off the virtual machine (or plan for a snapshot)</p>
+</li>
+<li>
+<p>Edit VM settings and add/modify the following advanced parameters:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ctkEnabled = TRUE</code></p>
+</li>
+<li>
+<p><code>scsi0:0.ctkEnabled = TRUE</code> (for each disk, e.g., scsi0:1, scsi0:2, etc.)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Power on the virtual machine</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Verify CBT is enabled:</strong></p>
+</div>
+<div class="paragraph">
+<p>Via vSphere Web Client:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="c"># Check VM configuration for changeTrackingEnabled parameter</span></code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If CBT is not enabled, OS Migrate will perform a full disk copy in a single pass,
+which may result in longer downtime for VMs with large disks.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_vmware_tools_installation"><a class="anchor" href="#_vmware_tools_installation"></a><a class="link" href="#_vmware_tools_installation">2.1.5. VMware Tools Installation</a></h4>
+<div class="paragraph">
+<p>VMware Tools installation status should be verified before migration.</p>
+</div>
+<div class="paragraph">
+<p><strong>Importance:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>For standard migrations:</strong> Recommended but not mandatory</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Improves guest OS detection and metadata gathering</p>
+</li>
+<li>
+<p>Enables graceful shutdown capabilities</p>
+</li>
+<li>
+<p>Provides better VM customization options post-migration</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>For CBT-based migrations:</strong> Mandatory</p>
+<div class="ulist">
+<ul>
+<li>
+<p>CBT functionality requires VMware Tools to be installed</p>
+</li>
+<li>
+<p>Without VMware Tools, CBT cannot be enabled or used</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>To check VMware Tools status:</strong></p>
+</div>
+<div class="paragraph">
+<p>Via vSphere Client:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Select the VM and check the Summary tab</p>
+</li>
+<li>
+<p>Look for "VMware Tools" status: should show "Running" or "OK"</p>
+</li>
+<li>
+<p>Status of "Not installed" or "Not running" indicates action is needed</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Via PowerCLI:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="powershell"><span class="n">Get-VM</span><span class="w"> </span><span class="err">&lt;</span><span class="nx">vm-name</span><span class="err">&gt;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Select</span><span class="w"> </span><span class="nx">Name</span><span class="p">,</span><span class="w"> </span><span class="p">@{</span><span class="nx">N</span><span class="o">=</span><span class="s1">'Tools Status'</span><span class="p">;</span><span class="nx">E</span><span class="o">=</span><span class="p">{</span><span class="bp">$_</span><span class="o">.</span><span class="nf">ExtensionData</span><span class="o">.</span><span class="nf">Guest</span><span class="o">.</span><span class="nf">ToolsStatus</span><span class="p">}}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>To install VMware Tools:</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In vSphere Client: Right-click the VM → Guest OS → Install VMware Tools</p>
+</li>
+<li>
+<p>Follow the guest OS-specific installation process</p>
+</li>
+<li>
+<p>Verify the installation completes successfully</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Attempting a CBT-based migration without VMware Tools installed will fail.
+Ensure VMware Tools are installed and running before enabling CBT.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_workflow"><a class="anchor" href="#_workflow"></a><a class="link" href="#_workflow">2.2. Workflow</a></h3>
 <div class="paragraph">
 <p>There is different ways to run the migration from VMWare to OpenStack.</p>
 </div>
@@ -740,9 +1024,9 @@ you have big disk or a huge amount of VMs to migrate: the performance are really
 </div>
 </div>
 <div class="sect2">
-<h3 id="_features_and_supported_os"><a class="anchor" href="#_features_and_supported_os"></a><a class="link" href="#_features_and_supported_os">2.2. Features and supported OS</a></h3>
+<h3 id="_features_and_supported_os"><a class="anchor" href="#_features_and_supported_os"></a><a class="link" href="#_features_and_supported_os">2.3. Features and supported OS</a></h3>
 <div class="sect3">
-<h4 id="_features"><a class="anchor" href="#_features"></a><a class="link" href="#_features">2.2.1. Features</a></h4>
+<h4 id="_features"><a class="anchor" href="#_features"></a><a class="link" href="#_features">2.3.1. Features</a></h4>
 <div class="paragraph">
 <p>The following features are availables:</p>
 </div>
@@ -785,7 +1069,7 @@ you have big disk or a huge amount of VMs to migrate: the performance are really
 </div>
 </div>
 <div class="sect3">
-<h4 id="_supported_os"><a class="anchor" href="#_supported_os"></a><a class="link" href="#_supported_os">2.2.2. Supported OS</a></h4>
+<h4 id="_supported_os"><a class="anchor" href="#_supported_os"></a><a class="link" href="#_supported_os">2.3.2. Supported OS</a></h4>
 <div class="paragraph">
 <p>Currently we are supporting the following matrice:</p>
 </div>
@@ -869,7 +1153,7 @@ you have big disk or a huge amount of VMs to migrate: the performance are really
 </table>
 </div>
 <div class="sect3">
-<h4 id="_nbdkit_migration_example"><a class="anchor" href="#_nbdkit_migration_example"></a><a class="link" href="#_nbdkit_migration_example">2.2.3. Nbdkit migration example</a></h4>
+<h4 id="_nbdkit_migration_example"><a class="anchor" href="#_nbdkit_migration_example"></a><a class="link" href="#_nbdkit_migration_example">2.3.3. Nbdkit migration example</a></h4>
 <div class="imageblock">
 <div class="content">
 <img src="images/osm-migration-nbdkit-vmware-workflow-with-osm.drawio.svg" alt="Ndbkit">
@@ -877,7 +1161,7 @@ you have big disk or a huge amount of VMs to migrate: the performance are really
 </div>
 </div>
 <div class="sect3">
-<h4 id="_nbdkit_migration_example_with_the_change_block_tracking"><a class="anchor" href="#_nbdkit_migration_example_with_the_change_block_tracking"></a><a class="link" href="#_nbdkit_migration_example_with_the_change_block_tracking">2.2.4. Nbdkit migration example with the Change Block Tracking</a></h4>
+<h4 id="_nbdkit_migration_example_with_the_change_block_tracking"><a class="anchor" href="#_nbdkit_migration_example_with_the_change_block_tracking"></a><a class="link" href="#_nbdkit_migration_example_with_the_change_block_tracking">2.3.4. Nbdkit migration example with the Change Block Tracking</a></h4>
 <div class="sect4">
 <h5 id="_step_1_the_data_are_copied_and_the_change_id_from_the_vmware_disk_are_set_to_the_cinder_volume_as_metadata"><a class="anchor" href="#_step_1_the_data_are_copied_and_the_change_id_from_the_vmware_disk_are_set_to_the_cinder_volume_as_metadata"></a><a class="link" href="#_step_1_the_data_are_copied_and_the_change_id_from_the_vmware_disk_are_set_to_the_cinder_volume_as_metadata">Step 1: The data are copied and the change ID from the VMware disk are set to the Cinder volume as metadata</a></h5>
 <div class="admonitionblock note">
@@ -1053,7 +1337,7 @@ openstack server add floating ip vmware-conv-host 192.168.18.205</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_usage"><a class="anchor" href="#_usage"></a><a class="link" href="#_usage">2.3. Usage</a></h3>
+<h3 id="_usage"><a class="anchor" href="#_usage"></a><a class="link" href="#_usage">2.4. Usage</a></h3>
 <div class="paragraph">
 <p>You can find a "how to" here, to start from sratch with a container:
 <a href="https://gist.github.com/matbu/003c300fd99ebfbf383729c249e9956f" class="bare">https://gist.github.com/matbu/003c300fd99ebfbf383729c249e9956f</a></p>
@@ -1068,7 +1352,7 @@ ansible-galaxy collection <span class="nb">install </span>os_migrate.vmware_migr
 </div>
 </div>
 <div class="sect3">
-<h4 id="_nbdkit_default"><a class="anchor" href="#_nbdkit_default"></a><a class="link" href="#_nbdkit_default">2.3.1. Nbdkit (default)</a></h4>
+<h4 id="_nbdkit_default"><a class="anchor" href="#_nbdkit_default"></a><a class="link" href="#_nbdkit_default">2.4.1. Nbdkit (default)</a></h4>
 <div class="paragraph">
 <p>Edit vars.yaml file and add our own setting:</p>
 </div>
@@ -1143,7 +1427,7 @@ ansible-galaxy collection <span class="nb">install </span>os_migrate.vmware_migr
 </div>
 </div>
 <div class="sect3">
-<h4 id="_running_migration_from_local_shared_nfs"><a class="anchor" href="#_running_migration_from_local_shared_nfs"></a><a class="link" href="#_running_migration_from_local_shared_nfs">2.3.2. Running migration from local shared NFS</a></h4>
+<h4 id="_running_migration_from_local_shared_nfs"><a class="anchor" href="#_running_migration_from_local_shared_nfs"></a><a class="link" href="#_running_migration_from_local_shared_nfs">2.4.2. Running migration from local shared NFS</a></h4>
 <div class="paragraph">
 <p>OS-Migrate can migrate directly from a local shared directory mounted on the
 conversion host. If the VMware virtual machines are located on an NFS datastore
@@ -1176,7 +1460,7 @@ point as follows:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ansible_configuration"><a class="anchor" href="#_ansible_configuration"></a><a class="link" href="#_ansible_configuration">2.3.3. Ansible configuration</a></h4>
+<h4 id="_ansible_configuration"><a class="anchor" href="#_ansible_configuration"></a><a class="link" href="#_ansible_configuration">2.4.3. Ansible configuration</a></h4>
 <div class="paragraph">
 <p>Create an invenvoty file, and replace the conv_host_ip by the ip address of your
 conversion host:</p>
@@ -1205,7 +1489,7 @@ conversion host:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_running_migration_outside_of_ansible"><a class="anchor" href="#_running_migration_outside_of_ansible"></a><a class="link" href="#_running_migration_outside_of_ansible">2.3.4. Running Migration outside of Ansible</a></h4>
+<h4 id="_running_migration_outside_of_ansible"><a class="anchor" href="#_running_migration_outside_of_ansible"></a><a class="link" href="#_running_migration_outside_of_ansible">2.4.4. Running Migration outside of Ansible</a></h4>
 <div class="paragraph">
 <p>You can also run migration outside of Ansible because the Ansible module are written in Golang.
 The binaries are located in the plugins directory.</p>
@@ -1272,45 +1556,10 @@ Openstack variables:</p>
 </div>
 </div>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_ansible_execution_environment_aee_images"><a class="anchor" href="#_ansible_execution_environment_aee_images"></a><a class="link" href="#_ansible_execution_environment_aee_images">3. Ansible Execution Environment (AEE) Images</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>os-migrate and vmware-migration-kit provide containerized Ansible Execution Environment (AEE) images that encapsulate all necessary dependencies for running migration playbooks in a consistent, isolated environment.</p>
-</div>
 <div class="sect2">
-<h3 id="_overview"><a class="anchor" href="#_overview"></a><a class="link" href="#_overview">3.1. Overview</a></h3>
+<h3 id="_ansible_execution_environment_aee_images"><a class="anchor" href="#_ansible_execution_environment_aee_images"></a><a class="link" href="#_ansible_execution_environment_aee_images">2.5. Ansible Execution Environment (AEE) Images</a></h3>
 <div class="paragraph">
-<p>Ansible Execution Environments are container images that provide a standardized runtime environment for Ansible automation. They include:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Ansible Core and Ansible Runner</p>
-</li>
-<li>
-<p>Python runtime and required packages</p>
-</li>
-<li>
-<p>os-migrate and vmware-migration-kit collections</p>
-</li>
-<li>
-<p>All necessary dependencies and tools</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>This approach ensures consistent behavior across different environments and simplifies deployment and maintenance.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_available_aee_images"><a class="anchor" href="#_available_aee_images"></a><a class="link" href="#_available_aee_images">3.2. Available AEE Images</a></h3>
-<div class="sect3">
-<h4 id="_os_migrate_aee"><a class="anchor" href="#_os_migrate_aee"></a><a class="link" href="#_os_migrate_aee">3.2.1. os-migrate AEE</a></h4>
-<div class="paragraph">
-<p>The os-migrate AEE image contains:</p>
+<p>vmware-migration-kit provides a containerized Ansible Execution Environment (AEE) image that encapsulates all necessary dependencies for running migration playbooks in a consistent, isolated environment.They include:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1328,986 +1577,60 @@ Openstack variables:</p>
 </li>
 </ul>
 </div>
+<div class="paragraph">
+<p>This approach ensures consistent behavior across different environments and simplifies deployment and maintenance.</p>
 </div>
 <div class="sect3">
-<h4 id="_vmware_migration_kit_aee"><a class="anchor" href="#_vmware_migration_kit_aee"></a><a class="link" href="#_vmware_migration_kit_aee">3.2.2. vmware-migration-kit AEE</a></h4>
-<div class="paragraph">
-<p>The vmware-migration-kit AEE image contains:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Ansible Core</p>
-</li>
-<li>
-<p>vmware-migration-kit Ansible collection</p>
-</li>
-<li>
-<p>VMware SDK and related Python packages</p>
-</li>
-<li>
-<p>All required dependencies for VMware to OpenStack migration</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_building_aee_images"><a class="anchor" href="#_building_aee_images"></a><a class="link" href="#_building_aee_images">3.3. Building AEE Images</a></h3>
-<div class="sect3">
-<h4 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a><a class="link" href="#_prerequisites">3.3.1. Prerequisites</a></h4>
-<div class="paragraph">
-<p>Before building AEE images, ensure you have the following tools installed:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>ansible-builder</code> - Tool for building execution environments</p>
-</li>
-<li>
-<p><code>podman</code> or <code>docker</code> - Container runtime</p>
-</li>
-<li>
-<p><code>git</code> - Version control system</p>
-</li>
-<li>
-<p><code>python3</code> - Python runtime (version 3.8 or higher)</p>
-</li>
-</ul>
-</div>
+<h4 id="_using_aee_images"><a class="anchor" href="#_using_aee_images"></a><a class="link" href="#_using_aee_images">2.5.1. Using AEE Images</a></h4>
 <div class="sect4">
-<h5 id="_setting_up_a_virtual_environment"><a class="anchor" href="#_setting_up_a_virtual_environment"></a><a class="link" href="#_setting_up_a_virtual_environment">Setting Up a Virtual Environment</a></h5>
+<h5 id="_running_playbooks_with_aee"><a class="anchor" href="#_running_playbooks_with_aee"></a><a class="link" href="#_running_playbooks_with_aee">Running Playbooks with AEE</a></h5>
 <div class="paragraph">
-<p>It&#8217;s recommended to use a Python virtual environment to isolate dependencies and avoid conflicts with system packages.</p>
-</div>
-<div class="paragraph">
-<p>Create and activate a virtual environment:</p>
+<p>AEE images are distributed in Quay; use the following command to pull the latest stable image:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="rouge highlight"><code data-lang="bash"><span class="c"># Create virtual environment</span>
-python3 <span class="nt">-m</span> venv .venv
-
-<span class="c"># Activate virtual environment (Linux/macOS)</span>
-<span class="nb">source</span> .venv/bin/activate
-
-<span class="c"># Activate virtual environment (Windows)</span>
-.venv<span class="se">\S</span>cripts<span class="se">\a</span>ctivate</code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_installing_dependencies"><a class="anchor" href="#_installing_dependencies"></a><a class="link" href="#_installing_dependencies">Installing Dependencies</a></h5>
-<div class="paragraph">
-<p>Install the required dependencies using the project-specific requirements files:</p>
-</div>
-<div class="paragraph">
-<p><strong>For os-migrate:</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="bash"><span class="c"># Clone the repository</span>
-git clone https://github.com/os-migrate/os-migrate.git
-<span class="nb">cd </span>os-migrate
-
-<span class="c"># Create and activate virtual environment</span>
-python3 <span class="nt">-m</span> venv .venv
-<span class="nb">source</span> .venv/bin/activate
-
-<span class="c"># Install build dependencies</span>
-pip <span class="nb">install</span> <span class="nt">-r</span> requirements-build.txt</code></pre>
+<pre class="rouge highlight"><code data-lang="bash">podman pull quay.io/os-migrate/vmware-migration-kit:stable</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><strong>For vmware-migration-kit:</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="bash"><span class="c"># Clone the repository</span>
-git clone https://github.com/os-migrate/vmware-migration-kit.git
-<span class="nb">cd </span>vmware-migration-kit
-
-<span class="c"># Create and activate virtual environment</span>
-python3 <span class="nt">-m</span> venv .venv
-<span class="nb">source</span> .venv/bin/activate
-
-<span class="c"># Install build dependencies</span>
-pip <span class="nb">install</span> <span class="nt">-r</span> requirements-build.txt</code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_requirements_files"><a class="anchor" href="#_requirements_files"></a><a class="link" href="#_requirements_files">Requirements Files</a></h5>
-<div class="paragraph">
-<p>Both repositories provide <code>requirements-build.txt</code> files that contain all necessary dependencies for building AEE images:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>os-migrate requirements</strong>: <a href="https://github.com/os-migrate/os-migrate/blob/main/requirements-build.txt" class="bare">https://github.com/os-migrate/os-migrate/blob/main/requirements-build.txt</a></p>
-</li>
-<li>
-<p><strong>vmware-migration-kit requirements</strong>: <a href="https://github.com/os-migrate/vmware-migration-kit/blob/main/requirements-build.txt" class="bare">https://github.com/os-migrate/vmware-migration-kit/blob/main/requirements-build.txt</a></p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>These files include:
-* <code>ansible-builder</code> - Core tool for building execution environments
-* <code>ansible-core</code> - Ansible runtime
-* <code>ansible-runner</code> - Execution environment runner
-* Additional Python packages required for the build process</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_collection_requirements_in_aee"><a class="anchor" href="#_collection_requirements_in_aee"></a><a class="link" href="#_collection_requirements_in_aee">Collection Requirements in AEE</a></h5>
-<div class="paragraph">
-<p>The AEE images use <code>requirements.yml</code> files to specify which Ansible collections to install. The collection installation method depends on the build context:</p>
-</div>
-<div class="paragraph">
-<p><strong>For main branch builds (development):</strong></p>
-</div>
-<div class="paragraph">
-<p>Install collections directly from Git repositories using the main branch:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># requirements.yml for main branch builds</span>
-<span class="na">collections</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">https://github.com/os-migrate/os-migrate.git</span>
-    <span class="na">type</span><span class="pi">:</span> <span class="s">git</span>
-    <span class="na">version</span><span class="pi">:</span> <span class="s">main</span>
-  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">https://github.com/os-migrate/vmware-migration-kit.git</span>
-    <span class="na">type</span><span class="pi">:</span> <span class="s">git</span>
-    <span class="na">version</span><span class="pi">:</span> <span class="s">main</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><strong>For stable/tagged builds (production):</strong></p>
-</div>
-<div class="paragraph">
-<p>Install collections from Ansible Galaxy using specific version tags:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># requirements.yml for stable/tagged builds</span>
-<span class="na">collections</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">os_migrate.os_migrate</span>
-    <span class="na">version</span><span class="pi">:</span> <span class="s2">"</span><span class="s">1.0.1"</span>
-  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">os_migrate.vmware_migration_kit</span>
-    <span class="na">version</span><span class="pi">:</span> <span class="s2">"</span><span class="s">2.0.4"</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><strong>Benefits of this approach:</strong></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Main branch builds</strong>: Always get the latest development code with latest features and fixes</p>
-</li>
-<li>
-<p><strong>Stable builds</strong>: Use tested, released versions for production stability</p>
-</li>
-<li>
-<p><strong>Version consistency</strong>: AEE image tags match the collection versions they contain</p>
-</li>
-<li>
-<p><strong>Reproducible builds</strong>: Same collection versions produce identical AEE images</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_alternative_installation_methods"><a class="anchor" href="#_alternative_installation_methods"></a><a class="link" href="#_alternative_installation_methods">Alternative Installation Methods</a></h5>
-<div class="paragraph">
-<p>If you prefer not to use virtual environments, you can install ansible-builder globally:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="bash"><span class="c"># Install ansible-builder globally</span>
-pip <span class="nb">install </span>ansible-builder
-
-<span class="c"># Or install from requirements file</span>
-pip <span class="nb">install</span> <span class="nt">-r</span> requirements-build.txt</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><strong>Note</strong>: Global installation may cause dependency conflicts with other Python projects on your system.</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_virtual_environment_management"><a class="anchor" href="#_virtual_environment_management"></a><a class="link" href="#_virtual_environment_management">Virtual Environment Management</a></h5>
-<div class="paragraph">
-<p>After completing your work, you can deactivate the virtual environment:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="bash"><span class="c"># Deactivate virtual environment</span>
-deactivate</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>To reactivate the virtual environment in future sessions:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="bash"><span class="c"># Navigate to the project directory</span>
-<span class="nb">cd</span> /path/to/os-migrate  <span class="c"># or vmware-migration-kit</span>
-
-<span class="c"># Activate the virtual environment</span>
-<span class="nb">source</span> .venv/bin/activate</code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_troubleshooting_virtual_environment_issues"><a class="anchor" href="#_troubleshooting_virtual_environment_issues"></a><a class="link" href="#_troubleshooting_virtual_environment_issues">Troubleshooting Virtual Environment Issues</a></h5>
-<div class="dlist">
-<dl>
-<dt class="hdlist1"><strong>Virtual environment not found</strong></dt>
-<dd>
-<p>Ensure you&#8217;re in the correct directory and the virtual environment was created successfully.</p>
-</dd>
-<dt class="hdlist1"><strong>Permission denied</strong></dt>
-<dd>
-<p>On some systems, you may need to use <code>python3</code> instead of <code>python</code> to create the virtual environment.</p>
-</dd>
-<dt class="hdlist1"><strong>Dependencies not found</strong></dt>
-<dd>
-<p>Make sure the virtual environment is activated before installing dependencies or building AEE images.</p>
-</dd>
-</dl>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="bash"><span class="c"># Check if virtual environment is active</span>
-<span class="nb">echo</span> <span class="nv">$VIRTUAL_ENV</span>
-
-<span class="c"># Verify ansible-builder is installed</span>
-which ansible-builder
-ansible-builder <span class="nt">--version</span></code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_building_os_migrate_aee"><a class="anchor" href="#_building_os_migrate_aee"></a><a class="link" href="#_building_os_migrate_aee">3.3.2. Building os-migrate AEE</a></h4>
-<div class="paragraph">
-<p>Navigate to the os-migrate repository and build the AEE:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="bash"><span class="c"># Navigate to the repository</span>
-<span class="nb">cd</span> /path/to/os-migrate
-
-<span class="c"># Activate virtual environment (if using one)</span>
-<span class="nb">source</span> .venv/bin/activate
-
-<span class="c"># Navigate to AEE directory</span>
-<span class="nb">cd </span>aee
-
-<span class="c"># Build the AEE image</span>
-ansible-builder build <span class="nt">--tag</span> os-migrate:latest</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_building_vmware_migration_kit_aee"><a class="anchor" href="#_building_vmware_migration_kit_aee"></a><a class="link" href="#_building_vmware_migration_kit_aee">3.3.3. Building vmware-migration-kit AEE</a></h4>
-<div class="paragraph">
-<p>Navigate to the vmware-migration-kit repository and build the AEE:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="bash"><span class="c"># Navigate to the repository</span>
-<span class="nb">cd</span> /path/to/vmware-migration-kit
-
-<span class="c"># Activate virtual environment (if using one)</span>
-<span class="nb">source</span> .venv/bin/activate
-
-<span class="c"># Navigate to AEE directory</span>
-<span class="nb">cd </span>aee
-
-<span class="c"># Build the AEE image</span>
-ansible-builder build <span class="nt">--tag</span> vmware-migration-kit:latest</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_automated_build_process"><a class="anchor" href="#_automated_build_process"></a><a class="link" href="#_automated_build_process">3.3.4. Automated Build Process</a></h4>
-<div class="paragraph">
-<p>Both repositories include GitHub Actions workflows that automatically build and test AEE images:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>os-migrate/.github/workflows/build-aee.yml</code></p>
-</li>
-<li>
-<p><code>vmware-migration-kit/.github/workflows/build-aee.yml</code></p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>These workflows:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Trigger on pushes to main branch and pull requests</p>
-</li>
-<li>
-<p>Build the AEE image using ansible-builder</p>
-</li>
-<li>
-<p>Run basic validation tests</p>
-</li>
-<li>
-<p>Push images to container registries (when configured)</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_release_versioning_and_tagging_strategy"><a class="anchor" href="#_release_versioning_and_tagging_strategy"></a><a class="link" href="#_release_versioning_and_tagging_strategy">3.3.5. Release Versioning and Tagging Strategy</a></h4>
-<div class="paragraph">
-<p>The GitHub Actions workflows implement a sophisticated versioning strategy for AEE images:</p>
-</div>
-<div class="sect4">
-<h5 id="_main_branch_builds"><a class="anchor" href="#_main_branch_builds"></a><a class="link" href="#_main_branch_builds">Main Branch Builds</a></h5>
-<div class="paragraph">
-<p>Images built from the <code>main</code> branch are tagged as <code>latest</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># When building from main branch</span>
-<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Build and push AEE image</span>
-  <span class="na">if</span><span class="pi">:</span> <span class="s">github.ref == 'refs/heads/main'</span>
-  <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
-    <span class="s">ansible-builder build --tag ${{ github.repository }}:latest</span>
-    <span class="s">podman push ${{ github.repository }}:latest</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_tag_based_builds"><a class="anchor" href="#_tag_based_builds"></a><a class="link" href="#_tag_based_builds">Tag-based Builds</a></h5>
-<div class="paragraph">
-<p>When building from Git tags, images receive multiple tags for maximum compatibility:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># When building from tags</span>
-<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Build and push AEE image with version tags</span>
-  <span class="na">if</span><span class="pi">:</span> <span class="s">startsWith(github.ref, 'refs/tags/')</span>
-  <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
-    <span class="s">TAG_VERSION=${GITHUB_REF#refs/tags/}</span>
-    <span class="s">ansible-builder build --tag ${{ github.repository }}:$TAG_VERSION</span>
-    <span class="s">ansible-builder build --tag ${{ github.repository }}:stable</span>
-
-    <span class="s">podman push ${{ github.repository }}:$TAG_VERSION</span>
-    <span class="s">podman push ${{ github.repository }}:stable</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_tagging_strategy"><a class="anchor" href="#_tagging_strategy"></a><a class="link" href="#_tagging_strategy">Tagging Strategy</a></h5>
-<div class="paragraph">
-<p>The versioning strategy follows these rules:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>latest</code> - Always points to the most recent build from <code>main</code> branch</p>
-</li>
-<li>
-<p><code>stable</code> - Points to the most recent tagged release (production-ready)</p>
-</li>
-<li>
-<p><code>1.2.3</code> - Version without 'v' prefix for compatibility</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_usage_examples"><a class="anchor" href="#_usage_examples"></a><a class="link" href="#_usage_examples">Usage Examples</a></h5>
-<div class="paragraph">
-<p>Use the appropriate tag based on your requirements:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="bash"><span class="c"># Use latest development version</span>
-podman run <span class="nt">--rm</span> os-migrate:latest ansible <span class="nt">--version</span>
-
-<span class="c"># Use latest stable release</span>
-podman run <span class="nt">--rm</span> os-migrate:stable ansible <span class="nt">--version</span>
-
-<span class="c"># Use specific version</span>
-podman run <span class="nt">--rm</span> os-migrate:1.2.3 ansible <span class="nt">--version</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_workflow_triggers"><a class="anchor" href="#_workflow_triggers"></a><a class="link" href="#_workflow_triggers">Workflow Triggers</a></h5>
-<div class="paragraph">
-<p>The GitHub Actions workflows are triggered by:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>push</code> to <code>main</code> branch → builds <code>latest</code> tag</p>
-</li>
-<li>
-<p><code>push</code> of tags → builds version-specific and <code>stable</code> tags</p>
-</li>
-<li>
-<p><code>pull_request</code> to <code>main</code> → builds and tests (no push to registry)</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_registry_configuration"><a class="anchor" href="#_registry_configuration"></a><a class="link" href="#_registry_configuration">Registry Configuration</a></h5>
-<div class="paragraph">
-<p>Configure the container registry in the workflow using environment variables and secrets:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="na">env</span><span class="pi">:</span>
-  <span class="na">REGISTRY</span><span class="pi">:</span> <span class="s">quay.io</span>
-  <span class="na">IMAGE_NAME</span><span class="pi">:</span> <span class="s">os-migrate/os-migrate</span>
-
-<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Login to Container Registry</span>
-  <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
-    <span class="s">podman login -u ${{ secrets.REGISTRY_USERNAME }} \</span>
-                 <span class="s">-p ${{ secrets.REGISTRY_PASSWORD }} \</span>
-                 <span class="s">${{ env.REGISTRY }}</span>
-
-<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Build and Push</span>
-  <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
-    <span class="s">ansible-builder build --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.tag }}</span>
-    <span class="s">podman push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.tag }}</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_configuring_secrets_and_environment_variables"><a class="anchor" href="#_configuring_secrets_and_environment_variables"></a><a class="link" href="#_configuring_secrets_and_environment_variables">Configuring Secrets and Environment Variables</a></h5>
-<div class="paragraph">
-<p>GitHub Actions supports multiple levels of configuration for secrets and variables. Understanding these levels is crucial for proper AEE workflow configuration.</p>
-</div>
-<div class="sect5">
-<h6 id="_repository_level_secrets"><a class="anchor" href="#_repository_level_secrets"></a><a class="link" href="#_repository_level_secrets">Repository-Level Secrets</a></h6>
-<div class="paragraph">
-<p>Create secrets at the repository level for AEE workflows:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Navigate to your repository on GitHub</p>
-</li>
-<li>
-<p>Click <strong>Settings</strong> → <strong>Secrets and variables</strong> → <strong>Actions</strong></p>
-</li>
-<li>
-<p>Click <strong>New repository secret</strong></p>
-</li>
-<li>
-<p>Add the following secrets for AEE workflows:</p>
-</li>
-</ol>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># Required secrets for AEE workflows</span>
-<span class="na">REGISTRY_USERNAME</span><span class="pi">:</span> <span class="s">your-registry-username</span>
-<span class="na">REGISTRY_PASSWORD</span><span class="pi">:</span> <span class="s">your-registry-password</span>
-<span class="na">REGISTRY_TOKEN</span><span class="pi">:</span> <span class="s">your-registry-token</span>  <span class="c1"># Alternative to username/password</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_environment_level_secrets"><a class="anchor" href="#_environment_level_secrets"></a><a class="link" href="#_environment_level_secrets">Environment-Level Secrets</a></h6>
-<div class="paragraph">
-<p>For production deployments, use environment-level secrets:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Go to <strong>Settings</strong> → <strong>Environments</strong></p>
-</li>
-<li>
-<p>Create environments like <code>production</code>, <code>staging</code>, <code>development</code></p>
-</li>
-<li>
-<p>Configure environment-specific secrets:</p>
-</li>
-</ol>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># Environment-specific secrets</span>
-<span class="na">production</span><span class="pi">:</span>
-  <span class="na">REGISTRY_USERNAME</span><span class="pi">:</span> <span class="s">prod-registry-user</span>
-  <span class="na">REGISTRY_PASSWORD</span><span class="pi">:</span> <span class="s">prod-registry-password</span>
-
-<span class="na">staging</span><span class="pi">:</span>
-  <span class="na">REGISTRY_USERNAME</span><span class="pi">:</span> <span class="s">staging-registry-user</span>
-  <span class="na">REGISTRY_PASSWORD</span><span class="pi">:</span> <span class="s">staging-registry-password</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_organization_level_variables"><a class="anchor" href="#_organization_level_variables"></a><a class="link" href="#_organization_level_variables">Organization-Level Variables</a></h6>
-<div class="paragraph">
-<p>Use organization-level variables for shared configuration:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Go to organization <strong>Settings</strong> → <strong>Secrets and variables</strong> → <strong>Actions</strong></p>
-</li>
-<li>
-<p>Add organization variables:</p>
-</li>
-</ol>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># Organization variables (not secrets)</span>
-<span class="na">DEFAULT_REGISTRY</span><span class="pi">:</span> <span class="s">quay.io</span>
-<span class="na">DEFAULT_IMAGE_PREFIX</span><span class="pi">:</span> <span class="s">os-migrate</span>
-<span class="na">ANSIBLE_BUILDER_VERSION</span><span class="pi">:</span> <span class="s">3.0.0</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_repository_level_variables"><a class="anchor" href="#_repository_level_variables"></a><a class="link" href="#_repository_level_variables">Repository-Level Variables</a></h6>
-<div class="paragraph">
-<p>Create repository-level variables for project-specific configuration:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Navigate to your repository on GitHub</p>
-</li>
-<li>
-<p>Click <strong>Settings</strong> → <strong>Secrets and variables</strong> → <strong>Actions</strong></p>
-</li>
-<li>
-<p>Click <strong>Variables</strong> tab → <strong>New repository variable</strong></p>
-</li>
-<li>
-<p>Add variables for AEE workflows:</p>
-</li>
-</ol>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># Repository variables for AEE workflows</span>
-<span class="na">IMAGE_NAME</span><span class="pi">:</span> <span class="s">os-migrate</span>
-<span class="na">BASE_IMAGE</span><span class="pi">:</span> <span class="s">quay.io/ansible/ansible-runner:latest</span>
-<span class="na">ANSIBLE_VERSION</span><span class="pi">:</span> <span class="s">6.0.0</span>
-<span class="na">PYTHON_VERSION</span><span class="pi">:</span> <span class="m">3.11</span>
-<span class="na">BUILD_CONTEXT</span><span class="pi">:</span> <span class="s">./aee</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_environment_level_variables"><a class="anchor" href="#_environment_level_variables"></a><a class="link" href="#_environment_level_variables">Environment-Level Variables</a></h6>
-<div class="paragraph">
-<p>Configure environment-specific variables:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Go to <strong>Settings</strong> → <strong>Environments</strong></p>
-</li>
-<li>
-<p>Select an environment (e.g., <code>production</code>)</p>
-</li>
-<li>
-<p>Add environment-specific variables:</p>
-</li>
-</ol>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># Environment-specific variables</span>
-<span class="na">production</span><span class="pi">:</span>
-  <span class="na">IMAGE_TAG</span><span class="pi">:</span> <span class="s">latest</span>
-  <span class="na">REGISTRY_URL</span><span class="pi">:</span> <span class="s">quay.io</span>
-  <span class="na">BUILD_ARGS</span><span class="pi">:</span> <span class="s">--no-cache --compress</span>
-
-<span class="na">staging</span><span class="pi">:</span>
-  <span class="na">IMAGE_TAG</span><span class="pi">:</span> <span class="s">staging</span>
-  <span class="na">REGISTRY_URL</span><span class="pi">:</span> <span class="s">ghcr.io</span>
-  <span class="na">BUILD_ARGS</span><span class="pi">:</span> <span class="s">--no-cache</span>
-
-<span class="na">development</span><span class="pi">:</span>
-  <span class="na">IMAGE_TAG</span><span class="pi">:</span> <span class="s">dev</span>
-  <span class="na">REGISTRY_URL</span><span class="pi">:</span> <span class="s">ghcr.io</span>
-  <span class="na">BUILD_ARGS</span><span class="pi">:</span> <span class="s">--progress=plain</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_using_variables_in_workflows"><a class="anchor" href="#_using_variables_in_workflows"></a><a class="link" href="#_using_variables_in_workflows">Using Variables in Workflows</a></h6>
-<div class="paragraph">
-<p>Access variables using the <code>vars</code> context in your workflows:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="na">name</span><span class="pi">:</span> <span class="s">AEE Build with Variables</span>
-<span class="na">on</span><span class="pi">:</span>
-  <span class="na">push</span><span class="pi">:</span>
-    <span class="na">branches</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">main</span><span class="pi">]</span>
-
-<span class="na">jobs</span><span class="pi">:</span>
-  <span class="na">build</span><span class="pi">:</span>
-    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
-    <span class="na">environment</span><span class="pi">:</span> <span class="s">production</span>
-
-    <span class="na">steps</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v4</span>
-
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Set up Podman</span>
-        <span class="na">uses</span><span class="pi">:</span> <span class="s">redhat-actions/setup-podman@v1</span>
-
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Build AEE Image</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
-          <span class="s">cd ${{ vars.BUILD_CONTEXT }}</span>
-          <span class="s">ansible-builder build \</span>
-            <span class="s">--tag ${{ vars.REGISTRY_URL }}/${{ vars.IMAGE_NAME }}:${{ vars.IMAGE_TAG }} \</span>
-            <span class="s">${{ vars.BUILD_ARGS }}</span>
-
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Push Image</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
-          <span class="s">podman push ${{ vars.REGISTRY_URL }}/${{ vars.IMAGE_NAME }}:${{ vars.IMAGE_TAG }}</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_variable_precedence"><a class="anchor" href="#_variable_precedence"></a><a class="link" href="#_variable_precedence">Variable Precedence</a></h6>
-<div class="paragraph">
-<p>GitHub Actions follows this precedence order for variables and secrets:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p><strong>Environment variables</strong> (highest priority)</p>
-</li>
-<li>
-<p><strong>Environment-level secrets/variables</strong></p>
-</li>
-<li>
-<p><strong>Repository-level secrets/variables</strong></p>
-</li>
-<li>
-<p><strong>Organization-level secrets/variables</strong></p>
-</li>
-<li>
-<p><strong>System variables</strong> (lowest priority)</p>
-</li>
-</ol>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># Example showing variable precedence</span>
-<span class="na">name</span><span class="pi">:</span> <span class="s">Variable Precedence Example</span>
-<span class="na">on</span><span class="pi">:</span> <span class="s">push</span>
-
-<span class="na">jobs</span><span class="pi">:</span>
-  <span class="na">test</span><span class="pi">:</span>
-    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
-    <span class="na">environment</span><span class="pi">:</span> <span class="s">production</span>
-
-    <span class="na">steps</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Show Variable Values</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
-          <span class="s">echo "Repository variable: ${{ vars.IMAGE_NAME }}"</span>
-          <span class="s">echo "Environment variable: ${{ vars.IMAGE_TAG }}"</span>
-          <span class="s">echo "Organization variable: ${{ vars.DEFAULT_REGISTRY }}"</span>
-          <span class="s">echo "System variable: ${{ github.ref_name }}"</span>
-        <span class="na">env</span><span class="pi">:</span>
-          <span class="c1"># This overrides all other variables</span>
-          <span class="na">IMAGE_NAME</span><span class="pi">:</span> <span class="s">override-from-env</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_workflow_configuration_examples"><a class="anchor" href="#_workflow_configuration_examples"></a><a class="link" href="#_workflow_configuration_examples">Workflow Configuration Examples</a></h6>
-
-</div>
-<div class="sect5">
-<h6 id="_basic_registry_authentication"><a class="anchor" href="#_basic_registry_authentication"></a><a class="link" href="#_basic_registry_authentication">Basic Registry Authentication</a></h6>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="na">name</span><span class="pi">:</span> <span class="s">Build AEE Image</span>
-<span class="na">on</span><span class="pi">:</span>
-  <span class="na">push</span><span class="pi">:</span>
-    <span class="na">branches</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">main</span><span class="pi">]</span>
-    <span class="na">tags</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">v*'</span><span class="pi">]</span>
-
-<span class="na">jobs</span><span class="pi">:</span>
-  <span class="na">build</span><span class="pi">:</span>
-    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
-    <span class="na">environment</span><span class="pi">:</span> <span class="s">production</span>  <span class="c1"># Uses environment-level secrets</span>
-
-    <span class="na">steps</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v4</span>
-
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Set up Podman</span>
-        <span class="na">uses</span><span class="pi">:</span> <span class="s">redhat-actions/setup-podman@v1</span>
-        <span class="na">with</span><span class="pi">:</span>
-          <span class="na">podman-version</span><span class="pi">:</span> <span class="s">latest</span>
-
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Login to Registry</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
-          <span class="s">echo ${{ secrets.REGISTRY_PASSWORD }} | podman login \</span>
-            <span class="s">--username ${{ secrets.REGISTRY_USERNAME }} \</span>
-            <span class="s">--password-stdin \</span>
-            <span class="s">${{ vars.DEFAULT_REGISTRY }}</span>
-
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Build AEE Image</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
-          <span class="s">cd aee</span>
-          <span class="s">ansible-builder build --tag ${{ vars.DEFAULT_REGISTRY }}/${{ vars.DEFAULT_IMAGE_PREFIX }}:${{ github.ref_name }}</span>
-
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Push Image</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
-          <span class="s">podman push ${{ vars.DEFAULT_REGISTRY }}/${{ vars.DEFAULT_IMAGE_PREFIX }}:${{ github.ref_name }}</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_multi_registry_support"><a class="anchor" href="#_multi_registry_support"></a><a class="link" href="#_multi_registry_support">Multi-Registry Support</a></h6>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="na">name</span><span class="pi">:</span> <span class="s">Build and Push to Multiple Registries</span>
-<span class="na">on</span><span class="pi">:</span>
-  <span class="na">push</span><span class="pi">:</span>
-    <span class="na">tags</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">v*'</span><span class="pi">]</span>
-
-<span class="na">jobs</span><span class="pi">:</span>
-  <span class="na">build</span><span class="pi">:</span>
-    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
-    <span class="na">strategy</span><span class="pi">:</span>
-      <span class="na">matrix</span><span class="pi">:</span>
-        <span class="na">registry</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">quay.io</span><span class="pi">,</span> <span class="nv">ghcr.io</span><span class="pi">,</span> <span class="nv">docker.io</span><span class="pi">]</span>
-
-    <span class="na">steps</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v4</span>
-
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Set up Podman</span>
-        <span class="na">uses</span><span class="pi">:</span> <span class="s">redhat-actions/setup-podman@v1</span>
-
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Login to ${{ matrix.registry }}</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
-          <span class="s">case "${{ matrix.registry }}" in</span>
-            <span class="s">"quay.io")</span>
-              <span class="s">echo ${{ secrets.QUAY_TOKEN }} | podman login --username ${{ secrets.QUAY_USERNAME }} --password-stdin quay.io</span>
-              <span class="s">;;</span>
-            <span class="s">"ghcr.io")</span>
-              <span class="s">echo ${{ secrets.GITHUB_TOKEN }} | podman login --username ${{ github.actor }} --password-stdin ghcr.io</span>
-              <span class="s">;;</span>
-            <span class="s">"docker.io")</span>
-              <span class="s">echo ${{ secrets.DOCKERHUB_TOKEN }} | podman login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin docker.io</span>
-              <span class="s">;;</span>
-          <span class="s">esac</span>
-
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Build and Push</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
-          <span class="s">cd aee</span>
-          <span class="s">ansible-builder build --tag ${{ matrix.registry }}/os-migrate:${{ github.ref_name }}</span>
-          <span class="s">podman push ${{ matrix.registry }}/os-migrate:${{ github.ref_name }}</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_secure_secret_handling"><a class="anchor" href="#_secure_secret_handling"></a><a class="link" href="#_secure_secret_handling">Secure Secret Handling</a></h6>
-<div class="paragraph">
-<p>Follow security best practices when using secrets:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Secure Secret Usage</span>
-  <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
-    <span class="s"># ✅ Good: Use environment variables</span>
-    <span class="s">export REGISTRY_PASSWORD="${{ secrets.REGISTRY_PASSWORD }}"</span>
-    <span class="s">podman login --username ${{ secrets.REGISTRY_USERNAME }} --password-stdin ${{ env.REGISTRY }}</span>
-
-    <span class="s"># ✅ Good: Use proper quoting</span>
-    <span class="s">podman login --username "${{ secrets.REGISTRY_USERNAME }}" --password "${{ secrets.REGISTRY_PASSWORD }}" ${{ env.REGISTRY }}</span>
-
-    <span class="s"># ❌ Bad: Direct command line usage without quoting</span>
-    <span class="s">podman login --username ${{ secrets.REGISTRY_USERNAME }} --password ${{ secrets.REGISTRY_PASSWORD }} ${{ env.REGISTRY }}</span>
-  <span class="na">env</span><span class="pi">:</span>
-    <span class="na">REGISTRY</span><span class="pi">:</span> <span class="s">${{ vars.DEFAULT_REGISTRY }}</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_conditional_secret_usage"><a class="anchor" href="#_conditional_secret_usage"></a><a class="link" href="#_conditional_secret_usage">Conditional Secret Usage</a></h6>
-<div class="paragraph">
-<p>Use secrets conditionally based on workflow context:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Conditional Registry Login</span>
-  <span class="na">if</span><span class="pi">:</span> <span class="s">github.event_name == 'push' &amp;&amp; github.ref == 'refs/heads/main'</span>
-  <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
-    <span class="s">echo ${{ secrets.REGISTRY_PASSWORD }} | podman login \</span>
-      <span class="s">--username ${{ secrets.REGISTRY_USERNAME }} \</span>
-      <span class="s">--password-stdin \</span>
-      <span class="s">${{ env.REGISTRY }}</span>
-
-<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Build and Push (Main Branch)</span>
-  <span class="na">if</span><span class="pi">:</span> <span class="s">github.event_name == 'push' &amp;&amp; github.ref == 'refs/heads/main'</span>
-  <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
-    <span class="s">cd aee</span>
-    <span class="s">ansible-builder build --tag ${{ env.REGISTRY }}/os-migrate:latest</span>
-    <span class="s">podman push ${{ env.REGISTRY }}/os-migrate:latest</span>
-
-<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Build and Push (Tags)</span>
-  <span class="na">if</span><span class="pi">:</span> <span class="s">github.event_name == 'push' &amp;&amp; startsWith(github.ref, 'refs/tags/')</span>
-  <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
-    <span class="s">cd aee</span>
-    <span class="s">TAG_VERSION=${GITHUB_REF#refs/tags/}</span>
-    <span class="s">ansible-builder build --tag ${{ env.REGISTRY }}/os-migrate:$TAG_VERSION</span>
-    <span class="s">ansible-builder build --tag ${{ env.REGISTRY }}/os-migrate:stable</span>
-    <span class="s">podman push ${{ env.REGISTRY }}/os-migrate:$TAG_VERSION</span>
-    <span class="s">podman push ${{ env.REGISTRY }}/os-migrate:stable</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_secret_rotation_and_management"><a class="anchor" href="#_secret_rotation_and_management"></a><a class="link" href="#_secret_rotation_and_management">Secret Rotation and Management</a></h6>
-<div class="paragraph">
-<p>Implement secret rotation strategies:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Validate Secrets</span>
-  <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
-    <span class="s">if [ -z "${{ secrets.REGISTRY_USERNAME }}" ]; then</span>
-      <span class="s">echo "❌ REGISTRY_USERNAME secret is not set"</span>
-      <span class="s">exit 1</span>
-    <span class="s">fi</span>
-
-    <span class="s">if [ -z "${{ secrets.REGISTRY_PASSWORD }}" ]; then</span>
-      <span class="s">echo "❌ REGISTRY_PASSWORD secret is not set"</span>
-      <span class="s">exit 1</span>
-    <span class="s">fi</span>
-
-    <span class="s">echo "✅ All required secrets are configured"</span>
-
-<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Test Registry Access</span>
-  <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
-    <span class="s">echo ${{ secrets.REGISTRY_PASSWORD }} | podman login \</span>
-      <span class="s">--username ${{ secrets.REGISTRY_USERNAME }} \</span>
-      <span class="s">--password-stdin \</span>
-      <span class="s">${{ env.REGISTRY }} --test</span>
-    <span class="s">echo "✅ Registry authentication successful"</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect5">
-<h6 id="_environment_specific_configuration"><a class="anchor" href="#_environment_specific_configuration"></a><a class="link" href="#_environment_specific_configuration">Environment-Specific Configuration</a></h6>
-<div class="paragraph">
-<p>Use different configurations for different environments:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="na">name</span><span class="pi">:</span> <span class="s">AEE Build Matrix</span>
-<span class="na">on</span><span class="pi">:</span>
-  <span class="na">push</span><span class="pi">:</span>
-    <span class="na">branches</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">main</span><span class="pi">,</span> <span class="nv">develop</span><span class="pi">]</span>
-    <span class="na">tags</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">v*'</span><span class="pi">]</span>
-
-<span class="na">jobs</span><span class="pi">:</span>
-  <span class="na">build</span><span class="pi">:</span>
-    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
-    <span class="na">strategy</span><span class="pi">:</span>
-      <span class="na">matrix</span><span class="pi">:</span>
-        <span class="na">include</span><span class="pi">:</span>
-          <span class="pi">-</span> <span class="na">environment</span><span class="pi">:</span> <span class="s">development</span>
-            <span class="na">registry</span><span class="pi">:</span> <span class="s">ghcr.io</span>
-            <span class="na">image_tag</span><span class="pi">:</span> <span class="s">dev</span>
-          <span class="pi">-</span> <span class="na">environment</span><span class="pi">:</span> <span class="s">staging</span>
-            <span class="na">registry</span><span class="pi">:</span> <span class="s">quay.io</span>
-            <span class="na">image_tag</span><span class="pi">:</span> <span class="s">staging</span>
-          <span class="pi">-</span> <span class="na">environment</span><span class="pi">:</span> <span class="s">production</span>
-            <span class="na">registry</span><span class="pi">:</span> <span class="s">quay.io</span>
-            <span class="na">image_tag</span><span class="pi">:</span> <span class="s">latest</span>
-
-    <span class="na">environment</span><span class="pi">:</span> <span class="s">${{ matrix.environment }}</span>
-
-    <span class="na">steps</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v4</span>
-
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Set up Podman</span>
-        <span class="na">uses</span><span class="pi">:</span> <span class="s">redhat-actions/setup-podman@v1</span>
-
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Login to Registry</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
-          <span class="s">echo ${{ secrets.REGISTRY_PASSWORD }} | podman login \</span>
-            <span class="s">--username ${{ secrets.REGISTRY_USERNAME }} \</span>
-            <span class="s">--password-stdin \</span>
-            <span class="s">${{ matrix.registry }}</span>
-
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Build AEE Image</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
-          <span class="s">cd aee</span>
-          <span class="s">ansible-builder build --tag ${{ matrix.registry }}/os-migrate:${{ matrix.image_tag }}</span>
-
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Push Image</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
-          <span class="s">podman push ${{ matrix.registry }}/os-migrate:${{ matrix.image_tag }}</span></code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_using_aee_images"><a class="anchor" href="#_using_aee_images"></a><a class="link" href="#_using_aee_images">3.4. Using AEE Images</a></h3>
-<div class="sect3">
-<h4 id="_running_playbooks_with_aee"><a class="anchor" href="#_running_playbooks_with_aee"></a><a class="link" href="#_running_playbooks_with_aee">3.4.1. Running Playbooks with AEE</a></h4>
-<div class="paragraph">
-<p>Execute os-migrate playbooks using the AEE container:</p>
+<p>Set <code>runner_from_aee: true</code> in your vars file to prevent redundant installation of requirements already included in the migration container. To execute migration playbooks inside the AEE container, use the following command:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight"><code data-lang="bash">podman run <span class="nt">--rm</span> <span class="nt">-it</span> <span class="se">\</span>
-  <span class="nt">-v</span> <span class="si">$(</span><span class="nb">pwd</span><span class="si">)</span>:/runner <span class="se">\</span>
+  <span class="nt">-v</span> <span class="si">$(</span><span class="nb">pwd</span><span class="si">)</span>:/runner:z <span class="se">\</span>
   <span class="nt">-v</span> ~/.ssh:/home/runner/.ssh:ro <span class="se">\</span>
-  os-migrate:latest <span class="se">\</span>
-  ansible-playbook <span class="nt">-i</span> inventory playbook.yml</code></pre>
+  quay.io/os-migrate/vmware-migration-kit:stable <span class="se">\</span>
+  ansible-playbook <span class="nt">-i</span> /runner/inventory <span class="se">\</span>
+  <span class="nt">-e</span> @/runner/vars.yaml <span class="se">\</span>
+  os_migrate.vmware_migration_kit.migration</code></pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_interactive_shell_access"><a class="anchor" href="#_interactive_shell_access"></a><a class="link" href="#_interactive_shell_access">3.4.2. Interactive Shell Access</a></h4>
+<div class="sect4">
+<h5 id="_interactive_shell_access"><a class="anchor" href="#_interactive_shell_access"></a><a class="link" href="#_interactive_shell_access">Interactive Shell Access</a></h5>
 <div class="paragraph">
-<p>Access the AEE container interactively for debugging:</p>
+<p>To open a shell inside the AEE container for troubleshooting or inspecting the environment, run:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight"><code data-lang="bash">podman run <span class="nt">--rm</span> <span class="nt">-it</span> <span class="se">\</span>
-  <span class="nt">-v</span> <span class="si">$(</span><span class="nb">pwd</span><span class="si">)</span>:/runner <span class="se">\</span>
+  <span class="nt">-v</span> <span class="si">$(</span><span class="nb">pwd</span><span class="si">)</span>:/runner:z <span class="se">\</span>
   <span class="nt">-v</span> ~/.ssh:/home/runner/.ssh:ro <span class="se">\</span>
-  os-migrate:latest <span class="se">\</span>
+  quay.io/os-migrate/vmware-migration-kit:stable <span class="se">\</span>
   /bin/bash</code></pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_volume_mounts"><a class="anchor" href="#_volume_mounts"></a><a class="link" href="#_volume_mounts">3.4.3. Volume Mounts</a></h4>
+<div class="sect4">
+<h5 id="_volume_mounts"><a class="anchor" href="#_volume_mounts"></a><a class="link" href="#_volume_mounts">Volume Mounts</a></h5>
 <div class="paragraph">
 <p>Common volume mounts for AEE usage:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>$(pwd):/runner</code> - Mount current directory as working directory</p>
+<p><code>$(pwd):/runner:z</code> - Mount current directory as working directory, with SELinux context adjustment for accessing the files.</p>
 </li>
 <li>
 <p><code>~/.ssh:/home/runner/.ssh:ro</code> - Mount SSH keys (read-only)</p>
@@ -2322,451 +1645,36 @@ podman run <span class="nt">--rm</span> os-migrate:1.2.3 ansible <span class="nt
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_aee_configuration"><a class="anchor" href="#_aee_configuration"></a><a class="link" href="#_aee_configuration">3.5. AEE Configuration</a></h3>
 <div class="sect3">
-<h4 id="_execution_environment_definition"><a class="anchor" href="#_execution_environment_definition"></a><a class="link" href="#_execution_environment_definition">3.5.1. Execution Environment Definition</a></h4>
+<h4 id="_using_aee_images_with_awx_platform"><a class="anchor" href="#_using_aee_images_with_awx_platform"></a><a class="link" href="#_using_aee_images_with_awx_platform">2.5.2. Using AEE Images with AWX platform</a></h4>
 <div class="paragraph">
-<p>AEE images are defined using <code>execution-environment.yml</code> files that specify:</p>
+<p>This allows you to leverage the benefits of AEE—such as consistent execution environments, isolation from host dependencies, and simplified dependency management—while AWX for orchestration and management. For configuring AWX to launch a migration:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Base image (typically <code>quay.io/ansible/ansible-runner:latest</code>)</p>
+<p>Create the inventory and add the conversion host</p>
 </li>
 <li>
-<p>Python dependencies</p>
+<p>Create the execution environment using the desired AEE image (os-migrate or vmware-migration-kit)</p>
 </li>
 <li>
-<p>Ansible collections</p>
+<p>Create a project that points to the repository containing the migration playbooks</p>
 </li>
 <li>
-<p>Additional system packages</p>
+<p>Create the job template adding the inventory created before, the project, the execution environment and adding the variables file as extra variables.</p>
+</li>
+<li>
+<p>Run the migration</p>
 </li>
 </ul>
-</div>
-<div class="paragraph">
-<p>Example structure:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="na">version</span><span class="pi">:</span> <span class="m">1</span>
-<span class="na">dependencies</span><span class="pi">:</span>
-  <span class="na">galaxy</span><span class="pi">:</span>
-    <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">os_migrate.os_migrate</span>
-      <span class="na">source</span><span class="pi">:</span> <span class="s">https://github.com/os-migrate/os-migrate</span>
-  <span class="na">python</span><span class="pi">:</span>
-    <span class="pi">-</span> <span class="s">openstacksdk&gt;=1.0.0</span>
-    <span class="pi">-</span> <span class="s">ansible&gt;=6.0.0</span>
-  <span class="na">system</span><span class="pi">:</span>
-    <span class="pi">-</span> <span class="s">git</span>
-    <span class="pi">-</span> <span class="s">openssh-clients</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_customizing_aee_images"><a class="anchor" href="#_customizing_aee_images"></a><a class="link" href="#_customizing_aee_images">3.5.2. Customizing AEE Images</a></h4>
-<div class="paragraph">
-<p>To customize AEE images for specific requirements:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Modify the <code>execution-environment.yml</code> file</p>
-</li>
-<li>
-<p>Add custom requirements or collections</p>
-</li>
-<li>
-<p>Rebuild the image using ansible-builder</p>
-</li>
-</ol>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="bash">ansible-builder build <span class="nt">--tag</span> custom-aee:latest</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_troubleshooting"><a class="anchor" href="#_troubleshooting"></a><a class="link" href="#_troubleshooting">3.6. Troubleshooting</a></h3>
-<div class="sect3">
-<h4 id="_secrets_and_variables_issues"><a class="anchor" href="#_secrets_and_variables_issues"></a><a class="link" href="#_secrets_and_variables_issues">3.6.1. Secrets and Variables Issues</a></h4>
-<div class="sect4">
-<h5 id="_common_secret_configuration_problems"><a class="anchor" href="#_common_secret_configuration_problems"></a><a class="link" href="#_common_secret_configuration_problems">Common Secret Configuration Problems</a></h5>
-<div class="dlist">
-<dl>
-<dt class="hdlist1"><strong>Secret Not Found</strong></dt>
-<dd>
-<p>Ensure the secret is created at the correct level (repository, environment, or organization) and the name matches exactly in the workflow.</p>
-</dd>
-<dt class="hdlist1"><strong>Permission Denied</strong></dt>
-<dd>
-<p>Verify that the workflow has access to the environment containing the secrets. Check environment protection rules and required reviewers.</p>
-</dd>
-<dt class="hdlist1"><strong>Empty Secret Value</strong></dt>
-<dd>
-<p>Secrets that are not set return empty strings. Always validate secret existence before use.</p>
-</dd>
-</dl>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Validate Required Secrets</span>
-  <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
-    <span class="s">if [ -z "${{ secrets.REGISTRY_USERNAME }}" ]; then</span>
-      <span class="s">echo "❌ REGISTRY_USERNAME secret is not configured"</span>
-      <span class="s">exit 1</span>
-    <span class="s">fi</span>
-
-    <span class="s">if [ -z "${{ secrets.REGISTRY_PASSWORD }}" ]; then</span>
-      <span class="s">echo "❌ REGISTRY_PASSWORD secret is not configured"</span>
-      <span class="s">exit 1</span>
-    <span class="s">fi</span>
-
-    <span class="s">echo "✅ All required secrets are available"</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_variable_access_issues"><a class="anchor" href="#_variable_access_issues"></a><a class="link" href="#_variable_access_issues">Variable Access Issues</a></h5>
-<div class="dlist">
-<dl>
-<dt class="hdlist1"><strong>Variable Not Defined</strong></dt>
-<dd>
-<p>Check that variables are created at the appropriate level and use the correct context (<code>vars</code> for variables, <code>secrets</code> for secrets).</p>
-</dd>
-<dt class="hdlist1"><strong>Wrong Variable Context</strong></dt>
-<dd>
-<p>Use <code>${{ vars.VARIABLE_NAME }}</code> for variables and <code>${{ secrets.SECRET_NAME }}</code> for secrets.</p>
-</dd>
-</dl>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Debug Variable Access</span>
-  <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
-    <span class="s">echo "Repository variables:"</span>
-    <span class="s">echo "  IMAGE_NAME: ${{ vars.IMAGE_NAME }}"</span>
-    <span class="s">echo "  BUILD_CONTEXT: ${{ vars.BUILD_CONTEXT }}"</span>
-
-    <span class="s">echo "Environment variables:"</span>
-    <span class="s">echo "  IMAGE_TAG: ${{ vars.IMAGE_TAG }}"</span>
-    <span class="s">echo "  REGISTRY_URL: ${{ vars.REGISTRY_URL }}"</span>
-
-    <span class="s">echo "Organization variables:"</span>
-    <span class="s">echo "  DEFAULT_REGISTRY: ${{ vars.DEFAULT_REGISTRY }}"</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_registry_authentication_troubleshooting"><a class="anchor" href="#_registry_authentication_troubleshooting"></a><a class="link" href="#_registry_authentication_troubleshooting">Registry Authentication Troubleshooting</a></h5>
-<div class="dlist">
-<dl>
-<dt class="hdlist1"><strong>Authentication Failed</strong></dt>
-<dd>
-<p>Verify credentials are correct and have appropriate permissions for the registry.</p>
-</dd>
-<dt class="hdlist1"><strong>Token Expired</strong></dt>
-<dd>
-<p>Check if the registry token has expired and needs renewal.</p>
-</dd>
-</dl>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Test Registry Authentication</span>
-  <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
-    <span class="s">echo "Testing authentication to ${{ vars.DEFAULT_REGISTRY }}"</span>
-
-    <span class="s"># Test login without pushing</span>
-    <span class="s">echo ${{ secrets.REGISTRY_PASSWORD }} | podman login \</span>
-      <span class="s">--username ${{ secrets.REGISTRY_USERNAME }} \</span>
-      <span class="s">--password-stdin \</span>
-      <span class="s">${{ vars.DEFAULT_REGISTRY }} --test</span>
-
-    <span class="s">if [ $? -eq 0 ]; then</span>
-      <span class="s">echo "✅ Registry authentication successful"</span>
-    <span class="s">else</span>
-      <span class="s">echo "❌ Registry authentication failed"</span>
-      <span class="s">exit 1</span>
-    <span class="s">fi</span></code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_debugging_aee_issues"><a class="anchor" href="#_debugging_aee_issues"></a><a class="link" href="#_debugging_aee_issues">3.6.2. Debugging AEE Issues</a></h4>
-<div class="paragraph">
-<p>Enable verbose output for troubleshooting:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="bash">podman run <span class="nt">--rm</span> <span class="nt">-it</span> <span class="se">\</span>
-  <span class="nt">-v</span> <span class="si">$(</span><span class="nb">pwd</span><span class="si">)</span>:/runner <span class="se">\</span>
-  os-migrate:latest <span class="se">\</span>
-  ansible-playbook <span class="nt">-vvv</span> <span class="nt">-i</span> inventory playbook.yml</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Check container logs:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="bash">podman logs &lt;container_id&gt;</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_performance_optimization"><a class="anchor" href="#_performance_optimization"></a><a class="link" href="#_performance_optimization">3.6.3. Performance Optimization</a></h4>
-<div class="ulist">
-<ul>
-<li>
-<p>Use volume mounts instead of copying files into containers</p>
-</li>
-<li>
-<p>Mount only necessary directories to reduce I/O overhead</p>
-</li>
-<li>
-<p>Consider using read-only mounts where possible</p>
-</li>
-<li>
-<p>Use appropriate resource limits for container execution</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_maintenance"><a class="anchor" href="#_maintenance"></a><a class="link" href="#_maintenance">3.7. Maintenance</a></h3>
-<div class="sect3">
-<h4 id="_updating_aee_images"><a class="anchor" href="#_updating_aee_images"></a><a class="link" href="#_updating_aee_images">3.7.1. Updating AEE Images</a></h4>
-<div class="paragraph">
-<p>Regular updates ensure security and compatibility:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Update base images in execution environment definitions</p>
-</li>
-<li>
-<p>Update Ansible collections to latest versions</p>
-</li>
-<li>
-<p>Update Python dependencies</p>
-</li>
-<li>
-<p>Rebuild and test AEE images</p>
-</li>
-<li>
-<p>Update documentation with any changes</p>
-</li>
-</ol>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_version_management"><a class="anchor" href="#_version_management"></a><a class="link" href="#_version_management">3.7.2. Version Management</a></h4>
-<div class="paragraph">
-<p>The automated GitHub Actions workflows handle version management based on Git references:</p>
-</div>
-<div class="sect4">
-<h5 id="_manual_version_management"><a class="anchor" href="#_manual_version_management"></a><a class="link" href="#_manual_version_management">Manual Version Management</a></h5>
-<div class="paragraph">
-<p>For local development, you can manually tag images:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="bash"><span class="c"># Build specific version locally</span>
-ansible-builder build <span class="nt">--tag</span> os-migrate:1.2.3
-
-<span class="c"># Build latest development version</span>
-ansible-builder build <span class="nt">--tag</span> os-migrate:latest</code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_automated_version_management"><a class="anchor" href="#_automated_version_management"></a><a class="link" href="#_automated_version_management">Automated Version Management</a></h5>
-<div class="paragraph">
-<p>The GitHub Actions workflows automatically handle versioning:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Main branch pushes</strong> → <code>latest</code> tag</p>
-</li>
-<li>
-<p><strong>Tag pushes</strong> → version-specific tag + <code>stable</code> tag</p>
-</li>
-<li>
-<p><strong>Pull requests</strong> → build and test only (no registry push)</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_creating_releases"><a class="anchor" href="#_creating_releases"></a><a class="link" href="#_creating_releases">Creating Releases</a></h5>
-<div class="paragraph">
-<p>To create a new release:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Create and push a Git tag:
-[source,bash]
-----
-git tag -a 1.2.3 -m "Release version 1.2.3"
-git push origin 1.2.3
-----</p>
-</li>
-<li>
-<p>The GitHub Actions workflow will automatically:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Build the AEE image</p>
-</li>
-<li>
-<p>Tag it with <code>1.2.3</code> and <code>stable</code></p>
-</li>
-<li>
-<p>Push to the configured registry</p>
-</li>
-</ul>
-</div>
-</li>
-</ol>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_version_tag_strategy"><a class="anchor" href="#_version_tag_strategy"></a><a class="link" href="#_version_tag_strategy">Version Tag Strategy</a></h5>
-<div class="ulist">
-<ul>
-<li>
-<p><code>latest</code> - Development builds from main branch</p>
-</li>
-<li>
-<p><code>stable</code> - Latest tagged release (production-ready)</p>
-</li>
-<li>
-<p><code>1.2.3</code> - Specific version</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_security_considerations"><a class="anchor" href="#_security_considerations"></a><a class="link" href="#_security_considerations">3.7.3. Security Considerations</a></h4>
-<div class="ulist">
-<ul>
-<li>
-<p>Regularly update base images to include security patches</p>
-</li>
-<li>
-<p>Scan AEE images for vulnerabilities</p>
-</li>
-<li>
-<p>Use minimal base images when possible</p>
-</li>
-<li>
-<p>Review and audit all included dependencies</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_best_practices"><a class="anchor" href="#_best_practices"></a><a class="link" href="#_best_practices">3.8. Best Practices</a></h3>
-<div class="sect3">
-<h4 id="_development_workflow"><a class="anchor" href="#_development_workflow"></a><a class="link" href="#_development_workflow">3.8.1. Development Workflow</a></h4>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Test changes locally using AEE containers</p>
-</li>
-<li>
-<p>Use version-controlled execution environment definitions</p>
-</li>
-<li>
-<p>Document any customizations or modifications</p>
-</li>
-<li>
-<p>Test AEE images in target environments before deployment</p>
-</li>
-</ol>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_production_usage"><a class="anchor" href="#_production_usage"></a><a class="link" href="#_production_usage">3.8.2. Production Usage</a></h4>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Use specific version tags instead of <code>latest</code></p>
-</li>
-<li>
-<p>Implement proper monitoring and logging</p>
-</li>
-<li>
-<p>Regular security updates and vulnerability scanning</p>
-</li>
-<li>
-<p>Backup and disaster recovery planning</p>
-</li>
-</ol>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_documentation"><a class="anchor" href="#_documentation"></a><a class="link" href="#_documentation">3.8.3. Documentation</a></h4>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Keep execution environment definitions well-documented</p>
-</li>
-<li>
-<p>Document any custom modifications or extensions</p>
-</li>
-<li>
-<p>Provide clear usage examples and troubleshooting guides</p>
-</li>
-<li>
-<p>Maintain compatibility matrices for different versions</p>
-</li>
-</ol>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_todo"><a class="anchor" href="#_todo"></a><a class="link" href="#_todo">3.9. TODO</a></h3>
-<div class="sect3">
-<h4 id="_collection_installation_improvements"><a class="anchor" href="#_collection_installation_improvements"></a><a class="link" href="#_collection_installation_improvements">3.9.1. Collection Installation Improvements</a></h4>
-<div class="paragraph">
-<p>Improve the way collections (os-migrate or vmware-migration-kit) are installed within AEE images to ensure proper version alignment:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Main branch builds</strong>: When the image tag is <code>main</code>, install the collection content directly from the main branch repository as the source of installation using Git-based requirements</p>
-</li>
-<li>
-<p><strong>Stable/tagged builds</strong>: When the image tag is <code>stable</code> or matches a repository tag, ensure the installation uses the corresponding tagged version of the collection from Ansible Galaxy</p>
-</li>
-<li>
-<p><strong>Dynamic requirements.yml</strong>: Implement automated generation of <code>requirements.yml</code> files based on build context to ensure proper collection versioning</p>
-</li>
-<li>
-<p><strong>Version consistency validation</strong>: Add build-time checks to verify that AEE image tags match the collection versions they contain</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>This improvement will ensure that AEE images always contain the correct version of the collection that matches the build context and tag strategy, providing better reproducibility and version alignment.</p>
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="os-migrate-performance-expectations_planning"><a class="anchor" href="#os-migrate-performance-expectations_planning"></a><a class="link" href="#os-migrate-performance-expectations_planning">4. VMware to OpenStack OS Migrate Performance Expectations</a></h2>
+<h2 id="os-migrate-performance-expectations_planning"><a class="anchor" href="#os-migrate-performance-expectations_planning"></a><a class="link" href="#os-migrate-performance-expectations_planning">3. VMware to OpenStack OS Migrate Performance Expectations</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This document outlines some performance expectations for VMware to OpenStack transfers via the os-migrate tooling.
@@ -2789,7 +1697,7 @@ For the purposes of the these metrics, we are considering the following hardware
 <p><em>All of the below metrics apply to VMware to OpenStack via the Ansible Automation Platform</em></p>
 </div>
 <div class="sect2">
-<h3 id="_table_1"><a class="anchor" href="#_table_1"></a><a class="link" href="#_table_1">4.1. Table 1</a></h3>
+<h3 id="_table_1"><a class="anchor" href="#_table_1"></a><a class="link" href="#_table_1">3.1. Table 1</a></h3>
 <div class="paragraph">
 <p>Time of execution to completion including instance boot &amp; ping for RHEL machines in our lab.</p>
 </div>
@@ -2844,7 +1752,7 @@ For the purposes of the these metrics, we are considering the following hardware
 </div>
 </div>
 <div class="sect2">
-<h3 id="_table_2"><a class="anchor" href="#_table_2"></a><a class="link" href="#_table_2">4.2. Table 2</a></h3>
+<h3 id="_table_2"><a class="anchor" href="#_table_2"></a><a class="link" href="#_table_2">3.2. Table 2</a></h3>
 <div class="paragraph">
 <p>Time for RHEL machines with a larger disk for a full migration run with and without CBT<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup> options:</p>
 </div>
@@ -2930,7 +1838,7 @@ For the purposes of the these metrics, we are considering the following hardware
 </div>
 </div>
 <div class="sect2">
-<h3 id="_table_3"><a class="anchor" href="#_table_3"></a><a class="link" href="#_table_3">4.3. Table 3</a></h3>
+<h3 id="_table_3"><a class="anchor" href="#_table_3"></a><a class="link" href="#_table_3">3.3. Table 3</a></h3>
 <div class="paragraph">
 <p>Example of a Migration plan for 55 VMs with 200 GB of disk full. <em>(estimation)</em></p>
 </div>
@@ -2983,7 +1891,7 @@ For the purposes of the these metrics, we are considering the following hardware
 </div>
 </div>
 <div class="sect2">
-<h3 id="_table_4"><a class="anchor" href="#_table_4"></a><a class="link" href="#_table_4">4.4. Table 4</a></h3>
+<h3 id="_table_4"><a class="anchor" href="#_table_4"></a><a class="link" href="#_table_4">3.4. Table 4</a></h3>
 <div class="paragraph">
 <p>Migration of 1500 VMs: Time for RHEL machines in our lab with a disk capacity of 20GB, with a full migration run which comprises of migration of data, conversion and instance creation, boot time, and ability to ping.</p>
 </div>
@@ -3026,7 +1934,7 @@ For the purposes of the these metrics, we are considering the following hardware
 </div>
 </div>
 <div class="sect2">
-<h3 id="_conversion_host_requirements_and_recommendations"><a class="anchor" href="#_conversion_host_requirements_and_recommendations"></a><a class="link" href="#_conversion_host_requirements_and_recommendations">4.5. Conversion host requirements and recommendations</a></h3>
+<h3 id="_conversion_host_requirements_and_recommendations"><a class="anchor" href="#_conversion_host_requirements_and_recommendations"></a><a class="link" href="#_conversion_host_requirements_and_recommendations">3.5. Conversion host requirements and recommendations</a></h3>
 <div class="paragraph">
 <p>Recommended guidelines:</p>
 </div>
@@ -3045,7 +1953,7 @@ For the purposes of the these metrics, we are considering the following hardware
 </div>
 </div>
 <div class="sect2">
-<h3 id="_how_to_proceed_with_a_large_workload"><a class="anchor" href="#_how_to_proceed_with_a_large_workload"></a><a class="link" href="#_how_to_proceed_with_a_large_workload">4.6. How to proceed with a large workload</a></h3>
+<h3 id="_how_to_proceed_with_a_large_workload"><a class="anchor" href="#_how_to_proceed_with_a_large_workload"></a><a class="link" href="#_how_to_proceed_with_a_large_workload">3.6. How to proceed with a large workload</a></h3>
 <div class="paragraph">
 <p>It&#8217;s important to first focus on sizing your target OpenStack environment adequately. It will of course receive large numbers of instances, ports, volumes, floating ips and all the OpenStack resources that the instances will require. So set the OpenStack quotas with the correct values.</p>
 </div>
@@ -3108,7 +2016,7 @@ For the purposes of the these metrics, we are considering the following hardware
 </div>
 </div>
 <div class="sect1">
-<h2 id="_community"><a class="anchor" href="#_community"></a><a class="link" href="#_community">5. Community</a></h2>
+<h2 id="_community"><a class="anchor" href="#_community"></a><a class="link" href="#_community">4. Community</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><a href="https://github.com/os-migrate/vmware-migration-kit/">GitHub hosted source code</a></p>
@@ -3128,7 +2036,7 @@ For the purposes of the these metrics, we are considering the following hardware
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-10-24 09:31:54 -0400
+Last updated 2025-10-29 09:47:45 -0400
 </div>
 </div>
 </body>

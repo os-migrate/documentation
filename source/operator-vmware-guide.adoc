@@ -24,6 +24,163 @@ a very number of virtual machines as entry point, or can migrate sensitive virtu
 a near zero down time with the change block tracking VMWare option (CBT) and so perform the virtual
 machine migration in two steps. The migration can also be done without conversion host.
 
+== Pre-requisites and Validation Checks
+
+Before migrating VMware workloads to OpenStack, ensure the following pre-requisites are met.
+These checks are based on issues encountered in real-world migration engagements.
+
+=== Disk Consolidation
+
+Ensure that all virtual machine disks are consolidated before migration.
+
+Virtual machines with unconsolidated disks may fail during migration or result in data inconsistencies.
+Disk consolidation merges redundant delta disks created by snapshots back into the base disk.
+
+To check if disks need consolidation:
+
+* In vSphere Client, check the VM summary tab for "Consolidation needed" warnings
+* Via PowerCLI: `Get-VM | Where-Object {$_.ExtensionData.Runtime.ConsolidationNeeded}`
+
+To consolidate disks:
+
+* In vSphere Client: Right-click the VM → Snapshots → Consolidate
+* Ensure the operation completes successfully before proceeding with migration
+
+=== Snapshot Hierarchy Depth
+
+Verify that the snapshot hierarchy.
+
+* In vSphere Client: Right-click the VM → Snapshots → Manage Snapshots
+* Review the snapshot tree depth
+* If the hierarchy is too deep, consider consolidating or removing unnecessary snapshots before migration
+
+=== VMware User Access Control Lists (ACLs)
+
+To avoid using the Administrator role and in order to be able to connect, parse the vCenter datastore, manipulate the snapshots and migrate virtual machines, OS-Migrate needs the following ACLs for the vCenter user:
+
+[cols="1,2,3"]
+|===
+|Category |Privilege Group |Privileges
+
+|**Datastore**
+|—
+|Browse datastore
+
+|**Virtual Machine**
+|Guest operations
+|All
+
+|
+|Provisioning
+|Allow disk access +
+Allow file access +
+Allow read-only disk access +
+Allow virtual machine download
+
+|
+|Service configuration
+|Allow notifications +
+Allow polling of global event notifications +
+Read service configuration
+
+|
+|Snapshot management
+|Create snapshot +
+Remove snapshot +
+Rename snapshot +
+Revert to snapshot
+|===
+
+To verify permissions:
+
+* In vCenter: Administration → Access Control → Roles
+* Review the assigned role for the migration user
+* Ensure all required privileges are granted
+
+=== Change Block Tracking (CBT)
+
+Change Block Tracking is recommended for near-zero downtime migrations with large disks.
+
+[NOTE]
+====
+CBT allows incremental data transfer by tracking changed disk blocks between snapshots,
+significantly reducing downtime during the final synchronization phase.
+====
+
+==== Enabling CBT
+
+CBT must be enabled on the virtual machine before migration.
+
+**Prerequisites for enabling CBT:**
+
+* VMware Tools must be installed on the VM (see below)
+* VM must be powered off or a snapshot must be taken for changes to take effect
+* vSphere 4.0 or later
+
+**To enable CBT:**
+
+. Power off the virtual machine (or plan for a snapshot)
+. Edit VM settings and add/modify the following advanced parameters:
+** `ctkEnabled = TRUE`
+** `scsi0:0.ctkEnabled = TRUE` (for each disk, e.g., scsi0:1, scsi0:2, etc.)
+
+. Power on the virtual machine
+
+**Verify CBT is enabled:**
+
+Via vSphere Web Client:
+[source,bash]
+----
+# Check VM configuration for changeTrackingEnabled parameter
+----
+
+[NOTE]
+====
+If CBT is not enabled, OS Migrate will perform a full disk copy in a single pass,
+which may result in longer downtime for VMs with large disks.
+====
+
+=== VMware Tools Installation
+
+VMware Tools installation status should be verified before migration.
+
+**Importance:**
+
+* **For standard migrations:** Recommended but not mandatory
+** Improves guest OS detection and metadata gathering
+** Enables graceful shutdown capabilities
+** Provides better VM customization options post-migration
+
+* **For CBT-based migrations:** Mandatory
+** CBT functionality requires VMware Tools to be installed
+** Without VMware Tools, CBT cannot be enabled or used
+
+**To check VMware Tools status:**
+
+Via vSphere Client:
+
+* Select the VM and check the Summary tab
+* Look for "VMware Tools" status: should show "Running" or "OK"
+* Status of "Not installed" or "Not running" indicates action is needed
+
+Via PowerCLI:
+[source,powershell]
+----
+Get-VM <vm-name> | Select Name, @{N='Tools Status';E={$_.ExtensionData.Guest.ToolsStatus}}
+----
+
+**To install VMware Tools:**
+
+. In vSphere Client: Right-click the VM → Guest OS → Install VMware Tools
+. Follow the guest OS-specific installation process
+. Verify the installation completes successfully
+
+[WARNING]
+====
+Attempting a CBT-based migration without VMware Tools installed will fail.
+Ensure VMware Tools are installed and running before enabling CBT.
+====
+
 == Workflow
 
 There is different ways to run the migration from VMWare to OpenStack.
@@ -666,3 +823,4 @@ Run the `nbdcopy` command as shown in the logs and observe `nbdkit` output. You 
 
 At this point, authentication was already verified by the migration process. The VMDK path is returned by the VMware API, typically:
 `[Datastore 1] path/to/the/guest-00001.vmdk`.
+----
