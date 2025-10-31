@@ -11,7 +11,7 @@ For the purposes of the these metrics, we are considering the following hardware
 * 8GB RAM
 * 20GB disk unless otherwise stated
 
-//=== VMware to OpenStack via CLI 
+//=== VMware to OpenStack via CLI
 //
 //TODO: Are we to include this?
 
@@ -85,6 +85,7 @@ Recommended guidelines:
 * *For 1 migration allocate 2GB of RAM and 1 vCPU on your Conversion Host*
 * RHEL 9.5 or CentOS 10 to benefit from the latest drivers (virtio-win) to convert the recent Windows distributions.
 * Fedora (38 and +) if you want to convert btrfs file system
+*Minimum baseline for small concurrency*: 2 vCPUs, 4GB RAM, 16GB disk on the conversion host.
 
 == How to proceed with a large workload
 
@@ -114,4 +115,4 @@ When this behavior appears, sometimes just a reboot might help to clean the /dev
 
 * Another issue may appear on the Vmware side with the message "snapshot hierarchy is too deep" because OS-Migrate is working with Snapshot. If this error appears, then clean the guest snapshots hierarchy and re-run the migration.
 
-*Note 1* - Make sure all the OpenStack services are configured to support a large amount of requests. OS-Migrate is driven by Ansible but the core of the migration is a binary which does not consume a lot of resources. So the more you use the binary, the more the OpenStack Api will receive requests. For example Rabbitmq, Galera and also Nova or Cinder will be impacted. 
+*Note 1* - Make sure all the OpenStack services are configured to support a large amount of requests. OS-Migrate is driven by Ansible but the core of the migration is a binary which does not consume a lot of resources. So the more you use the binary, the more the OpenStack Api will receive requests. For example Rabbitmq, Galera and also Nova or Cinder will be impacted.

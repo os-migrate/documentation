@@ -340,6 +340,33 @@ openstack server create --flavor x.medium --image 14b1a895-5003-4396-888e-1fa55c
 openstack server add floating ip vmware-conv-host 192.168.18.205
 ----
 
+==== VMware VDDK setup
+
+===== Download and extract the VMware VDDK
+
+. In a browser, navigate to the VMware VDDK download page.
+. Select version 8.0.1 and download the archive.
+. Save the archive in a temporary directory and extract it:
+
+[source,bash]
+----
+tar -xzf VMware-vix-disklib-<version>.x86_64.tar.gz
+----
+
+You can then specify the library path via:
+
+[source,yaml]
+----
+conversion_host_vmware_vix_disklib: /usr/lib/vmware-vix-disklib
+----
+
+If you want to skip the `conversion_host` role entirely, specify the library path on the migrator instead:
+
+[source,yaml]
+----
+import_workloads_libdir: /usr/lib/vmware-vix-disklib
+----
+
 ==== Inventory, Variables files and Ansible command:
 
 **inventory.yml**
@@ -507,6 +534,49 @@ vms_list:
   - rhel-2
 ----
 
+=== OpenStack Flavor
+
+When using VMware as a source, there are several ways to handle the flavor for the resulting OpenStack instance. VMware has no native flavor concept, so OS-Migrate supports:
+
+. Find the closest matching flavor
+** Enable:
+   [source,yaml]
+   ----
+   use_existing_flavor: true
+   ----
+** If no flavor matches, OS‑Migrate will create one automatically.
+
+. Create a new flavor for each VM
+** The created flavor name follows:
+   `osm-vmware-<vm_name>-<random_id>` (example: `osm-vmware-myvm-9999`).
+
+. Provide a specific flavor UUID
+** Force usage of an existing flavor:
+   [source,yaml]
+   ----
+   flavor_uuid: <your_flavor_uuid>
+   ----
+** Useful to define custom properties for host aggregation or targeted placement.
+
+=== Virt‑v2v
+
+Provide the following additional information when using virt‑v2v:
+
+[source,yaml]
+----
+# virt‑v2v parameters
+vddk_thumbprint: XX:XX:XX
+vddk_libdir: /usr/lib/vmware-vix-disklib
+----
+
+Generate the thumbprint of your VMware source cloud with:
+
+[source,bash]
+----
+openssl s_client -connect ESXI_SERVER_NAME:443 </dev/null | \
+  openssl x509 -in /dev/stdin -fingerprint -sha1 -noout
+----
+
 === Running migration from local shared NFS
 OS-Migrate can migrate directly from a local shared directory mounted on the
 conversion host. If the VMware virtual machines are located on an NFS datastore
@@ -613,3 +683,96 @@ You can see the logs into:
 ----
 tail -f /tmp/osm-nbdkit.log
 ----
+
+== Troubleshooting
+
+=== Connectivity from Conversion Host to VMware
+
+Ensure network and name resolution are properly configured before running migrations.
+
+* Port 902 must be reachable from the conversion host:
+  [source,bash]
+  ----
+  curl -v telnet://<vcenter_ip>:902
+  # or
+  nc -zv <vcenter_ip> 902
+  ----
+  The connection should succeed.
+
+* vCenter FQDN resolution
+  Ensure the vCenter hostname resolves from the conversion host. If necessary, update `/etc/hosts`:
+  [source,bash]
+  ----
+  echo "<vcenter_ip> vcenter.domain.local" | sudo tee -a /etc/hosts
+  ----
+
+=== OpenStack Metadata service
+
+If the metadata service is not reachable you may see errors like:
+
+```
+Failed to fetch metadata: Get "http://169.254.169.254/openstack/latest/meta_data.json": dial tcp 169.254.169.254:80: connect: no route to host
+```
+
+As a workaround you can set a manual instance UUID in the import playbook:
+
+[source,yaml]
+----
+import_workloads_instance_uuid: <uuid>
+----
+
+=== Enable Debugging Flags During Migration
+
+Increase verbosity and capture detailed debug information by setting:
+
+[source,yaml]
+----
+import_workloads_debug: true
+----
+
+OS-Migrate creates a unique log file per migration on the conversion host under `/tmp`, and in case of failure pulls it back to the OS-Migrate work directory (default `/opt/os-migrate`) under a folder named after the VM. The log naming format is:
+`osm-nbdkit-<vm-name>-<random-id>.log`.
+
+[source,bash]
+----
+tail -f /tmp/osm-nbdkit-<vm-name>-<random-id>.log
+----
+
+=== NBDKit errors
+
+If you encounter:
+
+```
+nbdkit: error: server has no export named '': No such file or directory
+```
+
+Common causes:
+
+1. Port 902 not open between conversion host and vCenter.
+2. vCenter FQDN not resolvable.
+3. Malformed `nbdkit` command (invalid characters or parameters).
+
+=== Manual debug procedure
+
+You can replay the commands manually for troubleshooting.
+
+==== Step 1 – Run `nbdkit` manually
+
+Run the command shown in the logs with `--verbose` and wrap the VMDK path in double quotes:
+
+[source,bash]
+----
+nbdkit --verbose vddk ".../guest-00001.vmdk"
+----
+
+If the migration snapshot has been deleted, remove the snapshot option and use the base disk instead.
+
+==== Step 2 – Run `nbdcopy` in another shell
+
+Run the `nbdcopy` command as shown in the logs and observe `nbdkit` output. You should see:
+`vddk: config_complete.`
+
+==== Step 3 – Analyze authentication and paths
+
+At this point, authentication was already verified by the migration process. The VMDK path is returned by the VMware API, typically:
+`[Datastore 1] path/to/the/guest-00001.vmdk`.
