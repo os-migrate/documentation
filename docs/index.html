@@ -583,15 +583,26 @@ pre.rouge .gs {
 <li><a href="#_usage">2.4. Usage</a>
 <ul class="sectlevel3">
 <li><a href="#_nbdkit_default">2.4.1. Nbdkit (default)</a></li>
-<li><a href="#_running_migration_from_local_shared_nfs">2.4.2. Running migration from local shared NFS</a></li>
-<li><a href="#_ansible_configuration">2.4.3. Ansible configuration</a></li>
-<li><a href="#_running_migration_outside_of_ansible">2.4.4. Running Migration outside of Ansible</a></li>
+<li><a href="#_openstack_flavor">2.4.2. OpenStack Flavor</a></li>
+<li><a href="#_virtv2v">2.4.3. Virt‑v2v</a></li>
+<li><a href="#_running_migration_from_local_shared_nfs">2.4.4. Running migration from local shared NFS</a></li>
+<li><a href="#_ansible_configuration">2.4.5. Ansible configuration</a></li>
+<li><a href="#_running_migration_outside_of_ansible">2.4.6. Running Migration outside of Ansible</a></li>
 </ul>
 </li>
-<li><a href="#_ansible_execution_environment_aee_images">2.5. Ansible Execution Environment (AEE) Images</a>
+<li><a href="#_troubleshooting">2.5. Troubleshooting</a>
 <ul class="sectlevel3">
-<li><a href="#_using_aee_images">2.5.1. Using AEE Images</a></li>
-<li><a href="#_using_aee_images_with_awx_platform">2.5.2. Using AEE Images with AWX platform</a></li>
+<li><a href="#_connectivity_from_conversion_host_to_vmware">2.5.1. Connectivity from Conversion Host to VMware</a></li>
+<li><a href="#_openstack_metadata_service">2.5.2. OpenStack Metadata service</a></li>
+<li><a href="#_enable_debugging_flags_during_migration">2.5.3. Enable Debugging Flags During Migration</a></li>
+<li><a href="#_nbdkit_errors">2.5.4. NBDKit errors</a></li>
+<li><a href="#_manual_debug_procedure">2.5.5. Manual debug procedure</a></li>
+</ul>
+</li>
+<li><a href="#_ansible_execution_environment_aee_images">2.6. Ansible Execution Environment (AEE) Images</a>
+<ul class="sectlevel3">
+<li><a href="#_using_aee_images">2.6.1. Using AEE Images</a></li>
+<li><a href="#_using_aee_images_with_awx_platform">2.6.2. Using AEE Images with AWX platform</a></li>
 </ul>
 </li>
 </ul>
@@ -1247,6 +1258,46 @@ openstack server add floating ip vmware-conv-host 192.168.18.205</code></pre>
 </div>
 </div>
 <div class="sect4">
+<h5 id="_vmware_vddk_setup"><a class="anchor" href="#_vmware_vddk_setup"></a><a class="link" href="#_vmware_vddk_setup">VMware VDDK setup</a></h5>
+<div class="sect5">
+<h6 id="_download_and_extract_the_vmware_vddk"><a class="anchor" href="#_download_and_extract_the_vmware_vddk"></a><a class="link" href="#_download_and_extract_the_vmware_vddk">Download and extract the VMware VDDK</a></h6>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In a browser, navigate to the VMware VDDK download page.</p>
+</li>
+<li>
+<p>Select version 8.0.1 and download the archive.</p>
+</li>
+<li>
+<p>Save the archive in a temporary directory and extract it:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="nb">tar</span> <span class="nt">-xzf</span> VMware-vix-disklib-&lt;version&gt;.x86_64.tar.gz</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can then specify the library path via:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">conversion_host_vmware_vix_disklib</span><span class="pi">:</span> <span class="s">/usr/lib/vmware-vix-disklib</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you want to skip the <code>conversion_host</code> role entirely, specify the library path on the migrator instead:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">import_workloads_libdir</span><span class="pi">:</span> <span class="s">/usr/lib/vmware-vix-disklib</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
 <h5 id="_inventory_variables_files_and_ansible_command"><a class="anchor" href="#_inventory_variables_files_and_ansible_command"></a><a class="link" href="#_inventory_variables_files_and_ansible_command">Inventory, Variables files and Ansible command:</a></h5>
 <div class="paragraph">
 <p><strong>inventory.yml</strong></p>
@@ -1427,7 +1478,84 @@ ansible-galaxy collection <span class="nb">install </span>os_migrate.vmware_migr
 </div>
 </div>
 <div class="sect3">
-<h4 id="_running_migration_from_local_shared_nfs"><a class="anchor" href="#_running_migration_from_local_shared_nfs"></a><a class="link" href="#_running_migration_from_local_shared_nfs">2.4.2. Running migration from local shared NFS</a></h4>
+<h4 id="_openstack_flavor"><a class="anchor" href="#_openstack_flavor"></a><a class="link" href="#_openstack_flavor">2.4.2. OpenStack Flavor</a></h4>
+<div class="paragraph">
+<p>When using VMware as a source, there are several ways to handle the flavor for the resulting OpenStack instance. VMware has no native flavor concept, so OS-Migrate supports:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Find the closest matching flavor</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Enable:
+[source,yaml]
+----
+use_existing_flavor: true
+----</p>
+</li>
+<li>
+<p>If no flavor matches, OS‑Migrate will create one automatically.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Create a new flavor for each VM</p>
+<div class="ulist">
+<ul>
+<li>
+<p>The created flavor name follows:
+<code>osm-vmware-&lt;vm_name&gt;-&lt;random_id&gt;</code> (example: <code>osm-vmware-myvm-9999</code>).</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Provide a specific flavor UUID</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Force usage of an existing flavor:
+[source,yaml]
+----
+flavor_uuid: &lt;your_flavor_uuid&gt;
+----</p>
+</li>
+<li>
+<p>Useful to define custom properties for host aggregation or targeted placement.</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_virtv2v"><a class="anchor" href="#_virtv2v"></a><a class="link" href="#_virtv2v">2.4.3. Virt‑v2v</a></h4>
+<div class="paragraph">
+<p>Provide the following additional information when using virt‑v2v:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># virt‑v2v parameters</span>
+<span class="na">vddk_thumbprint</span><span class="pi">:</span> <span class="s">XX:XX:XX</span>
+<span class="na">vddk_libdir</span><span class="pi">:</span> <span class="s">/usr/lib/vmware-vix-disklib</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Generate the thumbprint of your VMware source cloud with:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash">openssl s_client <span class="nt">-connect</span> ESXI_SERVER_NAME:443 &lt;/dev/null | <span class="se">\</span>
+  openssl x509 <span class="nt">-in</span> /dev/stdin <span class="nt">-fingerprint</span> <span class="nt">-sha1</span> <span class="nt">-noout</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_running_migration_from_local_shared_nfs"><a class="anchor" href="#_running_migration_from_local_shared_nfs"></a><a class="link" href="#_running_migration_from_local_shared_nfs">2.4.4. Running migration from local shared NFS</a></h4>
 <div class="paragraph">
 <p>OS-Migrate can migrate directly from a local shared directory mounted on the
 conversion host. If the VMware virtual machines are located on an NFS datastore
@@ -1460,7 +1588,7 @@ point as follows:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ansible_configuration"><a class="anchor" href="#_ansible_configuration"></a><a class="link" href="#_ansible_configuration">2.4.3. Ansible configuration</a></h4>
+<h4 id="_ansible_configuration"><a class="anchor" href="#_ansible_configuration"></a><a class="link" href="#_ansible_configuration">2.4.5. Ansible configuration</a></h4>
 <div class="paragraph">
 <p>Create an invenvoty file, and replace the conv_host_ip by the ip address of your
 conversion host:</p>
@@ -1489,7 +1617,7 @@ conversion host:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_running_migration_outside_of_ansible"><a class="anchor" href="#_running_migration_outside_of_ansible"></a><a class="link" href="#_running_migration_outside_of_ansible">2.4.4. Running Migration outside of Ansible</a></h4>
+<h4 id="_running_migration_outside_of_ansible"><a class="anchor" href="#_running_migration_outside_of_ansible"></a><a class="link" href="#_running_migration_outside_of_ansible">2.4.6. Running Migration outside of Ansible</a></h4>
 <div class="paragraph">
 <p>You can also run migration outside of Ansible because the Ansible module are written in Golang.
 The binaries are located in the plugins directory.</p>
@@ -1557,7 +1685,138 @@ Openstack variables:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_ansible_execution_environment_aee_images"><a class="anchor" href="#_ansible_execution_environment_aee_images"></a><a class="link" href="#_ansible_execution_environment_aee_images">2.5. Ansible Execution Environment (AEE) Images</a></h3>
+<h3 id="_troubleshooting"><a class="anchor" href="#_troubleshooting"></a><a class="link" href="#_troubleshooting">2.5. Troubleshooting</a></h3>
+<div class="sect3">
+<h4 id="_connectivity_from_conversion_host_to_vmware"><a class="anchor" href="#_connectivity_from_conversion_host_to_vmware"></a><a class="link" href="#_connectivity_from_conversion_host_to_vmware">2.5.1. Connectivity from Conversion Host to VMware</a></h4>
+<div class="paragraph">
+<p>Ensure network and name resolution are properly configured before running migrations.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Port 902 must be reachable from the conversion host:
+[source,bash]
+----
+curl -v telnet://&lt;vcenter_ip&gt;:902
+# or
+nc -zv &lt;vcenter_ip&gt; 902
+----
+The connection should succeed.</p>
+</li>
+<li>
+<p>vCenter FQDN resolution
+Ensure the vCenter hostname resolves from the conversion host. If necessary, update <code>/etc/hosts</code>:
+[source,bash]
+----
+echo "&lt;vcenter_ip&gt; vcenter.domain.local" | sudo tee -a /etc/hosts
+----</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_openstack_metadata_service"><a class="anchor" href="#_openstack_metadata_service"></a><a class="link" href="#_openstack_metadata_service">2.5.2. OpenStack Metadata service</a></h4>
+<div class="paragraph">
+<p>If the metadata service is not reachable you may see errors like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>Failed to fetch metadata: Get "http://169.254.169.254/openstack/latest/meta_data.json": dial tcp 169.254.169.254:80: connect: no route to host</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As a workaround you can set a manual instance UUID in the import playbook:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">import_workloads_instance_uuid</span><span class="pi">:</span> <span class="s">&lt;uuid&gt;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_enable_debugging_flags_during_migration"><a class="anchor" href="#_enable_debugging_flags_during_migration"></a><a class="link" href="#_enable_debugging_flags_during_migration">2.5.3. Enable Debugging Flags During Migration</a></h4>
+<div class="paragraph">
+<p>Increase verbosity and capture detailed debug information by setting:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">import_workloads_debug</span><span class="pi">:</span> <span class="kc">true</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>OS-Migrate creates a unique log file per migration on the conversion host under <code>/tmp</code>, and in case of failure pulls it back to the OS-Migrate work directory (default <code>/opt/os-migrate</code>) under a folder named after the VM. The log naming format is:
+<code>osm-nbdkit-&lt;vm-name&gt;-&lt;random-id&gt;.log</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="nb">tail</span> <span class="nt">-f</span> /tmp/osm-nbdkit-&lt;vm-name&gt;-&lt;random-id&gt;.log</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_nbdkit_errors"><a class="anchor" href="#_nbdkit_errors"></a><a class="link" href="#_nbdkit_errors">2.5.4. NBDKit errors</a></h4>
+<div class="paragraph">
+<p>If you encounter:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>nbdkit: error: server has no export named '': No such file or directory</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Common causes:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Port 902 not open between conversion host and vCenter.</p>
+</li>
+<li>
+<p>vCenter FQDN not resolvable.</p>
+</li>
+<li>
+<p>Malformed <code>nbdkit</code> command (invalid characters or parameters).</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_manual_debug_procedure"><a class="anchor" href="#_manual_debug_procedure"></a><a class="link" href="#_manual_debug_procedure">2.5.5. Manual debug procedure</a></h4>
+<div class="paragraph">
+<p>You can replay the commands manually for troubleshooting.</p>
+</div>
+<div class="sect4">
+<h5 id="_step_1_run_nbdkit_manually"><a class="anchor" href="#_step_1_run_nbdkit_manually"></a><a class="link" href="#_step_1_run_nbdkit_manually">Step 1 – Run <code>nbdkit</code> manually</a></h5>
+<div class="paragraph">
+<p>Run the command shown in the logs with <code>--verbose</code> and wrap the VMDK path in double quotes:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash">nbdkit <span class="nt">--verbose</span> vddk <span class="s2">".../guest-00001.vmdk"</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the migration snapshot has been deleted, remove the snapshot option and use the base disk instead.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_step_2_run_nbdcopy_in_another_shell"><a class="anchor" href="#_step_2_run_nbdcopy_in_another_shell"></a><a class="link" href="#_step_2_run_nbdcopy_in_another_shell">Step 2 – Run <code>nbdcopy</code> in another shell</a></h5>
+<div class="paragraph">
+<p>Run the <code>nbdcopy</code> command as shown in the logs and observe <code>nbdkit</code> output. You should see:
+<code>vddk: config_complete.</code></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_step_3_analyze_authentication_and_paths"><a class="anchor" href="#_step_3_analyze_authentication_and_paths"></a><a class="link" href="#_step_3_analyze_authentication_and_paths">Step 3 – Analyze authentication and paths</a></h5>
+<div class="paragraph">
+<p>At this point, authentication was already verified by the migration process. The VMDK path is returned by the VMware API, typically:
+<code>[Datastore 1] path/to/the/guest-00001.vmdk</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ansible_execution_environment_aee_images"><a class="anchor" href="#_ansible_execution_environment_aee_images"></a><a class="link" href="#_ansible_execution_environment_aee_images">2.6. Ansible Execution Environment (AEE) Images</a></h3>
 <div class="paragraph">
 <p>vmware-migration-kit provides a containerized Ansible Execution Environment (AEE) image that encapsulates all necessary dependencies for running migration playbooks in a consistent, isolated environment.They include:</p>
 </div>
@@ -1581,7 +1840,7 @@ Openstack variables:</p>
 <p>This approach ensures consistent behavior across different environments and simplifies deployment and maintenance.</p>
 </div>
 <div class="sect3">
-<h4 id="_using_aee_images"><a class="anchor" href="#_using_aee_images"></a><a class="link" href="#_using_aee_images">2.5.1. Using AEE Images</a></h4>
+<h4 id="_using_aee_images"><a class="anchor" href="#_using_aee_images"></a><a class="link" href="#_using_aee_images">2.6.1. Using AEE Images</a></h4>
 <div class="sect4">
 <h5 id="_running_playbooks_with_aee"><a class="anchor" href="#_running_playbooks_with_aee"></a><a class="link" href="#_running_playbooks_with_aee">Running Playbooks with AEE</a></h5>
 <div class="paragraph">
@@ -1646,7 +1905,7 @@ Openstack variables:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_using_aee_images_with_awx_platform"><a class="anchor" href="#_using_aee_images_with_awx_platform"></a><a class="link" href="#_using_aee_images_with_awx_platform">2.5.2. Using AEE Images with AWX platform</a></h4>
+<h4 id="_using_aee_images_with_awx_platform"><a class="anchor" href="#_using_aee_images_with_awx_platform"></a><a class="link" href="#_using_aee_images_with_awx_platform">2.6.2. Using AEE Images with AWX platform</a></h4>
 <div class="paragraph">
 <p>This allows you to leverage the benefits of AEE—such as consistent execution environments, isolation from host dependencies, and simplified dependency management—while AWX for orchestration and management. For configuring AWX to launch a migration:</p>
 </div>
@@ -1947,7 +2206,8 @@ For the purposes of the these metrics, we are considering the following hardware
 <p>RHEL 9.5 or CentOS 10 to benefit from the latest drivers (virtio-win) to convert the recent Windows distributions.</p>
 </li>
 <li>
-<p>Fedora (38 and +) if you want to convert btrfs file system</p>
+<p>Fedora (38 and +) if you want to convert btrfs file system
+<strong>Minimum baseline for small concurrency</strong>: 2 vCPUs, 4GB RAM, 16GB disk on the conversion host.</p>
 </li>
 </ul>
 </div>
