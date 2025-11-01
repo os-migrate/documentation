@@ -11,7 +11,7 @@ This is the documentation repository for OS Migrate, an open source toolbox for 
   - `reference-module-*.adoc` - Ansible module reference documentation
   - `reference-role-*.adoc` - Ansible role reference documentation
 - `images/` - Static SVG workflow diagrams
-- `docs/` - Build output directory (generated)
+- `build/` - Build output directory (generated)
 
 ## Building Documentation
 
@@ -42,8 +42,8 @@ make help
 ### Output
 
 Built documentation will be available at:
-- **HTML**: `docs/index.html`
-- **Images**: `docs/images/` (SVG files automatically copied during build)
+- **HTML**: `build/index.html`
+- **Images**: `build/images/` (SVG files automatically copied during build)
 
 ## Features
 
