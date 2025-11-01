@@ -5,7 +5,7 @@ ASCIIDOCTOR = asciidoctor
 
 # Source and output directories
 SRC_DIR = .
-HTML_OUTPUT_DIR = docs
+HTML_OUTPUT_DIR = build
 IMAGE_SRC_DIR = images
 
 # Main document
