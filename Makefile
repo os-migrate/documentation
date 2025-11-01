@@ -1,7 +1,7 @@
 # OS Migrate AsciiDoc Documentation Makefile
 
 # Tools
-ASCIIDOCTOR = asciidoctor
+ASCIIDOCTOR = bundle exec asciidoctor
 
 # Source and output directories
 SRC_DIR = .
