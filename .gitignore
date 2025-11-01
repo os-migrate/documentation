@@ -4,3 +4,7 @@
 # Ruby
 Gemfile.lock
 .bundle/
+
+# Build output
+build/
+docs/

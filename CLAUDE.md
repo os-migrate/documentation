@@ -30,8 +30,8 @@ make help
 ```
 
 Output locations:
-- **HTML**: `docs/index.html`
-- **Images**: `docs/images/` (SVG files automatically copied during build)
+- **HTML**: `build/index.html`
+- **Images**: `build/images/` (SVG files automatically copied during build)
 
 ## Documentation Structure
 
@@ -52,7 +52,7 @@ The documentation uses AsciiDoc format with the following structure:
   - `reference-role-*.adoc` - Ansible role reference documentation
 - `images/` - Static SVG workflow diagrams
   - `*.svg` - VMware migration workflow diagrams
-- `docs/` - Build output directory (generated, not in source control)
+- `build/` - Build output directory (generated, not in source control)
 
 ### Key Documentation Features
 - Single-page HTML generation
@@ -70,18 +70,28 @@ The build process is straightforward:
 ### HTML Build
 - Uses `index.adoc` as the source document
 - Builds single-page HTML with all content
-- Output: `docs/index.html`
-- Automatically copies SVG images from `images/` to `docs/images/`
+- Output: `build/index.html`
+- Automatically copies SVG images from `images/` to `build/images/`
 
 ## Development Workflow
 
 When working with documentation:
 
 1. Source files use AsciiDoc format (.adoc)
-2. Build output goes to the `docs/` directory
+2. Build output goes to the `build/` directory
 3. Static SVG images are automatically copied during build
 4. Use `make clean` to reset build state
 5. Edit `index.adoc` to control what content is included
+
+### CI/CD Pipeline
+
+Documentation is automatically built and deployed to GitHub Pages when changes are pushed to the `main` branch:
+
+- **Workflow**: `.github/workflows/build-and-deploy.yml`
+- **Trigger**: Push to `main` branch or manual workflow dispatch
+- **Build**: Uses Ruby 3.2, installs dependencies via Bundler, runs `make html`
+- **Deploy**: Uploads build artifacts from `build/` directory to GitHub Pages
+- **URL**: Deployed to the repository's GitHub Pages URL
 
 ## Important Notes for Code Assistance
 
