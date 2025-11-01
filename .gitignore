@@ -2,8 +2,8 @@
 .asciidoctor/
 
 # Ruby
-Gemfile.lock
 .bundle/
+vendor/bundle/
 
 # Build output
 build/
