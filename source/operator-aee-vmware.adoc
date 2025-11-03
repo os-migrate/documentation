@@ -9,10 +9,166 @@ vmware-migration-kit provides a containerized Ansible Execution Environment (AEE
 
 This approach ensures consistent behavior across different environments and simplifies deployment and maintenance.
 
+=== Building AEE Images
+
+==== Prerequisites
+
+Before building AEE images, ensure you have the following tools installed:
+
+* `ansible-builder` - Tool for building execution environments
+* `podman` or `docker` - Container runtime
+* `git` - Version control system
+* `python3` - Python runtime (version 3.8 or higher)
+
+==== Installing Dependencies
+
+Install the required dependencies using the project-specific requirements files:
+
+**For vmware-migration-kit:**
+
+[source,bash]
+----
+# Clone the repository
+git clone https://github.com/os-migrate/vmware-migration-kit.git
+cd vmware-migration-kit
+
+# Create and activate virtual environment
+python3 -m venv .venv
+source .venv/bin/activate
+
+# Install build dependencies
+pip install -r requirements-build.txt
+----
+
+
+==== Collection Requirements in AEE
+
+The AEE images use `requirements.yml` files to specify which Ansible collections to install. The collection installation method depends on the build context:
+
+**For main branch builds (development):**
+
+Install collections directly from Git repositories using the main branch:
+
+[source,yaml]
+----
+# requirements.yml for main branch builds
+collections:
+  - name: https://github.com/os-migrate/vmware-migration-kit.git
+    type: git
+    version: main
+----
+
+**For stable/tagged builds (production):**
+
+Install collections from Ansible Galaxy using specific version tags:
+
+[source,yaml]
+----
+# requirements.yml for stable/tagged builds
+collections:
+  - name: vmware.vmware
+    version: 2.4.0
+  - name: vmware.vmware_rest
+    version: 4.9.0
+  - name: os_migrate.vmware_migration_kit
+    type: file
+    source: tmp/os_migrate-vmware_migration_kit-2.0.9.tar.gz
+----
+
+**Benefits of this approach:**
+
+* **Main branch builds**: Always get the latest development code with latest features and fixes
+* **Stable builds**: Use tested, released versions for production stability
+* **Version consistency**: AEE image tags match the collection versions they contain
+* **Reproducible builds**: Same collection versions produce identical AEE images
+
+==== Execution Environment Definition
+
+AEE images are defined using `execution-environment.yml` files that specify:
+
+* Base image (typically `quay.io/centos/centos:stream10-minimal`)
+* Python dependencies
+* Ansible collection
+* Additional image configurations
+
+Example structure:
+
+[source,yaml]
+----
+version: 1
+
+images:
+  base_image:
+    name: quay.io/centos/centos:stream10-minimal
+
+options:
+  package_manager_path: /usr/bin/microdnf
+
+dependencies:
+  ansible_runner:
+    package_pip: ansible-runner
+  ansible_core:
+    package_pip: ansible-core
+  python: requirements.txt
+  system: binddep.txt
+  galaxy: requirements.yml
+  python_interpreter:
+    package_system: "python3"
+    python_path: "/usr/bin/python3"
+additional_build_files:
+  - src: ../os_migrate-vmware_migration_kit-2.0.9.tar.gz
+    dest: tmp/
+additional_build_steps:
+  prepend_base:
+    - "RUN mkdir -p /etc/sudoers.d"
+    - "RUN echo 'cloud-user ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/cloud-user"
+----
+
+==== Customizing AEE Images
+
+To customize AEE images for specific requirements:
+
+1. Modify the `execution-environment.yml` file
+2. Add custom requirements or collections
+3. Rebuild the image using ansible-builder
+
+==== Building vmware-migration-kit AEE
+
+Navigate to the vmware-migration-kit repository and build the AEE:
+
+[source,bash]
+----
+# Navigate to the repository
+cd /path/to/vmware-migration-kit
+
+# Activate virtual environment (if using one)
+source .venv/bin/activate
+
+# Navigate to AEE directory
+cd aee
+
+# Build the AEE image
+ansible-builder build --tag vmware-migration-kit:latest
+----
+
+==== Automated Build Process
+
+The repository includes a GitHub Actions workflow that automatically builds and tests AEE images:
+
+* `vmware-migration-kit/.github/workflows/build-aee.yml`
+
+The workflow:
+
+* Trigger on pushes to main branch and pull requests
+* Build the AEE image using ansible-builder
+* Run basic validation tests
+* Push images to container registries (when configured)
+
+
 === Using AEE Images
 
 ==== Running Playbooks with AEE
-AEE images are distributed in Quay; use the following command to pull the latest stable image:
+AEE images are distributed in Quay; you can build it or use the following command to pull the latest stable image:
 
 [source,bash]
 ----
@@ -57,11 +213,10 @@ This allows you to leverage the benefits of AEE—such as consistent execution e
 
 * Create the inventory and add the conversion host
 
-* Create the execution environment using the desired AEE image (os-migrate or vmware-migration-kit)
+* Create the execution environment using the desired AEE image
 
 * Create a project that points to the repository containing the migration playbooks
 
 * Create the job template adding the inventory created before, the project, the execution environment and adding the variables file as extra variables.
 
 * Run the migration
-
