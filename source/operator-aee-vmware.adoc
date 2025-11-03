@@ -53,9 +53,6 @@ Install collections directly from Git repositories using the main branch:
 ----
 # requirements.yml for main branch builds
 collections:
-  - name: https://github.com/os-migrate/os-migrate.git
-    type: git
-    version: main
   - name: https://github.com/os-migrate/vmware-migration-kit.git
     type: git
     version: main
@@ -156,12 +153,11 @@ ansible-builder build --tag vmware-migration-kit:latest
 
 ==== Automated Build Process
 
-Both repositories include GitHub Actions workflows that automatically build and test AEE images:
+The repository includes a GitHub Actions workflow that automatically builds and tests AEE images:
 
-* `os-migrate/.github/workflows/build-aee.yml`
 * `vmware-migration-kit/.github/workflows/build-aee.yml`
 
-These workflows:
+The workflow:
 
 * Trigger on pushes to main branch and pull requests
 * Build the AEE image using ansible-builder
@@ -172,7 +168,7 @@ These workflows:
 === Using AEE Images
 
 ==== Running Playbooks with AEE
-AEE images are distributed in Quay; use the following command to pull the latest stable image:
+AEE images are distributed in Quay; you can build it or use the following command to pull the latest stable image:
 
 [source,bash]
 ----
@@ -217,7 +213,7 @@ This allows you to leverage the benefits of AEE—such as consistent execution e
 
 * Create the inventory and add the conversion host
 
-* Create the execution environment using the desired AEE image (os-migrate or vmware-migration-kit)
+* Create the execution environment using the desired AEE image
 
 * Create a project that points to the repository containing the migration playbooks
 
