@@ -31,8 +31,6 @@ The migrator host is the machine that executes OS Migrate Ansible playbooks and 
 ----
 ansible==11.7.0
 ansible-lint==25.6.1
-openstacksdk==1.5.1
-python-openstackclient==6.3.0
 passlib==1.7.4
 PyYAML==6.0.2
 ----
@@ -41,9 +39,8 @@ PyYAML==6.0.2
 
 [source,text]
 ----
-community.crypto: ">=1.4.0"
-community.general: "<5.0.0"
-openstack.cloud: ">=2.3.0,<2.4.0"
+vmware.vmware: ">=2.4.0"
+vmware.vmware_rest: ">=5.0.0"
 ----
 
 === Storage Requirements
