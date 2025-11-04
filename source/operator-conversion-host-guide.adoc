@@ -148,17 +148,7 @@ Source VMware                       Destination Cloud
 
 === Network requirements
 
-|===
-| Port / Protocol | Direction | Source / Destination | Purpose
-
-| 443/TCP | Egress | VMware vCenter | Main VMware communication used for authentication, VM metadata, snapshots, and VDDK operations.
-
-| 902/TCP | Egress | VMware ESXi hosts | Direct disk access used to read VM disk data via NFC/NBD protocols.
-
-| 22/TCP | Ingress | Ansible Controller / Admin | Remote management of the conversion host over SSH.
-
-| 10809/TCP | Internal to host | Conversion host | Local NBDKit server used to stream disk data during conversion (no firewall rule required).
-|===
+The network requirements for VMware to OpenStack migration are describe here: xref:operator-vmware-guide.adoc[Network requirements]
 
 == Configuration
 
