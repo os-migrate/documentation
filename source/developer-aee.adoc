@@ -21,7 +21,6 @@ The os-migrate AEE image contains:
 
 * Ansible Core
 * os-migrate Ansible collection
-* OpenStack SDK and related Python packages
 * All required dependencies for OpenStack resource migration
 
 === vmware-migration-kit AEE
