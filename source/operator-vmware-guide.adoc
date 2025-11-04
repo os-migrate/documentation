@@ -224,7 +224,7 @@ https://access.redhat.com/articles/certified-hypervisors[Certified Guest Operati
 
 === Nbdkit migration example
 
-image::images/osm-migration-nbdkit-vmware-workflow-with-osm.drawio.svg[Ndbkit]
+image::../images/osm-migration-nbdkit-vmware-workflow-with-osm.drawio.svg[Ndbkit]
 
 
 === Nbdkit migration example with the Change Block Tracking
@@ -235,7 +235,7 @@ image::images/osm-migration-nbdkit-vmware-workflow-with-osm.drawio.svg[Ndbkit]
 The conversion cannot be made at this moment, and the OS instance is not created.
 This functionality can be used for large disks with a lot of data to transfer. It helps avoid a prolonged service interruption.
 
-image::images/osm-migration-nbdkit-vmware-workflow-with-osm_cbt_step1.svg[CBT Step 1]
+image::../images/osm-migration-nbdkit-vmware-workflow-with-osm_cbt_step1.svg[CBT Step 1]
 
 ==== Step 2: OSM compare the source (VMware disk) and the destination (Openstack Volume) change ID
 
@@ -244,7 +244,7 @@ If the change IDs are not equal, the changed blocks between the source and desti
 Then, the conversion to libvirt/KVM is triggered, and the OpenStack instance is created.
 This allows for minimal downtime for the VMs.
 
-image::images/osm-migration-nbdkit-vmware-workflow-with-osm_cbt_step2.svg[CBT Step 2]
+image::../images/osm-migration-nbdkit-vmware-workflow-with-osm_cbt_step2.svg[CBT Step 2]
 
 === Migration demo from an AEE
 
