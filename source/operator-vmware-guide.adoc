@@ -31,7 +31,7 @@ These checks are based on issues encountered in real-world migration engagements
 
 === Network settings and checks
 
-Before attempting a migration you need to make to have the correct network settings and host resolution.
+Before attempting a migration you need to make sure to have the correct network settings and host resolutions.
 
 ==== Network checks
 
