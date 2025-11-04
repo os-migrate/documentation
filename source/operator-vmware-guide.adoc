@@ -102,10 +102,8 @@ To verify permissions:
 Change Block Tracking is recommended for near-zero downtime migrations with large disks.
 
 [NOTE]
-====
 CBT allows incremental data transfer by tracking changed disk blocks between snapshots,
 significantly reducing downtime during the final synchronization phase.
-====
 
 ==== Enabling CBT
 
@@ -135,10 +133,8 @@ Via vSphere Web Client:
 ----
 
 [NOTE]
-====
 If CBT is not enabled, OS Migrate will perform a full disk copy in a single pass,
 which may result in longer downtime for VMs with large disks.
-====
 
 === VMware Tools Installation
 
@@ -236,7 +232,6 @@ image::images/osm-migration-nbdkit-vmware-workflow-with-osm.drawio.svg[Ndbkit]
 ==== Step 1: The data are copied and the change ID from the VMware disk are set to the Cinder volume as metadata
 
 [NOTE]
-====
 The conversion cannot be made at this moment, and the OS instance is not created.
 This functionality can be used for large disks with a lot of data to transfer. It helps avoid a prolonged service interruption.
 
@@ -245,7 +240,6 @@ image::images/osm-migration-nbdkit-vmware-workflow-with-osm_cbt_step1.svg[CBT St
 ==== Step 2: OSM compare the source (VMware disk) and the destination (Openstack Volume) change ID
 
 [NOTE]
-====
 If the change IDs are not equal, the changed blocks between the source and destination are synced.
 Then, the conversion to libvirt/KVM is triggered, and the OpenStack instance is created.
 This allows for minimal downtime for the VMs.
@@ -272,8 +266,9 @@ easily create your conversion host manually.
 A conversion host is basically an OpenStack instance.
 
 [NOTE]
-====
-Important: If you want to take benefit of the current supported OS, it's highly recommended to use a *CentOS-10* release or *RHEL-9.5* and superior. If you want to use other Linux distribution, make sure the virtio-win package is equal or higher than 1.40 version.
+Important: If you want to take benefit of the current supported OS, it's highly
+recommended to use a *CentOS-10* release or *RHEL-9.5* and superior. If you want
+to use other Linux distribution, make sure the virtio-win package is equal or higher than 1.40 version.
 
 [source,bash]
 ----
@@ -487,11 +482,8 @@ vms_list:
 When using VMware as a source, there are several ways to handle the flavor for the resulting OpenStack instance. VMware has no native flavor concept, so OS-Migrate supports:
 
 . Find the closest matching flavor
-** Enable:
-   [source,yaml]
-   ----
-   use_existing_flavor: true
-   ----
+** Enable: `use_existing_flavor: true`
+
 ** If no flavor matches, OS‑Migrate will create one automatically.
 
 . Create a new flavor for each VM
@@ -499,11 +491,7 @@ When using VMware as a source, there are several ways to handle the flavor for t
    `osm-vmware-<vm_name>-<random_id>` (example: `osm-vmware-myvm-9999`).
 
 . Provide a specific flavor UUID
-** Force usage of an existing flavor:
-   [source,yaml]
-   ----
-   flavor_uuid: <your_flavor_uuid>
-   ----
+** Force usage of an existing flavor: `flavor_uuid: <your_flavor_uuid>`
 ** Useful to define custom properties for host aggregation or targeted placement.
 
 === Virt‑v2v
@@ -541,9 +529,7 @@ import_workloads_local_disk_path: "/srv/nfs"
 ----
 
 [NOTE]
-====
 In this mode, only cold migration is supported.
-====
 
 === Ansible configuration
 
