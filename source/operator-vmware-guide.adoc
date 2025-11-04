@@ -29,7 +29,34 @@ machine migration in two steps. The migration can also be done without conversio
 Before migrating VMware workloads to OpenStack, ensure the following pre-requisites are met.
 These checks are based on issues encountered in real-world migration engagements.
 
-=== Disk Consolidation
+=== Network settings and checks
+
+Before attempting a migration you need to make to have the correct network settings and host resolution.
+
+==== Network checks
+
+Make sure the Vcenter fqdn and OpenStack endpoints can be resolved from the conversion host.
+Refer to this section to perform the checks if needed: <<Connectivity from Conversion Host to VMware>>.
+
+==== Network requirements
+
+Ensure that you met all the following network requirements:
+
+|===
+| Port / Protocol | Direction | Source / Destination | Purpose
+
+| 443/TCP | Egress | VMware vCenter | Main VMware communication used for authentication, VM metadata, snapshots, and VDDK operations.
+
+| 902/TCP | Egress | VMware ESXi hosts | Direct disk access used to read VM disk data via NFC/NBD protocols.
+
+| 22/TCP | Ingress | Ansible Controller / Admin | Remote management of the conversion host over SSH.
+
+| 10809/TCP | Internal to host | Conversion host | Local NBDKit server used to stream disk data during conversion (no firewall rule required).
+|===
+
+=== On the VMware side
+
+==== Disk Consolidation
 
 Ensure that all virtual machine disks are consolidated before migration.
 
@@ -46,7 +73,7 @@ To consolidate disks:
 * In vSphere Client: Right-click the VM → Snapshots → Consolidate
 * Ensure the operation completes successfully before proceeding with migration
 
-=== Snapshot Hierarchy Depth
+==== Snapshot Hierarchy Depth
 
 Verify that the snapshot hierarchy.
 
@@ -54,7 +81,7 @@ Verify that the snapshot hierarchy.
 * Review the snapshot tree depth
 * If the hierarchy is too deep, consider consolidating or removing unnecessary snapshots before migration
 
-=== VMware User Access Control Lists (ACLs)
+==== VMware User Access Control Lists (ACLs)
 
 To avoid using the Administrator role and in order to be able to connect, parse the vCenter datastore, manipulate the snapshots and migrate virtual machines, OS-Migrate needs the following ACLs for the vCenter user:
 
@@ -97,7 +124,7 @@ To verify permissions:
 * Review the assigned role for the migration user
 * Ensure all required privileges are granted
 
-=== Change Block Tracking (CBT)
+==== Change Block Tracking (CBT)
 
 Change Block Tracking is recommended for near-zero downtime migrations with large disks.
 
@@ -136,7 +163,7 @@ Via vSphere Web Client:
 If CBT is not enabled, OS Migrate will perform a full disk copy in a single pass,
 which may result in longer downtime for VMs with large disks.
 
-=== VMware Tools Installation
+==== VMware Tools Installation
 
 VMware Tools installation status should be verified before migration.
 
@@ -625,20 +652,20 @@ tail -f /tmp/osm-nbdkit.log
 Ensure network and name resolution are properly configured before running migrations.
 
 * Port 902 must be reachable from the conversion host:
-  [source,bash]
-  ----
-  curl -v telnet://<vcenter_ip>:902
-  # or
-  nc -zv <vcenter_ip> 902
-  ----
-  The connection should succeed.
+[source,bash]
+----
+curl -v telnet://<vcenter_ip>:902
+# or
+nc -zv <vcenter_ip> 902
+----
+The connection should succeed.
 
 * vCenter FQDN resolution
   Ensure the vCenter hostname resolves from the conversion host. If necessary, update `/etc/hosts`:
-  [source,bash]
-  ----
-  echo "<vcenter_ip> vcenter.domain.local" | sudo tee -a /etc/hosts
-  ----
+[source,bash]
+----
+echo "<vcenter_ip> vcenter.domain.local" | sudo tee -a /etc/hosts
+----
 
 === OpenStack Metadata service
 
