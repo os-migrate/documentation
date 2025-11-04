@@ -249,10 +249,8 @@ image::images/osm-migration-nbdkit-vmware-workflow-with-osm_cbt_step1.svg[CBT St
 If the change IDs are not equal, the changed blocks between the source and destination are synced.
 Then, the conversion to libvirt/KVM is triggered, and the OpenStack instance is created.
 This allows for minimal downtime for the VMs.
-====
 
 image::images/osm-migration-nbdkit-vmware-workflow-with-osm_cbt_step2.svg[CBT Step 2]
-
 
 === Migration demo from an AEE
 
