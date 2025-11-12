@@ -70,3 +70,6 @@ The Makefile uses AsciiDoctor with the following configuration:
 The project uses these Ruby gems (defined in `Gemfile`):
 - `asciidoctor` (~> 2.0) - Core AsciiDoc processor
 - `rouge` (~> 4.1) - Syntax highlighting
+
+The upstream documentation is available [here](https://github.com/os-migrate/documentation). For Red Hat Certified and Supported documentation, please see [Red Hat OpenStack VMWare Migration Toolkit](https://console.redhat.com/ansible/automation-hub/repo/published/os_migrate/vmware_migration_kit/docs/).
+
