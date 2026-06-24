@@ -233,6 +233,7 @@ The following features are availables:
 * Migration with virt-v2v
 * Upload migrate volume via Glance
 * Multi disks migration
+* Multi disks filesystem migration
 * Multi nics
 * Parallel migration on a same conversion host
 * Ansible Automation Platform (AAP)
@@ -559,6 +560,55 @@ v2v_first_boot_script: "/path/to/firstboot.sh"
 ----
 
 The first boot script should already present on the conversion host.
+
+=== Multi-disk filesystem
+
+Some virtual machines have their file system installed across multiple disks — for example,
+the root filesystem (`/`) can span `/dev/vda` and `/dev/vdb` at the same time. In that case,
+a standard per-disk conversion would produce inconsistent volumes, because virt-v2v needs to
+see all disks as a single logical domain to convert them correctly.
+
+To handle this scenario, set:
+
+[source,yaml]
+----
+import_workloads_multidiskfs: true
+----
+
+When this option is enabled, OS-Migrate queries the VMware API to determine the disk layout
+of the source VM (bus type, device name for each disk), builds a libvirt domain XML file
+that describes all disks together, and then passes it to `virt-v2v-in-place` using
+`-i libvirtxml` instead of the usual `-i disk`.
+
+==== Debugging multi-disk filesystem migrations
+
+If the conversion fails or produces unexpected results, the following artifacts are available
+on the conversion host for troubleshooting:
+
+* *Log file* — one log file per migration under `/tmp`:
++
+[source,bash]
+----
+tail -f /tmp/osm-nbdkit-<vm-name>-<random-id>.log
+----
++
+This log contains the full nbdcopy command that was used to copy each disk, as well as
+the virt-v2v-in-place invocation.
+
+* *Domain XML file* — written to `/tmp` before the conversion runs:
++
+[source,bash]
+----
+cat /tmp/<vm-name><random-id>-domain.xml
+----
++
+This file describes the disk layout as OS-Migrate understood it from VMware. Check that
+each disk entry has the correct device path (`source file`) and target device name (`target dev`).
+If a disk is mapped to the wrong device, the converted instance may not boot.
+
+* *nbdcopy command* — the exact `nbdcopy` invocation for each disk is printed in the log file.
+You can replay it manually on the conversion host to test connectivity and data transfer
+independently of the rest of the migration.
 
 === Virt‑v2v Wrapper (not recommended)
 
