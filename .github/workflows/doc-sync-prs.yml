@@ -40,7 +40,7 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: pip install anthropic PyGithub
+        run: pip install "anthropic[vertex]" PyGithub
 
       - name: Sync documentation from source PRs
         env:
