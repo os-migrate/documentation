@@ -241,18 +241,30 @@ def create_doc_pr(gh_client: Github, doc_repo, source_repo_name: str, pr_number:
 
 def _make_claude_client():
     """Return an Anthropic client, using Vertex AI when configured."""
-    gcp_creds_json = os.getenv("GOOGLE_APPLICATION_CREDENTIALS_JSON")
-    vertex_project = os.getenv("ANTHROPIC_VERTEX_PROJECT_ID")
+    gcp_creds_json = (os.getenv("GOOGLE_APPLICATION_CREDENTIALS_JSON") or "").strip()
+    vertex_project = (os.getenv("ANTHROPIC_VERTEX_PROJECT_ID") or "").strip()
 
-    if gcp_creds_json and vertex_project:
-        # Write credentials JSON to a temp file; Google SDK needs a file path.
-        tmp = tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False)
-        tmp.write(gcp_creds_json)
-        tmp.flush()
-        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = tmp.name
-        return anthropic.AnthropicVertex(project_id=vertex_project, region="us-east5")
+    if not vertex_project:
+        return anthropic.Anthropic()
 
-    return anthropic.Anthropic()
+    if not gcp_creds_json:
+        raise RuntimeError(
+            "ANTHROPIC_VERTEX_PROJECT_ID is set but GOOGLE_APPLICATION_CREDENTIALS_JSON is missing or empty."
+        )
+
+    try:
+        json.loads(gcp_creds_json)
+    except json.JSONDecodeError as exc:
+        raise RuntimeError(
+            f"GOOGLE_APPLICATION_CREDENTIALS_JSON is not valid JSON: {exc}. "
+            "Ensure the secret contains the full contents of a GCP service-account key file, not a file path."
+        ) from exc
+
+    tmp = tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False)
+    tmp.write(gcp_creds_json)
+    tmp.close()  # close before google.auth reads it; flush() alone is not enough on all platforms
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = tmp.name
+    return anthropic.AnthropicVertex(project_id=vertex_project, region="us-east5")
 
 
 def main():
