@@ -24,6 +24,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import anthropic
+import tempfile
 from github import Github, GithubException
 
 # ---------------------------------------------------------------------------
@@ -238,9 +239,25 @@ def create_doc_pr(gh_client: Github, doc_repo, source_repo_name: str, pr_number:
 # ---------------------------------------------------------------------------
 
 
+def _make_claude_client():
+    """Return an Anthropic client, using Vertex AI when configured."""
+    gcp_creds_json = os.getenv("GOOGLE_APPLICATION_CREDENTIALS_JSON")
+    vertex_project = os.getenv("ANTHROPIC_VERTEX_PROJECT_ID")
+
+    if gcp_creds_json and vertex_project:
+        # Write credentials JSON to a temp file; Google SDK needs a file path.
+        tmp = tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False)
+        tmp.write(gcp_creds_json)
+        tmp.flush()
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = tmp.name
+        return anthropic.AnthropicVertex(project_id=vertex_project, region="us-east5")
+
+    return anthropic.Anthropic()
+
+
 def main():
     gh_client = Github(os.environ["OSM_GITHUB_TOKEN"])
-    claude_client = anthropic.Anthropic()
+    claude_client = _make_claude_client()
 
     doc_repo = gh_client.get_repo(DOCS_REPO)
     cutoff = datetime.now(timezone.utc) - timedelta(days=DAYS_BACK)
