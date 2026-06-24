@@ -239,7 +239,7 @@ def create_doc_pr(gh_client: Github, doc_repo, source_repo_name: str, pr_number:
 
 
 def main():
-    gh_client = Github(os.environ["GITHUB_TOKEN"])
+    gh_client = Github(os.environ["OSM_GITHUB_TOKEN"])
     claude_client = anthropic.Anthropic()
 
     doc_repo = gh_client.get_repo(DOCS_REPO)
