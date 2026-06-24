@@ -172,7 +172,7 @@ Return ONLY a valid JSON object (no markdown fences) with exactly these fields:
   "doc_file": "<relative path in the docs repo, e.g. source/operator-vmware-guide.adoc>",
   "section_id": "<AsciiDoc anchor ID in kebab-case, e.g. new-cbt-variable>",
   "section_content": "<complete AsciiDoc block for the new / updated section>",
-  "pr_title": "<documentation PR title, e.g. '[Doc Sync] Add CBT variable docs ({source_repo}#{pr_number})'>",
+  "pr_title": "<documentation PR title, e.g. '[Doc Sync] Add CBT variable docs ({repo_name}#{pr.number})'>",
   "pr_body": "<markdown body for the documentation PR, referencing the source PR and explaining what was added>"
 }}
 """
