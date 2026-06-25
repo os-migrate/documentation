@@ -44,9 +44,9 @@ jobs:
 
       - name: Set up GCP credentials
         env:
-          GCP_CREDS_B64: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+          GCP_CREDS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
         run: |
-          printf '%s' "$GCP_CREDS_B64" | base64 -d > "$RUNNER_TEMP/gcp-key.json"
+          printf '%s' "$GCP_CREDS" > "$RUNNER_TEMP/gcp-key.json"
           echo "GOOGLE_APPLICATION_CREDENTIALS=$RUNNER_TEMP/gcp-key.json" >> $GITHUB_ENV
 
       - name: Sync documentation from source PRs
