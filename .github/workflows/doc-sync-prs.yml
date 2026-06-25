@@ -42,10 +42,12 @@ jobs:
       - name: Install dependencies
         run: pip install "anthropic[vertex]" PyGithub
 
-      - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v2
-        with:
-          credentials_json: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+      - name: Set up GCP credentials
+        env:
+          GCP_CREDS_B64: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+        run: |
+          printf '%s' "$GCP_CREDS_B64" | base64 -d > "$RUNNER_TEMP/gcp-key.json"
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$RUNNER_TEMP/gcp-key.json" >> $GITHUB_ENV
 
       - name: Sync documentation from source PRs
         env:
