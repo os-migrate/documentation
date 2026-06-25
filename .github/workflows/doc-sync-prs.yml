@@ -42,15 +42,10 @@ jobs:
       - name: Install dependencies
         run: pip install "anthropic[vertex]" PyGithub
 
-      - name: Set up GCP credentials
-        env:
-          GCP_CREDS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-        run: |
-          printf '%s' "$GCP_CREDS" > "$RUNNER_TEMP/gcp-key.json"
-          echo "GOOGLE_APPLICATION_CREDENTIALS=$RUNNER_TEMP/gcp-key.json" >> $GITHUB_ENV
-
       - name: Sync documentation from source PRs
         env:
+          CLAUDE_CODE_USE_VERTEX: 1
+          GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
           ANTHROPIC_VERTEX_PROJECT_ID: ${{ secrets.ANTHROPIC_VERTEX_PROJECT_ID }}
           OSM_GITHUB_TOKEN: ${{ secrets.OSM_GITHUB_TOKEN }}
           SOURCE_ORG: os-migrate

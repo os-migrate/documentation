@@ -23,6 +23,7 @@ import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
+import tempfile
 import anthropic
 from github import Github, GithubException
 
@@ -69,7 +70,7 @@ RELEASE_TITLE_PATTERNS = [
     re.compile(r"(?i)^(bump|update)\s+.*version"),
 ]
 
-CLAUDE_MODEL = "claude-sonnet-4-6"
+CLAUDE_MODEL = "claude-sonnet-4-5"
 
 SYSTEM_PROMPT = """You are a technical documentation writer for the OS Migrate project — an open source Ansible toolbox for parallel cloud migration (VMware to OpenStack, and OpenStack to OpenStack).
 
@@ -150,7 +151,23 @@ def doc_pr_exists(gh: Github, doc_repo_name: str, source_repo: str, pr_number: i
         return False
 
 
-def call_claude(client: anthropic.Anthropic, pr, repo_name: str) -> dict:
+def _make_claude_client() -> anthropic.AnthropicVertex:
+    """Return an AnthropicVertex client using the same env vars as claude-code-security-review."""
+    vertex_project = (os.getenv("ANTHROPIC_VERTEX_PROJECT_ID") or "").strip()
+    if not vertex_project:
+        raise RuntimeError("ANTHROPIC_VERTEX_PROJECT_ID env var is required.")
+
+    creds_json = os.getenv("GOOGLE_APPLICATION_CREDENTIALS_JSON")
+    if creds_json and not os.getenv("GOOGLE_APPLICATION_CREDENTIALS"):
+        tmp = tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False)
+        tmp.write(creds_json)
+        tmp.close()
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = tmp.name
+
+    return anthropic.AnthropicVertex(project_id=vertex_project, region="us-east5")
+
+
+def call_claude(client: anthropic.AnthropicVertex, pr, repo_name: str) -> dict:
     """Ask Claude to analyse the PR and return structured documentation data."""
     diff_summary = get_pr_diff_summary(pr)
 
@@ -185,8 +202,6 @@ Return ONLY a valid JSON object (no markdown fences) with exactly these fields:
     )
 
     text = response.content[0].text.strip()
-
-    # Strip accidental markdown fences
     if text.startswith("```"):
         text = re.sub(r"^```(?:json)?\s*", "", text)
         text = re.sub(r"\s*```$", "", text)
@@ -238,16 +253,18 @@ def create_doc_pr(gh_client: Github, doc_repo, source_repo_name: str, pr_number:
 # ---------------------------------------------------------------------------
 
 
-def _make_claude_client():
-    """Return an Anthropic client, using Vertex AI when ANTHROPIC_VERTEX_PROJECT_ID is set.
+def _make_gemini_model() -> GenerativeModel:
+    """Initialise Vertex AI and return a Gemini GenerativeModel.
 
-    GCP credentials are expected to be already configured via Application Default Credentials
-    (e.g. by the google-github-actions/auth step in the workflow).
+    GCP credentials are expected to be configured via GOOGLE_APPLICATION_CREDENTIALS
+    (set by the workflow's 'Set up GCP credentials' step).
     """
-    vertex_project = (os.getenv("ANTHROPIC_VERTEX_PROJECT_ID") or "").strip()
-    if vertex_project:
-        return anthropic.AnthropicVertex(project_id=vertex_project, region="us-east5")
-    return anthropic.Anthropic()
+    project = (os.getenv("GOOGLE_CLOUD_PROJECT") or "").strip()
+    region = (os.getenv("GOOGLE_CLOUD_REGION") or "us-central1").strip()
+    if not project:
+        raise RuntimeError("GOOGLE_CLOUD_PROJECT env var is required.")
+    vertexai.init(project=project, location=region)
+    return GenerativeModel(GEMINI_MODEL)
 
 
 def main():
