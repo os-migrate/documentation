@@ -24,7 +24,6 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import anthropic
-import tempfile
 from github import Github, GithubException
 
 # ---------------------------------------------------------------------------
@@ -240,31 +239,15 @@ def create_doc_pr(gh_client: Github, doc_repo, source_repo_name: str, pr_number:
 
 
 def _make_claude_client():
-    """Return an Anthropic client, using Vertex AI when configured."""
-    gcp_creds_json = (os.getenv("GOOGLE_APPLICATION_CREDENTIALS_JSON") or "").strip()
+    """Return an Anthropic client, using Vertex AI when ANTHROPIC_VERTEX_PROJECT_ID is set.
+
+    GCP credentials are expected to be already configured via Application Default Credentials
+    (e.g. by the google-github-actions/auth step in the workflow).
+    """
     vertex_project = (os.getenv("ANTHROPIC_VERTEX_PROJECT_ID") or "").strip()
-
-    if not vertex_project:
-        return anthropic.Anthropic()
-
-    if not gcp_creds_json:
-        raise RuntimeError(
-            "ANTHROPIC_VERTEX_PROJECT_ID is set but GOOGLE_APPLICATION_CREDENTIALS_JSON is missing or empty."
-        )
-
-    try:
-        json.loads(gcp_creds_json)
-    except json.JSONDecodeError as exc:
-        raise RuntimeError(
-            f"GOOGLE_APPLICATION_CREDENTIALS_JSON is not valid JSON: {exc}. "
-            "Ensure the secret contains the full contents of a GCP service-account key file, not a file path."
-        ) from exc
-
-    tmp = tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False)
-    tmp.write(gcp_creds_json)
-    tmp.close()  # close before google.auth reads it; flush() alone is not enough on all platforms
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = tmp.name
-    return anthropic.AnthropicVertex(project_id=vertex_project, region="us-east5")
+    if vertex_project:
+        return anthropic.AnthropicVertex(project_id=vertex_project, region="us-east5")
+    return anthropic.Anthropic()
 
 
 def main():

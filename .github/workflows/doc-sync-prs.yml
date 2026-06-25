@@ -42,10 +42,13 @@ jobs:
       - name: Install dependencies
         run: pip install "anthropic[vertex]" PyGithub
 
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+
       - name: Sync documentation from source PRs
         env:
-          CLAUDE_CODE_USE_VERTEX: 1
-          GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
           ANTHROPIC_VERTEX_PROJECT_ID: ${{ secrets.ANTHROPIC_VERTEX_PROJECT_ID }}
           OSM_GITHUB_TOKEN: ${{ secrets.OSM_GITHUB_TOKEN }}
           SOURCE_ORG: os-migrate
