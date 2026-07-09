@@ -853,3 +853,34 @@ Run the `nbdcopy` command as shown in the logs and observe `nbdkit` output. You 
 
 At this point, authentication was already verified by the migration process. The VMDK path is returned by the VMware API, typically:
 `[Datastore 1] path/to/the/guest-00001.vmdk`.
+
+[id="tls-certificate-verification"]
+=== TLS Certificate Verification
+
+By default, OS-Migrate verifies TLS certificates for both the VMware vCenter and the OpenStack API endpoints. If either environment uses self-signed or untrusted certificates, the migration will fail with an error such as:
+
+[source,bash]
+----
+Failed to initiate Vmware client: Post "https://vcenter.example.com/sdk": tls: failed to verify certificate: x509: certificate signed by unknown authority
+----
+
+Two variables control this behavior:
+
+[options="header"]
+|===
+| Variable | Default | Description
+| `import_workloads_vmware_insecure` | `false` | Skip TLS certificate verification for the VMware vCenter connection
+| `import_workloads_openstack_insecure` | `false` | Skip TLS certificate verification for the OpenStack API connection
+|===
+
+Set one or both to `true` when the certificates are self-signed or issued by an authority not trusted by the conversion host:
+
+[source,yaml]
+----
+import_workloads_vmware_insecure: true
+import_workloads_openstack_insecure: true
+----
+
+These variables inherit from the shorter aliases `vmware_insecure` and `openstack_insecure` if those are set at a higher scope.
+
+WARNING: Disabling certificate verification removes protection against man-in-the-middle attacks. Use only in lab or trusted network environments.
