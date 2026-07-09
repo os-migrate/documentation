@@ -853,3 +853,60 @@ Run the `nbdcopy` command as shown in the logs and observe `nbdkit` output. You 
 
 At this point, authentication was already verified by the migration process. The VMDK path is returned by the VMware API, typically:
 `[Datastore 1] path/to/the/guest-00001.vmdk`.
+
+[id="multi-disk-vm-support"]
+=== Multi-Disk VM Support
+
+The VMware Migration Kit automatically migrates and attaches all disks from source VMs to the target OpenStack instances.
+
+==== How It Works
+
+When you run the `import_workloads` role:
+
+1. All disks from each source VM are migrated to OpenStack Cinder volumes
+2. The first disk becomes the boot volume
+3. Additional disks are attached as data volumes to the resulting instance
+4. The Heat template generator creates the necessary volume attachments automatically
+
+==== Volume Naming Convention
+
+Migrated volumes follow this naming pattern:
+
+[source,bash]
+----
+<vm-name>-<disk-key>
+----
+
+For example, if VM `rhel-1` has disks with keys `scsi0-0-0` (boot) and `scsi0-0-1` (data), the volumes will be named:
+
+- `rhel-1-scsi0-0-0` (boot volume)
+- `rhel-1-scsi0-0-1` (data volume, automatically attached)
+
+==== Heat Template Structure
+
+The generated Heat template includes:
+
+- Parameters for each volume ID (`<vm_name>_boot_volume_id`, `<vm_name>_data_volume_0_id`, etc.)
+- Volume attachment resources for data disks
+- `block_device_mapping_v2` entries linking volumes to the instance
+
+No manual configuration is required — the workflow discovers and attaches all disks automatically.
+
+==== Example
+
+For a VM with one boot disk and two data disks, the `heat_vms_data` structure will contain:
+
+[source,yaml]
+----
+vms_data:
+  - name: myvm
+    boot_volume_id: "uuid-of-boot-volume"
+    data_volume_ids:
+      - "uuid-of-data-volume-1"
+      - "uuid-of-data-volume-2"
+    flavor: "m1.medium"
+    network: "provider_network_1"
+    security_groups: ["default"]
+----
+
+All three volumes are attached to the instance when the Heat stack is created.
