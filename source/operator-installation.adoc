@@ -1,0 +1,71 @@
+[id="building-container-image"]
+=== Building a Container Image
+
+OS Migrate can be built as a container image for use in containerized environments and CI/CD pipelines.
+
+==== Prerequisites
+
+* A container engine installed (Podman or Docker)
+* Root privileges or appropriate permissions to build container images
+* Git repository cloned locally
+
+==== Building the Image
+
+To build the OS Migrate container image, run the following command from the repository root:
+
+[source,bash]
+----
+make container-image
+----
+
+This target builds a container image using the provided `Containerfile`. The image includes:
+
+* Python virtual environment with all required dependencies
+* Ansible collections (openstack.cloud, community.general)
+* OS Migrate collection installed and ready to use
+* All necessary system packages and tools
+
+==== Build Arguments
+
+The build process uses the following configurable arguments:
+
+[cols="1,2,1",options="header"]
+|===
+|Argument
+|Description
+|Default Value
+
+|PYTHON_VERSION
+|Python version to install and use
+|3.12
+
+|BASE_IMAGE
+|Base container image
+|quay.io/centos/centos:stream10
+
+|CONTAINER_NAME
+|Name for the built image
+|(defined in Makefile)
+|===
+
+To customize build arguments, modify the corresponding variables in the Makefile before running the build command.
+
+==== Cleaning Up
+
+To remove the built container image:
+
+[source,bash]
+----
+make container-image-clean
+----
+
+==== Using the Container Image
+
+Once built, you can run the container image to execute OS Migrate playbooks:
+
+[source,bash]
+----
+podman run -it <container-name> bash
+----
+
+Inside the container, the OS Migrate collection is available in the Ansible collections path and can be used in playbooks.
