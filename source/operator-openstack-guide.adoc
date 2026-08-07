@@ -1,0 +1,60 @@
+[id="volume-image-metadata-preservation"]
+=== Volume Image Metadata Preservation
+
+When migrating workloads with boot volumes that carry Cinder `volume_image_metadata` (such as UEFI firmware settings or machine type configurations), OS Migrate now preserves this metadata on the destination cloud.
+
+==== Why This Matters
+
+Cinder volumes can contain image metadata properties that Nova uses when building virtual machine domain XML. The most critical properties are:
+
+* `hw_firmware_type` — Specifies firmware type (e.g., `uefi` vs. `bios`)
+* `hw_machine_type` — Defines the emulated machine type (e.g., `q35` vs. `i440fx`)
+
+Without these properties, Nova defaults to SeaBIOS firmware with the i440fx machine type. This causes boot failures for:
+
+* Windows Server 2016 and later (requires UEFI)
+* Linux distributions installed with GPT partitioning and EFI System Partition
+* Any workload that requires specific machine type emulation
+
+==== How It Works
+
+OS Migrate automatically:
+
+. Captures `volume_image_metadata` from source boot volumes during the export phase (`import_workload_export_volumes`)
+. Stores the metadata in the `volume_map` structure alongside other volume properties
+. Creates the destination volume with standard parameters
+. Applies the preserved metadata to the newly created volume using `set_volume_image_metadata`
+
+This process happens transparently during workload migration. No operator intervention is required.
+
+==== Troubleshooting
+
+If a migrated UEFI-based workload fails to boot with "No bootable device" errors:
+
+. Check the migration logs for warnings about failed metadata transfer:
++
+[source,bash]
+----
+grep "Failed to set volume image metadata" /path/to/migration.log
+----
+
+. Verify the destination volume has the correct metadata:
++
+[source,bash]
+----
+openstack volume show <volume-id> -f json | jq '.volume_image_metadata'
+----
+
+. If metadata is missing, manually set it on the destination volume:
++
+[source,bash]
+----
+openstack volume set --image-property hw_firmware_type=uefi \
+  --image-property hw_machine_type=q35 <volume-id>
+----
+
+. Rebuild or restart the instance to apply the corrected settings
+
+==== Requirements
+
+This feature requires destination cloud admin privileges to set volume image metadata. If the migration user lacks these permissions, a warning will be logged but the migration will continue. Contact your cloud administrator to grant the necessary permissions or to manually apply the metadata after migration.
