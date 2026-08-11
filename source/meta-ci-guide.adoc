@@ -1,0 +1,37 @@
+[id="os-migrate-meta-ci-guide"]
+
+= CI for OS Migrate Guide
+
+There are four repositories for code for the OS Migrate project.
+
+* os-migrate
+* vmware-migration-kit
+* documentation
+* fake server (TBD)
+
+The two software core repos, os-migrate, and vmware-migration-kit, have various test types available, listed below.
+
+For the most part the Linters and Sanity tests are in place already, but there are gaps in unit testing that need to be filled.  Additionally, functional tests need to be expanded.
+
+A meta umbrella term in this project is End to End or E2E testing, which broadly speaking means Integration (and therefore functional) testing.
+
+== Test Types
+
+* Linters
+** Style check, syntax, format etc.
+* Sanity
+** documentation in place, certifications, etc.
+* Unit
+** Individual tests tied to specific code blocks
+* Module
+** Module level testing
+* Role
+** Role level testing
+* Functional
+** Fit-for-purpose validations that prove working code externally, either via real connections or mocks & fakes
+* Integration
+** Full validations against working systems, some real, some fakes
+
+== Resource Requirements
+
+A lot of the testing is trivial in scope and can be accomplised using existing GitHub Actions, at almost zero cost.  However for larger E2E testing we require dedicated hardware.

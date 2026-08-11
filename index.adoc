@@ -28,6 +28,8 @@ include::source/operator-aee-vmware.adoc[leveloffset=+1]
 
 include::source/operator-performance-expectations.adoc[leveloffset=+1]
 
+include::source/meta-ci-guide.adoc[leveloffset=+1]
+
 == Community
 
 https://github.com/os-migrate/vmware-migration-kit/[GitHub hosted source code]
