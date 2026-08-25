@@ -1,0 +1,114 @@
+[id="prelude-argument-specs"]
+=== Argument Specifications
+
+The `prelude` role now includes formal argument specifications that validate all variables before migration tasks execute. This prevents silent failures caused by type mismatches in downstream Golang modules.
+
+==== VMware Source Parameters
+
+[cols="1,1,1,3",options="header"]
+|===
+|Variable
+|Type
+|Required
+|Description
+
+|`vcenter_hostname`
+|string
+|Yes
+|Hostname or IP address of the vCenter server
+
+|`vcenter_username`
+|string
+|Yes
+|Username for vCenter authentication
+
+|`vcenter_password`
+|string
+|Yes
+|Password for vCenter authentication (no_log enabled)
+
+|`vcenter_datacenter`
+|string
+|Yes
+|Name of the vCenter Datacenter containing source VMs
+
+|`esxi_hostname`
+|string
+|Yes
+|Hostname or IP of the ESXi host for disk access (NFC/NBD on port 902)
+
+|`vmware_insecure`
+|boolean
+|No (default: false)
+|Skip TLS verification for VMware connections
+|===
+
+==== Migration Scope
+
+[cols="1,1,1,3",options="header"]
+|===
+|Variable
+|Type
+|Required
+|Description
+
+|`vms_list`
+|list of strings
+|Yes
+|List of VM names to migrate from VMware to OpenStack
+|===
+
+==== OpenStack Destination
+
+[cols="1,1,1,3",options="header"]
+|===
+|Variable
+|Type
+|Required
+|Description
+
+|`dst_cloud`
+|dictionary
+|Yes
+|Authentication and connection parameters for destination OpenStack cloud
+
+|`dst_cloud.auth`
+|dictionary
+|Yes
+|Keystone authentication credentials
+
+|`dst_cloud.auth.auth_url`
+|string
+|Yes
+|Keystone endpoint URL (e.g. https://openstack.example.com:13000/v3)
+
+|`dst_cloud.auth.username`
+|string
+|Yes
+|OpenStack username
+|===
+
+==== Prelude-Specific Options
+
+[cols="1,1,1,3",options="header"]
+|===
+|Variable
+|Type
+|Required
+|Description
+
+|`prelude_host_entries`
+|list of strings
+|No (default: [])
+|Lines to add to /etc/hosts on the managed host
+|===
+
+==== Type Enforcement
+
+The argument specifications enforce strict typing to prevent issues such as:
+
+* `identity_api_version` must be an integer, not a string
+* Boolean flags like `vmware_insecure` cannot accept string values like "true"
+* Authentication dictionaries must contain all required nested keys
+
+If validation fails, Ansible will report the specific variable and expected type before any migration tasks execute.
