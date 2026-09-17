@@ -1,0 +1,106 @@
+:_mod-docs-content-type: REFERENCE
+[id="ref_vmw-execution-time"]
+= Examples of migration times
+
+[role="_abstract"]
+The following tables contain example performance measurements for migrating from VMware to OpenStack using the VMware Migration Kit. These benchmarks were measured in a lab environment with conversion hosts configured with 6 vCPU and 8GB RAM.
+
+== Migration with 1 conversion host
+
+Time of execution to completion including instance boot and ping for Linux machines.
+
+.Migration with 1 conversion host
+[options="header"]
+|===
+| VMs | Threads | Time
+| 1 | 1 | 2 minutes
+| 20 | 1 | 31 minutes
+| 20 | 2 | 15 minutes
+| 30 | 10 | 8 minutes
+| 100 | 10 | 20 minutes
+|===
+
+[NOTE]
+====
+The average time for 1 virtual machine is around 2 minutes. The migration can be parallelized on the same conversion host (threads) or on multiple conversion hosts.
+====
+
+== Migration of Linux VMs with large disks
+
+Time for Linux machines with larger disks (99 percent full of random data) for a full migration run with and without Change Block Tracking (CBT).
+
+.Migration of Linux VMs with large disks filled with random data
+[options="header"]
+|===
+| Disk size | CBT enabled | Time total | Cutover time | Expected downtime
+| 100 GB | yes | 8 minutes | 2 minutes | 2 minutes
+| 100 GB | no | 7 minutes | | 7 minutes
+| 200 GB | yes | 10 minutes 30 seconds | 2 minutes | 2 minutes
+| 200 GB | no | 9 minutes 30 seconds | | 9 minutes 30 seconds
+| 300 GB | yes | 17 minutes | 2 minutes | 2 minutes
+| 300 GB | no | 15 minutes | | 15 minutes
+| 1 TB | yes | 39 minutes | 2 minutes | 2 minutes
+| 1 TB | no | 35 minutes | | 35 minutes
+|===
+
+[NOTE]
+====
+Enabling Change Block Tracking (CBT) takes more time overall to migrate but results in less downtime due to the smaller data cutover time. The CBT option performs an initial full copy followed by incremental syncs before the final cutover.
+====
+
+== Migration of 55 VMs with 200GB disks
+
+Example of a migration plan for 55 VMs with 200 GB disks (99 percent full of random data).
+
+.Migration of 55 VMs with 200GB disks filled with random data
+[options="header"]
+|===
+| Threads | CBT enabled | Migration time | Sync time
+| 1 | yes | 115 minutes |
+| 5 | no | 105 minutes |
+| 5 | yes | 22 minutes | 110 minutes
+|===
+
+[NOTE]
+====
+For this example, the best plan is to parallelize the migration on a single conversion host with 5 threads and use the CBT option to pre-migrate the volume data. This shortens the cutover time (2 minutes in the lab environment), reducing the overall downtime.
+====
+
+== Migration of 1500 VMs with 20GB disks
+
+Time for Linux machines with 20GB disks for a full migration run which comprises migration of data, conversion, instance creation, boot time, and ability to ping.
+
+.Migration of 1500 VMs with 20GB disks filled with random data
+[options="header"]
+|===
+| VMs | Conversion Hosts | Threads | Time
+| 250 | 2 | 6 | 60 minutes (without the preparation steps)
+| 1000 | 2 | 6 | 5 hours
+| 1500 | 2 | 6 | greater than 5 hours
+|===
+
+[NOTE]
+====
+The conversion host flavor was set to 12GB of RAM and 6 vCPUs, which allows the VMware Migration Kit to comfortably run 6 migrations in parallel on the same host. There is capacity to execute more parallel migrations with this configuration, but it is a best practice to allocate 2GB of RAM and 1 vCPU for each migration.
+====
+
+== Conversion host requirements and recommendations
+
+Recommended guidelines:
+
+* For 1 migration, allocate 2GB of RAM and 1 vCPU on your conversion host.
+* Use CentOS Stream 9 (or RHEL 9.5 and later) to provide the drivers (virtio-win version 1.40 or higher) required for converting Windows distributions.
+* Use Fedora 38 and later if you need to convert btrfs file systems.
+* Minimum baseline for small concurrency: 2 vCPUs, 4GB RAM, 16GB disk on the conversion host.
+
+== Factors affecting migration performance
+
+The following factors affect migration performance:
+
+* Disk size and data volume: Larger disks take longer to transfer and convert.
+* Network bandwidth: Bandwidth between the conversion host and VMware ESXi hosts affects data transfer speed.
+* Disk I/O performance: Faster storage on the conversion host improves conversion speed.
+* OpenStack API performance: Higher API concurrency requires adequate RabbitMQ, Galera, Nova, and Cinder resources.
+* Parallelization: More threads per conversion host and more conversion hosts reduce total migration time.
+* CBT usage: CBT adds initial seeding time but reduces downtime during cutover.
+* VM complexity: Multi-disk VMs and VMs with many network interfaces take longer to migrate.

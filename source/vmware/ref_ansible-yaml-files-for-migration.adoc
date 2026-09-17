@@ -1,0 +1,162 @@
+:_mod-docs-content-type: REFERENCE
+[id="ref_vmw-ansible-yaml-files"]
+= Ansible YAML files for migration
+
+[role="_abstract"]
+Prepare the Ansible YAML files that you use with the migration playbooks.
+
+== Inventory file
+
+The inventory file defines the xref:con_migrator-host[] and the xref:con_conversion-host[]:
+
+[source,yaml]
+----
+migrator:
+  hosts:
+    localhost:
+      ansible_connection: local
+      ansible_python_interpreter: "{{ ansible_playbook_python }}"
+conversion_host:
+  hosts:
+    192.168.18.205:
+      ansible_ssh_user: cloud-user
+      ansible_ssh_private_key_file: /path/to/key
+----
+
+Replace the example IP address with the IP address of your conversion host, and update the path to your SSH private key.
+
+== Variables file (myvars.yml)
+
+The variables file contains migration configuration parameters:
+
+[source,yaml]
+----
+# Set to true if running from an Ansible Execution Environment (AEE):
+runner_from_aee: true
+
+# Migration working directory:
+os_migrate_vmw_data_dir: /opt/os-migrate
+copy_openstack_credentials_to_conv_host: false
+
+# Re-use an already deployed conversion host:
+already_deploy_conversion_host: true
+
+# If no mapped network then set the OpenStack network UUID:
+openstack_private_network: 81cc01d2-5e47-4fad-b387-32686ec71fa4
+
+# Security groups for the instance (UUID):
+security_groups: ab7e2b1a-b9d3-4d31-9d2a-bab63f823243
+
+# Use existing flavor or create a new one:
+use_existing_flavor: true
+
+# Key pair name (can be left blank):
+ssh_key_name: default
+
+# Network settings for OpenStack:
+os_migrate_create_network_port: true
+copy_metadata_to_conv_host: true
+used_mapped_networks: false
+
+# List of VMs to migrate:
+vms_list:
+  - VM1
+  - VM2
+  - My_VM
+  - Windows_VM
+  - RHEL9_VM
+  - Accounting_VM
+----
+
+Common variable descriptions:
+
+`runner_from_aee`:: Set to `true` if running from an AEE container (dependencies already installed); set to `false` to install dependencies on the migrator host.
+`os_migrate_vmw_data_dir`:: Working directory for migration data (default: `/opt/os-migrate`).
+`already_deploy_conversion_host`:: Set to `true` to reuse an existing conversion host; set to `false` to deploy a new one.
+`openstack_private_network`:: UUID of the OpenStack network to attach migrated instances to (if not using network mapping).
+`security_groups`:: UUID of the OpenStack security group to apply to migrated instances.
+`use_existing_flavor`:: Set to `true` to find a matching existing flavor; set to `false` to create a new flavor for each VM.
+`os_migrate_create_network_port`:: Set to `true` to create OpenStack ports with MAC address mapping; set to `false` to let OpenStack assign MAC addresses.
+`used_mapped_networks`:: Set to `true` to use network mapping defined in `network_map`; set to `false` to use `openstack_private_network`.
+`vms_list`:: List of VM names to migrate from VMware.
+
+== Network mapping
+
+If you want to map VMware networks to OpenStack networks, set `used_mapped_networks: true` and define the mapping:
+
+[source,yaml]
+----
+used_mapped_networks: true
+network_map:
+  "VM Network": private
+  "Management Network": management-net
+  "Storage Network": storage-net
+----
+
+The keys are VMware network names, and the values are OpenStack network names.
+
+== Secrets file (secrets.yml)
+
+The secrets file contains VMware and OpenStack credentials:
+
+[source,yaml]
+----
+# VMware parameters:
+esxi_hostname: 10.0.0.7
+vcenter_hostname: 10.0.0.7
+vcenter_username: root
+vcenter_password: password
+vcenter_datacenter: Datacenter
+
+# OpenStack destination cloud authentication:
+os_cloud_environ: my-openstack-cloud
+dst_cloud:
+  auth:
+    auth_url: https://keystone.example.com:13000/v3
+    username: admin
+    project_id: abc123xyz
+    project_name: admin
+    user_domain_name: Default
+    password: openstack-password
+  region_name: regionOne
+  interface: public
+  insecure: false
+  identity_api_version: 3
+----
+
+Variable descriptions:
+
+VMware parameters:: Replace the example values with credentials and hostnames from your VMware vCenter environment.
+`dst_cloud`:: OpenStack authentication dictionary with Keystone credentials. Replace example values with your OpenStack environment details.
+`insecure`:: Set to `true` to skip SSL certificate verification (for test environments only); set to `false` for production.
+
+[NOTE]
+====
+Store the secrets file securely and do not commit it to version control. Consider using Ansible Vault to encrypt sensitive values:
+
+[source,bash]
+----
+ansible-vault encrypt secrets.yml
+----
+====
+
+== Running the migration
+
+To run the migration with these files:
+
+[source,bash]
+----
+ansible-playbook -i inventory.yml \
+  os_migrate.vmware_migration_kit.migration \
+  -e @secrets.yml -e @myvars.yml
+----
+
+If the secrets file is encrypted with Ansible Vault:
+
+[source,bash]
+----
+ansible-playbook -i inventory.yml \
+  os_migrate.vmware_migration_kit.migration \
+  -e @secrets.yml -e @myvars.yml \
+  --ask-vault-pass
+----

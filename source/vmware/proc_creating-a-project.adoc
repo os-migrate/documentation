@@ -1,0 +1,35 @@
+:_mod-docs-content-type: PROCEDURE
+[id="proc_vmw-awx-project"]
+= Creating a project
+
+[role="_abstract"]
+Create a project in AWX (or Ansible Automation Platform) that points to the VMware Migration Kit repository.
+
+.Procedure
+
+. From the navigation panel, select the AWX or automation controller UI, then `Projects`.
+. Click `Create Project`.
+. Set the following parameters:
++
+----
+Name: VMware Migration Kit Project
+Organization: Default
+Execution Environment: VMware Migration Kit Execution Environment
+Source Control Type: Git
+Source Control URL: https://github.com/os-migrate/vmware-migration-kit
+Source Control Branch/Tag/Commit: v2.1.0
+----
++
+where:
++
+`Execution Environment`:: Select the execution environment you created in xref:proc_vmw-awx-ee[].
+`Source Control Branch/Tag/Commit`:: Specify a stable release tag (for example, `v2.1.0`) for production use, or `main` for the ongoing development version.
+
+. Click `Create Project`.
+
+The project is synchronized with the Git repository and is available for use in job templates.
+
+.Verification
+
+* Wait for the project to sync. The status should change to "Successful" with a green checkmark.
+* If the sync fails, check the project logs for errors related to network connectivity or repository access.

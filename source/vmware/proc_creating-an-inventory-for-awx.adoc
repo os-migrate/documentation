@@ -1,0 +1,20 @@
+:_mod-docs-content-type: PROCEDURE
+[id="proc_vmw-awx-inventory"]
+= Creating an inventory for AWX
+
+[role="_abstract"]
+Create an inventory in AWX (or Ansible Automation Platform) to manage the conversion host and migrator host.
+
+.Procedure
+
+. From the navigation panel, select the AWX or automation controller UI, then `Infrastructure`, then `Inventories`.
+. Click `Create Inventory`, then `Create Inventory`.
+. Set the following parameters:
++
+----
+Name: VMware Migration Inventory
+Organization: Default
+----
+. Click `Create Inventory`.
+
+The inventory is available for adding hosts.

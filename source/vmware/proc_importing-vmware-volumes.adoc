@@ -1,0 +1,152 @@
+:_mod-docs-content-type: PROCEDURE
+[id="proc_vmw-importing-volumes"]
+= Importing VMware volumes
+
+[role="_abstract"]
+The `import_volumes.yml` playbook allows you to import VMware VM disks as OpenStack Cinder volumes without creating the full OpenStack instance. This is useful for pre-migration scenarios where you want to transfer disk data separately from instance creation, or for creating bootable volumes that can be used later.
+
+== What the volume import does
+
+The volume import workflow performs the following tasks:
+
+* Connects to the VMware vCenter and ESXi hosts to access VM disk data.
+* Uses nbdkit (default) or virt-v2v to stream and convert VMware VMDK disks.
+* Creates Cinder volumes in OpenStack with the converted disk data.
+* Preserves disk metadata such as size and CBT change IDs (if applicable).
+* Does not create network ports or OpenStack instances.
+
+== Running the volume import playbook
+
+To run the volume import independently:
+
+[source,bash]
+----
+ansible-playbook -i inventory.yml \
+  os_migrate.vmware_migration_kit.import_volumes \
+  -e @secrets.yml -e @myvars.yml
+----
+
+== Configuration for volume-only import
+
+The `import_volumes.yml` playbook sets the following parameters to import volumes without creating instances:
+
+[source,yaml]
+----
+os_migrate_nbkit: true
+os_migrate_virt_v2v: false
+os_migrate_create_network_port: false
+os_migrate_create_os_instance: false
+os_migrate_tear_down: false
+----
+
+Variable descriptions:
+
+`os_migrate_nbkit`:: Set to `true` to use the nbdkit method for disk transfer (default and recommended).
+`os_migrate_virt_v2v`:: Set to `true` to use virt-v2v instead of nbdkit (not recommended for volume-only import).
+`os_migrate_create_network_port`:: Set to `false` to skip OpenStack network port creation.
+`os_migrate_create_os_instance`:: Set to `false` to skip OpenStack instance creation after volume import.
+`os_migrate_tear_down`:: Set to `false` to keep the volumes after import (set to `true` to delete volumes for testing).
+
+== Volume import workflow
+
+The volume import process follows these steps:
+
+. The xref:con_migrator-host[] runs preparation tasks using the `prelude` role to set up the migration environment.
+
+. The xref:con_conversion-host[] executes the `import_workloads` role for each VM in the `vms_list`.
+
+. For each VM disk:
+.. A snapshot is created in VMware (if using CBT).
+.. The nbdkit server is started on the conversion host to stream the VMDK data.
+.. A Cinder volume is created in OpenStack with the appropriate size.
+.. The disk data is copied from VMware to the Cinder volume using nbdcopy.
+.. If using CBT, the VMware change ID is stored as volume metadata for future incremental syncs.
+.. The snapshot is removed from VMware (unless preserved for future CBT syncs).
+
+. The imported volumes are available in OpenStack for later use.
+
+== Using imported volumes
+
+After importing volumes, you can:
+
+* Create bootable volumes for instance creation:
++
+[source,bash]
+----
+openstack volume set --bootable <volume-id>
+----
+
+* Launch instances from the volumes:
++
+[source,bash]
+----
+openstack server create --flavor <flavor> \
+  --volume <volume-id> \
+  --network <network> \
+  <instance-name>
+----
+
+* Perform incremental CBT syncs by running the import again with the same VM (if CBT is enabled).
+
+* Use the volumes as additional data disks attached to existing instances.
+
+== CBT incremental sync with volume import
+
+If you are using CBT for incremental migration, you can run the volume import multiple times:
+
+. First run: Creates the volume and performs a full copy of the disk data. The VMware change ID is stored as volume metadata.
+
+. Subsequent runs: Compare the source VMware change ID with the destination volume metadata. Only changed blocks are synchronized.
+
+. Final cutover: Set `os_migrate_create_os_instance: true` to create the instance after the final sync.
+
+To perform a CBT sync without creating an instance:
+
+[source,yaml]
+----
+# In myvars.yml
+cbt_sync: true
+cutover: false
+os_migrate_create_os_instance: false
+----
+
+To perform the final cutover and create the instance:
+
+[source,yaml]
+----
+# In myvars.yml
+cbt_sync: true
+cutover: true
+os_migrate_create_os_instance: true
+----
+
+== Verification
+
+* List the imported volumes in OpenStack:
++
+[source,bash]
+----
+openstack volume list
+----
+
+* View volume details including size and status:
++
+[source,bash]
+----
+openstack volume show <volume-name>
+----
+
+* Check volume metadata for CBT change IDs (if applicable):
++
+[source,bash]
+----
+openstack volume show <volume-name> -f json | jq '.metadata'
+----
+
+== Use cases for volume-only import
+
+* Pre-migration: Import volume data during off-peak hours, then create instances during a maintenance window.
+* Testing: Validate the disk conversion and data integrity before full migration.
+* Disaster recovery: Create volume copies in OpenStack while keeping VMware VMs running.
+* Incremental migration: Use CBT to sync data multiple times before final cutover.
+* Bootable volume creation: Prepare volumes that can be used to boot multiple instances.

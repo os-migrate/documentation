@@ -12,7 +12,7 @@ IMAGE_SRC_DIR = images
 MAIN_DOC = index.adoc
 
 # AsciiDoc options
-ASCIIDOC_OPTS = -a toc=left -a toclevels=3 -a sectlinks -a sectanchors -a icons=font -a source-highlighter=rouge
+ASCIIDOC_OPTS = -a toc=left -a toclevels=3 -a sectlinks -a sectanchors -a source-highlighter=rouge
 
 .PHONY: all html clean help
 
@@ -20,12 +20,13 @@ all: html
 
 html: $(HTML_OUTPUT_DIR)/index.html
 
-$(HTML_OUTPUT_DIR)/index.html: $(MAIN_DOC) $(wildcard **/*.adoc)
+$(HTML_OUTPUT_DIR)/index.html: $(MAIN_DOC) $(shell find source -name '*.adoc' 2>/dev/null)
 	@echo "Building single-page HTML documentation..."
 	@mkdir -p $(HTML_OUTPUT_DIR)
 	@mkdir -p $(HTML_OUTPUT_DIR)/images
 	@echo "Copying images..."
 	@cp -r $(IMAGE_SRC_DIR)/*.svg $(HTML_OUTPUT_DIR)/images/ 2>/dev/null || true
+	@cp -r $(IMAGE_SRC_DIR)/*.png $(HTML_OUTPUT_DIR)/images/ 2>/dev/null || true
 	$(ASCIIDOCTOR) $(ASCIIDOC_OPTS) -D $(HTML_OUTPUT_DIR) $(MAIN_DOC)
 
 clean:

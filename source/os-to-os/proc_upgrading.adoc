@@ -1,0 +1,34 @@
+:_mod-docs-content-type: PROCEDURE
+[id="proc_osts-upgrading"]
+= Upgrading OS Migrate
+
+[role="_abstract"]
+This procedure describes the recommended method of upgrading the `os_migrate.os_migrate` collection from Ansible
+Galaxy. For a first-time installation, see xref:proc_install-collection[].
+
+.Procedure
+
+. To upgrade the collection when it is already installed, pass the `-f` flag to force installation
+even if the collection is already present:
++
+[source,bash]
+----
+ansible-galaxy collection install -f os_migrate.os_migrate
+----
+
+. To upgrade or downgrade to a specific release, specify the version:
++
+[source,bash]
+----
+ansible-galaxy collection install os_migrate.os_migrate:<VERSION>
+----
++
+Available releases are listed on the https://galaxy.ansible.com/os_migrate/os_migrate[OS Migrate Galaxy page].
+
+== Usage notes related to upgrading
+
+* OS Migrate does not guarantee forward compatibility of exported data. Use the same version of OS Migrate during
+export and import.
+* After upgrading, clear any existing data files from `os_migrate_data_dir`, or use a different data directory. During
+export, OS Migrate parses existing data files to add new resources to them, and an error is raised if the existing data
+files were created with a different version. For the related error, see xref:ref_osts-troubleshooting[].

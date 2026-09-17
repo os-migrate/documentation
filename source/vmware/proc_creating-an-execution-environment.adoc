@@ -1,0 +1,31 @@
+:_mod-docs-content-type: PROCEDURE
+[id="proc_vmw-awx-ee"]
+= Creating an execution environment
+
+[role="_abstract"]
+Create an execution environment in AWX (or Ansible Automation Platform) that references the VMware Migration Kit container image.
+
+.Prerequisites
+
+* You have built and pushed an automation execution environment image to a container registry, or you are using the published image from quay.io/os-migrate/vmware-migration-kit. See xref:proc_vmw-building-aee[].
+
+.Procedure
+
+. From the navigation panel, select the AWX or automation controller UI, then `Infrastructure`, then `Execution Environments`.
+. Click `Create Execution Environment`.
+. Set the following parameters:
++
+----
+Name: VMware Migration Kit Execution Environment
+Image: quay.io/os-migrate/vmware-migration-kit:stable
+Pull: Always pull container before running
+----
++
+where:
++
+`Image`:: Specifies the container image URL. Use `quay.io/os-migrate/vmware-migration-kit:stable` for the published stable image, or specify your own registry and image tag if you built a custom image.
+`Pull`:: Set to "Always pull container before running" so that each job pulls the image from the registry before it runs.
+
+. Click `Create Execution Environment`.
+
+The execution environment is available for use in projects and job templates.

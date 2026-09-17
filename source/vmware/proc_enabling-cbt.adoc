@@ -1,0 +1,39 @@
+:_mod-docs-content-type: PROCEDURE
+[id="proc_vmw-enabling-cbt"]
+= Enabling CBT
+
+[role="_abstract"]
+If you use large disks, enable Change Block Tracking (CBT) on the VMs to minimize downtime. CBT is a VMware vSphere feature that tracks which disk blocks of a virtual machine (VM) have changed since the last backup or snapshot.
+
+.Prerequisites
+
+* VMware Tools must be installed on the VM.
+* You must power off the VM or take a snapshot to apply the changes.
+* vSphere 4.0 or later.
+
+.Procedure
+
+. Check VMware Tools status:
+.. On the vSphere Client, select the VM and click the `Summary` tab.
+.. Verify if the status of VMware Tools is `Running` or `OK`.
+.. (Optional) If the status of VMware Tools is `Not installed` or `Not running`, right click the VM, select `Guest OS`, `Install VMware Tools`, and follow the VMware Tools installation process for the guest operating system.
+. Power off the VM.
+. Edit the VM settings and set the `ctkEnabled` parameter to `TRUE`:
++
+----
+ctkEnabled = TRUE
+----
+. Set `ctkEnabled = TRUE` for each disk on the VM:
++
+----
+scsi0:0.ctkEnabled = TRUE
+scsi0:1.ctkEnabled = TRUE
+scsi0:2.ctkEnabled = TRUE
+...
+...
+----
+. Power on the VM.
+
+.Verification
+
+* In the vSphere Client, check the VM configuration for the `changeTrackingEnabled` parameter.

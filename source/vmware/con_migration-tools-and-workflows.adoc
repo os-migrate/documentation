@@ -1,0 +1,59 @@
+:_mod-docs-content-type: CONCEPT
+[id="con_vmw-tools-and-workflows"]
+= Migration tools and workflows
+
+[role="_abstract"]
+Use the VMware Migration Kit (os_migrate.vmware_migration_kit) Ansible collection to deploy an OpenStack instance in the destination cloud as a conversion host and configure the prerequisites in the destination cloud. You can gather information about the source cloud by using the VMware community collection.
+
+The following are the different phases of migration:
+
+* The discovery phase when you analyze the VMware source environment and collect data for the migration.
+* The pre-migration phase when you make the destination cloud ready to accept the migration. You can configure your conversion host, the required network, and other configurations, as necessary.
+* The migration phase.
+
+To migrate your VMs, you can use the `nbdkit` server with a conversion host. You can configure the workflows with Ansible boolean variables. You can run the migration in a single cycle with minimal downtime if you use VMware's change block tracking (CBT) option.
+
+== Migration workflows
+
+There are different ways to run the migration from VMware to OpenStack:
+
+* The default is by using the nbdkit server with a xref:con_conversion-host[]. This allows you to use the CBT option and approach near-zero downtime. It can also run the migration in one time cycle.
+* The second method is by using virt-v2v with a conversion host. You can use a conversion host already deployed or you can let the VMware Migration Kit deploy a conversion host for you.
+* A third method is available where you can skip the conversion host and perform the migration on a Linux machine. The volume migrated and converted will be uploaded as an OpenStack Image service (Glance) image or can be used later as a Cinder volume. This method is not recommended if you have large disks or a large number of VMs to migrate because the performance is slower than with the other methods.
+
+All of these are configurable with Ansible boolean variables.
+
+== Migration workflow with nbdkit
+
+The nbdkit migration workflow provides the most efficient data transfer path:
+
+image::https://raw.githubusercontent.com/os-migrate/documentation/main/images/osm-migration-nbdkit-vmware-workflow-with-osm.drawio.svg[Nbdkit workflow]
+
+== Migration workflow with Change Block Tracking
+
+When using Change Block Tracking (CBT), the migration occurs in two steps to minimize downtime.
+
+=== Step 1: Initial data copy
+
+The data is copied and the change ID from the VMware disk is set as metadata on the Cinder volume.
+
+[NOTE]
+====
+The conversion cannot be made at this moment, and the OpenStack instance is not created.
+This functionality can be used for large disks with substantial data to transfer. It helps avoid a prolonged service interruption.
+====
+
+image::vmware_migration_cbt.png[CBT Step 1]
+
+=== Step 2: Incremental sync and conversion
+
+The VMware Migration Kit compares the source (VMware disk) and the destination (OpenStack volume) change IDs.
+
+[NOTE]
+====
+If the change IDs are not equal, the changed blocks between the source and destination are synchronized.
+Then, the conversion to libvirt/KVM is triggered, and the OpenStack instance is created.
+This allows for minimal downtime for the VMs.
+====
+
+image::vmware_migration_cbt_2.png[CBT Step 2]

@@ -1,0 +1,151 @@
+:_mod-docs-content-type: PROCEDURE
+[id="proc_vmw-migrating-cli"]
+= Migrating from VMware to OpenStack
+
+[role="_abstract"]
+Run a complete migration cycle using the Ansible playbook from the command line interface.
+
+.Prerequisites
+
+* You have configured and deployed an OpenStack instance in the destination cloud as a xref:con_conversion-host[].
+* You have the Ansible YAML files as described in xref:ref_vmw-ansible-yaml-files[]:
+** `inventory.yml`
+** `myvars.yml`
+** `secrets.yml`
+* You have xref:proc_install-collection[].
+
+.Procedure
+
+. Pull the stable version of the Ansible Execution Environment (AEE) image:
++
+[source,bash]
+----
+podman pull quay.io/os-migrate/vmware-migration-kit:stable
+----
+
+. Run the AEE container in interactive mode:
++
+[source,bash]
+----
+podman run --rm -it \
+  -v $(pwd):/runner:z \
+  -v ~/.ssh:/home/runner/.ssh:ro \
+  quay.io/os-migrate/vmware-migration-kit:stable \
+  /bin/bash
+----
+
+. (Optional) If you cloned the VMware Migration Kit repository, navigate to the repository directory:
++
+[source,bash]
+----
+cd /root/vmware-migration-kit/vmware_migration_kit
+----
+
+. (Optional) Apply available updates from the repository:
++
+[source,bash]
+----
+git pull
+----
+
+. Configure SSH access to the conversion host. Create the SSH directory and add your private key:
++
+[source,bash]
+----
+mkdir -p /root/.ssh/
+cat <<EOF > /root/.ssh/conv_host
+-----BEGIN OPENSSH PRIVATE KEY-----
+<Add your SSH Key here>
+-----END OPENSSH PRIVATE KEY-----
+EOF
+chmod 600 /root/.ssh/conv_host
+----
+
+. Create or edit the `inventory.yml` file to reference your conversion host:
++
+[source,yaml]
+----
+migrator:
+  hosts:
+    localhost:
+      ansible_connection: local
+      ansible_python_interpreter: "{{ ansible_playbook_python }}"
+
+conversion_host:
+  hosts:
+    10.0.79.209:
+      ansible_ssh_user: cloud-user
+      ansible_ssh_private_key_file: /root/.ssh/conv_host
+----
++
+Replace `10.0.79.209` with the IP address of your conversion host.
+
+. (Optional for virt-v2v workflow) Get the VDDK thumbprint from your ESXi server:
++
+[source,bash]
+----
+openssl s_client -connect <ESXI_SERVER_NAME>:443 </dev/null | \
+  openssl x509 -in /dev/stdin -fingerprint -sha1 -noout
+----
++
+[NOTE]
+====
+The VDDK thumbprint is only required if you are using the virt-v2v workflow instead of the default nbdkit workflow.
+====
+
+. Configure the `myvars.yml` file with your migration parameters as described in xref:ref_vmw-ansible-yaml-files[].
+
+. Configure the `secrets.yml` file with your VMware vCenter credentials and OpenStack authentication as described in xref:ref_vmw-ansible-yaml-files[].
+
+. Run the migration playbook:
++
+[source,bash]
+----
+ansible-playbook -i inventory.yml \
+  os_migrate.vmware_migration_kit.migration \
+  -e @secrets.yml -e @myvars.yml
+----
+
+.Alternative: Running outside of AEE
+
+If you prefer to run the migration directly on your system without using an AEE container:
+
+. Install the collection from Ansible Galaxy:
++
+[source,bash]
+----
+ansible-galaxy collection install os_migrate.vmware_migration_kit
+----
+
+. Ensure Python dependencies are installed:
++
+[source,bash]
+----
+pip install openstacksdk requests pyVim pyVmomi
+----
+
+. Run the migration playbook:
++
+[source,bash]
+----
+ansible-playbook -i inventory.yml \
+  os_migrate.vmware_migration_kit.migration \
+  -e @secrets.yml -e @myvars.yml
+----
+
+.Verification
+
+* Monitor the migration progress in the Ansible playbook output.
+* After the migration completes, verify that the instances are created in OpenStack:
++
+[source,bash]
+----
+openstack server list
+----
+
+* Verify that the instances are accessible:
++
+[source,bash]
+----
+openstack console url show <instance-name>
+----

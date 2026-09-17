@@ -1,0 +1,95 @@
+:_mod-docs-content-type: REFERENCE
+[id="ref_vmw-multi-disk-migration"]
+= Multi-disk migration
+
+[role="_abstract"]
+The VMware Migration Kit migrates and attaches all disks from source VMs to the target OpenStack instances. It also supports VMs whose file system spans more than one disk.
+
+== Multi-disk VM support
+
+The VMware Migration Kit automatically migrates and attaches all disks from source VMs to the target OpenStack instances.
+
+When you run the `import_workloads` role:
+
+. All disks from each source VM are migrated to OpenStack Cinder volumes.
+. The first disk becomes the boot volume.
+. Additional disks are attached as data volumes to the resulting instance.
+. The Heat template generator creates the necessary volume attachments automatically.
+
+=== Volume naming convention
+
+Migrated volumes follow this naming pattern:
+
+[source,bash]
+----
+<vm-name>-<disk-key>
+----
+
+For example, if a VM named `vm-1` has disks with keys `scsi0-0-0` (boot) and `scsi0-0-1` (data), the volumes are named:
+
+* `vm-1-scsi0-0-0` (boot volume)
+* `vm-1-scsi0-0-1` (data volume, automatically attached)
+
+=== Heat template structure
+
+The generated Heat template includes:
+
+* Parameters for each volume ID (`<vm_name>_boot_volume_id`, `<vm_name>_data_volume_0_id`, and so on).
+* Volume attachment resources for data disks.
+* `block_device_mapping_v2` entries linking volumes to the instance.
+
+The workflow discovers and attaches all disks automatically, with no manual configuration required.
+
+For a VM with one boot disk and two data disks, the `heat_vms_data` structure contains:
+
+[source,yaml]
+----
+vms_data:
+  - name: myvm
+    boot_volume_id: "uuid-of-boot-volume"
+    data_volume_ids:
+      - "uuid-of-data-volume-1"
+      - "uuid-of-data-volume-2"
+    flavor: "m1.medium"
+    network: "provider_network_1"
+    security_groups: ["default"]
+----
+
+All three volumes are attached to the instance when the Heat stack is created.
+
+== Multi-disk file system
+
+Some virtual machines have their file system installed across multiple disks. For example, the root file system (`/`) can span `/dev/vda` and `/dev/vdb` at the same time. In that case, a standard per-disk conversion produces inconsistent volumes, because `virt-v2v` needs to see all disks as a single logical domain to convert them correctly.
+
+To handle this scenario, set:
+
+[source,yaml]
+----
+import_workloads_multidiskfs: true
+----
+
+When this option is enabled, the VMware Migration Kit queries the VMware API to determine the disk layout of the source VM (bus type and device name for each disk), builds a libvirt domain XML file that describes all disks together, and passes it to `virt-v2v-in-place` using `-i libvirtxml` instead of `-i disk`.
+
+=== Debugging multi-disk file system migrations
+
+If the conversion fails or produces unexpected results, the following artifacts are available on the conversion host for troubleshooting:
+
+Log file:: One log file per migration under `/tmp`:
++
+[source,bash]
+----
+tail -f /tmp/osm-nbdkit-<vm-name>-<random-id>.log
+----
++
+This log contains the full `nbdcopy` command used to copy each disk, as well as the `virt-v2v-in-place` invocation.
+
+Domain XML file:: Written to `/tmp` before the conversion runs:
++
+[source,bash]
+----
+cat /tmp/<vm-name><random-id>-domain.xml
+----
++
+This file describes the disk layout as the VMware Migration Kit understood it from VMware. Check that each disk entry has the correct device path (`source file`) and target device name (`target dev`). If a disk is mapped to the wrong device, the converted instance might not boot.
+
+nbdcopy command:: The exact `nbdcopy` invocation for each disk is printed in the log file. You can replay it manually on the conversion host to test connectivity and data transfer independently of the rest of the migration.

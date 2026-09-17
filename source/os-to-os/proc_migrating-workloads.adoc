@@ -1,0 +1,80 @@
+:_mod-docs-content-type: PROCEDURE
+[id="proc_osts-migrating-workloads"]
+= Migrating workloads
+
+[role="_abstract"]
+Workload migration exports instance metadata from the source cloud and transfers the instance data to the destination
+cloud through the conversion hosts. For the data flow, see xref:con_osts-workload-dataflow[]. Before migrating
+workloads, deploy the conversion hosts. See xref:proc_osts-deploying-conversion-hosts[].
+
+.Prerequisites
+
+* The destination cloud contains all supporting resources referenced by the workloads (networks, security groups,
+flavors, and so on). Matching named resources must exist in the destination before the servers are created. See
+xref:proc_osts-pre-workload-resources[].
+* Conversion hosts are deployed in both the source and destination clouds.
+
+.Procedure
+
+. Export the workload metadata:
++
+[source,bash]
+----
+$OSM_CMD $OSM_DIR/playbooks/export_workloads.yml
+----
++
+Each server listed in the resulting `workloads.yml` is migrated, except for the server that matches the name of the
+source conversion host. This playbook extracts only metadata about the servers in the tenant. It does not download
+volumes into the data directory. Data transfer is handled by the import step, directly between the clouds, so both
+clouds must be running and reachable at the same time.
++
+The resulting `workloads.yml` resembles the following:
++
+[source,yaml]
+----
+os_migrate_version: 0.17.0
+resources:
+  - _info:
+      flavor_id: cd6258f9-c34b-4a9c-a1e2-8cb81826781e
+      id: af615f8c-378a-4a2e-be6a-b4d38a954242
+      status: SHUTOFF
+    _migration_params:
+      boot_disk_copy: false
+    params:
+      availability_zone: nova
+      flavor_ref:
+        name: m1.xtiny
+      image_ref:
+        name: cirros-0.4.0-x86_64-disk.img
+      key_name: osm_key
+      name: osm_server
+      ports:
+        - params:
+            fixed_ips_refs:
+              - ip_address: 192.168.20.7
+                subnet_ref:
+                  name: osm_subnet
+            network_ref:
+              name: osm_net
+          type: openstack.network.ServerPort
+      security_group_refs:
+        - name: osm_security_group
+    type: openstack.compute.Server
+----
+
+. (Optional) Edit `workloads.yml` to adjust the properties of the servers created in the destination cloud, and to set
+the migration parameters that control how each workload is migrated. See xref:ref_osts-migration-parameters[].
+
+. Migrate the workloads:
++
+[source,bash]
+----
+$OSM_CMD $OSM_DIR/playbooks/import_workloads.yml
+----
++
+A server marked `changed` is migrated to the destination cloud. A server is `skipped` if it matches the name or ID of
+the conversion host. If a server matching the name of the current server already exists in the destination, it is
+marked `ok` and no extra work is performed.
+
+To alter the behavior of the migration, such as selecting a subset of workloads to export or import, use the Ansible
+variables described in xref:ref_osts-variables[].

@@ -1,0 +1,17 @@
+:_mod-docs-content-type: REFERENCE
+[id="ref_vmw-migration-features"]
+= Migration features
+
+[role="_abstract"]
+You can use the following features when migrating:
+
+* Discovery mode: Analyze the VMware source environment and collect data for migration planning. See xref:proc_vmw-setup-requirements[].
+* Network mapping: Map VMware networks to OpenStack networks. See xref:ref_vmw-ansible-yaml-files[].
+* Port creation and MAC address mapping: Create OpenStack ports with preserved MAC addresses from the source VMs. See xref:ref_vmw-ansible-yaml-files[].
+* OpenStack flavor mapping and creation: Automatically find matching flavors or create new ones based on VM specifications. See xref:ref_vmw-flavor-mapping[].
+* Migration with `nbdkit` server with change block tracking (CBT) feature: Enable incremental migration with minimal downtime. See xref:con_vmw-vm-seeding[] and xref:proc_vmw-enabling-cbt[].
+* Multi-disk migration: Migrate VMs with multiple attached disks. See xref:ref_vmw-multi-disk-migration[].
+* Multi-disk file system migration: Convert VMs whose file system spans more than one disk. See xref:ref_vmw-multi-disk-migration[].
+* Multiple NICs: Migrate VMs with multiple network interfaces. See xref:proc_vmw-migrating-cli[].
+* Parallel migration on the same conversion host: Run multiple migrations concurrently on a single conversion host. See xref:ref_vmw-execution-time[].
+* AWX (or Ansible Automation Platform) integration: Orchestrate migrations through the AWX or automation controller UI. See xref:proc_vmw-awx-credentials[] and related topics.

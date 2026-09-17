@@ -1,0 +1,134 @@
+:_mod-docs-content-type: REFERENCE
+[id="ref_vmw-debugging-manually"]
+= Debugging manually
+
+[role="_abstract"]
+You can use the following commands to manually troubleshoot migration issues by replaying the nbdkit and nbdcopy commands outside of the Ansible playbook.
+
+== Manual debugging workflow
+
+The migration process uses two main commands: `nbdkit` to expose the VMware VMDK as an NBD export, and `nbdcopy` to copy the data from the NBD export to the OpenStack Cinder volume.
+
+You can run these commands manually to isolate issues and gather additional debugging information.
+
+== Step 1: Run nbdkit manually
+
+Run the `nbdkit` command shown in the migration logs with the `--verbose` flag and enclose the VMDK path in double quotes:
+
+[source,bash]
+----
+nbdkit --verbose vddk \
+  server=<vcenter_hostname> \
+  user=<vcenter_username> \
+  password=<vcenter_password> \
+  thumbprint=<vddk_thumbprint> \
+  file="[Datastore1] VM1/VM1.vmdk" \
+  libdir=/usr/lib/vmware-vix-disklib
+----
+
+Replace the placeholders with actual values from your environment:
+
+* `<vcenter_hostname>`: vCenter server hostname or IP address
+* `<vcenter_username>`: vCenter username (for example, `root` or `administrator@vsphere.local`)
+* `<vcenter_password>`: vCenter password
+* `<vddk_thumbprint>`: SSL thumbprint of the vCenter or ESXi server
+* `[Datastore1] VM1/VM1.vmdk`: VMDK path as returned by the VMware API
+
+[NOTE]
+====
+If the migration snapshot has been deleted, remove the snapshot reference from the VMDK path and use the base disk instead. For example, change `[Datastore1] VM1/VM1-000001.vmdk` to `[Datastore1] VM1/VM1.vmdk`.
+====
+
+The NBDKit server starts and listens on the default port (10809). You should see output similar to:
+
+----
+nbdkit: debug: registered plugin: name=vddk version=1.32.5 ...
+nbdkit: vddk[1]: config_complete
+nbdkit: vddk[1]: thread_model=2 (serialize_all_requests)
+nbdkit: bound to 127.0.0.1 port 10809
+----
+
+Leave this terminal open and proceed to the next step in a different terminal session.
+
+== Step 2: Run nbdcopy in another shell
+
+In another shell on the conversion host, run the `nbdcopy` command as shown in the migration logs:
+
+[source,bash]
+----
+nbdcopy nbd://localhost:10809 /dev/mapper/cinder-volume
+----
+
+Observe the `nbdkit` output in the first terminal. You should see:
+
+----
+vddk: config_complete.
+----
+
+This indicates that NBDKit successfully connected to the VMware VMDK and is ready to serve data.
+
+If the nbdcopy command succeeds, data is copied from the VMware VMDK to the destination volume. You should see progress indicators and eventually a completion message.
+
+== Step 3: Analyze authentication and paths
+
+At this point, authentication was already verified by the migration process. The VMDK path is returned by the VMware API and is typically in the format:
+
+----
+[Datastore 1] path/to/the/guest-00001.vmdk
+----
+
+If the manual commands work but the migration fails, the issue is likely in the Ansible playbook logic or variable handling, not in the underlying nbdkit or VDDK configuration.
+
+If the manual commands fail, the error messages from nbdkit and nbdcopy provide clues about the underlying issue (for example, network connectivity, authentication, VMDK path, VDDK library).
+
+== Common issues identified through manual debugging
+
+* VMDK path contains special characters: Ensure the VMDK path is properly quoted in the nbdkit command.
+
+* Snapshot no longer exists: If a snapshot was created during migration but has since been deleted, use the base VMDK path instead.
+
+* Authentication timeout: If the vCenter or ESXi server is slow to respond, the authentication may timeout. Increase the timeout or verify network latency.
+
+* VDDK library version mismatch: Ensure the VDDK library version is compatible with the vCenter and ESXi versions.
+
+* Datastore not accessible: Ensure the datastore containing the VMDK is accessible from the ESXi host.
+
+== Gathering VDDK thumbprint
+
+If you need to obtain the VDDK thumbprint for the vCenter or ESXi server, run:
+
+[source,bash]
+----
+openssl s_client -connect <vcenter_hostname>:443 </dev/null 2>/dev/null | \
+  openssl x509 -noout -fingerprint -sha1
+----
+
+Example output:
+
+----
+SHA1 Fingerprint=01:23:45:67:89:AB:CD:EF:01:23:45:67:89:AB:CD:EF:01:23:45:67
+----
+
+Use the fingerprint value (with colons) as the `vddk_thumbprint` parameter.
+
+== Cleaning up after manual testing
+
+After manual testing, stop the nbdkit server in the first terminal by pressing Ctrl+C.
+
+If you created test volumes or instances during manual testing, clean them up:
+
+[source,bash]
+----
+openstack volume delete <test-volume-id>
+openstack server delete <test-instance-id>
+----
+
+== When to use manual debugging
+
+Use manual debugging when:
+
+* The migration fails with nbdkit or nbdcopy errors and you need to isolate the root cause.
+* You want to verify VDDK library installation and configuration.
+* You need to test VMware connectivity outside of the Ansible playbook.
+* You want to measure data transfer performance between VMware and OpenStack.
+* You are developing or testing custom migration scripts.

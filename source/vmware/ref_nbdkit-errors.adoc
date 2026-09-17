@@ -1,0 +1,145 @@
+:_mod-docs-content-type: REFERENCE
+[id="ref_vmw-nbdkit-errors"]
+= NBDKit errors
+
+[role="_abstract"]
+You might encounter NBDKit errors during VMware disk migration. These errors typically indicate issues with VMware connectivity, VDDK library configuration, or disk access.
+
+== Common NBDKit error
+
+You might encounter an NBDKit error such as the following:
+
+----
+nbdkit: error: server has no export named '': No such file or directory
+----
+
+== Potential causes
+
+The following are potential causes for this NBDKit error:
+
+* Port 902 is not open or is not reachable between the conversion host and the VMware ESXi hosts or vCenter.
+* The vCenter FQDN is not resolvable from the conversion host.
+* The `nbdkit` command has invalid characters or parameters in the VMDK path.
+* The VMware VDDK library is not installed or is not in the expected location.
+* The VMDK path returned by the VMware API is incorrect or inaccessible.
+* The VMware datastore is not accessible from the ESXi host.
+* Permissions are insufficient for the vCenter user to access the VMDK.
+
+== Troubleshooting steps
+
+. Verify network connectivity to port 902:
++
+[source,bash]
+----
+nc -zv <vcenter_ip> 902
+----
++
+If the connection fails, check firewall rules and network routing.
+
+. Verify vCenter FQDN resolution:
++
+[source,bash]
+----
+nslookup vcenter.domain.local
+----
++
+If resolution fails, add an entry to `/etc/hosts` on the conversion host:
++
+[source,bash]
+----
+echo "<vcenter_ip> vcenter.domain.local" | sudo tee -a /etc/hosts
+----
+
+. Verify that the VDDK library is installed on the conversion host:
++
+[source,bash]
+----
+ls -l /usr/lib/vmware-vix-disklib
+----
++
+If the library is missing, download and install the VMware VDDK from the VMware website.
+
+. Check the VDDK library path in the migration variables:
++
+[source,yaml]
+----
+conversion_host_vmware_vix_disklib: /usr/lib/vmware-vix-disklib
+# or
+import_workloads_libdir: /usr/lib/vmware-vix-disklib
+----
+
+. Review the nbdkit command in the debug logs to verify the VMDK path:
++
+[source,bash]
+----
+grep "nbdkit" /tmp/osm-nbdkit-<vm-name>-<random-id>.log
+----
+
+. Verify that the VMDK path is correct and accessible from the VMware environment.
+
+. Check vCenter user permissions. Ensure the user has the following privileges:
+** Datastore: Browse datastore
+** Virtual Machine: Provisioning (Allow disk access, Allow read-only disk access, Allow virtual machine download)
+
+See xref:ref_vmw-migration-prerequisites[] for details on required vCenter ACLs.
+
+== Other NBDKit errors
+
+=== Connection refused
+
+----
+nbdkit: error: connect: Connection refused
+----
+
+This error indicates that the NBDKit server cannot connect to the VMware ESXi host or vCenter. Verify network connectivity and firewall rules.
+
+=== Authentication failed
+
+----
+nbdkit: error: vddk: VixDiskLib: Authentication failed
+----
+
+This error indicates that the VMware credentials are invalid or the vCenter user does not have sufficient permissions. Verify the credentials in the `secrets.yml` file.
+
+=== File not found
+
+----
+nbdkit: error: vddk: VixDiskLib: Failed to open disk: The system cannot find the file specified
+----
+
+This error indicates that the VMDK file path is incorrect or the datastore is not accessible. Verify the VMDK path in the VMware environment.
+
+=== VDDK library not found
+
+----
+nbdkit: error: cannot open shared object file: libvixDiskLib.so: cannot open shared object file: No such file or directory
+----
+
+This error indicates that the VDDK library is not installed or is not in the library path. Install the VDDK and ensure the path is correctly configured.
+
+== Manual testing
+
+To test NBDKit manually, run the command shown in the debug logs with the `--verbose` flag:
+
+[source,bash]
+----
+nbdkit --verbose vddk \
+  server=<vcenter_hostname> \
+  user=<vcenter_username> \
+  password=<vcenter_password> \
+  thumbprint=<vddk_thumbprint> \
+  file="[Datastore1] VM1/VM1.vmdk" \
+  libdir=/usr/lib/vmware-vix-disklib
+----
+
+If the NBDKit server starts successfully, you should see output similar to:
+
+----
+nbdkit: debug: registered plugin: name=vddk ...
+nbdkit: vddk[1]: config_complete
+nbdkit: vddk[1]: thread_model=2 (serialize_all_requests)
+----
+
+Press Ctrl+C to stop the NBDKit server.
+
+If NBDKit fails to start, review the error messages for clues about the underlying issue.

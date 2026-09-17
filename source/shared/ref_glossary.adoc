@@ -1,0 +1,89 @@
+:_mod-docs-content-type: REFERENCE
+[id="ref_glossary"]
+= OS Migrate glossary
+
+[role="_abstract"]
+This glossary defines terms used across the OS Migrate documentation.
+
+== Core concepts
+
+OS Migrate collection::
+The Ansible collection `os_migrate.os_migrate` that provides modules, roles, and playbooks for migrating OpenStack
+resources between clouds.
+
+VMware Migration Kit::
+The Ansible collection `os_migrate.vmware_migration_kit` that migrates virtual machines from VMware to OpenStack.
+
+Resource::
+An OpenStack entity that can be migrated, such as a network, instance, flavor, or image. Each resource type has its
+own export and import workflow.
+
+Export phase::
+The process of extracting resource definitions from a source OpenStack cloud and serializing them to YAML files.
+
+Import phase::
+The process of reading YAML resource files and creating the corresponding resources in a destination OpenStack cloud.
+
+Parallel migration::
+A strategy where a second OpenStack deployment runs alongside an existing one, with tenant resources migrated between
+them.
+
+Idempotent operations::
+Playbooks that can be re-run safely without duplicating resources or causing conflicts.
+
+== Resource types
+
+Workloads:: Running instances that are migrated with their attached storage and network configuration.
+Detached volumes:: Storage volumes not attached to any instance.
+Flavors:: Templates that define instance CPU, memory, and disk specifications.
+Images:: Disk images used as templates for creating instances.
+Networks:: Virtual networks that provide connectivity between instances.
+Subnets:: IP address ranges within networks.
+Routers:: Virtual routers that connect networks and external networks.
+Router interfaces:: Connections between routers and subnets.
+Security groups:: Sets of firewall rules that control traffic to instances.
+Security group rules:: Individual firewall rules within a security group.
+Projects:: OpenStack tenants that contain and isolate resources.
+Users:: OpenStack user accounts with authentication credentials.
+Keypairs:: SSH key pairs used for instance access.
+User project role assignments:: Mappings that grant users roles within projects.
+
+== Migration infrastructure
+
+Conversion host::
+An instance that performs the disk data transfer during a workload migration. See xref:con_conversion-host[].
+
+Conversion host content::
+Software and configuration deployed on a conversion host to enable migration.
+
+Migrator host::
+The system where OS Migrate playbooks run. See xref:con_migrator-host[].
+
+== Data management
+
+Data directory (`os_migrate_data_dir`)::
+Local filesystem location where exported YAML resource files are stored.
+
+Resource filter (`os_migrate_<resource>_filter`)::
+Name-based filtering that selects specific resources to export or import instead of all resources of a type.
+
+Serialization::
+Conversion of OpenStack SDK objects into the OS Migrate YAML format.
+
+Migration parameters::
+OS Migrate settings that control migration behavior for a resource. See the migration parameters reference in the
+OpenStack to OpenStack guide.
+
+== Authentication
+
+Source auth (`os_migrate_src_auth`):: OpenStack authentication for the source cloud.
+Destination auth (`os_migrate_dst_auth`):: OpenStack authentication for the destination cloud.
+clouds.yaml:: OpenStack client configuration file that holds cloud authentication details.
+
+== Ansible components
+
+Export roles:: Roles that call export modules and handle resource filtering, for example `export_networks`.
+Import roles:: Roles that validate data files and call import modules, for example `import_networks`.
+Export modules:: Modules that retrieve resources and serialize them to YAML, for example `export_flavor`.
+Import modules:: Modules that read YAML files and create resources, for example `import_flavor`.
+Prelude roles:: Setup roles that prepare the environment: `prelude_src`, `prelude_dst`, and `prelude_common`.

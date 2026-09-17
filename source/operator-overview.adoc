@@ -1,8 +1,0 @@
-[id="os-migrate-overview_planning"]
-
-= os-migrate overview
-
-OS-Migrate is a toolsuite designed to assist in the process of moving cloud workloads from one environment to another. Please read the entire workflow notes in order to be sufficiently prepared for this endeavour.
-
-TO BE FLESHED OUT
-

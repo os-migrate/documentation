@@ -1,0 +1,110 @@
+:_mod-docs-content-type: REFERENCE
+[id="ref_vmw-connectivity"]
+= Connectivity from conversion host to source environment
+
+[role="_abstract"]
+If you experience network connectivity issues between your conversion host and your source VMware environment, ensure that the network and name resolution are properly configured before running migrations.
+
+== Testing port 902 connectivity
+
+Port 902 must be reachable from the conversion host for direct disk access to VMware ESXi hosts.
+
+You can test the connectivity using the `curl` command:
+
+[source,bash]
+----
+curl -v telnet://<vcenter_ip>:902
+----
+
+You can test the connectivity using the `Netcat` command:
+
+[source,bash]
+----
+nc -zv <vcenter_ip> 902
+----
+
+Replace `<vcenter_ip>` with the IP address of the vCenter server or ESXi host.
+
+The connection should succeed. If the connection fails, check firewall rules and network routing between the conversion host and the VMware environment.
+
+== Resolving vCenter FQDN
+
+Ensure the vCenter hostname resolves from the conversion host. If the vCenter FQDN fails to resolve, update the `/etc/hosts` file:
+
+[source,bash]
+----
+echo "<vcenter_ip> vcenter.domain.local" | sudo tee -a /etc/hosts
+----
+
+Replace `<vcenter_ip>` with the IP address of the vCenter server and `vcenter.domain.local` with the actual FQDN.
+
+Verify the resolution:
+
+[source,bash]
+----
+ping -c 3 vcenter.domain.local
+----
+
+== Testing port 443 connectivity
+
+Port 443 must be reachable from the conversion host for VMware vCenter API communication.
+
+Test the connectivity:
+
+[source,bash]
+----
+curl -v -k https://<vcenter_ip>
+----
+
+You should see an HTML response or a certificate error (which is expected if using self-signed certificates).
+
+== Common network issues
+
+* Firewall rules: Ensure firewall rules on the conversion host, VMware environment, and intermediate network devices allow traffic on ports 443 and 902.
+
+* Network routing: Verify that the conversion host can route traffic to the VMware management network and ESXi host networks.
+
+* DNS resolution: If using FQDNs instead of IP addresses, ensure DNS resolution works from the conversion host.
+
+* Proxy settings: If the conversion host is behind a proxy, ensure the proxy is configured correctly or add the VMware environment to the no-proxy list.
+
+* VPN or tunneling: If the conversion host and VMware environment are in different networks, ensure VPN or network tunneling is configured correctly.
+
+== Verification steps
+
+. From the conversion host, verify network connectivity to the vCenter server:
++
+[source,bash]
+----
+ping -c 3 <vcenter_ip>
+----
+
+. Verify port 443 (vCenter API) is accessible:
++
+[source,bash]
+----
+curl -v -k https://<vcenter_ip>
+----
+
+. Verify port 902 (ESXi direct disk access) is accessible:
++
+[source,bash]
+----
+nc -zv <vcenter_ip> 902
+----
+
+. Verify DNS resolution (if using FQDNs):
++
+[source,bash]
+----
+nslookup vcenter.domain.local
+----
+
+. Test SSH connectivity to the conversion host from the migrator host:
++
+[source,bash]
+----
+ssh -i <ssh-key> cloud-user@<conversion-host-ip> uptime
+----
+
+If all tests pass, network connectivity is correctly configured for migration.

@@ -1,0 +1,82 @@
+:_mod-docs-content-type: CONCEPT
+[id="con_vmw-best-practices"]
+= Migration best practices
+
+[role="_abstract"]
+The following are migration best practices when you migrate a large workload from VMware to OpenStack using AWX (or Ansible Automation Platform) with a conversion host.
+
+* Ensure that you size your destination OpenStack environment appropriately to accommodate large numbers of instances, ports, volumes, floating IPs, API requests, and other OpenStack resources.
+
+* Divide your workload among multiple conversion hosts and threads for faster migration.
+
+* A conversion host typically contains the following configuration:
+** 6 vCPU
+** 8GB RAM
+** 20GB disk
+** CentOS Stream 9 (or RHEL 9.5 and later)
+
+* For each parallel migration, allocate 2GB of RAM and 1 vCPU on your conversion host.
+
+* Ensure all OpenStack services are configured to support a large number of requests. The VMware Migration Kit is driven by Ansible but the core of the migration is a binary that does not consume substantial resources. The more you use the binary, the more requests the OpenStack API will receive. Services such as RabbitMQ, Galera, Nova, and Cinder will be impacted by high concurrency.
+
+* Use CentOS Stream 9 (or RHEL 9.5 and later) for conversion hosts to benefit from the virtio-win package version 1.40 or higher, which provides the drivers required for converting Windows distributions.
+
+* Use Fedora 38 and later if you need to convert btrfs file systems.
+
+* For large disks with substantial data, use Change Block Tracking (CBT) to enable incremental migration and minimize downtime. See xref:con_vmw-vm-seeding[] and xref:proc_vmw-enabling-cbt[].
+
+* Plan the migration in phases: discovery, pre-migration, seeding (if using CBT), and cutover.
+
+* Test the migration with a small subset of VMs before migrating the full workload.
+
+* Set OpenStack quotas to appropriate values for the expected workload (instances, vCPUs, RAM, volumes, ports, floating IPs).
+
+* Monitor the migration progress and review logs for errors or warnings.
+
+== Known issues
+
+The following issues may occur during large-scale migrations:
+
+* If a single conversion host performs thousands of migrations in a short time, there might be issues with the device mount mechanism in the operating system. You can remedy this by rebooting the conversion host to clean the `/dev/` directory.
+
+* If you encounter the message `snapshot hierarchy is too deep`, clean the guest snapshots hierarchy in VMware and re-run the migration.
+
+* VMware may impose limits on concurrent snapshot operations. If you are running many parallel migrations, you may need to reduce the concurrency or stagger the migration batches.
+
+* Network bandwidth between the conversion host and VMware ESXi hosts can become a bottleneck. Monitor network utilization and consider distributing migrations across multiple conversion hosts.
+
+== How to proceed with a large workload
+
+For large workloads (hundreds or thousands of VMs), follow these planning steps:
+
+. Size the target OpenStack environment adequately to receive the instances, ports, volumes, floating IPs, and other resources.
+
+. Set OpenStack quotas to appropriate values.
+
+. Split the workload by the number of conversion hosts you will create.
+
+. Determine the concurrency per conversion host based on the conversion host flavor (2GB RAM and 1 vCPU per concurrent migration).
+
+. Calculate the estimated migration time:
++
+If 1 virtual machine takes 5 minutes to migrate and you have 1000 VMs with 2 conversion hosts running 6 parallel migrations each:
++
+----
+Migration time = (5 minutes × 1000 VMs) / (2 conversion hosts × 6 parallel migrations)
+               = 5000 / 12
+               = 416 minutes (approximately 7 hours)
+----
+
+. Add more conversion hosts to reduce migration time:
++
+With 4 conversion hosts running 6 parallel migrations each:
++
+----
+Migration time = (5 minutes × 1000 VMs) / (4 conversion hosts × 6 parallel migrations)
+               = 5000 / 24
+               = 208 minutes (approximately 3.5 hours)
+----
+
+. Schedule the migration during a maintenance window to minimize disruption.
+
+. Monitor the migration progress and have a rollback plan in case of failures.

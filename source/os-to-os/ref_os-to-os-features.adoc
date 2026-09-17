@@ -1,0 +1,98 @@
+:_mod-docs-content-type: REFERENCE
+[id="ref_osts-features"]
+= OpenStack to OpenStack features
+
+[role="_abstract"]
+OS Migrate copies tenant content between OpenStack clouds using the official OpenStack API. This reference lists the
+resources it migrates and the capabilities available for each stage of the migration.
+
+== Supported resources
+
+The following resources are exported from the source cloud and imported into the destination cloud. Each resource type
+has a matching export playbook and import playbook.
+
+.Pre-workload resources
+[cols="1,2",options="header"]
+|===
+| Resource | Description
+
+| Networks
+| Neutron networks.
+
+| Subnets
+| Neutron subnets.
+
+| Routers
+| Neutron routers.
+
+| Router interfaces
+| Interfaces that connect routers to subnets.
+
+| Security groups
+| Neutron security groups.
+
+| Security group rules
+| Rules that belong to security groups.
+
+| Images
+| Glance images.
+
+| Keypairs
+| Nova keypairs, including per-user keypair export with admin privileges.
+
+| Flavors
+| Nova flavors.
+
+| Projects
+| Keystone projects.
+
+| Users
+| Keystone users.
+
+| User project role assignments
+| Keystone role assignments between users and projects.
+
+| Detached volumes
+| Cinder volumes that are not attached to an instance.
+|===
+
+.Workload resources
+[cols="1,2",options="header"]
+|===
+| Resource | Description
+
+| Workloads (instances)
+| Nova servers, including their boot disks and attached volumes, transferred through the conversion hosts.
+|===
+
+== Migration capabilities
+
+Resource filtering::
+Control which resources are migrated with per-resource-type filters that match names by string or regular expression,
+during both export and import. See xref:ref_osts-variables[].
+
+Editable serializations::
+Edit the exported YAML files to adjust resource properties before import, and set per-resource migration parameters. See
+xref:ref_osts-migration-parameters[].
+
+Idempotent playbooks::
+Retry a failed command with the same command. Existing resources in the destination are detected and not recreated.
+
+Boot disk handling::
+Copy the source boot disk into a destination volume, or re-image the destination server from a Glance image of the same
+name. See xref:ref_osts-migration-parameters[].
+
+Storage migration modes::
+Copy volume data with OS Migrate, or attach pre-created destination volumes without copying. See
+xref:ref_osts-migration-parameters[].
+
+Floating IP handling::
+Skip, create new, attach existing, or attempt existing then fall back to new. See xref:ref_osts-migration-parameters[].
+
+Conversion host customization::
+Customize conversion host names, images, flavors, networking, floating IPs, boot-from-volume, RHEL registration, custom
+scripts, and password-based access. See xref:ref_osts-conversion-host-variables[].
+
+TLS configuration::
+Configure certificate validation and client authentication for the source and destination API endpoints. See
+xref:ref_osts-variables[].

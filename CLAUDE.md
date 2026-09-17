@@ -37,22 +37,23 @@ Output locations:
 
 The documentation uses AsciiDoc format with the following structure:
 
-- `index.adoc` - Main documentation source (used for HTML generation)
+- `index.adoc` - Main documentation source (assembles both guides and the common reference for HTML generation)
 - `source/` - All AsciiDoc documentation files
-  - `operator-*.adoc` - Operator documentation (guides, VMware migration, troubleshooting)
-    - `operator-vmware-guide.adoc` - VMware migration guide
-    - `operator-aee.adoc` - Ansible Execution Environment guide
-    - `operator-quickstart-guide.adoc` - Quickstart guide
-    - `operator-troubleshooting.adoc` - Troubleshooting guide
+  - `vmware/` - VMware to OpenStack guide, modular `con_`/`proc_`/`ref_` topic files plus `assembly_vmware-migration.adoc`
+  - `os-to-os/` - OpenStack to OpenStack guide, modular topic files plus `assembly_os-to-os-migration.adoc`
+  - `shared/` - Topics included by both guides (`con_migrator-host`, `con_conversion-host`, `proc_install-collection`, `ref_glossary`) plus `assembly_common-reference.adoc`
   - `developer-*.adoc` - Developer documentation (contributing, design, development setup)
-    - `developer-contributing-code.adoc` - Code contribution guide
-    - `developer-design.adoc` - Design documentation
-    - `developer-dev-env-setup.adoc` - Development environment setup
   - `reference-module-*.adoc` - Ansible module reference documentation
   - `reference-role-*.adoc` - Ansible role reference documentation
-- `images/` - Static SVG workflow diagrams
-  - `*.svg` - VMware migration workflow diagrams
+- `images/` - Static workflow diagrams (SVG and PNG)
 - `build/` - Build output directory (generated, not in source control)
+
+### Content conventions
+
+The two guides use modular-docs topic files: `con_` (concept), `proc_` (procedure), and `ref_` (reference), each with
+a `:_mod-docs-content-type:` line and an `[id="..."]` anchor. Shared blocks live in `source/shared/` and are
+cross-referenced with `xref:` rather than duplicated. Documentation is written intemporally and avoids decorative icons
+and em dashes.
 
 ### Key Documentation Features
 - Single-page HTML generation
@@ -108,7 +109,6 @@ The build uses these AsciiDoctor attributes (defined in Makefile):
 - `toclevels=3` - Show 3 levels in TOC
 - `sectlinks` - Make section titles clickable links
 - `sectanchors` - Add anchor symbols to sections
-- `icons=font` - Use Font Awesome icons
 - `source-highlighter=rouge` - Syntax highlighting with Rouge
 
 ## Ruby Dependencies

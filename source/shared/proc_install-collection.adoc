@@ -1,0 +1,65 @@
+:_mod-docs-content-type: PROCEDURE
+[id="proc_install-collection"]
+= Installing the OS Migrate collections
+
+[role="_abstract"]
+OS Migrate provides two Ansible collections:
+
+* `os_migrate.os_migrate` for OpenStack to OpenStack migration.
+* `os_migrate.vmware_migration_kit` for VMware to OpenStack migration.
+
+Install the collection that matches the migration you perform. Installation from Ansible Galaxy is the recommended
+method. Installation from source is available when you customize the collection.
+
+.Prerequisites
+* Ansible 2.9 or later, running on Python 3.
+* Package dependencies for the OpenStack modules: `iputils`, `python3-openstackclient`, `python3-openstacksdk`.
+
+.Procedure
+
+. (Optional) If your distribution does not ship the required dependency versions, use a virtual environment:
++
+[source,bash]
+----
+python3 -m venv $HOME/os_migrate_venv
+source $HOME/os_migrate_venv/bin/activate
+python3 -m pip install --upgrade 'openstacksdk'
+python3 -m pip install --upgrade 'ansible-core'
+----
+
+. Install a collection from Ansible Galaxy:
++
+[source,bash]
+----
+ansible-galaxy collection install os_migrate.os_migrate
+----
++
+To install the VMware Migration Kit:
++
+[source,bash]
+----
+ansible-galaxy collection install os_migrate.vmware_migration_kit
+----
++
+To install a specific release, append the version:
++
+[source,bash]
+----
+ansible-galaxy collection install os_migrate.os_migrate:<VERSION>
+----
+
+. (Optional) Install `os_migrate.os_migrate` from source when you customize it:
++
+[source,bash]
+----
+git clone https://github.com/os-migrate/os-migrate
+cd os-migrate
+make toolbox-build
+./toolbox/run make
+pushd releases
+ansible-galaxy collection install --force os_migrate-os_migrate-latest.tar.gz
+popd
+----
+
+Available releases are listed on the
+https://galaxy.ansible.com/os_migrate/os_migrate[OS Migrate Galaxy page].

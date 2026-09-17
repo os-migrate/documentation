@@ -1,0 +1,93 @@
+:_mod-docs-content-type: REFERENCE
+[id="ref_osts-variables"]
+= Variables reference
+
+[role="_abstract"]
+This reference describes the most important variables used to configure OpenStack to OpenStack migration. For the
+complete list of variables configurable for each role, see the documentation of the individual roles. For conversion
+host variables, see xref:ref_osts-conversion-host-variables[].
+
+== Resource filters
+
+Resource filters control which resources are migrated. The filters match against resource names and apply both during
+export and during import. It is not required that the same value is used during export and import. For example, you can
+export a subset of the existing resources, and during import further limit the subset being imported into batches.
+
+The value of a filter variable is a list. Each item is either a string (exact match) or a dictionary with a `regex` key
+(regular expression match). A resource is exported if it matches at least one of the list items:
+
+[source,yaml]
+----
+os_migrate_networks_filter:
+  - my_net
+  - other_net
+  - regex: ^myprefix_.*
+----
+
+The preceding example exports only networks named `my_net` or `other_net`, or starting with `myprefix_`.
+
+The filters default to the following, which means "export all resources". The set of resources exported is still
+limited to those visible with the authentication variables in use:
+
+[source,yaml]
+----
+- regex: .*
+----
+
+Some roles share the same variable where it makes sense, especially for attached resources. For example,
+`export_security_groups` and `export_security_group_rules` both use `os_migrate_security_groups_filter`, and
+`export_routers` and `export_router_interfaces` both use `os_migrate_routers_filter`.
+
+The following filters are available, shown with their default values:
+
+[source,yaml]
+----
+os_migrate_flavors_filter:
+  - regex: .*
+os_migrate_images_filter:
+  - regex: .*
+os_migrate_keypairs_filter:
+  - regex: .*
+os_migrate_networks_filter:
+  - regex: .*
+os_migrate_projects_filter:
+  - regex: .*
+os_migrate_routers_filter:
+  - regex: .*
+os_migrate_security_groups_filter:
+  - regex: .*
+os_migrate_subnets_filter:
+  - regex: .*
+os_migrate_users_filter:
+  - regex: .*
+os_migrate_workloads_filter:
+  - regex: .*
+----
+
+== OpenStack REST API TLS variables
+
+If either cloud uses TLS endpoints that are not trusted by the migrator host by default, for example self-signed
+certificates, or if the migrator host must authenticate itself with a key and certificate, set the following variables.
+
+`os_migrate_src_validate_certs` / `os_migrate_dst_validate_certs`::
+Set to `false` to disable certificate validity checks of the source or destination API endpoints.
+
+`os_migrate_src_ca_cert` / `os_migrate_dst_ca_cert`::
+Specify a custom CA certificate used to validate the source or destination API certificates.
+
+`os_migrate_src_client_cert`, `os_migrate_src_client_key` / `os_migrate_dst_client_cert`, `os_migrate_dst_client_key`::
+Set these when the migrator host must authenticate itself with a TLS key and certificate when connecting to the source
+or destination APIs.
+
+== Workload import and export variables
+
+`os_migrate_workload_stop_before_migration`::
+Set to `true` to stop workloads before migration. Only workloads in the `SHUTOFF` state are migrated.
+
+== Storage migration mode
+
+`os_migrate_workloads_data_copy`::
+Controls the storage migration mode for workloads. The default is `true`, which means OS Migrate performs the data
+copy. Set it to `false` to skip the OS Migrate data copy, which is useful when the destination cloud contains
+pre-created volumes to attach when creating the instance in the destination. This variable sets the default for the
+per-workload `data_copy` migration parameter. See xref:ref_osts-migration-parameters[].
