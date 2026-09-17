@@ -910,3 +910,50 @@ vms_data:
 ----
 
 All three volumes are attached to the instance when the Heat stack is created.
+
+[id="custom-nbdkit-plugin"]
+=== Using a Custom nbdkit Plugin
+
+By default, OS Migrate uses the nbdkit `vddk` plugin to transfer VMware virtual machine disks. In some scenarios, you may want to bypass VDDK and use an alternative nbdkit plugin (for example, a third-party plugin that implements the NBD or NFC protocol).
+
+The `custom_nbdkit_plugin` variable allows you to specify the absolute path to a custom nbdkit plugin shared library (`.so` file) on the conversion host.
+
+==== Configuration
+
+Set the `custom_nbdkit_plugin` variable to the full path of your plugin:
+
+[source,yaml]
+----
+custom_nbdkit_plugin: /home/cloud-user/nbdkit-nfc-plugin.so
+----
+
+When this variable is set:
+
+* nbdkit is invoked with your custom plugin instead of `vddk`
+* VDDK-specific parameters (`libdir`, `compression`, `transports`, disk name) are omitted from the nbdkit command
+* Only the common parameters (`server`, `user`, `password`, `thumbprint`, `vm`, `snapshot`) are passed
+
+==== Example Usage
+
+[source,yaml]
+----
+- name: Import VM with custom nbdkit plugin
+  import_role:
+    name: os_migrate.vmware_migration_kit.import_workloads
+  vars:
+    import_workloads_conversion_host_ssh_private_key: /path/to/key
+    import_workloads_src_conversion_host: conversion-host.example.com
+    import_workloads_src_conversion_host_username: cloud-user
+    import_workloads_filters:
+      - vmware_name: my-vm
+    import_workloads_vddk_thumbprint: "AA:BB:CC:DD..."
+    custom_nbdkit_plugin: /home/cloud-user/go-nfc/plugins/nbdkit-nfc/nbdkit-nfc-plugin.so
+----
+
+==== Requirements
+
+* The custom plugin `.so` file must be present on the conversion host at the specified path
+* The plugin must be compatible with nbdkit and accept the parameters passed by OS Migrate
+* Leave `custom_nbdkit_plugin` empty or unset to use the default VDDK plugin
+
+NOTE: When using a custom plugin, ensure it supports the necessary VMware connection parameters and snapshot handling required for migration.
