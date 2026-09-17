@@ -1,0 +1,42 @@
+:_mod-docs-content-type: PROCEDURE
+[id="proc_vmw-awx-hosts"]
+= Creating hosts for AWX
+
+[role="_abstract"]
+Create hosts in AWX (or Ansible Automation Platform) for the conversion host and the migrator host.
+
+.Procedure
+
+. Create the conversion host:
+.. From the navigation panel, select the AWX or automation controller UI, then `Infrastructure`, then `Hosts`.
+.. Click `Create Host`.
+.. Set the following parameters:
++
+----
+Name: conversion_host
+Inventory: VMware Migration Inventory
+Variables:
+ansible_ssh_user: cloud-user
+ansible_host: <IP_or_hostname>
+----
++
+where:
++
+`<IP_or_hostname>`:: Specifies the IP address or hostname of your conversion host.
+.. Click `Create Host`.
+
+. Create the migrator host:
+.. From the navigation panel, select the AWX or automation controller UI, then `Infrastructure`, then `Hosts`.
+.. Click `Create Host`.
+.. Set the following parameters:
++
+----
+Name: migrator
+Inventory: VMware Migration Inventory
+Variables:
+ansible_connection: local
+ansible_python_interpreter: '{{ ansible_playbook_python }}'
+----
+.. Click `Create Host`.
+
+Both hosts are available in the inventory for job template execution.

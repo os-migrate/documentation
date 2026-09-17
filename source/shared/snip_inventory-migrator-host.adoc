@@ -1,0 +1,10 @@
+// Shared snippet: migrator host inventory entry.
+// No section heading or id, so it can be included in multiple procedures safely.
+[source,yaml]
+----
+migrator:
+  hosts:
+    localhost:
+      ansible_connection: local
+      ansible_python_interpreter: "{{ ansible_playbook_python }}"
+----

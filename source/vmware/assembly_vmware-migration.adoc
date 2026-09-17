@@ -1,0 +1,86 @@
+:_mod-docs-content-type: ASSEMBLY
+[id="vmware-to-openstack"]
+= Migrating virtual machines from VMware to OpenStack
+
+[role="_abstract"]
+Use the VMware Migration Kit (os_migrate.vmware_migration_kit) Ansible collection to migrate virtual machines from VMware vSphere environments to OpenStack. The migration process includes discovery, pre-migration preparation, and migration execution phases. You can perform migrations from the command line or through AWX (or Ansible Automation Platform) for automation and orchestration.
+
+== Overview and prerequisites
+
+include::con_migration-tools-and-workflows.adoc[leveloffset=+1]
+
+include::ref_migration-features.adoc[leveloffset=+1]
+
+include::ref_supported-os.adoc[leveloffset=+1]
+
+include::ref_migration-prerequisites.adoc[leveloffset=+1]
+
+include::con_vm-seeding.adoc[leveloffset=+1]
+
+include::proc_enabling-cbt.adoc[leveloffset=+1]
+
+== Setting up the environment
+
+include::proc_setting-up-migration-requirements.adoc[leveloffset=+1]
+
+include::proc_deploying-a-conversion-host.adoc[leveloffset=+1]
+
+include::proc_building-aee-images.adoc[leveloffset=+1]
+
+== Migrating from the command line
+
+include::ref_ansible-yaml-files-for-migration.adoc[leveloffset=+1]
+
+include::ref_prelude-argument-specs.adoc[leveloffset=+1]
+
+include::ref_flavor-mapping.adoc[leveloffset=+1]
+
+include::proc_migrating-from-vmware-to-openstack.adoc[leveloffset=+1]
+
+include::proc_importing-vmware-volumes.adoc[leveloffset=+1]
+
+include::ref_metadata-conversion.adoc[leveloffset=+1]
+
+include::ref_multi-disk-migration.adoc[leveloffset=+1]
+
+include::proc_running-migration-from-local-shared-nfs.adoc[leveloffset=+1]
+
+== Automating with AWX or Ansible Automation Platform
+
+include::proc_creating-credentials-for-awx.adoc[leveloffset=+1]
+
+include::proc_creating-an-inventory-for-awx.adoc[leveloffset=+1]
+
+include::proc_creating-hosts-for-awx.adoc[leveloffset=+1]
+
+include::proc_creating-an-execution-environment.adoc[leveloffset=+1]
+
+include::proc_creating-a-project.adoc[leveloffset=+1]
+
+include::proc_configuring-the-job-template.adoc[leveloffset=+1]
+
+include::proc_launching-the-migration.adoc[leveloffset=+1]
+
+== Performance and best practices
+
+include::con_migration-best-practices.adoc[leveloffset=+1]
+
+include::ref_execution-time.adoc[leveloffset=+1]
+
+include::con_post-migration-script-hooks.adoc[leveloffset=+1]
+
+include::proc_scripting-for-first-boot.adoc[leveloffset=+1]
+
+== Troubleshooting
+
+include::ref_connectivity-to-source.adoc[leveloffset=+1]
+
+include::ref_unreachable-metadata-service.adoc[leveloffset=+1]
+
+include::ref_nbdkit-errors.adoc[leveloffset=+1]
+
+include::ref_tls-certificate-errors.adoc[leveloffset=+1]
+
+include::ref_enable-debugging-flags.adoc[leveloffset=+1]
+
+include::ref_debugging-manually.adoc[leveloffset=+1]

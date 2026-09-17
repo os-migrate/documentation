@@ -1,0 +1,29 @@
+:_mod-docs-content-type: CONCEPT
+[id="con_conversion-host"]
+= Conversion hosts
+
+[role="_abstract"]
+A conversion host is a compute instance that performs the data transfer for a workload migration. It attaches the
+volumes that hold the migrated disks, receives the disk data over the network, and prepares the volumes so that the
+destination cloud can boot the migrated instance.
+
+The role of the conversion host depends on the type of migration:
+
+VMware to OpenStack::
+A single conversion host runs in the destination OpenStack cloud. It connects to the VMware source through the
+`nbdkit` server or `virt-v2v` and writes the converted disks to Cinder volumes.
+
+OpenStack to OpenStack::
+Two conversion hosts are used, one in the source cloud and one in the destination cloud. Volume data is transferred
+between them over an NBD connection tunneled through SSH.
+
+== Conversion host content
+
+Conversion host content is the set of packages and configuration deployed on a conversion host to enable migration.
+The `conversion_host` and `conversion_host_content` roles create the instance and install this content.
+
+== Conversion host variables
+
+Conversion host behavior is controlled by the `os_migrate_*_conversion_*` variables, for example the instance name,
+flavor, network, subnet CIDR, and whether the host boots from a volume. For the full list, see the variable reference
+in the guide you are following.

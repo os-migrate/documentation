@@ -1,0 +1,135 @@
+:_mod-docs-content-type: REFERENCE
+[id="ref_vmw-metadata-conversion"]
+= Metadata conversion
+
+[role="_abstract"]
+The metadata conversion process transforms VMware VM specifications into OpenStack-compatible formats. The `convert_metadata.yml` playbook and the `convert_metadata` role automate the mapping of VMware VM properties (CPU, memory, disk, network) to OpenStack flavors, network ports, and instance metadata.
+
+== What the metadata conversion does
+
+The metadata conversion process performs the following tasks:
+
+* Reads VM metadata from VMware (CPU count, memory, disk sizes, network interfaces).
+* Finds the best matching OpenStack flavor based on vCPU and memory requirements, or creates a new flavor if no match exists.
+* Maps VMware networks to OpenStack networks based on the `network_map` configuration.
+* Generates an `import_workloads.json` file for each VM that contains all the parameters needed for the migration.
+* Optionally creates OpenStack flavors in the destination cloud.
+* Copies metadata files to the conversion host if `copy_metadata_to_conv_host` is enabled.
+
+== Running the metadata conversion playbook
+
+To run the metadata conversion independently of the main migration workflow:
+
+[source,bash]
+----
+ansible-playbook -i inventory.yml \
+  os_migrate.vmware_migration_kit.convert_metadata \
+  -e @secrets.yml -e @myvars.yml
+----
+
+== What the convert_metadata role does
+
+The `convert_metadata` role is invoked for each VM in the `vms_list` and performs the following steps:
+
+. Loads the VM metadata files:
+** `vm_info.json`: Basic VM information (name, power state, annotations)
+** `guest_info.json`: Guest OS information, CPU count, memory size
+** `disk_info.json`: Disk configurations, sizes, and paths
+** `network_info.json`: Network interface details and MAC addresses
+
+. Finds the best matching OpenStack flavor:
+** If `use_existing_flavor: true`, searches for an existing flavor that meets or exceeds the VM requirements
+** If no match is found or `use_existing_flavor: false`, generates a new flavor specification with the name format: `osm-vmware-<vm_name>-<random_id>`
+** If `flavor_uuid` is defined, uses the specified flavor directly
+
+. Exports the flavor definition to a YAML file at `<os_migrate_vmw_data_dir>/<vm_name>/flavors.yml`
+
+. Creates an `import_workloads.json` file that contains:
+** VM name and OpenStack flavor selection
+** Network mapping (VMware network to OpenStack network)
+** Port creation settings and MAC address preservation
+** Disk information for volume creation
+** Migration flags (CBT, conversion method, instance creation)
+
+. Optionally creates the flavor in OpenStack if it does not exist
+
+. Copies metadata files to the conversion host for use during the migration
+
+== Metadata file locations
+
+After running the metadata conversion, files are stored in the migration working directory:
+
+----
+/opt/os-migrate/
+├── VM1/
+│   ├── vm_info.json
+│   ├── guest_info.json
+│   ├── disk_info.json
+│   ├── network_info.json
+│   ├── flavors.yml
+│   └── import_workloads.json
+├── VM2/
+│   ├── vm_info.json
+│   ├── guest_info.json
+│   ├── disk_info.json
+│   ├── network_info.json
+│   ├── flavors.yml
+│   └── import_workloads.json
+----
+
+== Variables used by metadata conversion
+
+The following variables control the metadata conversion behavior:
+
+`use_existing_flavor`:: Set to `true` to search for an existing matching flavor; set to `false` to always create a new flavor (default: `true`).
+`flavor_uuid`:: If defined, forces the use of a specific flavor UUID instead of matching or creating.
+`create_flavor`:: Automatically set by the role. Set to `true` if a new flavor should be created in OpenStack.
+`used_mapped_networks`:: Set to `true` to use `network_map` for network mapping; set to `false` to use `openstack_private_network` for all VMs.
+`network_map`:: Dictionary mapping VMware network names to OpenStack network names.
+`copy_metadata_to_conv_host`:: Set to `true` to copy metadata files to the conversion host; set to `false` to keep them only on the migrator host (default: `false`).
+
+== Example import_workloads.json
+
+An example of the generated `import_workloads.json` file:
+
+[source,json]
+----
+{
+  "vm_name": "rhel-9.4-1",
+  "openstack": {
+    "flavor_name": "osm-vmware-rhel-9.4-1-5432",
+    "network": "private",
+    "security_groups": ["default"]
+  },
+  "vmware_guest_info": {
+    "num_cpu": 2,
+    "memory_mb": 4096,
+    "disks": [
+      {
+        "size_gb": 20,
+        "type": "thin"
+      }
+    ],
+    "networks": [
+      {
+        "name": "VM Network",
+        "mac": "00:50:56:ab:cd:ef"
+      }
+    ]
+  },
+  "migration": {
+    "cbt_sync": false,
+    "cutover": true,
+    "create_instance": true
+  }
+}
+----
+
+== Integration with the migration workflow
+
+The metadata conversion is typically run as part of the discovery phase before the main migration. The main `migration.yml` playbook includes the metadata conversion automatically. However, you can run it independently to:
+
+* Preview what flavors will be created or matched
+* Validate network mappings before migration
+* Generate metadata files for review and approval
+* Pre-create flavors in OpenStack before the migration window

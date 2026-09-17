@@ -1,0 +1,82 @@
+:_mod-docs-content-type: PROCEDURE
+[id="proc_vmw-awx-job-template"]
+= Configuring the job template
+
+[role="_abstract"]
+Configure a job template in AWX (or Ansible Automation Platform) to run the VMware migration playbook.
+
+.Prerequisites
+
+* You have created the inventory as described in xref:proc_vmw-awx-inventory[].
+* You have created the hosts as described in xref:proc_vmw-awx-hosts[].
+* You have created the credentials as described in xref:proc_vmw-awx-credentials[].
+* You have created the execution environment as described in xref:proc_vmw-awx-ee[].
+* You have created the project as described in xref:proc_vmw-awx-project[].
+
+.Procedure
+
+. From the navigation panel, select the AWX or automation controller UI, then `Templates`.
+. Click `Create Template`, then `Create Job Template`.
+. Set the following parameters:
++
+----
+Name: VMware to OpenStack Migration
+Inventory: VMware Migration Inventory
+Project: VMware Migration Kit Project
+Playbook: playbooks/migration.yml
+Execution Environment: VMware Migration Kit Execution Environment
+Credentials: Conversion Host SSH Key
+Extra Variables: <Add your variables here>
+----
++
+where:
++
+`Playbook`:: Select `playbooks/migration.yml` from the dropdown list of playbooks available in the project.
+`Extra Variables`:: Add the contents of your `myvars.yml` and `secrets.yml` files in YAML format. For example:
++
+[source,yaml]
+----
+# Variables from myvars.yml
+runner_from_aee: true
+os_migrate_vmw_data_dir: /opt/os-migrate
+already_deploy_conversion_host: true
+openstack_private_network: 81cc01d2-5e47-4fad-b387-32686ec71fa4
+security_groups: ab7e2b1a-b9d3-4d31-9d2a-bab63f823243
+use_existing_flavor: true
+ssh_key_name: default
+os_migrate_create_network_port: true
+copy_metadata_to_conv_host: true
+used_mapped_networks: false
+vms_list:
+  - VM1
+  - VM2
+  - VM3
+
+# Secrets from secrets.yml
+esxi_hostname: 10.0.0.7
+vcenter_hostname: 10.0.0.7
+vcenter_username: root
+vcenter_password: password
+vcenter_datacenter: Datacenter
+dst_cloud:
+  auth:
+    auth_url: https://keystone.example.com:13000/v3
+    username: admin
+    project_id: abc123
+    project_name: admin
+    user_domain_name: Default
+    password: openstack-password
+  region_name: regionOne
+  interface: public
+  insecure: false
+  identity_api_version: 3
+----
+
+. Click `Create Job Template`.
+
+The job template is ready to launch.
+
+[WARNING]
+====
+Storing sensitive credentials in the job template extra variables exposes them in the AWX interface. For production use, consider using AWX credential types to store VMware and OpenStack credentials separately, or use Ansible Vault to encrypt the secrets.
+====

@@ -1,0 +1,23 @@
+:_mod-docs-content-type: PROCEDURE
+[id="proc_osts-cleanup"]
+= Cleaning up conversion hosts
+
+[role="_abstract"]
+After the workloads in a tenant are migrated, remove the conversion hosts to release the compute, network, and floating
+IP resources that they consume.
+
+.Procedure
+
+. Delete the conversion hosts in both clouds:
++
+[source,bash]
+----
+$OSM_CMD $OSM_DIR/playbooks/delete_conversion_hosts.yml
+----
++
+The playbook removes the conversion host instances and their supporting infrastructure. Floating IP handling during
+deletion is controlled by the `os_migrate_src_conversion_host_delete_fip` and
+`os_migrate_dst_conversion_host_delete_fip` variables. See xref:ref_osts-conversion-host-variables[].
+
+. (Optional) Remove any exported data files from the data directory if they are no longer required. Keep a separate data
+directory for each source project. See xref:ref_osts-usage-notes[].

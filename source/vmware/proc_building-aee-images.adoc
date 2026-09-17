@@ -1,0 +1,178 @@
+:_mod-docs-content-type: PROCEDURE
+[id="proc_vmw-building-aee"]
+= Building automation execution environment images
+
+[role="_abstract"]
+To ensure that you use stable, consistent, and reproducible builds, you can create automation execution environment (AEE) images. AEE images are containerized environments that encapsulate all necessary dependencies for running migration playbooks, including Ansible Core, the VMware Migration Kit collection, OpenStack SDK, and related Python packages.
+
+.Prerequisites
+
+* The `ansible-builder` tool for building execution environments is installed. For more information about installing `ansible-builder`, see the link:https://ansible.readthedocs.io/projects/builder/[Ansible Builder documentation].
+* The `podman` or `docker` command-line tool for the container runtime is installed.
+* Access to quay.io and galaxy.ansible.com for the base image and collections.
+* (Optional) If you pull collections from a private Automation Hub, access to that hub and a Galaxy token for it.
+
+.Procedure
+
+. Create the main execution environment configuration file:
++
+[source,bash]
+----
+cat <<EOF> execution-environment.yml
+---
+version: 3
+
+images:
+  base_image:
+    name: quay.io/centos/centos:stream9
+
+options:
+  package_manager_path: /usr/bin/microdnf
+
+dependencies:
+  ansible_runner:
+    package_pip: ansible-runner
+  ansible_core:
+    package_pip: ansible-core
+  python: requirements.txt
+  system: bindep.txt
+  galaxy: requirements.yml
+  python_interpreter:
+    package_system: "python3"
+    python_path: "/usr/bin/python3"
+additional_build_files:
+  - src: ansible.cfg
+    dest: .
+additional_build_steps:
+  prepend_base:
+    - "RUN mkdir -p /etc/sudoers.d"
+    - "RUN echo 'cloud-user ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/cloud-user"
+EOF
+----
+
+. Create the Python dependencies file:
++
+[source,bash]
+----
+cat << EOF > requirements.txt
+requests
+pyVim
+pyVmomi
+EOF
+----
+
+. Create the Ansible collections requirements file for community use:
++
+[source,bash]
+----
+cat << EOF > requirements.yml
+collections:
+  - name: vmware.vmware
+    version: 2.4.0
+  - name: vmware.vmware_rest
+    version: 4.9.0
+  - name: os_migrate.vmware_migration_kit
+EOF
+----
++
+[NOTE]
+====
+For development builds from the main branch, you can install collections directly from Git repositories:
+
+[source,yaml]
+----
+collections:
+  - name: https://github.com/os-migrate/vmware-migration-kit.git
+    type: git
+    version: main
+----
+====
+
+. Create the system package dependencies file:
++
+[source,bash]
+----
+cat << EOF > bindep.txt
+openssh-clients
+sshpass
+python3
+python3-pip
+python3-dnf
+rsync
+gcc
+python3-devel
+git
+EOF
+----
+
+. (Optional) If you pull collections from a private Automation Hub, create the ansible.cfg configuration file with that hub's URL and your token:
++
+[source,bash]
+----
+cat << EOF > ansible.cfg
+[galaxy]
+server_list = automation_hub
+
+[galaxy_server.automation_hub]
+url=<your_automation_hub_content_url>
+auth_url=<your_automation_hub_token_url>
+token=<your_automation_hub_token>
+EOF
+----
++
+[NOTE]
+====
+For builds that use galaxy.ansible.com or quay.io/os-migrate, omit this file or use the default Ansible Galaxy configuration.
+====
+
+. (Optional) If your container registry requires authentication, log in with `podman`:
++
+[source,bash]
+----
+podman login <registry>
+----
+
+. Build the AEE image:
++
+[source,bash]
+----
+ansible-builder build --tag vmware-migration-kit:stable
+----
+
+. (Optional) Push the image to a container registry:
++
+[source,bash]
+----
+podman tag vmware-migration-kit:stable <registry>/<namespace>/vmware-migration-kit:stable
+podman push <registry>/<namespace>/vmware-migration-kit:stable
+----
+
+.Using pre-built AEE images
+
+Instead of building your own AEE image, you can pull the published image from Quay:
+
+[source,bash]
+----
+podman pull quay.io/os-migrate/vmware-migration-kit:stable
+----
+
+.Running playbooks with AEE
+
+To execute migration playbooks inside the AEE container:
+
+[source,bash]
+----
+podman run --rm -it \
+  -v $(pwd):/runner:z \
+  -v ~/.ssh:/home/runner/.ssh:ro \
+  quay.io/os-migrate/vmware-migration-kit:stable \
+  ansible-playbook -i /runner/inventory \
+  -e @/runner/vars.yaml \
+  os_migrate.vmware_migration_kit.migration
+----
+
+Common volume mounts for AEE usage:
+
+* `$(pwd):/runner:z`: Mount the working directory with SELinux context adjustment
+* `~/.ssh:/home/runner/.ssh:ro`: Mount SSH keys (read-only)
+* `~/.config/openstack:/home/runner/.config/openstack:ro`: Mount OpenStack credentials

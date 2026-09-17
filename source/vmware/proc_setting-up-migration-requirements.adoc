@@ -1,0 +1,72 @@
+:_mod-docs-content-type: PROCEDURE
+[id="proc_vmw-setup-requirements"]
+= Setting up migration requirements
+
+[role="_abstract"]
+Before running the migration, you must set up the required Python packages and configuration files on the xref:con_migrator-host[]. The `setup_requirements.yml` playbook automates the installation of dependencies and configuration of the migration environment.
+
+.Prerequisites
+
+* Access to the migrator host.
+* If not running from an Ansible Execution Environment (AEE), Python 3 and pip must be available on the migrator host.
+* OpenStack credentials file (`clouds.yaml`) in your home directory at `~/.config/openstack/clouds.yaml`.
+* The `os_migrate_vmw_data_dir` variable is set (default: `/opt/os-migrate`).
+
+.Procedure
+
+. Create an inventory file that defines the migrator host:
++
+[source,yaml]
+----
+migrator:
+  hosts:
+    localhost:
+      ansible_connection: local
+      ansible_python_interpreter: "{{ ansible_playbook_python }}"
+----
+
+. Run the `setup_requirements.yml` playbook:
++
+[source,bash]
+----
+ansible-playbook -i inventory.yml \
+  os_migrate.vmware_migration_kit.setup_requirements \
+  -e os_migrate_vmw_data_dir=/opt/os-migrate \
+  -e already_deploy_conversion_host=true \
+  -e runner_from_aee=false
+----
++
+where:
++
+`os_migrate_vmw_data_dir`:: Specifies the working directory for migration data (default: `/opt/os-migrate`).
+`already_deploy_conversion_host`:: Set to `true` if you are reusing an existing conversion host; set to `false` if the playbook should deploy a new conversion host.
+`runner_from_aee`:: Set to `true` if running from an Ansible Execution Environment container (dependencies are already installed); set to `false` to install dependencies on the migrator host.
+
+.What the playbook does
+
+The `setup_requirements.yml` playbook performs the following tasks:
+
+* Copies the OpenStack credentials file (`clouds.yaml`) to the migration working directory if you are deploying a new conversion host.
+* Installs required system packages (`python3`, `python3-pip`) if not running from an AEE.
+* Installs required Python packages:
+** `openstacksdk` (version greater than 1.0.0)
+** `requests`
+** `pyVim`
+** `pyVmomi`
+** `aiohttp`
+
+.Verification
+
+* Verify that the Python packages are installed:
++
+[source,bash]
+----
+python3 -c "import openstacksdk; import pyVim; import pyVmomi; print('Packages installed successfully')"
+----
+
+* Verify that the OpenStack credentials file exists in the migration working directory:
++
+[source,bash]
+----
+ls -l /opt/os-migrate/clouds.yaml
+----

@@ -1,0 +1,125 @@
+:_mod-docs-content-type: PROCEDURE
+[id="proc_osts-deploying-conversion-hosts"]
+= Deploying conversion hosts
+
+[role="_abstract"]
+Workload migration between OpenStack clouds uses two conversion hosts, one in the source cloud and one in the
+destination cloud. For the conversion host concept, see xref:con_conversion-host[]. For the full list of conversion
+host variables, see xref:ref_osts-conversion-host-variables[].
+
+== Roles
+
+The conversion host system consists of two Ansible roles:
+
+`conversion_host`::
+Deploys the infrastructure and compute instances needed for the conversion hosts. It creates the networking
+infrastructure (networks, subnets, routers, and security groups), generates SSH keypairs, deploys the conversion host
+instances in both clouds, configures floating IPs, and sets up security group rules for SSH and ICMP access.
+
+`conversion_host_content`::
+Installs and configures software packages on the conversion hosts. It installs the operating system packages (for
+CentOS and RHEL), configures RHEL subscription management when required, sets up SSH keys for inter-host communication,
+enables password access when required, and runs pre-content and post-content hooks.
+
+== Network architecture
+
+....
+Source Cloud                 Destination Cloud
++------------------+        +------------------+
+| Conversion Host  |        | Conversion Host  |
+| (os_migrate_conv)|   SSH  | (os_migrate_conv)|
+| 192.168.10.x     |<------>| 192.168.10.x     |
++------------------+        +------------------+
+         |                           |
+    [Floating IP]              [Floating IP]
+         |                           |
+    [External Net]             [External Net]
+....
+
+== Prerequisites
+
+* A flavor adequate for conversion operations. A minimum of 2 vCPU and 4 GB RAM is recommended.
+* A compatible base image with cloud-init (CentOS or RHEL).
+* An external network for floating IP assignment.
+* Sufficient quota for additional instances, networks, and floating IPs.
+* OpenStack permissions for instance, network, security group, keypair, and floating IP management in both clouds.
+* A conversion host image available in Glance on both clouds. See xref:ref_osts-conversion-host-variables[].
+
+.Procedure
+
+. Add the flavor and external network for the conversion hosts to `os-migrate-vars.yml`:
++
+[source,yaml]
+----
+os_migrate_conversion_external_network_name: public
+os_migrate_conversion_flavor_name: m1.large
+----
+
+. Deploy the conversion hosts. The playbook creates the servers, installs the required packages, and authorizes the
+destination conversion host to connect to the source conversion host for the data transfer:
++
+[source,bash]
+----
+$OSM_CMD $OSM_DIR/playbooks/deploy_conversion_hosts.yml
+----
++
+The deployment creates the source conversion host infrastructure and instance, creates the destination conversion host
+infrastructure and instance, configures SSH linking between the hosts, installs the required software packages, and
+performs health checks.
+
+. (Optional) Deploy the roles directly for finer control:
++
+[source,yaml]
+----
+- name: Deploy source conversion host
+  include_role:
+    name: os_migrate.os_migrate.conversion_host
+  vars:
+    os_migrate_conversion_cloud: src
+    os_migrate_conversion_host_name: "{{ os_migrate_src_conversion_host_name }}"
+
+- name: Deploy destination conversion host
+  include_role:
+    name: os_migrate.os_migrate.conversion_host
+  vars:
+    os_migrate_conversion_cloud: dst
+    os_migrate_conversion_host_name: "{{ os_migrate_dst_conversion_host_name }}"
+----
+
+The `os_conversion_host_info` module provides runtime information about a conversion host:
+
+[source,yaml]
+----
+- name: Get conversion host info
+  os_migrate.os_migrate.os_conversion_host_info:
+    cloud: src
+    server: "{{ os_migrate_src_conversion_host_name }}"
+  register: conversion_host_info
+----
+
+== Troubleshooting
+
+Conversion host not reachable::
+The `os_conversion_host_info` module fails if the host is not `ACTIVE`. Verify the floating IP assignment and that the
+security group rules allow SSH on port 22.
+
+Network connectivity issues::
+Verify that the external network name is correct, that the router gateway is set to the external network, and that the
+DNS nameservers are reachable.
+
+SSH key problems::
+The private key must have `0600` permissions, the public key must be accessible to Ansible, and the keypair must exist
+in OpenStack.
+
+Package installation failures::
+For RHEL, check the subscription configuration, verify repository access, and review the pre-content and post-content
+hooks.
+
+To verify that the OpenStack resources exist:
+
+[source,bash]
+----
+openstack server list --name os_migrate_conv
+openstack network list --name os_migrate_conv
+openstack security group list --name os_migrate_conv
+----

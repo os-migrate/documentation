@@ -1,0 +1,86 @@
+:_mod-docs-content-type: PROCEDURE
+[id="proc_osts-preparing-clouds"]
+= Preparing the clouds and parameter files
+
+[role="_abstract"]
+Before migrating resources, prepare authentication credentials and the parameter file that the OS Migrate playbooks
+read. Run the playbooks from a migrator host. See xref:con_migrator-host[].
+
+== Authentication
+
+Use credentials specific to each project or tenant. Do not use the admin user to run the resource migration, unless the
+resource is owned by the admin project, for example public Glance images.
+
+If the circumstances require migrating with the `admin` user, this user needs access to the respective projects. There
+are two options:
+
+* Add the `admin` user as a `_member_` of each project. Depending on how many projects need to be migrated, this
+approach can be suboptimal, because it involves several configuration updates in the projects that must be reverted
+after the migration completes.
+* Create a group that includes the admin user and add the group to each project as a member. With this approach, once
+the migration is complete, removing the group removes all the references in all the projects automatically.
+
+== Parameter file
+
+.Procedure
+
+. Create an `os-migrate-vars.yml` file with the Ansible variables for the source and destination credentials, the
+region names, and the data directory on the migrator host:
++
+[source,yaml]
+----
+os_migrate_src_auth:
+  auth_url: http://192.168.0.13.199/v3
+  password: srcpassword
+  project_domain_name: Default
+  project_name: src
+  user_domain_name: Default
+  username: src
+os_migrate_src_region_name: regionOne
+os_migrate_dst_auth:
+  auth_url: http://192.167.0.16:5000/v3
+  password: dstpassword
+  project_domain_name: Default
+  project_name: dst
+  user_domain_name: Default
+  username: dst
+os_migrate_dst_region_name: regionOne
+os_migrate_data_dir: /home/migrator/os-migrate-data
+----
++
+The file contains the source and destination tenant credentials and a directory on the migrator host where the
+exported data is saved.
+
+. If you migrate content from multiple source projects, use a separate data directory for each source project. When you
+change `os_migrate_src_auth` or `os_migrate_src_region_name`, also change `os_migrate_data_dir`.
+
+. Save the collection path and the `ansible-playbook` command as shell variables, because they are used routinely:
++
+[source,bash]
+----
+export OSM_DIR=/home/migrator/.ansible/collections/ansible_collections/os_migrate/os_migrate
+export OSM_CMD="ansible-playbook -v -i $OSM_DIR/localhost_inventory.yml -e @os-migrate-vars.yml"
+----
+
+== Keystone v2 authentication
+
+The `os_migrate_src_auth` and `os_migrate_dst_auth` parameters in the preceding example use Keystone v3. To migrate
+between tenants that do not support Keystone v3, the following error is raised:
+
+[listing]
+----
+keystoneauth1.exceptions.discovery.DiscoveryFailure: Cannot use v2 authentication with domain scope
+----
+
+To resolve this, adjust the authentication parameters. Remove `project_domain_name` and `user_domain_name`, and point
+`auth_url` to the Keystone v2 endpoint:
+
+[source,yaml]
+----
+os_migrate_src_auth:
+  auth_url: http://192.168.0.13.199/v2.0
+  password: srcpassword
+  project_name: src
+  username: src
+os_migrate_src_region_name: regionOne
+----

@@ -1,0 +1,207 @@
+:_mod-docs-content-type: REFERENCE
+[id="ref_vmw-flavor-mapping"]
+= Flavor mapping and encryption
+
+[role="_abstract"]
+When migrating from VMware to OpenStack, the VMware Migration Kit handles flavor mapping, host aggregate placement, and encryption options to ensure VMs are configured correctly in the destination environment.
+
+== Flavor mapping strategies
+
+VMware has no native flavor concept, so the VMware Migration Kit supports several strategies for handling flavors:
+
+=== Find the closest matching flavor
+
+Enable this strategy with `use_existing_flavor: true`.
+
+The migration process searches for an existing OpenStack flavor that meets or exceeds the VM requirements (vCPU count, memory, disk size). If no flavor matches, the VMware Migration Kit will create one automatically.
+
+This is the default and recommended approach for most migrations.
+
+=== Create a new flavor for each VM
+
+Disable flavor matching with `use_existing_flavor: false`.
+
+The VMware Migration Kit creates a new flavor for each migrated VM. The created flavor name follows the format:
+
+----
+osm-vmware-<vm_name>-<random_id>
+----
+
+Example: `osm-vmware-myvm-9999`
+
+This approach is useful when you want unique flavors for each VM, or when existing flavors do not align with VMware VM specifications.
+
+=== Provide a specific flavor UUID
+
+Force the use of a specific flavor by setting the `flavor_uuid` variable:
+
+[source,yaml]
+----
+flavor_uuid: <your_flavor_uuid>
+----
+
+This is useful when you want to:
+
+* Define custom flavor properties for host aggregation
+* Target specific compute nodes with flavor extra specs
+* Ensure consistent flavor usage across multiple VMs
+* Use flavors with specific hardware requirements (for example, GPU, SR-IOV)
+
+== Host aggregates and targeted placement
+
+Host aggregates are a mechanism for partitioning compute hosts in an OpenStack cloud based on arbitrary characteristics such as hardware capabilities, availability zones, or performance tiers.
+
+For more information on how to configure host aggregates in OpenStack, see: https://docs.openstack.org/nova/latest/admin/aggregates.html
+
+=== Using flavors with host aggregates
+
+To target a specific host aggregate during migration:
+
+. Create a host aggregate in OpenStack with metadata:
++
+[source,bash]
+----
+openstack aggregate create --zone performance-zone high-performance
+openstack aggregate set --property ssd=true high-performance
+openstack aggregate add host high-performance compute-node-01
+----
+
+. Create a flavor with matching extra specs:
++
+[source,bash]
+----
+openstack flavor create --vcpus 4 --ram 8192 --disk 40 high-perf-flavor
+openstack flavor set --property aggregate_instance_extra_specs:ssd=true high-perf-flavor
+----
+
+. Specify the flavor UUID in your migration variables:
++
+[source,yaml]
+----
+flavor_uuid: <high-perf-flavor-uuid>
+----
+
+When the migration runs, the OpenStack scheduler will place the instance on compute nodes that match the aggregate properties.
+
+== Encryption
+
+If you use encryption with your VMware virtual machines (VMware encryption or encrypted file systems), you can provide the decryption key or passphrase using the `v2v_extra_opt` variable.
+
+=== Providing a passphrase
+
+[source,yaml]
+----
+v2v_extra_opt: "--key all:key:mypassphrase"
+----
+
+=== Providing a key file
+
+[source,yaml]
+----
+v2v_extra_opt: "--key all:file:/path/to/keyfile"
+----
+
+The key file must already be present on the conversion host at the specified path.
+
+=== Using v2v_extra_opt for other options
+
+The `v2v_extra_opt` variable is a wrapper for virt-v2v parameters. You can append any valid virt-v2v option through this variable.
+
+For a full list of virt-v2v options, see: https://libguestfs.org/virt-v2v.1.html
+
+Examples:
+
+* Enable verbose logging:
++
+[source,yaml]
+----
+v2v_extra_opt: "-v -x"
+----
+
+* Specify a custom root filesystem:
++
+[source,yaml]
+----
+v2v_extra_opt: "--root first"
+----
+
+* Combine multiple options:
++
+[source,yaml]
+----
+v2v_extra_opt: "--key all:key:mypassphrase -v -x"
+----
+
+[WARNING]
+====
+When providing encryption keys via variables, ensure that the variables file is stored securely and is not committed to version control. Use Ansible Vault to encrypt sensitive variables.
+====
+
+== First boot script injection
+
+You can inject a script or command during the migration that will execute at the first boot of the new OpenStack disk.
+
+[source,yaml]
+----
+v2v_first_boot_script: "/path/to/firstboot.sh"
+----
+
+The first boot script must already be present on the conversion host at the specified path.
+
+This feature allows you to:
+
+* Remove VMware Tools and install OpenStack guest agents
+* Reconfigure network interfaces for the new environment
+* Update system configurations for the OpenStack platform
+* Install monitoring or management agents
+* Perform post-migration validation checks
+
+For more information on creating first boot scripts, see xref:proc_vmw-first-boot-script[].
+
+== Example flavor mapping configurations
+
+=== Configuration 1: Use existing flavors
+
+[source,yaml]
+----
+use_existing_flavor: true
+----
+
+The migration searches for matching flavors. If no match is found, a new flavor is created automatically.
+
+=== Configuration 2: Always create new flavors
+
+[source,yaml]
+----
+use_existing_flavor: false
+----
+
+A new flavor with the format `osm-vmware-<vm_name>-<random_id>` is created for each VM.
+
+=== Configuration 3: Force a specific flavor
+
+[source,yaml]
+----
+flavor_uuid: 123e4567-e89b-12d3-a456-426614174000
+----
+
+All VMs use the specified flavor UUID.
+
+=== Configuration 4: Force a specific flavor with host aggregate
+
+[source,yaml]
+----
+flavor_uuid: 123e4567-e89b-12d3-a456-426614174000
+----
+
+The flavor has extra specs that target a host aggregate:
+
+[source,bash]
+----
+openstack flavor show <flavor_uuid> -c properties
+# Output:
+# properties:
+#   aggregate_instance_extra_specs:ssd=true
+----
+
+VMs are placed on compute nodes that belong to the matching aggregate.

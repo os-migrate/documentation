@@ -1,0 +1,97 @@
+:_mod-docs-content-type: REFERENCE
+[id="ref_vmw-unreachable-metadata"]
+= Unreachable metadata service
+
+[role="_abstract"]
+If the OpenStack metadata service is not reachable from the conversion host or migrated instances, you might see errors during migration or instance boot.
+
+== Symptoms
+
+You might see errors such as the following:
+
+----
+Failed to fetch metadata: Get "http://169.254.169.254/openstack/latest/meta_data.json": dial tcp 169.254.169.254:80: connect: no route to host
+----
+
+This error indicates that the instance cannot reach the metadata service at the link-local address `169.254.169.254`.
+
+== Causes
+
+* The OpenStack metadata service is not configured or is not running.
+* Network routing on the compute node does not direct metadata requests to the metadata service.
+* The instance's network interface is not configured correctly to route link-local traffic.
+* Firewall rules on the compute node or network are blocking metadata service access.
+* The Neutron metadata agent is not running or is misconfigured.
+
+== Workaround during migration
+
+If the metadata service is not reachable during migration, you can set a manual instance UUID in the migration variables:
+
+[source,yaml]
+----
+import_workloads_instance_uuid: <uuid>
+----
+
+Replace `<uuid>` with a UUID you generate or specify manually.
+
+Generate a UUID:
+
+[source,bash]
+----
+uuidgen
+----
+
+Example:
+
+[source,yaml]
+----
+import_workloads_instance_uuid: f47ac10b-58cc-4372-a567-0e02b2c3d479
+----
+
+This workaround allows the migration to proceed without relying on the metadata service for instance UUID retrieval.
+
+== Permanent fix
+
+To resolve the underlying issue, ensure the OpenStack metadata service is properly configured:
+
+. Verify that the Neutron metadata agent is running on the network or compute nodes:
++
+[source,bash]
+----
+systemctl status neutron-metadata-agent
+----
+
+. Check the Neutron metadata agent configuration (`/etc/neutron/metadata_agent.ini`):
++
+[source,ini]
+----
+[DEFAULT]
+nova_metadata_host = <nova-api-host>
+nova_metadata_port = 8775
+metadata_proxy_shared_secret = <shared-secret>
+----
+
+. Verify that the metadata proxy is enabled in the Neutron DHCP agent configuration (`/etc/neutron/dhcp_agent.ini`):
++
+[source,ini]
+----
+[DEFAULT]
+enable_metadata_network = True
+----
+
+. Restart the Neutron services after configuration changes:
++
+[source,bash]
+----
+systemctl restart neutron-metadata-agent
+systemctl restart neutron-dhcp-agent
+----
+
+. Verify that instances can reach the metadata service:
++
+[source,bash]
+----
+curl http://169.254.169.254/openstack/latest/meta_data.json
+----
+
+If the metadata service is correctly configured, instances should be able to retrieve metadata at boot time.

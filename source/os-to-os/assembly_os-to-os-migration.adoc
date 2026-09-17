@@ -1,0 +1,45 @@
+:_mod-docs-content-type: ASSEMBLY
+[id="openstack-to-openstack"]
+= Migrating workloads between OpenStack clouds
+
+OS Migrate copies tenant content between OpenStack clouds using the official OpenStack API. This guide describes how to
+prepare the clouds, deploy the conversion hosts, migrate the supporting resources, and migrate the workloads. For the
+components shared with other migration types, see the common reference at the end of this guide.
+
+== Overview
+
+include::con_os-to-os-overview.adoc[leveloffset=+2]
+
+include::ref_os-to-os-features.adoc[leveloffset=+2]
+
+include::con_workload-migration-dataflow.adoc[leveloffset=+2]
+
+== Migration procedure
+
+include::proc_preparing-the-clouds.adoc[leveloffset=+2]
+
+include::proc_deploying-conversion-hosts.adoc[leveloffset=+2]
+
+include::proc_exporting-and-importing-pre-workload-resources.adoc[leveloffset=+2]
+
+include::proc_migrating-workloads.adoc[leveloffset=+2]
+
+include::proc_cleanup.adoc[leveloffset=+2]
+
+include::proc_upgrading.adoc[leveloffset=+2]
+
+== Reference
+
+include::ref_variables.adoc[leveloffset=+2]
+
+include::ref_conversion-host-variables.adoc[leveloffset=+2]
+
+include::ref_migration-parameters.adoc[leveloffset=+2]
+
+include::ref_usage-notes.adoc[leveloffset=+2]
+
+include::ref_troubleshooting.adoc[leveloffset=+2]
+
+include::../modules-index.adoc[leveloffset=+1]
+
+include::../roles-index.adoc[leveloffset=+1]

@@ -1,36 +1,44 @@
 = OS Migrate Documentation
 :toc: left
-:toclevels: 2
+:toclevels: 3
 :sectnums:
 :sectlinks:
-:icons: font
+:sectanchors:
+:source-highlighter: rouge
+:imagesdir: images
 
-// Introduction & Bug Reporting
 == Welcome to OS Migrate
 
-OS Migrate provides a framework and toolsuite for exporting and importing
-resources between two clouds. It's a collection of Ansible playbooks that
-provide the basic functionality, but may not fit each use case out of
-the box. You can craft custom playbooks using the OS Migrate
-collection pieces (roles and modules) as building blocks.
+OS Migrate provides a framework and tool suite for exporting and importing resources between clouds. It is a collection
+of Ansible playbooks that provide the base functionality, and you can craft custom playbooks from the OS Migrate roles
+and modules as building blocks.
 
-At present OS Migrate supports migration from VMware clouds to OpenStack,
-and OpenStack to OpenStack.
+OS Migrate supports two migration paths:
 
-OS Migrate strictly uses the official OpenStack API and does not
-utilize direct database access or other methods to export or import
-data. The Ansible playbooks contained in OS Migrate are idempotent.
-If a command fails, you can retry with the same command.
+* Migrating virtual machines from VMware to OpenStack, using the `os_migrate.vmware_migration_kit` collection.
+* Migrating workloads and resources between OpenStack clouds, using the `os_migrate.os_migrate` collection.
 
-include::source/operator-vmware-guide.adoc[leveloffset=+1]
+OS Migrate uses the official OpenStack API and does not use direct database access or other methods to export or import
+data. The Ansible playbooks are idempotent: if a command fails, you can retry it with the same command.
 
-include::source/operator-aee-vmware.adoc[leveloffset=+1]
+This documentation is organized into two guides that share a common reference:
 
-include::source/operator-performance-expectations.adoc[leveloffset=+1]
+* xref:vmware-to-openstack[Migrating virtual machines from VMware to OpenStack]
+* xref:openstack-to-openstack[Migrating workloads between OpenStack clouds]
+* xref:common-reference[Common reference]
+
+include::source/vmware/assembly_vmware-migration.adoc[leveloffset=+1]
+
+include::source/os-to-os/assembly_os-to-os-migration.adoc[leveloffset=+1]
+
+include::source/shared/assembly_common-reference.adoc[leveloffset=+1]
 
 == Community
 
-https://github.com/os-migrate/vmware-migration-kit/[GitHub hosted source code]
+https://github.com/os-migrate/vmware-migration-kit/[VMware Migration Kit source code]
 
-For issue reports please use the GitHub
-https://github.com/os-migrate/vmware-migration-kit/issues[issue tracker]
+https://github.com/os-migrate/os-migrate/[OS Migrate source code]
+
+For issue reports, use the GitHub issue trackers of the
+https://github.com/os-migrate/vmware-migration-kit/issues[VMware Migration Kit] and
+https://github.com/os-migrate/os-migrate/issues[OS Migrate] repositories.

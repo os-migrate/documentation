@@ -1,0 +1,72 @@
+:_mod-docs-content-type: CONCEPT
+[id="con_migrator-host"]
+= Migrator host requirements
+
+[role="_abstract"]
+The migrator host is the machine that runs the OS Migrate Ansible playbooks. It is the orchestration point for a
+migration and connects to the source environment, the destination OpenStack cloud, and any conversion hosts.
+
+The migrator host can be one of the following:
+
+* An instance in the source cloud.
+* A separate physical or virtual machine.
+* An Ansible Execution Environment container.
+
+== System requirements
+
+Operating system::
+A Linux distribution able to run Ansible. CentOS Stream or RHEL are common choices. Workload migrations that use
+`virt-v2v` require the `virtio-win` package version 1.40 or later.
+
+Python and Ansible::
+Python 3.7 or later and Ansible 2.9 or later. The provided container image uses Python 3.12.
+
+Python packages::
++
+[source,text]
+----
+ansible
+ansible-lint
+passlib
+PyYAML
+----
+
+Ansible collections::
++
+[source,text]
+----
+vmware.vmware: ">=2.4.0"
+vmware.vmware_rest: ">=5.0.0"
+----
+
+== Storage requirements
+
+* Enough disk space in the data directory (`os_migrate_data_dir`, default `/home/migrator/os-migrate-data`).
+* A separate data directory for each source project migration.
+* Additional space for volume conversion during workload migrations.
+
+== Network access
+
+* Outbound HTTPS access to both the source and destination OpenStack APIs.
+* Inbound SSH access if the host is also used as a remote conversion host.
+* Bandwidth sufficient for volume and image data transfer.
+
+== Inventory configuration
+
+Define the migrator host as a local connection in the Ansible inventory:
+
+include::snip_inventory-migrator-host.adoc[]
+
+== Required variables
+
+`os_migrate_src_auth`:: Source cloud authentication.
+`os_migrate_dst_auth`:: Destination cloud authentication.
+`os_migrate_data_dir`:: Migration data storage location.
+
+Set region and API version values as required by your clouds.
+
+== Security
+
+* OS Migrate uses the OpenStack API only. It does not use direct database access.
+* Store credentials securely, for example in an encrypted variables file.
+* Restrict network access between the migrator host and the clouds to what the migration requires.

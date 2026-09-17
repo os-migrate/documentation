@@ -1,0 +1,8 @@
+:_mod-docs-content-type: REFERENCE
+[id="ref_vmw-supported-os"]
+= Supported operating systems for virt-v2v
+
+[role="_abstract"]
+The VMware Migration Kit uses `virt-v2v` for conversion. For a list of supported guest operating systems for `virt-v2v`, see the Red Hat Knowledgebase article: link:https://access.redhat.com/articles/1351473[Converting virtual machines from other hypervisors to KVM with virt-v2v in RHEL 7, RHEL 8, RHEL 9, and RHEL 10].
+
+OpenStack uses Kernel-based Virtual Machine (KVM) for hypervisors. For a list of certified guest operating systems for KVM, see the Red Hat Knowledgebase article: link:https://access.redhat.com/articles/certified-hypervisors[Certified Guest Operating Systems in Red Hat OpenStack Platform, Red Hat Virtualization, Red Hat OpenShift Virtualization and Red Hat Enterprise Linux with KVM].

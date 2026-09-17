@@ -4,13 +4,15 @@ This is the documentation repository for OS Migrate, an open source toolbox for 
 
 ## Structure
 
-- `index.adoc` - Main documentation entry point
+- `index.adoc` - Main documentation entry point that assembles both guides and the common reference
 - `source/` - All AsciiDoc documentation files
-  - `operator-*.adoc` - Operator documentation (guides, VMware migration, troubleshooting)
+  - `vmware/` - VMware to OpenStack guide (modular `con_`/`proc_`/`ref_` topics and its assembly)
+  - `os-to-os/` - OpenStack to OpenStack guide (modular topics and its assembly)
+  - `shared/` - Blocks included by both guides (migrator host, conversion hosts, installation, glossary)
   - `developer-*.adoc` - Developer documentation (contributing, design, development setup)
   - `reference-module-*.adoc` - Ansible module reference documentation
   - `reference-role-*.adoc` - Ansible role reference documentation
-- `images/` - Static SVG workflow diagrams
+- `images/` - Static workflow diagrams
 - `build/` - Build output directory (generated)
 
 ## Building Documentation
@@ -62,7 +64,6 @@ The Makefile uses AsciiDoctor with the following configuration:
 - `toclevels=3` - Show 3 levels in TOC
 - `sectlinks` - Make section titles clickable links
 - `sectanchors` - Add anchor symbols to sections
-- `icons=font` - Use Font Awesome icons
 - `source-highlighter=rouge` - Syntax highlighting with Rouge
 
 ## Ruby Dependencies
@@ -71,5 +72,5 @@ The project uses these Ruby gems (defined in `Gemfile`):
 - `asciidoctor` (~> 2.0) - Core AsciiDoc processor
 - `rouge` (~> 4.1) - Syntax highlighting
 
-The upstream documentation is available [here](https://github.com/os-migrate/documentation). For Red Hat Certified and Supported documentation, please see [Red Hat OpenStack VMWare Migration Toolkit](https://console.redhat.com/ansible/automation-hub/repo/published/os_migrate/vmware_migration_kit/docs/).
+The upstream documentation is available at the [OS Migrate documentation repository](https://github.com/os-migrate/documentation).
 

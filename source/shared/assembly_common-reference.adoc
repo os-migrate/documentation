@@ -1,0 +1,14 @@
+:_mod-docs-content-type: ASSEMBLY
+[id="common-reference"]
+= Common reference
+
+This part collects material shared by the VMware to OpenStack and OpenStack to OpenStack guides: the migrator host and
+conversion host concepts, collection installation, and the glossary.
+
+include::con_migrator-host.adoc[leveloffset=+1]
+
+include::con_conversion-host.adoc[leveloffset=+1]
+
+include::proc_install-collection.adoc[leveloffset=+1]
+
+include::ref_glossary.adoc[leveloffset=+1]

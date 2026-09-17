@@ -1,0 +1,150 @@
+:_mod-docs-content-type: CONCEPT
+[id="con_vmw-post-migration-hooks"]
+= Post-migration script hooks
+
+[role="_abstract"]
+After you migrate virtual machines from VMware to OpenStack, the VMs can fail to start or lose network connectivity due to hypervisor-specific configurations. You can incorporate scripting to assist in the following areas:
+
+Network Interface Drift:: VMware and OpenStack can have different interface names. You can use a script to remap MAC addresses to preserve connectivity.
+
+Different Driver Configurations:: VMware Tools, drivers, and configurations are incompatible with OpenStack. You can use a script to reconfigure the guest operating system.
+
+Zero-Touch Automation:: Manual post-migration fixes do not scale. You can use script hooks to automate migrations.
+
+Reduced Downtime:: You should fix issues before or during migration, not after. You can use a script to ensure that VMs are properly configured before they start in OpenStack.
+
+== Levels of migration hooks
+
+There are two levels of migration hooks:
+
+* Migration playbooks at the Ansible automation level that run before and after migration.
+* Hooks on the guest operating system that run during conversion or at first boot.
+
+== Overview of script hooks
+
+.Overview of script hooks
+[options="header"]
+|===
+| Level of hook | Type of hook | When the hook runs | Use case
+
+| Ansible / AWX
+| Pre-migration playbook
+| Before migration
+| Preparing environment, validation, approvals.
+
+| Ansible / AWX
+| Post-migration playbook
+| After migration
+| Verification, DNS updates, notifications.
+
+| Guest operating system
+| During virt-v2v conversion
+| During virt-v2v conversion
+| Network configuration, driver removal.
+
+| Guest operating system
+| First boot script
+| First start in OpenStack
+| Agent installation, registration.
+|===
+
+== Ansible-level hooks
+
+You can create custom playbooks that run before or after the migration:
+
+=== Pre-migration playbook
+
+Run validation checks, create approval tickets, or perform environment preparation before migration:
+
+[source,yaml]
+----
+- name: Pre-migration validation
+  hosts: migrator
+  tasks:
+    - name: Validate OpenStack quotas
+      # Custom tasks here
+
+    - name: Create change management ticket
+      # Custom tasks here
+
+- name: Run migration
+  ansible.builtin.import_playbook: os_migrate.vmware_migration_kit.migration
+----
+
+=== Post-migration playbook
+
+Run verification checks, update DNS records, or send notifications after migration:
+
+[source,yaml]
+----
+- name: Run migration
+  ansible.builtin.import_playbook: os_migrate.vmware_migration_kit.migration
+
+- name: Post-migration tasks
+  hosts: migrator
+  tasks:
+    - name: Verify instances are running
+      # Custom tasks here
+
+    - name: Update DNS records
+      # Custom tasks here
+
+    - name: Send notification
+      # Custom tasks here
+----
+
+== Guest operating system hooks
+
+Guest-level hooks run inside the VM during conversion or at first boot.
+
+=== During virt-v2v conversion
+
+The virt-v2v tool supports customization scripts that run during the conversion process. These scripts can:
+
+* Remove VMware Tools
+* Reconfigure network interfaces
+* Update driver configurations
+* Modify system configurations for the OpenStack platform
+
+Use the `v2v_extra_opt` variable to pass custom virt-v2v options.
+
+=== First boot script
+
+A first boot script executes when the VM starts for the first time after migration in OpenStack. This script can:
+
+* Install OpenStack guest agents (for example, cloud-init, qemu-guest-agent)
+* Remove VMware-specific configurations
+* Install monitoring or management agents
+* Perform post-migration validation checks
+* Update system configurations
+
+See xref:proc_vmw-first-boot-script[] for details on creating and using first boot scripts.
+
+== When to use each type of hook
+
+Use Ansible-level pre-migration hooks when you need to:
+
+* Validate the environment before migration
+* Create approval workflows
+* Prepare the destination cloud (create networks, security groups, flavors)
+* Gather inventory data for reporting
+
+Use Ansible-level post-migration hooks when you need to:
+
+* Verify migration success
+* Update external systems (DNS, IPAM, CMDB)
+* Send notifications
+* Clean up temporary resources
+
+Use guest-level conversion hooks when you need to:
+
+* Remove hypervisor-specific drivers or agents
+* Reconfigure network interfaces
+* Update bootloader configurations
+
+Use guest-level first boot hooks when you need to:
+
+* Install cloud-init or other guest agents
+* Register with configuration management systems
+* Perform post-migration health checks
+* Update system configurations based on OpenStack metadata

@@ -1,0 +1,77 @@
+:_mod-docs-content-type: PROCEDURE
+[id="proc_vmw-awx-launch"]
+= Launching the migration
+
+[role="_abstract"]
+Launch the VMware to OpenStack migration job in AWX (or Ansible Automation Platform).
+
+.Prerequisites
+
+* You have configured the job template as described in xref:proc_vmw-awx-job-template[].
+* The conversion host is accessible and running.
+* The VMware vCenter is accessible from the migrator host.
+* The OpenStack destination cloud is accessible and has sufficient resources (quotas, capacity) for the migrated VMs.
+
+.Procedure
+
+. From the navigation panel, select the AWX or automation controller UI, then `Templates`.
+. Locate the `VMware to OpenStack Migration` job template.
+. Click the rocket icon to launch the migration.
+. (Optional) Review the extra variables and make any last-minute adjustments.
+. Click `Launch`.
+
+The job starts and you can monitor the progress in the job output view.
+
+.Monitoring the migration
+
+* The job output view displays real-time Ansible playbook execution output.
+* Expand the task details to see detailed logs for each migration step.
+* Monitor for errors or warnings related to VMware connectivity, disk conversion, or OpenStack resource creation.
+* The migration progress is logged for each VM in the `vms_list`.
+
+.What happens during the migration
+
+The job executes the following high-level steps:
+
+. Preparation: Sets up the migration environment and validates connectivity.
+. Metadata conversion: Converts VMware VM specifications to OpenStack flavors and instance metadata. See xref:ref_vmw-metadata-conversion[].
+. Volume import: Migrates VM disks from VMware to OpenStack Cinder volumes. See xref:proc_vmw-importing-volumes[].
+. Instance creation: Creates OpenStack instances with the migrated volumes and configured networks.
+. Verification: Validates that instances are created and accessible.
+
+.Verification
+
+After the job completes:
+
+* Verify that the job status is "Successful" with a green checkmark.
+* Log in to the OpenStack environment and check that the instances are created:
++
+[source,bash]
+----
+openstack server list
+----
+
+* Verify that the instances are in "ACTIVE" status:
++
+[source,bash]
+----
+openstack server show <instance-name>
+----
+
+* Test connectivity to the migrated instances:
++
+[source,bash]
+----
+openstack console url show <instance-name>
+----
+
+.Troubleshooting
+
+If the job fails, check the following:
+
+* Review the job output for error messages.
+* Verify connectivity between the conversion host and VMware vCenter (port 443, 902).
+* Verify connectivity between the conversion host and OpenStack API endpoints.
+* Check OpenStack quotas and capacity (sufficient vCPUs, RAM, storage, floating IPs).
+* Review the migration logs on the conversion host at `/tmp/osm-nbdkit-<vm-name>-<random-id>.log`.
+* See xref:ref_vmw-connectivity[], xref:ref_vmw-nbdkit-errors[], and xref:ref_vmw-debugging-manually[] for troubleshooting guidance.

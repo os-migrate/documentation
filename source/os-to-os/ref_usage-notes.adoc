@@ -1,0 +1,18 @@
+:_mod-docs-content-type: REFERENCE
+[id="ref_osts-usage-notes"]
+= Usage notes
+
+[role="_abstract"]
+The following notes describe recommended practices for OpenStack to OpenStack migration.
+
+* Run against testing and staging clouds first, and verify that the results match expectations.
+* Use a different `os_migrate_data_dir` for each project you authenticate to. OS Migrate works in project (tenant) scope
+most of the time. The data directory is populated with the exported resources of the source project and must not be
+mixed with the resources of another project. When you change `os_migrate_src_auth` or `os_migrate_src_region_name`, also
+change `os_migrate_data_dir`.
+* Use the same version of OS Migrate for export and import. Data files are not guaranteed to be compatible across
+versions. See xref:proc_osts-upgrading[].
+* OS Migrate might not fit every use case out of the box. You can craft custom playbooks using the OS Migrate roles and
+modules as building blocks. See xref:con_migrator-host[].
+* OS Migrate supports migrations for OpenStack versions 13 to 16 and 16 to 18, and simple upgrades from 15 to 16 or 16
+to 17. Migrations between 13 to 16 and 16 to 18 are tested using RHEL 8.

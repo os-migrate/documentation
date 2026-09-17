@@ -1,0 +1,95 @@
+:_mod-docs-content-type: PROCEDURE
+[id="proc_vmw-deploying-conversion-host"]
+= Deploying a conversion host
+
+[role="_abstract"]
+You can use a xref:con_conversion-host[] to assist in the migration process. For VMware migrations, it is highly recommended to use CentOS Stream 9 (or RHEL 9.5 and later) to benefit from the virtio-win package version 1.40 or higher, which provides the drivers required for converting Windows distributions.
+
+.Prerequisites
+
+* Tenant access to an OpenStack environment.
+* CentOS Stream 9 (or RHEL 9) image uploaded into the OpenStack Image service (Glance).
+* An OpenStack flavor with a recommended minimum 6 vCPU, 8GB RAM and 20GB disk.
+* VMware VDDK library.
+
+.Procedure
+
+. Download a CentOS Stream 9 cloud image:
++
+[source,bash]
+----
+curl -O -k https://cloud.centos.org/centos/9-stream/x86_64/images/CentOS-Stream-GenericCloud-9-latest.x86_64.qcow2
+----
+
+. Create an OpenStack image:
++
+[source,bash]
+----
+openstack image create --disk-format qcow2 \
+  --file CentOS-Stream-GenericCloud-9-latest.x86_64.qcow2 \
+  centos-stream-9
+----
+
+. Create a conversion host instance:
++
+[source,bash]
+----
+openstack server create --flavor <flavor-name> \
+  --image centos-stream-9 \
+  --key-name <your-keypair> \
+  --network <your-network> \
+  vmware-conversion-host
+----
++
+where:
++
+`<flavor-name>`:: Specifies an OpenStack flavor with at least 6 vCPU and 8GB RAM.
+`<your-keypair>`:: Specifies the name of your SSH key pair for accessing the instance.
+`<your-network>`:: Specifies the OpenStack network to attach the instance to.
+
+. Attach a floating IP to the conversion host instance:
++
+[source,bash]
+----
+openstack floating ip create <external-network>
+openstack server add floating ip vmware-conversion-host <floating-ip-address>
+----
+
+. Log in to the conversion host as the `cloud-user` with the SSH key you created when you created the conversion host:
++
+[source,bash]
+----
+ssh -i <path-to-private-key> cloud-user@<floating-ip-address>
+----
+
+. (Optional for RHEL only) Register your system with the Red Hat Content Delivery Network (CDN) or with Red Hat Satellite:
++
+[source,bash]
+----
+sudo subscription-manager register
+sudo subscription-manager attach --auto
+----
++
+[NOTE]
+====
+CentOS Stream 9 users can skip the registration steps as packages are available without subscription.
+====
+
+. Install the VMware VDDK library and ensure that you have root ownership. Download the VMware VDDK from the VMware website, extract it, and install it to `/usr/lib/vmware-vix-disklib` or another directory of your choice. You will reference this path in your migration variables using the `conversion_host_vmware_vix_disklib` or `import_workloads_libdir` variable.
+
+.Verification
+
+* Verify that the conversion host is accessible:
++
+[source,bash]
+----
+ssh -i <path-to-private-key> cloud-user@<floating-ip-address> uptime
+----
+
+* Verify that the VDDK library is installed:
++
+[source,bash]
+----
+ssh -i <path-to-private-key> cloud-user@<floating-ip-address> \
+  "ls -la /usr/lib/vmware-vix-disklib"
+----

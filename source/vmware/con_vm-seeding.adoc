@@ -1,0 +1,41 @@
+:_mod-docs-content-type: CONCEPT
+[id="con_vmw-vm-seeding"]
+= VM seeding
+
+[role="_abstract"]
+To optimize migrating large disks, you can use VM seeding and Change Block Tracking (CBT). CBT tracks changed VM disk blocks. With VM seeding, you seed most of the VM data incrementally while the VM is live before the final cut-over, when you only need to migrate the VM delta.
+
+The VM in the VMware environment must have the following specifications:
+
+* Virtual hardware version 7 or newer.
+* Flat VMDK disks that are not independent.
+* The VM must be on VMFS or NFS datastores that are supported by vSphere.
+
+The VM seeding workflow consists of the following steps:
+
+. Perform an initial full copy of the VM disks from VMware to the target OpenStack volume.
+
+. Perform subsequent incremental copies that transfer only the blocks that have changed since the previous sync.
+
+. Repeat these incremental synchronizations as many times as you need while the VM continues running.
+
+. When the maintenance window arrives, stop the VM and perform a final incremental sync to capture the last changes before the cut-over.
+
+You can transform migration from a risky single event into a safer multi-stage process. You control seeding and cut-over with 2 flags:
+
+* `cbt_sync`
+* `cutover`
+
+When you are seeding, use the following values:
+
+----
+cbt_sync: true
+cutover: false
+----
+
+When you perform the cut-over, use the following values:
+
+----
+cbt_sync: true
+cutover: true
+----

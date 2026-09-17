@@ -1,0 +1,310 @@
+:_mod-docs-content-type: REFERENCE
+[id="ref_osts-conversion-host-variables"]
+= Conversion host variables reference
+
+[role="_abstract"]
+This reference describes the variables that configure the conversion hosts used for workload migration. Configure these
+variables before running the conversion host deployment. For the conversion host concept, see xref:con_conversion-host[].
+For the deployment procedure, see xref:proc_osts-deploying-conversion-hosts[].
+
+== Conversion host name
+
+The conversion hosts can be configured with different names, for example when an operator registers them with
+subscription management and needs to avoid name collisions:
+
+[source]
+----
+os_migrate_src_conversion_host_name
+os_migrate_dst_conversion_host_name
+----
+
+By default, these variables are `os_migrate_conv_src` and `os_migrate_conv_dst` respectively.
+
+== Conversion host image name
+
+The conversion host image is the guest configured to run the instance migrations:
+
+[source]
+----
+os_migrate_src_conversion_image_name
+os_migrate_dst_conversion_image_name
+----
+
+This image must be accessible to both projects before the conversion host deployment runs. The variables default to
+`os_migrate_conv`. If a conversion host image is uploaded to Glance as a public image with this name in both clouds,
+these variables do not need to be configured explicitly. Use a CentOS 9 cloud image or a RHEL 8 KVM guest image.
+
+== Conversion host flavor name
+
+The conversion host flavor defines the compute, memory, and storage capacity allocated for the conversion hosts. It
+must include a volume of at least 20 GB:
+
+[source]
+----
+os_migrate_src_conversion_flavor_name
+os_migrate_dst_conversion_flavor_name
+----
+
+The `m1.medium` flavor usually meets this requirement, but the value can differ between deployments.
+
+== Conversion host external network name
+
+The external network connects the conversion host router for external access. This external network must be able to
+allocate floating IPs reachable between both conversion hosts:
+
+[source]
+----
+os_migrate_src_conversion_external_network_name
+os_migrate_dst_conversion_external_network_name
+----
+
+This is not required when attaching the conversion host to a pre-existing network, that is, when
+`os_migrate_src_conversion_manage_network` or `os_migrate_dst_conversion_manage_network` is `false`.
+
+== Other conversion host dependency names
+
+The names of other conversion host dependency resources can be customized:
+
+[source]
+----
+os_migrate_src_conversion_net_name
+os_migrate_dst_conversion_net_name
+os_migrate_src_conversion_subnet_name
+os_migrate_dst_conversion_subnet_name
+os_migrate_src_conversion_router_name
+os_migrate_dst_conversion_router_name
+os_migrate_src_conversion_secgroup_name
+os_migrate_dst_conversion_secgroup_name
+os_migrate_src_conversion_keypair_name
+os_migrate_dst_conversion_keypair_name
+----
+
+== Conversion host availability zone
+
+Availability zones are defined by attaching metadata to an aggregate:
+
+[source]
+----
+os_migrate_src_conversion_availability_zone
+os_migrate_dst_conversion_availability_zone
+----
+
+The default is `false`, which means no availability zone is specified.
+
+== Conversion host network management
+
+To disable creation and deletion of the conversion host private network, set the following variables to `false`:
+
+[source]
+----
+os_migrate_src_conversion_manage_network
+os_migrate_dst_conversion_manage_network
+----
+
+This disables creation of the network, the subnet, and the router that make the conversion host reachable from outside
+the cloud. When network management is disabled, provide a pre-existing network that the conversion host attaches to and
+uses to reach the other conversion host, by setting the network name variables:
+
+[source]
+----
+os_migrate_src_conversion_net_name
+os_migrate_dst_conversion_net_name
+----
+
+== Conversion host floating IP management
+
+To prevent OS Migrate from creating floating IPs on the conversion hosts, for example when attaching a conversion host
+to a public network where its address is already reachable, set the following variables:
+
+[source]
+----
+os_migrate_src_conversion_manage_fip
+os_migrate_dst_conversion_manage_fip
+----
+
+When the conversion hosts are removed, the assigned floating IPs are detached or removed. The following variables
+control whether the floating IP is deleted when deleting the conversion hosts. The default is `true`:
+
+[source]
+----
+os_migrate_src_conversion_host_delete_fip
+os_migrate_dst_conversion_host_delete_fip
+----
+
+When the corresponding `..._manage_fip` variable is `false`, floating IP deletion is not attempted even if
+`..._delete_fip` is `true`.
+
+== Conversion host specific floating IP
+
+Each conversion host requires a floating IP. Floating IPs can be assigned automatically or defined by the operator:
+
+[source]
+----
+os_migrate_src_conversion_floating_ip_address
+os_migrate_dst_conversion_floating_ip_address
+----
+
+When specifying an exact address, the floating IP must already exist and be available for attaching.
+
+== Attaching conversion hosts to public networks
+
+A combination of the preceding variables attaches the conversion hosts directly to pre-existing public networks. This
+requires disabling private network creation, disabling floating IP creation, and setting the network names:
+
+[source,yaml]
+----
+os_migrate_src_conversion_manage_network: false
+os_migrate_dst_conversion_manage_network: false
+os_migrate_src_conversion_manage_fip: false
+os_migrate_dst_conversion_manage_fip: false
+os_migrate_src_conversion_net_name: some_public_net_src
+os_migrate_dst_conversion_net_name: some_public_net_dst
+----
+
+== Conversion host boot from volume
+
+The conversion hosts can be created as boot-from-volume servers in either cloud:
+
+[source]
+----
+os_migrate_src_conversion_host_boot_from_volume
+os_migrate_dst_conversion_host_boot_from_volume
+----
+
+The default is `false`, which means boot from the Nova local disk. When creating boot-from-volume conversion hosts,
+customize the boot volume size in GB. The size must be 20 or more, and the default is 20:
+
+[source]
+----
+os_migrate_src_conversion_host_volume_size
+os_migrate_dst_conversion_host_volume_size
+----
+
+== Conversion host RHEL variables
+
+When using RHEL as the conversion host, set the SSH user name:
+
+[source]
+----
+os_migrate_conversion_host_ssh_user: cloud-user
+----
+
+Set the RHEL registration variables. The registration variables of this role default to `omit`. The variables
+`os_migrate_conversion_rhsm_auto_attach` and `os_migrate_conversion_rhsm_activationkey` are mutually exclusive, and both
+default to `omit`.
+
+The registration variables to set are typically:
+
+[source]
+----
+os_migrate_conversion_rhsm_username
+os_migrate_conversion_rhsm_password
+----
+
+In this case, set `os_migrate_conversion_rhsm_auto_attach` to `True` to fetch the content automatically once the node is
+registered.
+
+Alternatively:
+
+[source]
+----
+os_migrate_conversion_rhsm_activationkey
+os_migrate_conversion_rhsm_org_id
+----
+
+In this case, leave `os_migrate_conversion_rhsm_auto_attach` at its default value of `omit`.
+
+The complete list of registration variables corresponds to the
+https://docs.ansible.com/ansible/latest/collections/community/general/redhat_subscription_module.html[redhat_subscription]
+Ansible module. In OS Migrate they are named as follows:
+
+[source]
+----
+os_migrate_conversion_rhsm_activationkey
+os_migrate_conversion_rhsm_auto_attach
+os_migrate_conversion_rhsm_consumer_id
+os_migrate_conversion_rhsm_consumer_name
+os_migrate_conversion_rhsm_consumer_type
+os_migrate_conversion_rhsm_environment
+os_migrate_conversion_rhsm_force_register
+os_migrate_conversion_rhsm_org_id
+os_migrate_conversion_rhsm_password
+os_migrate_conversion_rhsm_pool
+os_migrate_conversion_rhsm_pool_ids
+os_migrate_conversion_rhsm_release
+os_migrate_conversion_rhsm_rhsm_baseurl
+os_migrate_conversion_rhsm_rhsm_repo_ca_cert
+os_migrate_conversion_rhsm_server_hostname
+os_migrate_conversion_rhsm_server_insecure
+os_migrate_conversion_rhsm_server_proxy_hostname
+os_migrate_conversion_rhsm_server_proxy_password
+os_migrate_conversion_rhsm_server_proxy_port
+os_migrate_conversion_rhsm_server_proxy_user
+os_migrate_conversion_rhsm_syspurpose
+os_migrate_conversion_rhsm_username
+----
+
+To enable specific repositories on the conversion hosts, use a list of repositories to enable:
+
+[source]
+----
+os_migrate_conversion_rhsm_repositories
+----
+
+== Password-based SSH access to the conversion hosts
+
+To configure password-based SSH access to the conversion hosts, which can help with debugging when the private key is no
+longer available, set the following variables:
+
+[source]
+----
+os_migrate_conversion_host_ssh_user_enable_password_access
+os_migrate_conversion_host_ssh_user_password
+----
+
+The variable `os_migrate_conversion_host_ssh_user_enable_password_access` defaults to `false`, and
+`os_migrate_conversion_host_ssh_user_password` defaults to `weak_password_disabled_by_default`. The user enabled for
+password-based access is the one defined in `os_migrate_conversion_host_ssh_user`.
+
+== Custom scripts on the conversion hosts
+
+Custom bash scripts can run on the conversion hosts before and after their content is configured. The content of the
+conversion hosts is a set of required packages, and, when using RHEL, the subscription management configuration. The
+following variables run the custom scripts:
+
+[source]
+----
+os_migrate_src_conversion_host_pre_content_hook
+os_migrate_src_conversion_host_post_content_hook
+os_migrate_dst_conversion_host_pre_content_hook
+os_migrate_dst_conversion_host_post_content_hook
+----
+
+The Ansible `shell` module runs the scripts, so a value can be a one-line command or a multi-line script:
+
+[source,yaml]
+----
+os_migrate_src_conversion_host_pre_content_hook: |
+  ls -ltah
+  echo "hello world"
+  df -h
+----
+
+Or:
+
+[source,yaml]
+----
+os_migrate_src_conversion_host_pre_content_hook: "echo 'this is a simple command'"
+----
+
+== Disabling the subscription management tasks
+
+To disable the native subscription management tasks, set the following variable to `false`:
+
+[source]
+----
+os_migrate_conversion_rhsm_manage
+----
+
+This skips the RHSM tasks when using RHEL on the conversion hosts. Disabling RHSM is useful when the operator has custom
+scripts to use instead of the standard Ansible module.

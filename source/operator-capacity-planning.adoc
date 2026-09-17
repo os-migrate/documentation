@@ -1,7 +1,0 @@
-
-[id="os-migrate-capacity-planning_planning"]
-
-
-= OS Migrate Capacity Planning
-
-include::chapter_os-migrate-migrator-host.adoc[leveloffset=+1]

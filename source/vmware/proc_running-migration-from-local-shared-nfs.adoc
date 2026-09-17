@@ -1,0 +1,83 @@
+:_mod-docs-content-type: PROCEDURE
+[id="proc_vmw-migration-nfs"]
+= Configuring migration from local shared NFS
+
+[role="_abstract"]
+You can mount NFS storage on the xref:con_conversion-host[] when VMware virtual machines reside on an NFS datastore that is accessible to the conversion host. The conversion host directly consumes virtual machine disks (`vmdk`) from the local NFS mount, reducing network overhead and I/O latency by bypassing the need to stream data through the VMware vCenter API.
+
+[NOTE]
+====
+Only cold migration is supported when using local NFS access. The VMs must be powered off before migration.
+====
+
+.Prerequisites
+
+* VMware virtual machines are stored on an NFS datastore.
+* The NFS datastore is accessible and mountable from the conversion host.
+* The conversion host has network connectivity to the NFS server.
+* The VMs to be migrated are powered off.
+
+.Procedure
+
+. Mount the NFS datastore on the conversion host:
++
+[source,bash]
+----
+sudo mkdir -p /srv/nfs
+sudo mount -t nfs <nfs-server>:<nfs-export-path> /srv/nfs
+----
++
+where:
++
+`<nfs-server>`:: Hostname or IP address of the NFS server hosting the VMware datastore.
+`<nfs-export-path>`:: Export path of the NFS share (for example, `/vmware/datastore1`).
+
+. Verify the mount and locate the VM disk files:
++
+[source,bash]
+----
+ls -lh /srv/nfs
+----
++
+You should see directories corresponding to your VMs, each containing `.vmdk` files.
+
+. Set the path to the NFS mount point in your variables file (`myvars.yml`) using the `import_workloads_local_disk_path` variable:
++
+[source,yaml]
+----
+import_workloads_local_disk_path: "/srv/nfs"
+----
+
+. Run the migration playbook as described in xref:proc_vmw-migrating-cli[]:
++
+[source,bash]
+----
+ansible-playbook -i inventory.yml \
+  os_migrate.vmware_migration_kit.migration \
+  -e @secrets.yml -e @myvars.yml
+----
+
+.What happens during NFS migration
+
+When `import_workloads_local_disk_path` is set, the migration workflow changes:
+
+* The migration bypasses the VMware vCenter API for disk data transfer.
+* Disk files are read directly from the NFS mount point.
+* The conversion process (libvirt conversion to KVM-compatible format) still occurs on the conversion host.
+* The converted disks are uploaded to OpenStack Cinder volumes or the OpenStack Image service (Glance).
+
+.Performance considerations
+
+* Direct NFS access typically provides faster disk reads compared to streaming through the vCenter API.
+* Network bandwidth between the conversion host and the NFS server becomes the bottleneck instead of the vCenter API.
+* For large-scale migrations, ensure the NFS server can handle concurrent reads from multiple conversion hosts.
+
+.Verification
+
+* Monitor the migration logs for references to the local NFS path instead of vCenter disk streaming.
+* Verify that the migrated instances boot successfully in OpenStack:
++
+[source,bash]
+----
+openstack server list --long
+----

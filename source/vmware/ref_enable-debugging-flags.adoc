@@ -1,0 +1,124 @@
+:_mod-docs-content-type: REFERENCE
+[id="ref_vmw-debugging-flags"]
+= Enabling debugging flags during migration
+
+[role="_abstract"]
+You can increase the verbosity of the logs to assist your troubleshooting by setting debugging parameters in your migration variables.
+
+== Enabling debug mode
+
+Set the following parameter in your `myvars.yml` file:
+
+[source,yaml]
+----
+import_workloads_debug: true
+----
+
+This enables verbose logging for the migration process, including detailed output from nbdkit, nbdcopy, virt-v2v, and OpenStack API calls.
+
+== Log file locations
+
+When you migrate successfully, the migration log file is located on the conversion host in the `/tmp` directory.
+
+If the migration fails, the log file is automatically pulled back to the migration working directory (default: `/opt/os-migrate`) on the migrator host.
+
+The name of the log file is usually in the format:
+
+----
+osm-nbdkit-<vm-name>-<random-id>.log
+----
+
+where:
+
+`<vm-name>`:: The name of the VM that was migrated.
+`<random-id>`:: A random string generated for the migration.
+
+== Viewing logs during migration
+
+To view logs in real-time during migration, log in to the conversion host and tail the log file:
+
+[source,bash]
+----
+ssh -i <ssh-key> cloud-user@<conversion-host-ip>
+tail -f /tmp/osm-nbdkit-<vm-name>-<random-id>.log
+----
+
+Replace `<vm-name>` with the actual VM name. You can use wildcards to find the log file:
+
+[source,bash]
+----
+tail -f /tmp/osm-nbdkit-*.log
+----
+
+== Viewing logs after migration
+
+If the migration failed, the log file is stored on the migrator host under the VM directory:
+
+[source,bash]
+----
+cat /opt/os-migrate/<vm-name>/osm-nbdkit-<vm-name>-<random-id>.log
+----
+
+== What to look for in debug logs
+
+When troubleshooting with debug logs, look for:
+
+* NBDKit connection errors: Indicate problems connecting to VMware ESXi hosts or vCenter.
+* VDDK library errors: Indicate missing or incompatible VMware VDDK library.
+* OpenStack API errors: Indicate problems creating volumes, instances, ports, or other resources.
+* Network errors: Indicate connectivity issues between the conversion host and VMware or OpenStack.
+* Disk conversion errors: Indicate problems during the virt-v2v conversion process.
+* Authentication errors: Indicate invalid credentials for VMware or OpenStack.
+
+== Additional debugging options
+
+For even more verbose output, you can add the following to `v2v_extra_opt`:
+
+[source,yaml]
+----
+v2v_extra_opt: "-v -x"
+----
+
+This enables verbose and debug mode in virt-v2v.
+
+== Example debug workflow
+
+. Enable debug mode in `myvars.yml`:
++
+[source,yaml]
+----
+import_workloads_debug: true
+----
+
+. Run the migration:
++
+[source,bash]
+----
+ansible-playbook -i inventory.yml \
+  os_migrate.vmware_migration_kit.migration \
+  -e @secrets.yml -e @myvars.yml
+----
+
+. If the migration fails, locate the log file on the migrator host:
++
+[source,bash]
+----
+find /opt/os-migrate -name "osm-nbdkit-*.log"
+----
+
+. Review the log for error messages:
++
+[source,bash]
+----
+grep -i error /opt/os-migrate/<vm-name>/osm-nbdkit-<vm-name>-<random-id>.log
+----
+
+. Search for common issues:
++
+[source,bash]
+----
+grep -i "connection refused\|authentication failed\|no such file\|permission denied" \
+  /opt/os-migrate/<vm-name>/osm-nbdkit-<vm-name>-<random-id>.log
+----
+
+. Address the identified issues and re-run the migration.

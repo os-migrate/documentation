@@ -1,0 +1,33 @@
+:_mod-docs-content-type: CONCEPT
+[id="con_osts-overview"]
+= OpenStack to OpenStack migration overview
+
+[role="_abstract"]
+OS Migrate is a framework for OpenStack parallel cloud migration, that is, migrating content between OpenStack tenants
+that are not necessarily in the same cloud. It is a collection of Ansible playbooks that provide the basic
+functionality. Because the playbooks might not fit every use case out of the box, you can craft custom playbooks using
+the OS Migrate collection pieces (roles and modules) as building blocks.
+
+== Parallel cloud migration
+
+Parallel cloud migration is a way to renew an OpenStack deployment. Instead of upgrading an OpenStack cluster in place,
+a second OpenStack cluster is deployed alongside it, and tenant content is migrated from the original cluster to the
+second one. Parallel cloud migration suits environments that are due for a hardware refresh cycle. It can also be
+performed without a hardware refresh, but extra hardware resources are required to bootstrap the second cluster. As
+hardware resources free up in the original cluster, they can be added to the second cluster.
+
+OS Migrate uses the official OpenStack API only. It does not use direct database access or other methods to export or
+import data. The Ansible playbooks are idempotent: if a command fails, you can retry with the same command.
+
+== Migration sequence
+
+A migration is performed in this sequence:
+
+. Prerequisites: prepare authentication information and parameter files. See xref:proc_osts-preparing-clouds[].
+. Pre-workload migration: copy the supporting resources into the destination cloud (for example networks, security
+groups, and images) while workloads keep running in the source cloud. See xref:proc_osts-pre-workload-resources[].
+. Workload migration: stop the use of the applicable resources in the source cloud and move them into the destination
+cloud (instances and volumes). See xref:proc_osts-migrating-workloads[].
+
+For the roles that run the migration, see xref:con_migrator-host[] and xref:con_conversion-host[]. For collection
+installation, see xref:proc_install-collection[]. For terminology, see xref:ref_glossary[].

@@ -1,0 +1,167 @@
+:_mod-docs-content-type: PROCEDURE
+[id="proc_vmw-first-boot-script"]
+= Scripting for post-migration VM start
+
+[role="_abstract"]
+You can create a script that runs when the VM starts for the first time after migration. Include logic in your script to load OpenStack drivers, remove VMware Tools, install monitoring agents, and complete other important post-migration tasks.
+
+.Prerequisites
+
+* You have access to the conversion host to upload the first boot script.
+* The script is compatible with the guest operating system of the VMs being migrated.
+
+.Procedure
+
+. Create your first boot script. The script should be idempotent and include logging:
++
+[source,bash]
+----
+#!/bin/bash
+# post-migration-firstboot.sh
+
+LOG="/var/log/migration-firstboot.log"
+exec > >(tee -a "$LOG") 2>&1
+echo "=== First Boot: $(date) ==="
+
+# Check if this script has already run
+if [ -f /var/log/migration-complete ]; then
+    echo "Migration script already completed. Exiting."
+    exit 0
+fi
+
+# Example: Remove VMware Tools (if present)
+if rpm -q open-vm-tools; then
+    echo "Removing VMware Tools..."
+    yum remove -y open-vm-tools
+fi
+
+# Example: Install cloud-init for OpenStack
+if ! rpm -q cloud-init; then
+    echo "Installing cloud-init..."
+    yum install -y cloud-init
+fi
+
+# Example: Configure cloud-init for OpenStack
+cat > /etc/cloud/cloud.cfg.d/99-openstack.cfg <<EOF
+datasource_list: [ OpenStack ]
+datasource:
+  OpenStack:
+    metadata_urls: ['http://169.254.169.254']
+    max_wait: 120
+    timeout: 10
+EOF
+
+# Example: Install qemu-guest-agent
+if ! rpm -q qemu-guest-agent; then
+    echo "Installing qemu-guest-agent..."
+    yum install -y qemu-guest-agent
+    systemctl enable qemu-guest-agent
+    systemctl start qemu-guest-agent
+fi
+
+# Mark the script as completed
+touch /var/log/migration-complete
+echo "=== Migration first boot script completed: $(date) ==="
+----
+
+. Copy the script to the conversion host:
++
+[source,bash]
+----
+scp -i <ssh-key> post-migration-firstboot.sh \
+  cloud-user@<conversion-host-ip>:/opt/scripts/
+----
+
+. Set the correct permissions on the conversion host:
++
+[source,bash]
+----
+ssh -i <ssh-key> cloud-user@<conversion-host-ip> \
+  "chmod 755 /opt/scripts/post-migration-firstboot.sh"
+----
+
+. Set the variable in your `myvars.yml` file:
++
+[source,yaml]
+----
+v2v_first_boot_script: "/opt/scripts/post-migration-firstboot.sh"
+----
+
+. Run the migration as described in xref:proc_vmw-migrating-cli[].
+
+.Alternative: Include the script in your playbook
+
+You can copy the first boot script to the conversion host as part of the migration playbook:
+
+[source,yaml]
+----
+- name: Migrate with Custom First Boot Script
+  hosts: conversion_host
+  vars:
+    v2v_first_boot_script: "/opt/scripts/post-migration-firstboot.sh"
+    vms_list:
+      - VM1
+      - VM2
+
+  pre_tasks:
+    - name: Create scripts directory
+      ansible.builtin.file:
+        path: /opt/scripts
+        state: directory
+        mode: '0755'
+      become: true
+
+    - name: Copy first boot script to conversion host
+      ansible.builtin.copy:
+        src: files/post-migration-firstboot.sh
+        dest: "{{ v2v_first_boot_script }}"
+        mode: '0755'
+      become: true
+
+  tasks:
+    - name: Run migration with first boot script
+      ansible.builtin.include_role:
+        name: os_migrate.vmware_migration_kit.import_workloads
+      loop: "{{ vms_list }}"
+      loop_control:
+        loop_var: vm
+      vars:
+        vm_name: "{{ vm }}"
+----
+
+.Verification
+
+* After the migration completes and the instance boots for the first time, log in to the instance and check the first boot script log:
++
+[source,bash]
+----
+cat /var/log/migration-firstboot.log
+----
+
+* Verify that the completion marker file exists:
++
+[source,bash]
+----
+ls -l /var/log/migration-complete
+----
+
+* Check that the expected changes were applied (for example, cloud-init installed, VMware Tools removed):
++
+[source,bash]
+----
+rpm -q cloud-init qemu-guest-agent
+rpm -q open-vm-tools
+----
+
+.Example use cases for first boot scripts
+
+* Remove VMware Tools and install OpenStack guest agents
+* Configure cloud-init for OpenStack metadata service
+* Update network interface configurations
+* Install monitoring agents (for example, Prometheus node exporter, Datadog agent)
+* Register with configuration management systems (for example, Ansible Tower, Puppet, Chef)
+* Perform system updates and security hardening
+* Set up log forwarding to centralized logging systems
+* Configure time synchronization (NTP/chrony)
+* Update SSH configurations and authorized keys
+* Run compliance checks and report results

@@ -1,0 +1,70 @@
+:_mod-docs-content-type: PROCEDURE
+[id="proc_osts-pre-workload-resources"]
+= Exporting and importing pre-workload resources
+
+[role="_abstract"]
+Workloads require the support of several resources in a cloud to operate. These resources include networks, subnets,
+routers, router interfaces, security groups, security group rules, images, and keypairs. Pre-workload migration exports
+these resources from the source cloud onto the migrator host, allows optional edits, and imports them into the
+destination cloud while workloads keep running in the source cloud.
+
+Each resource type has a matching export playbook and import playbook. The following steps use networks as a concrete
+example. The same pattern applies to the other supported resource types.
+
+.Procedure
+
+. Export the networks from the source cloud:
++
+[source,bash]
+----
+$OSM_CMD $OSM_DIR/playbooks/export_networks.yml
+----
++
+The export creates a `networks.yml` file in the data directory:
++
+[source,yaml]
+----
+os_migrate_version: 0.17.0
+resources:
+  - _info:
+      availability_zones:
+        - nova
+      created_at: '2020-04-07T14:08:30Z'
+      id: a1eb31f6-2cdc-4896-b582-8950dafa34aa
+      project_id: 2f444c71265048f7a9d21f81db6f21a4
+      status: ACTIVE
+      subnet_ids:
+        - a5052e10-5e00-432b-a826-29695677aca0
+        - d450ffd0-972e-4398-ab49-6ba9e29e2499
+    params:
+      description: ''
+      is_admin_state_up: true
+      is_port_security_enabled: true
+      is_router_external: false
+      is_shared: false
+      mtu: 1450
+      name: osm_net
+    type: openstack.network.Network
+----
+
+. (Optional) Edit `networks.yml` to adjust the resources before importing them.
+
+. Import the networks into the destination cloud:
++
+[source,bash]
+----
+$OSM_CMD $OSM_DIR/playbooks/import_networks.yml
+----
+
+. Repeat the export and import process for the other supporting resources, such as subnets, security groups, security
+group rules, routers, router interfaces, images, and keypairs.
+
+To list the available playbooks:
+
+[source,bash]
+----
+ls $OSM_DIR/playbooks
+----
+
+The set of resources exported is limited to those visible with the authentication variables in use. To control which
+resources are migrated, use the resource filters described in xref:ref_osts-variables[].

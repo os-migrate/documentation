@@ -1,0 +1,84 @@
+:_mod-docs-content-type: CONCEPT
+[id="con_osts-workload-dataflow"]
+= How workload migration works
+
+[role="_abstract"]
+Knowing how workload migration works under the hood is not required to use OS Migrate, but it helps with
+troubleshooting and with forming a deeper understanding of the tool. For the conversion host concept, see
+xref:con_conversion-host[].
+
+== Data flow
+
+Workload migration uses conversion hosts to transfer data from the source cloud to the destination cloud. A conversion
+host is deployed temporarily in both the source and destination projects. Being in the same project as the source
+instances (and destination, respectively) ensures that the conversion hosts can access the data that needs to be
+migrated (snapshots and volumes).
+
+The volumes on the source and destination clouds are detached from their original instances and attached to their
+respective conversion hosts, then transferred over the network from the source conversion host to the destination
+conversion host. The tooling inside the conversion host migrates one server by automating the following actions.
+
+On the source cloud:
+
+* Detach the volumes from the target server.
+* Attach the volumes to the source conversion host.
+* Export the volumes as block devices and wait for the destination conversion host to connect.
+
+On the destination cloud:
+
+* Create new volumes on the destination conversion host, one for each source volume.
+* Attach the new volumes to the destination conversion host.
+* Connect to the block devices exported by the source conversion host and copy the data to the new attached volumes.
+* Detach the volumes from the destination conversion host.
+* Create a new server using the new volumes.
+
+This method keeps broad compatibility with the various flavors and configurations of OpenStack, using an API-only
+approach as much as possible, while allowing the use of libguestfs-based tooling to minimize total data transfer.
+
+== Migration sequence
+
+The `export_workloads.yml` playbook exports workload metadata into `workloads.yml`. The main migration sequence
+happens inside the `import_workloads.yml` playbook and the `import_workloads` role. The initial common steps are:
+
+* The resources loaded from `workloads.yml` are validated.
+* Resources are filtered according to `os_migrate_workloads_filter`.
+* Reachability of the source and destination conversion hosts is verified.
+
+With the default storage migration mode (`data_copy` set to `true`), the role iterates over all workloads that passed
+the filter. For each workload (a Nova server), the following steps run:
+
+. The `import_workload_prelim` module creates log and state files under `{{ os_migrate_data_dir }}/workload_logs`. It
+skips migration of instances that already exist in the destination, and skips conversion hosts.
+. The `import_workload_dst_check` module verifies that migration prerequisites are satisfied in the destination cloud,
+that is, that resources referenced by name from the workload serialization (networks, subnets, and so on) exist in the
+destination cloud.
+. If `os_migrate_workload_stop_before_migration` is `true`, the instance in the source cloud is stopped.
+. The `import_workload_src_check` module verifies that the source workload is ready to be migrated, that is, that the
+Nova server is `SHUTOFF`.
+. The `import_workload_export_volumes` module prepares data for transfer to the destination cloud:
++
+* If `boot_disk_copy` is `true`, a snapshot of the source instance is created, converted to a Cinder volume, and
+attached to the source conversion host.
+* Additional Cinder volumes attached to the source instance are detached from it and attached to the source conversion
+host.
+* All of the instance volumes (boot and additional) on the conversion host are exported as NBD drives, listening on
+localhost only.
+. The `import_workload_transfer_volumes` module copies data from the source to the destination:
++
+* SSH port forwarding is created for the NBD drives of the source conversion host, so that they are accessible on the
+destination conversion host, again on localhost only. The data transfer mechanism can be described as NBD over SSH.
+* Cinder volumes are created in the destination project for both the boot disk and additional volumes, as applicable.
+The destination volume sizes match the volume sizes in the source cloud. The volumes are attached to the destination
+conversion host.
+* Sparsification of the NBDs is performed, only for recognizable filesystems that the `virt-sparsify` tool supports.
+This speeds up copying of empty space on supported filesystems.
+* Data is copied from the NBDs to the respective destination Cinder volumes.
+* SSH port forwarding for the NBDs is closed, and volumes are detached from the destination conversion host.
+. The `import_workload_create_instance` module creates a new Nova server in the destination cloud according to the
+resource serialization, using the copied Cinder volumes as applicable.
+. The `import_workload_src_cleanup` module cleans up after the migration in the source cloud. It closes the NBD exports,
+detaches volumes from the conversion host, deletes the temporary boot disk snapshot volume, and re-attaches any
+additional volumes back onto the source instance, as applicable.
+. If a failure occurs during the migration, the `import_workload_src_cleanup` module runs, and an additional
+`import_workload_dst_failure_cleanup` module runs to clean up the failed partial migration from the destination cloud.
+After a successful migration, no further cleanup is necessary in the destination cloud.
