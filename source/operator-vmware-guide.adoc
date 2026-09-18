@@ -910,3 +910,175 @@ vms_data:
 ----
 
 All three volumes are attached to the instance when the Heat stack is created.
+
+[id="heat-stack-abandon-rollback"]
+=== Heat Stack Abandon for Migration Rollbacks
+
+When using `use_heat: true` during migration, OS Migrate creates Heat stacks that manage Nova instances and Neutron ports. If you need to leave the Heat orchestration layer without deleting the migrated VMs, OS Migrate provides stack abandonment capabilities.
+
+==== Understanding Heat Stack Abandonment
+
+Heat stack abandonment removes the Heat stack management layer while preserving all underlying OpenStack resources (instances, ports, volumes). This is useful when:
+
+* You want to transition from Heat-managed to manually-managed resources
+* Rolling back orchestration without destroying migrated workloads
+* Troubleshooting Heat-related issues while keeping VMs running
+
+==== Prerequisites
+
+* An existing Heat stack created by `heat_deploy.yml` with `use_heat: true`
+* The stack name (create-mode stacks are named `os-migrate-<epoch>`)
+* Access to the destination OpenStack cloud
+
+==== Abandoning a Heat Stack
+
+Use the `abandon_heat_stack.yml` playbook to leave a create-mode Heat stack:
+
+[source,bash]
+----
+ansible-playbook \
+  -i localhost, \
+  -e heat_stack_name="os-migrate-1710000000" \
+  -e dst_cloud="destination" \
+  playbooks/abandon_heat_stack.yml
+----
+
+*Required variables:*
+
+[cols="1,3",options="header"]
+|===
+|Variable
+|Description
+
+|`heat_stack_name`
+|Name of the Heat stack to abandon (e.g., `os-migrate-1710000000`)
+
+|`dst_cloud`
+|Destination cloud configuration from clouds.yaml
+|===
+
+*Optional variables:*
+
+[cols="1,2,1",options="header"]
+|===
+|Variable
+|Description
+|Default
+
+|`os_migrate_vmw_data_dir`
+|Directory for abandon metadata output
+|`/opt/os-migrate`
+
+|`heat_abandon_hosts`
+|Ansible inventory hosts to run the playbook
+|`localhost`
+
+|`wait`
+|Wait for fallback operations to complete
+|`true`
+
+|`timeout`
+|Timeout in seconds for fallback operations
+|`600`
+|===
+
+==== Abandon Methods
+
+The `abandon_heat_stack` module attempts two methods:
+
+1. *Native Abandon* (`stacks.Abandon()`): If `enable_stack_abandon` is enabled in Heat configuration, the stack is abandoned directly. This is the preferred method and completes immediately.
+
+2. *Fallback Mode*: If native abandon is disabled (common in RHOS/PSI environments), the module:
+   - Rewrites Heat-managed `OS::Nova::Server` and `OS::Neutron::Port` resources to use `external_id`
+   - Updates the stack to reference existing resources
+   - Deletes the stack, leaving instances and ports intact
+
+==== Wrapping Existing Instances
+
+If you need to re-wrap already-migrated instances into a Heat stack (for example, after abandoning a stack or migrating without Heat initially), use the `wrap_heat_stack.yml` playbook:
+
+[source,bash]
+----
+ansible-playbook \
+  -i localhost, \
+  -e vms_list="['vm1','vm2','vm3']" \
+  -e dst_cloud="destination" \
+  -e heat_stack_name="os-migrate-wrapped" \
+  playbooks/wrap_heat_stack.yml
+----
+
+*Required variables:*
+
+[cols="1,3",options="header"]
+|===
+|Variable
+|Description
+
+|`vms_list`
+|List of VM names to wrap in the Heat stack
+
+|`dst_cloud`
+|Destination cloud configuration
+|===
+
+*Optional variables:*
+
+[cols="1,2,1",options="header"]
+|===
+|Variable
+|Description
+|Default
+
+|`heat_stack_name`
+|Name for the new wrap stack
+|`os-migrate-wrapped`
+
+|`heat_auto_deploy`
+|Automatically create the stack (if false, only generates template)
+|`true`
+
+|`os_migrate_vmw_data_dir`
+|Directory for Heat template output
+|`/opt/os-migrate`
+|===
+
+The wrap playbook:
+
+1. Discovers existing instances, ports, and volumes by VM name
+2. Generates a Heat template using `external_id` for all resources
+3. Creates a Heat stack that manages existing resources without recreating them
+
+[NOTE]
+====
+Wrapping uses `stacks.Create()` with `external_id`, not `stacks.Adopt()`. This approach provides better compatibility across OpenStack distributions.
+====
+
+==== Important Notes
+
+* *Create-mode vs. Wrap Stacks*: Only use `abandon_heat_stack.yml` for create-mode stacks (created by `heat_deploy.yml` with `use_heat: true`). Wrap stacks created by `wrap_heat_stack.yml` already use `external_id` and can be deleted normally without affecting VMs.
+
+* *Stack Naming*: Create-mode stacks use timestamp-based names (`os-migrate-<epoch>`). You must specify the exact stack name when abandoning.
+
+* *Heat Configuration*: Native abandon requires `enable_stack_abandon=true` in Heat configuration. Test on DevStack/ITUP environments; RHOS/PSI typically has this disabled.
+
+* *Output Files*: When `output_dir` is specified, abandon metadata is written to `heat_stack_abandon.txt` in the specified directory.
+
+==== Example Workflow
+
+[source,bash]
+----
+# 1. Migrate VMs with Heat orchestration
+ansible-playbook -e use_heat=true playbooks/heat_deploy.yml
+
+# 2. Later, abandon the Heat stack to remove orchestration
+ansible-playbook \
+  -e heat_stack_name="os-migrate-1710000000" \
+  -e dst_cloud="destination" \
+  playbooks/abandon_heat_stack.yml
+
+# 3. (Optional) Re-wrap VMs into a new Heat stack
+ansible-playbook \
+  -e vms_list="['vm1','vm2']" \
+  -e dst_cloud="destination" \
+  playbooks/wrap_heat_stack.yml
+----
