@@ -910,3 +910,111 @@ vms_data:
 ----
 
 All three volumes are attached to the instance when the Heat stack is created.
+
+[id="heat-wrap-existing-instances"]
+=== Wrapping Existing Instances into Heat Stacks
+
+After migrating instances from VMware to OpenStack without Heat orchestration, you can wrap already-migrated instances into a Heat stack for lifecycle management. This process uses Heat's `external_id` feature to reference existing resources (instances, ports, and volumes) without recreating them.
+
+[IMPORTANT]
+====
+The wrap operation requires that instances were *not* already created by Heat. The `discover_heat_wrap` module will fail if it detects an instance with `OS::stack_id` or `metering.stack_id` metadata.
+====
+
+==== Prerequisites
+
+* Instances must already exist in the destination OpenStack cloud
+* Instances must not belong to any existing Heat stack
+* You must have the exact Nova server names
+* Required variables:
+** `vms_list` - List of exact VM names to wrap
+** `dst_cloud` - Destination OpenStack cloud credentials
+
+==== Running the Wrap Playbook
+
+Use the `wrap_heat_stack.yml` playbook to wrap existing instances:
+
+[source,bash]
+----
+ansible-playbook \
+  -i inventory.yml \
+  -e vms_list='["rhel-1","rhel-2"]' \
+  -e dst_cloud=dst_cloud_config \
+  -e heat_stack_name=my-wrapped-stack \
+  playbooks/wrap_heat_stack.yml
+----
+
+==== Configuration Variables
+
+The wrap playbook accepts the following variables:
+
+[cols="2,1,4",options="header"]
+|===
+| Variable | Required | Description
+| `vms_list` | Yes | List of exact Nova instance names to wrap into the stack
+| `dst_cloud` | Yes | Destination cloud credentials dictionary
+| `heat_stack_name` | No | Name for the Heat stack (default: `os-migrate-wrapped`)
+| `os_migrate_vmw_data_dir` | No | Directory for generated templates (default: `/opt/os-migrate`)
+| `heat_auto_deploy` | No | Automatically create the stack (default: `true`)
+| `heat_wrap_hosts` | No | Inventory host to run on (default: `localhost`)
+|===
+
+==== How Heat Wrap Works
+
+The wrap process performs these steps:
+
+1. **Discovery**: The `discover_heat_wrap` module queries OpenStack to find:
+   * The Nova instance ID
+   * All attached Neutron ports
+   * All attached Cinder volumes (boot and data)
+   * Instance flavor, network, and security groups
+
+2. **Template Generation**: The `generate_heat_template` module creates a Heat template where:
+   * Volumes use `type: OS::Cinder::Volume` with `external_id` property
+   * Ports use `type: OS::Neutron::Port` with `external_id` property
+   * Instances use `type: OS::Nova::Server` with `external_id` property
+   * No resources are created; Heat only references them
+
+3. **Stack Creation**: The `create_heat_stack` module calls `stacks.Create()` (not `stacks.Adopt()`) with `disable_rollback: true` to wrap resources into stack management.
+
+==== Example: Wrap Two Migrated Instances
+
+[source,yaml]
+----
+- hosts: localhost
+  vars:
+    vms_list:
+      - rhel-web-server
+      - rhel-db-server
+    dst_cloud:
+      auth:
+        auth_url: https://openstack.example.com:13000
+        username: migrate_user
+        password: secret
+        project_name: migration_project
+      region_name: RegionOne
+    heat_stack_name: production-wrapped
+  tasks:
+    - include_role:
+        name: os_migrate.vmware_migration_kit.wrap_heat_stack
+----
+
+==== Verification
+
+After the wrap completes, verify the stack:
+
+[source,bash]
+----
+openstack stack list
+openstack stack show os-migrate-wrapped
+openstack stack resource list os-migrate-wrapped
+----
+
+All resources should show status `COMPLETE` and type `OS::Nova::Server`, `OS::Neutron::Port`, or `OS::Cinder::Volume`.
+
+==== Limitations
+
+* Wrap does not modify or restart instances
+* Deleting the Heat stack does *not* delete the wrapped resources (they remain with `external_id`)
+* If you need to delete instances, use OpenStack CLI directly or see OSPRH-27229 for future stack-delete options
+* Each instance name must be unique in the project
