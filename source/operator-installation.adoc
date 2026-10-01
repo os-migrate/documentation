@@ -1,0 +1,17 @@
+[id="openstacksdk-pinning-workaround"]
+=== OpenStackSDK Temporary Pin
+
+OS Migrate currently pins `openstacksdk` to a specific Git commit instead of a released version. This is a temporary workaround for https://bugs.launchpad.net/openstacksdk/+bug/2046838[Launchpad Bug #2046838], which causes an `'Image' object has no attribute 'owner_seen'` error.
+
+The pinned commit includes a merged fix that has not yet been released in a stable version of openstacksdk. Once the fix is available in a released version (expected in openstacksdk 4.6.0 or later), OS Migrate will revert to using standard version pins.
+
+*Current pin:*
+
+[source,python]
+----
+openstacksdk @ git+https://opendev.org/openstack/openstacksdk@55def8e1e4527bc09e6bcb870091e95de12900b4
+----
+
+This pin is present in both `requirements.txt` and `aee/requirements.txt`.
+
+No action is required from operators — the dependency will be installed automatically when following the standard installation procedures. This note is provided for transparency regarding the temporary deviation from semantic versioning.
