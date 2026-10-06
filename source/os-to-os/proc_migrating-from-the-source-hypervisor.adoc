@@ -1,0 +1,151 @@
+:_mod-docs-content-type: PROCEDURE
+[id="proc_osts-migrating-from-hypervisor"]
+= Migrating workloads directly from the source hypervisor
+
+[role="_abstract"]
+Use NBD source migration to transfer volume data directly from the source hypervisor to the destination conversion host,
+bypassing the source conversion host. For how this works, see xref:con_osts-nbd-source-migration[]. For the standard
+workload migration procedure, see xref:proc_osts-migrating-workloads[].
+
+.Prerequisites
+
+* A conversion host is deployed in the destination cloud. See xref:proc_osts-deploying-conversion-hosts[].
+* The destination conversion host has direct network connectivity to the source hypervisors on the `qemu-nbd` ports
+(10809 and higher by default).
+* The workloads to migrate are in the `SHUTOFF` state.
+
+.Procedure
+
+. Export the workload metadata from the source cloud:
++
+[source,bash]
+----
+$OSM_CMD $OSM_DIR/playbooks/export_workloads.yml
+----
+
+. Enable NBD direct mode for each workload to migrate this way, by adding the `use_nbdkit_direct` flag to the
+`_migration_params` section of the workload in `workloads.yml`:
++
+[source,yaml]
+----
+- _info:
+    id: abc-123-def-456
+    hypervisor_hostname: compute-01.example.com
+    status: SHUTOFF
+  params:
+    name: my-instance
+  _migration_params:
+    use_nbdkit_direct: true
+----
++
+The `hypervisor_hostname` field is populated by `export_workloads`. You can set `use_nbdkit_direct` after export, or set
+it in your workload definitions before export.
+
+. Spawn the `qemu-nbd` processes on the source hypervisors:
++
+[source,bash]
+----
+$OSM_CMD $OSM_DIR/playbooks/import_from_hypervisor.yml
+----
++
+For each workload marked `use_nbdkit_direct: true`, the `import_from_hypervisor` role verifies that the instance is
+`SHUTOFF`, connects to the hypervisor over SSH, discovers all disk files in
+`/var/lib/nova/instances/<uuid>/` (such as `disk`, `disk.eph0`, and `disk.eph1`), inspects each disk with `qemu-img
+info` to detect its format and size, spawns one `qemu-nbd` process per disk on sequential ports starting from 10809, and
+updates `workloads.yml` with the `nbdkit_disks` list. Run this role after exporting workloads and before importing them.
+
+. Verify that the `nbdkit_disks` list was added to each workload in `workloads.yml`:
++
+[source,yaml]
+----
+- _info:
+    id: abc-123-def-456
+    hypervisor_hostname: compute-01.example.com
+  params:
+    name: my-instance
+  _migration_params:
+    use_nbdkit_direct: true
+    nbdkit_disks:
+      - device: "/dev/vda"
+        uri: "nbd://compute-01.example.com:10809"
+        port: 10809
+        size: 10
+        bootable: true
+      - device: "/dev/vdb"
+        uri: "nbd://compute-01.example.com:10810"
+        port: 10810
+        size: 10
+        bootable: false
+----
++
+Each entry represents one disk: `device` is the device name on the destination instance, `uri` is the NBD URI to connect
+to, `port` is the `qemu-nbd` port number, `size` is the disk size in GB detected from `qemu-img info`, and `bootable`
+indicates whether the disk is the boot disk.
+
+. Migrate the workloads:
++
+[source,bash]
+----
+$OSM_CMD $OSM_DIR/playbooks/import_workloads.yml
+----
++
+For workloads marked `use_nbdkit_direct: true`, `import_workloads` reads the `nbdkit_disks` list, creates one destination
+volume per disk, attaches the volumes to the destination conversion host, copies each disk from its NBD URI with
+`nbdcopy`, detaches the volumes, and creates the instance with the new volumes.
+
+To customize the role behavior, set the variables described in xref:ref_osts-nbd-variables[].
+
+[id="proc_osts-nbd-manual-hypervisor-preparation"]
+== Preparing the hypervisor manually
+
+To prepare the hypervisor without the `import_from_hypervisor` role, spawn the `qemu-nbd` processes yourself and update
+`workloads.yml`.
+
+.Procedure
+
+. Locate the instance directory on the hypervisor:
++
+----
+/var/lib/nova/instances/<uuid>/
+├── disk          # Boot disk
+├── disk.eph0     # Ephemeral disk 0 (if present)
+├── disk.eph1     # Ephemeral disk 1 (if present)
+└── disk.info     # Metadata file (not used)
+----
+
+. Inspect each disk format:
++
+[source,bash]
+----
+qemu-img info /var/lib/nova/instances/<uuid>/disk
+----
+
+. Start `qemu-nbd` for each disk, using read-only mode and sequential ports:
++
+[source,bash]
+----
+# Boot disk on port 10809
+sudo qemu-nbd -f qcow2 -p 10809 --read-only \
+  /var/lib/nova/instances/<uuid>/disk
+
+# First ephemeral disk on port 10810 (if present)
+sudo qemu-nbd -f qcow2 -p 10810 --read-only \
+  /var/lib/nova/instances/<uuid>/disk.eph0
+----
+
+. Update `workloads.yml` with the `nbdkit_disks` structure shown earlier, then continue with the standard
+`import_workloads` step.
+
+[id="ref_osts-nbd-security-considerations"]
+== Security considerations
+
+When using NBD source migration:
+
+* Ensure the instance is `SHUTOFF` before `qemu-nbd` starts. The `import_from_hypervisor` role enforces this check. To
+stop workloads automatically, set `os_migrate_workload_stop_before_migration: true`.
+* Keep `qemu-nbd` in read-only mode to prevent accidental writes to the source disks, by keeping
+`os_migrate_nbdkit_readonly: true`.
+* Over untrusted networks, use the SSH protocol for encrypted transfers, by setting `os_migrate_nbdkit_protocol: ssh`
+and `os_migrate_nbdkit_ssh_user`.
+* `qemu-nbd` binds to all interfaces by default. Use firewall rules on the hypervisor to allow only the destination
+conversion host to connect to ports 10809 and higher.

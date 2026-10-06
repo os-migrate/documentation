@@ -46,3 +46,42 @@ the keys. Alternatively, edit the `user_ref.name` and `user_ref.domain_name` val
 names to `%auth%` values, and use that data file with `import_keypairs.yml` run as a tenant user rather than admin. This
 imports all the keys under a single user, and that user can then perform the migration with all the necessary public
 keys.
+
+== NBD source migration
+
+For NBD source migration concepts and procedure, see xref:con_osts-nbd-source-migration[] and
+xref:proc_osts-migrating-from-hypervisor[].
+
+qemu-nbd process not starting::
+Check whether the port is already in use:
++
+[source,bash]
+----
+sudo netstat -tlnp | grep 10809
+----
++
+The `import_from_hypervisor` role automatically stops existing `qemu-nbd` processes on the same port before starting new
+ones.
+
+Cannot connect to NBD from the destination::
+Test connectivity from the destination conversion host:
++
+[source,bash]
+----
+qemu-img info nbd://hypervisor-hostname:10809
+----
++
+Check the firewall rules on the hypervisor and verify that `qemu-nbd` is listening:
++
+[source,bash]
+----
+sudo netstat -tlnp | grep qemu-nbd
+----
+
+Instance not in SHUTOFF state::
+The `import_from_hypervisor` role requires instances to be `SHUTOFF` before spawning `qemu-nbd`. Either shut down the
+instance manually, or set `os_migrate_workload_stop_before_migration: true`.
+
+Missing hypervisor_hostname::
+The `hypervisor_hostname` field is populated by `export_workloads`. Make sure you have run the export step and that the
+source cloud API provides this information.

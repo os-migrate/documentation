@@ -86,6 +86,11 @@ Storage migration modes::
 Copy volume data with OS Migrate, or attach pre-created destination volumes without copying. See
 xref:ref_osts-migration-parameters[].
 
+NBD source migration::
+Transfer volume data directly from the source hypervisor to the destination conversion host using `qemu-nbd`, bypassing
+the source conversion host. Supports multiple disks per instance, including boot and ephemeral disks. See
+xref:con_osts-nbd-source-migration[].
+
 Floating IP handling::
 Skip, create new, attach existing, or attempt existing then fall back to new. See xref:ref_osts-migration-parameters[].
 

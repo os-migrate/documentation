@@ -1,0 +1,49 @@
+:_mod-docs-content-type: CONCEPT
+[id="con_osts-nbd-source-migration"]
+= NBD source migration
+
+[role="_abstract"]
+NBD source migration consumes volume data directly from the source hypervisor using the NBD protocol and `qemu-nbd`.
+Instead of routing data through a source conversion host, the migration connects directly to the compute node where the
+instance lives, which reduces network hops and improves transfer performance. For the standard conversion host data
+flow, see xref:con_osts-workload-dataflow[].
+
+This approach suits environments where the destination conversion host has direct network access to the source
+hypervisors and you want to bypass the source conversion host. The feature supports multiple disks per instance,
+including boot volumes and ephemeral disks.
+
+== How it works
+
+With the traditional migration path, data flows from the source instance through the source conversion host to the
+destination conversion host:
+
+----
+Source VM -> Source conversion host (SSH) -> Destination conversion host -> Destination volumes
+----
+
+With the NBD direct path, `qemu-nbd` runs on the hypervisor and the destination conversion host reads the disks
+directly:
+
+----
+Source VM (on hypervisor) -> qemu-nbd on hypervisor -> Destination conversion host -> Destination volumes
+----
+
+The data flows directly from the hypervisor to the destination conversion host using `nbdcopy`, which eliminates the
+intermediate source conversion host step.
+
+When `import_workloads` detects `use_nbdkit_direct: true` in a workload definition, it changes the migration workflow:
+
+* Source conversion host operations are skipped entirely.
+* The `nbdkit_disks` list is read from the workload definition.
+* One destination volume is created per disk and attached to the destination conversion host.
+* Each disk is copied from its NBD URI to its destination volume with `nbdcopy`, instead of `qemu-img convert`.
+* Destination volumes are detached, and the instance is created with the new volumes.
+
+Progress is tracked in the state file for each workload, so you can monitor the transfer.
+
+== Limitations
+
+* Only instances in the `SHUTOFF` state are supported.
+* The destination conversion host requires direct network connectivity to the source hypervisors.
+* `qemu-nbd` processes remain running after migration. You might want to clean them up manually.
+* The variable names use the `nbdkit` prefix for backward compatibility, even though the implementation uses `qemu-nbd`.

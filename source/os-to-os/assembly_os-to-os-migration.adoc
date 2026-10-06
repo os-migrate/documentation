@@ -14,6 +14,8 @@ include::ref_os-to-os-features.adoc[leveloffset=+2]
 
 include::con_workload-migration-dataflow.adoc[leveloffset=+2]
 
+include::con_nbd-source-migration.adoc[leveloffset=+2]
+
 == Migration procedure
 
 include::proc_preparing-the-clouds.adoc[leveloffset=+2]
@@ -23,6 +25,8 @@ include::proc_deploying-conversion-hosts.adoc[leveloffset=+2]
 include::proc_exporting-and-importing-pre-workload-resources.adoc[leveloffset=+2]
 
 include::proc_migrating-workloads.adoc[leveloffset=+2]
+
+include::proc_migrating-from-the-source-hypervisor.adoc[leveloffset=+2]
 
 include::proc_cleanup.adoc[leveloffset=+2]
 
@@ -35,6 +39,8 @@ include::ref_variables.adoc[leveloffset=+2]
 include::ref_conversion-host-variables.adoc[leveloffset=+2]
 
 include::ref_migration-parameters.adoc[leveloffset=+2]
+
+include::ref_nbd-source-migration-variables.adoc[leveloffset=+2]
 
 include::ref_usage-notes.adoc[leveloffset=+2]
 

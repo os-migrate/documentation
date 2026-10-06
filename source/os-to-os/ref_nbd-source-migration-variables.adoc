@@ -1,0 +1,23 @@
+:_mod-docs-content-type: REFERENCE
+[id="ref_osts-nbd-variables"]
+= NBD source migration variables
+
+[role="_abstract"]
+This reference describes the variables that control the `import_from_hypervisor` role and NBD source migration. For the
+procedure, see xref:proc_osts-migrating-from-hypervisor[]. These variables can be set in your playbook or inventory.
+
+`os_migrate_nbdkit_port`::
+Base port for `qemu-nbd`. The port increments for each disk. Defaults to `10809`.
+
+`os_migrate_nbdkit_protocol`::
+Transfer protocol, either `tcp` or `ssh`. Use `ssh` for encrypted transfers over untrusted networks. Defaults to `tcp`.
+
+`os_migrate_nbdkit_ssh_user`::
+SSH user, used only with the `ssh` protocol.
+
+`os_migrate_nbdkit_readonly`::
+Set to `true` to open the source disks in read-only mode, which prevents accidental writes. Keeping this enabled is
+recommended.
+
+`os_migrate_nbdkit_nova_instances_dir`::
+Directory of the Nova instances on the hypervisor. Defaults to `/var/lib/nova/instances`.
