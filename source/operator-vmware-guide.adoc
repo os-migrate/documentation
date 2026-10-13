@@ -1,0 +1,56 @@
+[id="nbdkit-direct-mode-configuration"]
+=== Configuring nbdkit Direct Mode Migration
+
+When migrating workloads using nbdkit direct mode (streaming disks directly from the hypervisor's `qemu-nbd`), no source conversion host is required. You must explicitly disable the source conversion host in your configuration to prevent playbook failures.
+
+==== Required Variables
+
+Set the following variables in your `vars.yml` or via command-line `-e` flags:
+
+[source,yaml]
+----
+# vars.yml
+os_migrate_deploy_src_conversion_host: false
+os_migrate_link_conversion_hosts: false
+os_migrate_requires_src_conversion_host: false
+----
+
+.NBDkit Direct Mode Variables
+|===
+|Variable |Value |Effect
+
+|`os_migrate_deploy_src_conversion_host`
+|`false`
+|The `deploy_conversion_hosts.yml` playbook deploys only the destination conversion host, not a source one.
+
+|`os_migrate_link_conversion_hosts`
+|`false`
+|Skips the conversion-host link step, which otherwise waits for a source conversion host to become reachable over SSH.
+
+|`os_migrate_requires_src_conversion_host`
+|`false`
+|The `import_workloads.yml` playbook tolerates a missing source conversion host instead of failing the run.
+|===
+
+NOTE: Only the destination conversion host is required in nbdkit direct mode.
+
+==== Hypervisor Connection Configuration
+
+The nbdkit direct mode role delegates `qemu-img` and `qemu-nbd` tasks directly to the source hypervisor. The SSH connection settings are taken from the hypervisor's inventory entry.
+
+Ensure the compute node reported by Nova as `hypervisor_hostname` is present in your Ansible inventory with the correct credentials (`ansible_user` or `ansible_ssh_user`).
+
+If you cannot add the hypervisor to your inventory, override the SSH user for delegated tasks:
+
+[source,yaml]
+----
+os_migrate_hypervisor_ssh_user: "root"  # or "stack", etc.
+----
+
+Leaving `os_migrate_hypervisor_ssh_user` empty (default) uses the inventory settings.
+
+==== Instance State Requirement
+
+Instances must be fully shut down before migration in nbdkit direct mode. If an instance is still running or its disk images are locked, `qemu-img` reports a virtual size of zero, and the migration will fail with a clear error message.
+
+Ensure all source instances are stopped before running the import playbook.
