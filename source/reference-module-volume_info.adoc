@@ -1,0 +1,52 @@
+[id="volume-info-id-parameter"]
+== Looking Up Volumes by UUID
+
+The `volume_info` module now supports looking up volumes by their UUID in addition to the existing name-based lookup. This is useful when the volume name is not known at the call site, but the volume UUID is available.
+
+=== Parameters
+
+The module accepts either `name` or `id` as lookup parameters:
+
+[cols="1,3",options="header"]
+|===
+|Parameter
+|Description
+
+|`name`
+|Name of the volume to get information for. Mutually exclusive with `id`.
+
+|`id`
+|UUID of the volume to get information for. Mutually exclusive with `name`. When both are provided, `id` takes precedence.
+|===
+
+At least one of `name` or `id` must be provided.
+
+=== Usage Examples
+
+*Look up volume by name (existing behavior):*
+
+[source,yaml]
+----
+- name: Get volume information by name
+  os_migrate.vmware_migration_kit.volume_info:
+    cloud: source_cloud
+    name: "my-volume"
+  register: volume_info
+----
+
+*Look up volume by UUID (new capability):*
+
+[source,yaml]
+----
+- name: Get volume information by UUID
+  os_migrate.vmware_migration_kit.volume_info:
+    cloud: source_cloud
+    id: "11111111-2222-3333-4444-555555555555"
+  register: volume_info
+----
+
+=== Implementation Details
+
+When `id` is provided, the module uses the new `GetVolumeInfoByID` function to retrieve volume information directly by UUID, avoiding potential issues when multiple volumes share the same name or when volume names follow generated patterns.
+
+The `import_workloads` role has been updated to use UUID-based lookup for Cinder boot volumes, improving idempotency when the volume is already attached to an active instance.
