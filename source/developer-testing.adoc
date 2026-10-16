@@ -1,0 +1,103 @@
+[id="functional-tests-gostack"]
+=== Functional Tests (gostack)
+
+The `tests/func` suite exercises os-migrate export/import roles and modules end-to-end against two https://github.com/os-migrate/gostack[gostack] fake-OpenStack instances (a source cloud and a destination cloud). These tests run automatically in CI on every pull request and do not require a real OpenStack deployment.
+
+==== Test Coverage
+
+The functional test suite includes:
+
+* `test_as_tenant.yml` — Tenant resources: networks, subnets, security groups and rules, routers and interfaces, images, keypairs, plus data directory validation.
+* `test_as_admin.yml` — Admin resources: projects, users, domains, flavors, user keypairs, and user/project/role assignments.
+
+==== Running Locally
+
+Prerequisites:
+
+* Go (to build gostack)
+* Python 3.12
+* The pinned Python dependencies from `requirements.txt` and `requirements-tests.txt`
+
+[source,bash]
+----
+# 1. Build gostack (clone as a sibling directory)
+git clone https://github.com/os-migrate/gostack ../gostack
+( cd ../gostack && go build -o bin/fake-openstack ./cmd/fake-openstack )
+
+# 2. Install Python dependencies (use a virtual environment)
+pip install -r requirements.txt -r requirements-tests.txt ansible-core
+
+# 3. Make the collection importable and link vendored modules
+make vendor-links
+COLLECTIONS=$(mktemp -d)
+mkdir -p "$COLLECTIONS/ansible_collections/os_migrate"
+ln -s "$PWD" "$COLLECTIONS/ansible_collections/os_migrate/os_migrate"
+ansible-galaxy collection install plugins/modules/_vendor/openstack.cloud -p "$COLLECTIONS"
+export ANSIBLE_COLLECTIONS_PATH="$COLLECTIONS"
+
+# 4. Run the functional test suite
+export GOSTACK_BIN="$PWD/../gostack/bin/fake-openstack"
+bash tests/func/run-gostack.sh
+----
+
+The `run-gostack.sh` script automatically starts two gostack instances (source on port 15001, destination on port 15002), generates appropriate `clouds.yaml` and auth variable files, and runs both test playbooks.
+
+==== Makefile Target
+
+You can also run functional tests using the Makefile target, which executes everything inside the build container:
+
+[source,bash]
+----
+make test-func
+----
+
+This target:
+
+* Builds gostack from the `main` branch by default (override with `GOSTACK_REF=my-branch`)
+* Installs Go and required dependencies in the container
+* Sets up the vendored `openstack.cloud` collection
+* Runs the complete test suite
+* Cleans up vendored symlinks on exit
+
+[NOTE]
+====
+The default builder image is amd64-only. On non-amd64 hosts (e.g., Apple Silicon), use a multi-arch base image:
+
+[source,bash]
+----
+make test-func CONTAINER_IMAGE=quay.io/centos/centos:stream9
+----
+
+If you switch the `CONTAINER_IMAGE` architecture, remove the existing `.venv` directory first, as Python wheels are architecture-specific.
+====
+
+==== Configuration Variables
+
+When running `run-gostack.sh` directly, you can override:
+
+[cols="1,3",options="header"]
+|===
+|Variable
+|Description
+
+|`OSM_FUNC_SRC_PORT`
+|Port for the source gostack instance (default: 15001)
+
+|`OSM_FUNC_DST_PORT`
+|Port for the destination gostack instance (default: 15002)
+
+|`OSM_FUNC_WORKDIR`
+|Working directory for test data and credentials
+
+|`OSM_FUNC_PLAYBOOKS`
+|Space-separated list of playbooks to run
+
+|`os_migrate_func_image_url`
+|URL to download a real image (defaults to a locally-generated test blob)
+|===
+
+==== Implementation Notes
+
+* Each gostack process maintains a single in-memory state, so source→destination migration requires two separate instances.
+* The test suite performs full end-to-end workflows: seed → export → import → idempotence check → update → cleanup.
+* Image tests use a small locally-generated blob by default for speed. Set `os_migrate_func_image_url` to test with real images or against actual OpenStack clouds.
