@@ -1,0 +1,31 @@
+[id="openstacksdk-upgrade-4.21"]
+=== OpenStack SDK Upgrade to 4.21.0
+
+Starting with this release, OS Migrate uses upstream OpenStack SDK version 4.21.0 or later, removing the previous dependency on a forked version.
+
+==== Background
+
+Previous versions of OS Migrate used a forked version of OpenStack SDK (4.5.1) that included a critical bug fix for re-entrant alias resolution (Launchpad Bug #2046838). This fix has now been incorporated into the upstream OpenStack SDK releases.
+
+==== Requirements
+
+Ensure your environment has:
+
+* `openstacksdk>=4.21.0` (installed automatically via requirements.txt)
+* Compatible `python-openstackclient` version (see compatibility notes)
+
+==== Migration from Previous Versions
+
+If you are upgrading from a previous OS Migrate installation:
+
+[source,bash]
+----
+pip uninstall openstacksdk
+pip install -r requirements.txt
+----
+
+This ensures the forked SDK version is completely removed and replaced with the upstream version.
+
+==== Compatibility Notes
+
+The upstream OpenStack SDK 4.21.0+ includes all functionality previously available in the OS Migrate fork. No changes to playbooks, roles, or configuration are required.
