@@ -1,0 +1,71 @@
+[id="nbdkit-direct-mixed-migration"]
+=== Mixed Migration: NBDkit Direct and Cinder Volumes
+
+OS Migrate supports migrating workloads that combine both local disks (ephemeral or image-backed) and attached Cinder volumes in a single `import_workloads` run. This mixed migration scenario uses two different transfer methods:
+
+* *NBDkit direct transfer* for local disks (boot disk, ephemeral storage)
+* *Conversion host transfer* for attached Cinder volumes
+
+==== Prerequisites
+
+For mixed migrations, you must have:
+
+* A reachable source hypervisor (for `import_from_hypervisor` to spawn qemu-nbd)
+* Source and destination conversion hosts configured and linked together
+* The source instance in `SHUTOFF` state before export
+
+==== Source Instance State Requirement
+
+When using `use_nbdkit_direct: true`, the source instance **must be stopped before export**. The nbdkit transfer method uses qemu-nbd to read the instance's local disks, which requires the instance to be in `SHUTOFF` state.
+
+[source,bash]
+----
+# Stop the source instance before export
+openstack server stop <instance-name>
+----
+
+The `import_from_hypervisor` role checks the `_info.status` recorded in `workloads.yml` at export time. Stopping the instance after export will not work, as the exported data will still show `ACTIVE` status.
+
+==== Transfer Method Tags
+
+The volume map builder automatically tags each disk with its appropriate transfer method:
+
+* Local disks (ephemeral, image-backed): `transfer_method: "nbdcopy"`
+* Cinder volumes: Default to qemu-img/conversion-host path
+
+This tagging allows the import process to handle both transfer types in a single migration operation.
+
+==== Volume Map Priority
+
+The volume map is built using the following priority order:
+
+1. *nbdkit_disks* – Actual disk sizes from `import_from_hypervisor` (most accurate)
+2. *volumes* – Instance has attached Cinder volumes
+3. *ephemeral* – Flavor-based size estimates for instances using ephemeral disks
+
+==== Example Configuration
+
+In your `workloads.yml`, enable nbdkit direct transfer:
+
+[source,yaml]
+----
+resources:
+  - _info:
+      id: <instance-id>
+      status: SHUTOFF  # Must be SHUTOFF
+    params:
+      name: my-vm
+      use_nbdkit_direct: true
+      boot_disk_copy: true
+      volumes:
+        - _info:
+            id: <cinder-volume-id>
+          params:
+            name: data-volume
+----
+
+The import process will:
+
+1. Use nbdkit to copy local disks directly from the source hypervisor
+2. Use the conversion host to copy attached Cinder volumes
+3. Create the destination instance with all disks attached
