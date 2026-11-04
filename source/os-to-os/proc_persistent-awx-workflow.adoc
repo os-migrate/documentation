@@ -1,0 +1,449 @@
+:_mod-docs-content-type: PROCEDURE
+[id="proc_osts-persistent-awx-workflow"]
+= Running persistent os-migrate workflows on AWX
+
+[role="_abstract"]
+AWX executes jobs inside short-lived, ephemeral Kubernetes pods. By default, files created by an export job are
+destroyed when its pod terminates, leaving subsequent import jobs with no source data. To preserve migration metadata
+between jobs, you can mount a PersistentVolumeClaim (PVC) into the os-migrate execution environment container group so
+that all jobs share a single data directory at `/opt/os-migrate`.
+
+== Architecture overview
+
+The following flow summarizes the persistent AWX architecture:
+
+. The AWX web interface launches a job.
+. Kubernetes creates a pod using the os-migrate execution environment image in a dedicated instance group.
+. The pod mounts a PVC at `/opt/os-migrate`, the value of `os_migrate_data_dir`.
+. The os-migrate playbook reads from the source cloud and writes data files to the PVC, or reads data files from the
+PVC and writes resources to the destination cloud.
+
+Because the PVC outlives individual pods, export data persists across separate export and import job runs.
+
+....
+[ AWX UI ] (Port 30080)
+    │
+    ▼ launches job
+[ k8s Pod ] (Instance Group: osm-persistent)
+    │   • Image: quay.io/os-migrate/os-migrate:latest
+    │   • PVC Mount: "osm-data" at /opt/os-migrate
+    ▼
+[ os-migrate / openstacksdk ]
+    ├──▶ Source Devstack      (192.168.124.55 / Identity)
+    └──▶ Destination Devstack (192.168.124.56 / Identity)
+....
+
+=== Technical specifications
+
+[cols="1,2", options="header"]
+|===
+| Component | Detail
+
+| AWX Web UI
+| http://10.40.128.56:30080
+
+| AWX Admin Credentials
+| Username: `admin` \| Password: See `/root/awx/admin-password.txt` on host
+
+| Host Kubeconfig
+| `export KUBECONFIG=/etc/rancher/k3s/k3s.yaml`
+
+| Platform Stack
+| Single-node k3s, awx-operator, AWX 24.6.1
+
+| Execution Environment (EE)
+| `quay.io/os-migrate/os-migrate:latest` (os_migrate 1.0.5, openstacksdk 4.5.1)
+
+| Source OpenStack (src)
+| http://192.168.124.55/identity (Creds: `admin` / `secret` / Project: `admin`)
+
+| Destination OpenStack (dst)
+| http://192.168.124.56/identity (Creds: `admin` / `secret` / Project: `admin`)
+
+| Pod Data Directory
+| `/opt/os-migrate`
+
+| Host Storage Location
+| `/var/lib/rancher/k3s/storage/pvc-<id>_awx_osm-data/`
+|===
+
+.Prerequisites
+
+* A running AWX instance deployed on Kubernetes (for example, via the AWX Operator).
+* The os-migrate execution environment image is available to the cluster. You can pull the published image:
++
+[source,bash]
+----
+podman pull quay.io/os-migrate/os-migrate:latest
+----
++
+If your cluster cannot pull images directly, import the image into the container runtime. For example, with k3s:
++
+[source,bash]
+----
+podman save quay.io/os-migrate/os-migrate:latest -o /tmp/osm-ee.tar
+k3s ctr -n k8s.io images import /tmp/osm-ee.tar
+rm -f /tmp/osm-ee.tar
+----
+* Administrative access to AWX and to the Kubernetes cluster.
+* Source and destination OpenStack clouds are reachable from the cluster.
+
+== Creating the PersistentVolumeClaim
+
+Create a PVC to hold the migration data files. The PVC provides shared storage that persists across pod lifecycles.
+
+. Create the PVC manifest (for example, `/root/awx/osm-data-pvc.yaml`):
++
+[source,yaml]
+----
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: osm-data
+  namespace: awx
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 10Gi
+----
++
+Adjust `storageClassName` and `storage` to match your cluster environment.
+
+. Apply the manifest:
++
+[source,bash]
+----
+kubectl apply -f osm-data-pvc.yaml
+----
+
+== Configuring the AWX container group
+
+Create a container group in AWX that mounts the PVC and sets the correct filesystem permissions. The os-migrate
+execution environment runs as a non-root user (UID 1000), so the pod spec must include an `fsGroup` override.
+
+The container group configuration script is at `/root/awx/configure_persistent.py`.
+
+. In the AWX web interface, navigate to *Administration > Instance Groups* and create a new container group.
+
+. Set the *Pod Spec Override* to the following:
++
+[source,yaml]
+----
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: awx
+spec:
+  securityContext:
+    fsGroup: 1000
+  containers:
+    - name: worker
+      image: quay.io/os-migrate/os-migrate:latest
+      args: [ansible-runner, worker, '--private-data-dir=/runner']
+      resources:
+        requests:
+          cpu: 250m
+          memory: 256Mi
+      volumeMounts:
+        - name: osm-data
+          mountPath: /opt/os-migrate
+  volumes:
+    - name: osm-data
+      persistentVolumeClaim:
+        claimName: osm-data
+----
++
+The `fsGroup: 1000` setting ensures that the non-root container user can read and write to the mounted volume.
+
+== Configuring authentication credentials
+
+os-migrate builds its internal `clouds.yaml` through its `prelude_common` role using extra variables. Instead of
+mounting a static `clouds.yaml` file, create a custom AWX credential type that injects the source and destination
+authentication variables.
+
+. In AWX, navigate to *Administration > Credential Types* and create a new credential type named `os-migrate src/dst
+auth`.
+
+. Define the input configuration with fields for the source and destination clouds (for example, `src_auth_url`,
+`src_username`, `src_password`, `src_project`, `src_region`, and equivalent `dst_` fields).
+
+. Define the injector configuration to map the fields to `extra_vars`:
++
+[source,yaml]
+----
+extra_vars:
+  os_migrate_src_auth:
+    auth_url: "{{ src_auth_url }}"
+    username: "{{ src_username }}"
+    password: "{{ src_password }}"
+    project_name: "{{ src_project }}"
+    project_domain_id: default
+    user_domain_id: default
+  os_migrate_src_region_name: "{{ src_region }}"
+  os_migrate_dst_auth:
+    auth_url: "{{ dst_auth_url }}"
+    username: "{{ dst_username }}"
+    password: "{{ dst_password }}"
+    project_name: "{{ dst_project }}"
+    project_domain_id: default
+    user_domain_id: default
+  os_migrate_dst_region_name: "{{ dst_region }}"
+----
+
+. Create a credential using this credential type and fill in the authentication details for your source and destination
+clouds.
+
+. Attach the credential to all os-migrate job templates.
+
+== Configuring job templates
+
+Each os-migrate job template must meet three requirements to use the persistent data directory:
+
+. The job template uses the os-migrate execution environment.
+. The job template is assigned to the container group created in the previous section.
+. The job template includes the following extra variable:
++
+[source,yaml]
+----
+os_migrate_data_dir: /opt/os-migrate
+----
+
+== Running migration jobs
+
+Export and import jobs run sequentially, sharing state through the data files on the PVC.
+
+[cols="1,2,2,2", options="header"]
+|===
+| Action | Job Template Name | Playbook | Data Flow
+
+| Export
+| `osm: export security groups`
+| `playbooks/export_security_groups.yml`
+| Reads from source cloud, writes `/opt/os-migrate/security_groups.yml`
+
+| Import
+| `osm: import security groups`
+| `playbooks/import_security_groups.yml`
+| Reads `/opt/os-migrate/security_groups.yml`, writes to destination cloud
+|===
+
+. Run the export job template for the resource type. For example, to export security groups, run the `osm: export
+security groups` job template. The playbook reads from the source cloud and writes `security_groups.yml` to
+`/opt/os-migrate`.
+
+. Run the corresponding import job template. For example, the `osm: import security groups` job template reads
+`security_groups.yml` from `/opt/os-migrate` and writes the resources to the destination cloud.
+
+. Repeat for each resource type in the recommended order:
++
+.. Networks
+.. Subnets
+.. Routers
+.. Security groups
+.. Security group rules
+.. Flavors
+.. Keypairs
+.. Workloads
+
+NOTE: Workload migration requires dedicated conversion hosts in both the source and destination environments. See
+xref:proc_osts-deploying-conversion-hosts[].
+
+=== Running jobs from the CLI
+
+You can launch job templates from the command line using the `run_jt.py` script:
+
+[source,bash]
+----
+python3 /root/awx/run_jt.py 9   # Launch Export (JT ID 9)
+python3 /root/awx/run_jt.py 10  # Launch Import (JT ID 10)
+----
+
+=== Verifying data on the host
+
+To verify the exported data files from the Kubernetes host:
+
+[source,bash]
+----
+export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+PVPATH=$(kubectl get pv $(kubectl -n awx get pvc osm-data \
+  -o jsonpath='{.spec.volumeName}') \
+  -o jsonpath='{.spec.local.path}')
+ls -l "$PVPATH"
+cat "$PVPATH/security_groups.yml"
+----
+
+== Inspecting and editing data files
+
+The os-migrate execution environment image does not include file-editing utilities. To inspect or edit data files on the
+PVC, attach a temporary editor pod that mounts the same volume.
+
+. Create and start the editor pod:
++
+[source,yaml]
+----
+apiVersion: v1
+kind: Pod
+metadata:
+  name: osm-editor
+  namespace: awx
+spec:
+  containers:
+    - name: editor
+      image: registry.access.redhat.com/ubi9/ubi:latest
+      command: [sleep, infinity]
+      volumeMounts:
+        - name: osm-data
+          mountPath: /opt/os-migrate
+  volumes:
+    - name: osm-data
+      persistentVolumeClaim:
+        claimName: osm-data
+----
++
+The editor pod manifest is at `/root/awx/osm-editor-pod.yaml`.
++
+[source,bash]
+----
+kubectl apply -f osm-editor-pod.yaml
+kubectl -n awx wait --for=condition=Ready pod/osm-editor --timeout=120s
+----
+
+. Edit the data files using one of the following methods:
++
+* Interactive edit inside the pod:
++
+[source,bash]
+----
+kubectl -n awx exec -it osm-editor -- vi /opt/os-migrate/security_groups.yml
+----
++
+* Scripted edit:
++
+[source,bash]
+----
+kubectl -n awx exec osm-editor -- sed -i 's/old/new/' /opt/os-migrate/security_groups.yml
+----
++
+* Copy locally, edit, and copy back:
++
+[source,bash]
+----
+kubectl -n awx cp awx/osm-editor:/opt/os-migrate/security_groups.yml ./security_groups.yml
+# Edit the file locally
+kubectl -n awx cp ./security_groups.yml awx/osm-editor:/opt/os-migrate/security_groups.yml
+----
+
+. Delete the editor pod when finished:
++
+[source,bash]
+----
+kubectl -n awx delete pod osm-editor
+----
+
+=== Inspecting the data directory from AWX
+
+To list or inspect files without direct cluster access, run the `osm: browse data dir` job template (ID 12), which
+executes `browse_data_dir.yml`.
+
+The diagnostic playbook is delivered to AWX through an in-cluster HTTP server backed by a Kubernetes ConfigMap:
+
+....
+ConfigMap: osm-tools-archive (osm-tools.tar.gz)
+    └── Deployment: osm-tools-http (Python HTTP Server on Port 8080)
+            └── Service: osm-tools (ClusterIP Port 80)
+                    └── AWX SCM Archive Project: "osm-tools"
+....
+
+The in-cluster HTTP deployment manifest is at `/root/awx/osm-tools-http.yaml`.
+
+To update the diagnostic playbook:
+
+[source,bash]
+----
+# 1. Update archive from modified local files
+tar czf /root/awx/osm-tools.tar.gz -C /root/awx/osm-tools browse_data_dir.yml
+
+# 2. Update Kubernetes ConfigMap and restart delivery pod
+kubectl -n awx create configmap osm-tools-archive \
+  --from-file=osm-tools.tar.gz=/root/awx/osm-tools.tar.gz \
+  --dry-run=client -o yaml | kubectl apply -f -
+
+kubectl -n awx rollout restart deploy/osm-tools-http
+----
+
+== Updating the execution environment image
+
+To update the os-migrate execution environment to a newer version:
+
+. Pull the updated image:
++
+[source,bash]
+----
+podman pull quay.io/os-migrate/os-migrate:latest
+----
+
+. Import the image into the cluster container runtime. For example, with k3s:
++
+[source,bash]
+----
+podman save quay.io/os-migrate/os-migrate:latest -o /tmp/osm-ee.tar
+k3s ctr -n k8s.io images import /tmp/osm-ee.tar
+rm -f /tmp/osm-ee.tar
+----
+
+=== Building a custom execution environment
+
+To build a custom execution environment from the os-migrate source:
+
+[source,bash]
+----
+cd /root/os-migrate-src
+ansible-galaxy collection build --force --output-path .
+cd aee && ansible-builder build --tag os-migrate-ee:dev --container-runtime podman
+podman save localhost/os-migrate-ee:dev -o /root/ee.tar
+k3s ctr -n k8s.io images import /root/ee.tar && rm -f /root/ee.tar
+----
+
+== Troubleshooting
+
+Destination directory `/opt/os-migrate` does not exist::
+The job template is not assigned to the correct container group, or `os_migrate_data_dir` is not set. Verify that the
+job template uses the container group with the PVC mount and that the extra variable `os_migrate_data_dir` is set to
+`/opt/os-migrate`.
+
+Permission denied writing to `/opt/os-migrate`::
+The pod user lacks write access to the mounted volume. Confirm that `fsGroup: 1000` is present in the container group
+pod spec override.
+
+`'NoneType' object has no attribute 'get'` in `auth_info`::
+The authentication credential is not attached to the job template. Ensure the os-migrate source and destination
+credential is assigned to the job template.
+
+`couldn't resolve module` errors for os-migrate modules::
+The execution environment image contains an outdated or mismatched version of the os-migrate collection. Pull and
+re-import the latest image.
+
+Image pull errors::
+The execution environment image is not present in the local container runtime cache. Re-import the image archive, or
+set the execution environment pull policy in AWX to `missing`.
+
+== File and path index
+
+=== Configuration and pod specs
+
+* Kubeconfig: `/etc/rancher/k3s/k3s.yaml`
+* PVC Manifest: `/root/awx/osm-data-pvc.yaml`
+* Editor Pod Spec: `/root/awx/osm-editor-pod.yaml`
+* In-Cluster HTTP Deployment: `/root/awx/osm-tools-http.yaml`
+
+=== Automation scripts
+
+* Provisioning Script: `/root/awx/configure_persistent.py`
+* Credential Setup Scripts: `/root/awx/configure_awx.py`, `/root/awx/fix_cred.py`
+* Job Execution Script: `/root/awx/run_jt.py <job_template_id>`
+
+=== Playbooks
+
+* Data Directory Diagnostic Playbook: `/root/awx/osm-tools/browse_data_dir.yml`
