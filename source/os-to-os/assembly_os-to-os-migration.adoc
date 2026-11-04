@@ -22,6 +22,8 @@ include::proc_preparing-the-clouds.adoc[leveloffset=+2]
 
 include::proc_deploying-conversion-hosts.adoc[leveloffset=+2]
 
+include::proc_persistent-awx-workflow.adoc[leveloffset=+2]
+
 include::proc_exporting-and-importing-pre-workload-resources.adoc[leveloffset=+2]
 
 include::proc_migrating-workloads.adoc[leveloffset=+2]
