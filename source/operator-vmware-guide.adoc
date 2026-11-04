@@ -118,3 +118,56 @@ Instances must be fully shut down before migration in nbdkit direct mode. If an 
 
 Ensure all source instances are stopped before running the import playbook.
 
+[id="vmware-v2.3.0-changes"]
+== Changes in v2.3.0
+
+The v2.3.0 release introduces several important features and improvements for VMware to OpenStack migrations.
+
+=== Custom nbdkit Plugin Support
+
+You can now bypass the VMware VDDK plugin by configuring a custom nbdkit plugin. This allows alternative data transfer methods without requiring the proprietary VMware VIX DiskLib.
+
+When using a custom nbdkit plugin:
+
+* The VMware VIX DiskLib (libdir) check on the conversion host is automatically skipped
+* The migration process waits for the custom nbdkit plugin backend connection to open before starting nbdcopy
+
+Refer to the `prelude` role argument specifications for configuration details.
+
+=== Enhanced nbdkit and nbdcopy Configuration
+
+You can now control nbdkit and nbdcopy multi-connection options through dictionary variables:
+
+* `sessions`, `pipeline`, and `multiconn` options for nbdkit
+* `connections` and `requests` options for nbdcopy
+
+These settings allow fine-tuning of parallel data transfers for improved migration performance.
+
+=== Heat Stack Integration
+
+Migrated instances are now wrapped in Heat orchestration stacks. This provides:
+
+* Support for migration rollbacks using Heat's adopt/abandon functionality
+* Automatic retry of instance creation on rollback status codes
+* Better tracking and management of migrated resources
+
+=== Configuration Variable Changes
+
+The following configuration changes were made:
+
+* `openstack_insecure` moved under the `dst_cloud` variable scope
+* `esxi_hostname` is now optional
+* Added `block_storage_api_version` configuration option
+
+=== Boot Volume Handling Improvements
+
+The migration process now:
+
+* Looks up Cinder boot volumes by UUID for more reliable volume identification
+* Treats an in-use boot volume on an active instance as a successful migration state
+* Discovers all disk keys from `disk_info` when building `data_volume_ids`
+
+=== Security and Reliability
+
+* vCenter credentials are now removed from migration log files to prevent credential exposure
+* Fixed shell quoting issues that caused failures when VM names contained spaces in virt-v2v-in-place operations
