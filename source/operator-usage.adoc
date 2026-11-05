@@ -1,0 +1,30 @@
+[id="hypervisor-nbd-migration"]
+=== Migrating from KVM/Hypervisor using NBD
+
+Starting with version 1.1.0, OS Migrate supports migrating workloads directly from KVM hypervisors to OpenStack using Network Block Device (NBD) protocol. This enables migration scenarios where the source is a standalone KVM/libvirt environment rather than an OpenStack cloud.
+
+==== Key Features
+
+* Export disk images directly from hypervisors using `qemu-nbd`
+* Migrate ephemeral disks and attached Cinder volumes in a single migration run
+* Multi-connection NBD support for improved transfer performance
+* Option to disable source conversion host for direct NBD migrations
+* Preservation of `volume_image_metadata` on destination boot volumes
+
+==== Configuration
+
+To migrate from a KVM hypervisor source, configure your migration to use NBD as the transfer mechanism. The migration playbooks will handle ephemeral and persistent volume data together.
+
+For enhanced performance, NBD multi-connection can be exposed during the hypervisor-to-OpenStack volume migration process.
+
+When using NBD directly, you can optionally disable the source conversion host by setting the appropriate migration parameters.
+
+Refer to the link:operator-nbd-migration.adoc[NBD Migration Guide] for detailed configuration steps and examples.
+
+==== Requirements
+
+* OS Migrate 1.1.0 or later
+* `qemu-nbd` available on the source hypervisor
+* `openstacksdk` 4.21.0 or later
+* Ansible `cloud.openstack` collection 2.6.0 or later
+* Python `jmespath` library for JSON query operations
