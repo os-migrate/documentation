@@ -118,3 +118,83 @@ Instances must be fully shut down before migration in nbdkit direct mode. If an 
 
 Ensure all source instances are stopped before running the import playbook.
 
+[id="openvixdisklib-plugin"]
+=== Using OpenVixDiskLib as NBD Plugin
+
+OpenVixDiskLib is a pure-Python VDDK NBD-path replacement that can be used as an nbdkit Python plugin for reading VMware VMDK disks during migration. This provides an alternative to the proprietary VMware VIX DiskLib.
+
+==== Requirements
+
+To use OpenVixDiskLib on your conversion host:
+
+* Python >= 3.10
+* nbdkit-python-plugin built against Python 3.10 or later
+* Supported platforms: CentOS Stream 10, RHEL 10, or Fedora
+
+[NOTE]
+====
+CentOS Stream 9 ships nbdkit-python-plugin linked to Python 3.9 and is *not supported* for this plugin.
+====
+
+==== Configuration Variables
+
+The following Ansible variables control OpenVixDiskLib installation and usage:
+
+[options="header"]
+|===
+| Variable | Default | Description
+| `conversion_host_use_openvixdisklib` | `false` | Enable OpenVixDiskLib nbdkit plugin. When enabled, the VMware VIX DiskLib check is skipped.
+| `conversion_host_openvixdisklib_plugin_path` | `/opt/os-migrate/openvixdisklib_nbdkit.py` | Path where the nbdkit Python plugin script is deployed on the conversion host.
+| `conversion_host_openvixdisklib_repo` | `https://github.com/cloudbase/OpenVixDiskLib.git` | Git repository URL for the OpenVixDiskLib library.
+| `conversion_host_openvixdisklib_version` | `main` | Git branch, tag, or commit to install from the OpenVixDiskLib repository.
+|===
+
+==== Enabling OpenVixDiskLib
+
+To use OpenVixDiskLib instead of VMware VDDK:
+
+[source,yaml]
+----
+- hosts: conversion_hosts
+  vars:
+    conversion_host_use_openvixdisklib: true
+  roles:
+    - os_migrate.vmware_migration_kit.conversion_host
+----
+
+When enabled, the `conversion_host` role will:
+
+1. Skip the VMware VIX DiskLib (libdir) validation
+2. Install the OpenVixDiskLib library from GitHub if not already present
+3. Deploy the nbdkit Python plugin script to the conversion host
+
+==== Advanced Configuration
+
+You can customize the plugin installation location or use a specific version:
+
+[source,yaml]
+----
+- hosts: conversion_hosts
+  vars:
+    conversion_host_use_openvixdisklib: true
+    conversion_host_openvixdisklib_plugin_path: /usr/local/share/openvixdisklib.py
+    conversion_host_openvixdisklib_version: v1.0.0
+  roles:
+    - os_migrate.vmware_migration_kit.conversion_host
+----
+
+==== How It Works
+
+The OpenVixDiskLib plugin serves VMware VMDK disks read-only over NBD during migration. The migration pipeline reads the source disk from this NBD export and writes it to the destination Cinder volume using nbdcopy.
+
+The plugin supports:
+
+* Multi-connection parallel transfers (compatible with `nbdcopy --connections=N`)
+* Change Block Tracking (CBT) for incremental copies
+* Snapshot-consistent disk exports
+* NBD and NBDSSL transport modes
+
+[NOTE]
+====
+OpenVixDiskLib cannot query disk geometry from VMware APIs, so the disk size must be passed explicitly by the migration tooling. This is handled automatically by the migration modules.
+====
