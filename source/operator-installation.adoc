@@ -1,0 +1,15 @@
+[id="python-openstackclient-version-requirements"]
+== Python OpenStackClient Version Requirements
+
+OS Migrate requires `python-openstackclient` version 7.0 or later. Earlier versions had a constraint limiting compatibility to versions below 8.0, but this upper constraint has been removed to support newer OpenStack client releases.
+
+The minimum version requirement remains `python-openstackclient>=7.0` to ensure compatibility with the required `openstacksdk>=4.21.0`.
+
+If you are installing OS Migrate dependencies manually or building custom containers, ensure your environment includes:
+
+[source,bash]
+----
+pip install 'python-openstackclient>=7.0'
+----
+
+This change allows OS Migrate to work with the latest OpenStack client tools while maintaining backward compatibility with version 7.x series.
