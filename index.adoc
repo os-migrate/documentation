@@ -33,6 +33,8 @@ include::source/os-to-os/assembly_os-to-os-migration.adoc[leveloffset=+1]
 
 include::source/shared/assembly_common-reference.adoc[leveloffset=+1]
 
+include::source/meta-ci-guide.adoc[leveloffset=+1]
+
 == Community
 
 https://github.com/os-migrate/vmware-migration-kit/[VMware Migration Kit source code]
