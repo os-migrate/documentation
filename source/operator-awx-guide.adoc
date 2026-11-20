@@ -1,0 +1,171 @@
+[id="running-os-migrate-in-awx"]
+= Running OS Migrate in AWX
+
+OS Migrate can run in AWX (the upstream open source project of Red Hat Ansible Automation Platform) or Ansible Automation Platform itself. This guide shows how to configure AWX to run tenant migrations using the os-migrate execution environment and custom credential types.
+
+== Prerequisites
+
+* AWX (tested with AWX Operator 2.19.1, AWX 24.6.1) or Ansible Automation Platform
+* Access to an AWX organization
+* Source and destination OpenStack clouds reachable from AWX job pods
+* The os-migrate execution environment image available to AWX
+
+== Overview
+
+Running os-migrate in AWX involves:
+
+1. Registering the os-migrate execution environment
+2. Creating a custom credential type for OpenStack cloud credentials
+3. Creating a credential with source and destination cloud details
+4. Setting up a project pointing to your os-migrate playbooks
+5. Creating an inventory with a `localhost` target
+6. Defining a job template that runs the migration playbook
+
+== Execution Environment
+
+Register the os-migrate execution environment in AWX:
+
+[source,yaml]
+----
+- name: Register the os-migrate execution environment
+  awx.awx.execution_environment:
+    name: "os-migrate EE"
+    organization: "Default"
+    image: "quay.io/os-migrate/os-migrate-aee:latest"
+    pull: always
+    state: present
+----
+
+If you built the execution environment locally, use `pull: never` and ensure the image is available in your AWX environment.
+
+== Custom Credential Type
+
+Create an "os-migrate clouds" credential type to store source and destination OpenStack credentials:
+
+[source,yaml]
+----
+- name: Create the "os-migrate clouds" credential type
+  awx.awx.credential_type:
+    name: os-migrate clouds
+    kind: cloud
+    description: Source and destination OpenStack clouds for os-migrate
+    inputs:
+      fields:
+        - {id: src_auth_url, type: string, label: Source auth URL}
+        - {id: src_username, type: string, label: Source username}
+        - {id: src_password, type: string, label: Source password, secret: true}
+        - {id: src_project_name, type: string, label: Source project}
+        - {id: src_user_domain_name, type: string, label: Source user domain, default: Default}
+        - {id: src_project_domain_name, type: string, label: Source project domain, default: Default}
+        - {id: dst_auth_url, type: string, label: Destination auth URL}
+        - {id: dst_username, type: string, label: Destination username}
+        - {id: dst_password, type: string, label: Destination password, secret: true}
+        - {id: dst_project_name, type: string, label: Destination project}
+        - {id: dst_user_domain_name, type: string, label: Destination user domain, default: Default}
+        - {id: dst_project_domain_name, type: string, label: Destination project domain, default: Default}
+      required:
+        - src_auth_url
+        - src_username
+        - src_password
+        - src_project_name
+        - dst_auth_url
+        - dst_username
+        - dst_password
+        - dst_project_name
+    injectors:
+      extra_vars:
+        osm_awx_src_auth_url: !unsafe "{{ src_auth_url }}"
+        osm_awx_src_username: !unsafe "{{ src_username }}"
+        osm_awx_src_password: !unsafe "{{ src_password }}"
+        osm_awx_src_project_name: !unsafe "{{ src_project_name }}"
+        osm_awx_src_user_domain_name: !unsafe "{{ src_user_domain_name }}"
+        osm_awx_src_project_domain_name: !unsafe "{{ src_project_domain_name }}"
+        osm_awx_dst_auth_url: !unsafe "{{ dst_auth_url }}"
+        osm_awx_dst_username: !unsafe "{{ dst_username }}"
+        osm_awx_dst_password: !unsafe "{{ dst_password }}"
+        osm_awx_dst_project_name: !unsafe "{{ dst_project_name }}"
+        osm_awx_dst_user_domain_name: !unsafe "{{ dst_user_domain_name }}"
+        osm_awx_dst_project_domain_name: !unsafe "{{ dst_project_domain_name }}"
+    state: present
+----
+
+This credential type injects variables prefixed with `osm_awx_` that your migration playbook can use to build `clouds.yaml` or pass directly to os-migrate roles.
+
+== Creating a Credential
+
+After creating the credential type, create a credential instance with your actual cloud details through the AWX UI or API.
+
+== Project Setup
+
+Create an AWX project pointing to a repository containing your migration playbooks. The playbooks should import the os-migrate collection's export and import playbooks.
+
+Example migration playbook:
+
+[source,yaml]
+----
+- name: Export from source cloud
+  import_playbook: os_migrate.os_migrate.export_networks.yml
+  vars:
+    os_migrate_src_auth:
+      auth_url: "{{ osm_awx_src_auth_url }}"
+      username: "{{ osm_awx_src_username }}"
+      password: "{{ osm_awx_src_password }}"
+      project_name: "{{ osm_awx_src_project_name }}"
+      user_domain_name: "{{ osm_awx_src_user_domain_name }}"
+      project_domain_name: "{{ osm_awx_src_project_domain_name }}"
+
+- name: Import to destination cloud
+  import_playbook: os_migrate.os_migrate.import_networks.yml
+  vars:
+    os_migrate_dst_auth:
+      auth_url: "{{ osm_awx_dst_auth_url }}"
+      username: "{{ osm_awx_dst_username }}"
+      password: "{{ osm_awx_dst_password }}"
+      project_name: "{{ osm_awx_dst_project_name }}"
+      user_domain_name: "{{ osm_awx_dst_user_domain_name }}"
+      project_domain_name: "{{ osm_awx_dst_project_domain_name }}"
+----
+
+== Inventory
+
+Create an inventory with a `localhost` entry (or a `migrator` group containing `localhost`), as os-migrate runs against the local execution environment, not remote hosts.
+
+== Job Template
+
+Create a job template with:
+
+* **Inventory**: Your inventory with localhost
+* **Project**: Your migration playbook repository
+* **Playbook**: Path to your migration playbook
+* **Execution Environment**: The os-migrate EE
+* **Credentials**: Your "os-migrate clouds" credential
+* **Extra Variables**: Any additional os-migrate variables (e.g., `os_migrate_data_dir`)
+
+== Important Considerations
+
+=== Persistent Storage
+
+Each AWX job runs in a fresh container with an empty filesystem. The os-migrate data directory does not persist between jobs by default.
+
+**Single Job Approach**: Run export and import in the same job (same playbook) so exported data is immediately imported.
+
+**Workflow Approach**: To split export and import into separate job templates (for example, in a workflow), you need:
+
+* A persistent volume mounted at `os_migrate_data_dir`
+* A custom container group with a pod spec that mounts this volume
+* All job templates in the workflow using this container group
+
+=== Idempotency
+
+OS Migrate playbooks are idempotent. Running the same migration job multiple times will not create duplicate resources — the second run will detect existing resources and skip them.
+
+== Testing AWX Integration
+
+The os-migrate repository includes functional tests that run the collection through AWX. See `tests/awx/README.md` for details. These tests run:
+
+* On pushes to `main`
+* Nightly
+* On manual workflow dispatch
+* On pull requests labeled `test-awx`
+
+The tests use a kind cluster with AWX Operator 2.19.1 and two gostack fake-OpenStack clouds to verify the complete AWX integration workflow.
