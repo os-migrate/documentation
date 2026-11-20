@@ -12,7 +12,10 @@ workload migration procedure, see xref:proc_osts-migrating-workloads[].
 * A conversion host is deployed in the destination cloud. See xref:proc_osts-deploying-conversion-hosts[].
 * The destination conversion host has direct network connectivity to the source hypervisors on the `qemu-nbd` ports
 (10809 and higher by default).
-* The workloads to migrate are in the `SHUTOFF` state.
+* The workloads to migrate are in the `SHUTOFF` state at export time. The `import_from_hypervisor` role checks the
+status recorded in `workloads.yml` by `export_workloads`, so stopping an instance after export is not sufficient.
+* The `os_migrate.os_migrate` collection 1.1.0 or later, with `openstacksdk` 4.21.0 or later and the Python `jmespath`
+library.
 
 .Procedure
 
@@ -94,6 +97,98 @@ volume per disk, attaches the volumes to the destination conversion host, copies
 `nbdcopy`, detaches the volumes, and creates the instance with the new volumes.
 
 To customize the role behavior, set the variables described in xref:ref_osts-nbd-variables[].
+
+[id="proc_osts-nbd-without-src-conversion-host"]
+== Migrating without a source conversion host
+
+When all the disks of the migrated workloads are local disks served by `qemu-nbd`, no source conversion host is
+required. Disable the source conversion host explicitly, so that the playbooks do not wait for it or fail because it is
+missing. Only the destination conversion host is required in this mode.
+
+.Procedure
+
+. Set the following variables in your variables file, or pass them with the `-e` option:
++
+[source,yaml]
+----
+os_migrate_deploy_src_conversion_host: false
+os_migrate_link_conversion_hosts: false
+os_migrate_requires_src_conversion_host: false
+----
++
+With these values, `deploy_conversion_hosts.yml` deploys only the destination conversion host and skips the link step,
+and `import_workloads.yml` tolerates a missing source conversion host. For the description of each variable, see
+xref:ref_osts-nbd-variables[].
+
+. Ensure that the source hypervisor is reachable over SSH. The `import_from_hypervisor` role delegates the `qemu-img`
+and `qemu-nbd` tasks to the compute node reported by Nova as `hypervisor_hostname`, and takes the SSH connection
+settings, such as `ansible_user` or `ansible_ssh_user`, from the inventory entry of that host. If you cannot add the
+hypervisor to your inventory, set the SSH user for the delegated tasks:
++
+[source,yaml]
+----
+os_migrate_hypervisor_ssh_user: root
+----
+
+. Run the `import_from_hypervisor.yml` and `import_workloads.yml` playbooks as described earlier in this procedure.
+
+[id="proc_osts-nbd-mixed-migration"]
+== Migrating local disks and Cinder volumes together
+
+A single `import_workloads` run can migrate a workload that has both local disks, such as an image-backed boot disk or
+ephemeral disks, and attached Cinder volumes. The migration uses two transfer methods:
+
+* `nbdcopy` from the `qemu-nbd` export on the source hypervisor, for the local disks.
+* The conversion host path, for the attached Cinder volumes.
+
+.Prerequisites
+
+* The source hypervisor is reachable, so that `import_from_hypervisor` can spawn `qemu-nbd`.
+* A source conversion host and a destination conversion host are deployed and linked. Do not disable the source
+conversion host for mixed migrations.
+
+.Procedure
+
+. Stop the source instance before you export it:
++
+[source,bash]
+----
+openstack server stop <instance_name>
+----
+
+. Export the workload and enable NBD direct mode in the `_migration_params` section of the workload in `workloads.yml`:
++
+[source,yaml]
+----
+- _info:
+    id: <instance_id>
+    status: SHUTOFF
+  params:
+    name: my-vm
+    volumes:
+      - _info:
+          id: <cinder_volume_id>
+        params:
+          name: data-volume
+  _migration_params:
+    use_nbdkit_direct: true
+    boot_disk_copy: true
+----
+
+. Run the `import_from_hypervisor.yml` and `import_workloads.yml` playbooks as described earlier in this procedure.
++
+The import copies the local disks directly from the source hypervisor with `nbdcopy`, copies the attached Cinder
+volumes through the conversion hosts, and creates the destination instance with all disks attached.
+
+The volume map of a workload is built from the first available source, in this order:
+
+. `nbdkit_disks`: the actual disk sizes detected by `import_from_hypervisor`, which is the most accurate source.
+. `volumes`: the Cinder volumes attached to the instance.
+. Ephemeral disks: size estimates based on the flavor of the instance.
+
+Each disk served by `qemu-nbd` is tagged with `transfer_method: "nbdcopy"` in the volume map. Cinder volumes exported
+through the source conversion host default to the `qemu-img` conversion host path. This tagging lets a single migration
+handle both transfer types.
 
 [id="proc_osts-nbd-manual-hypervisor-preparation"]
 == Preparing the hypervisor manually

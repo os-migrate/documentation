@@ -98,7 +98,8 @@ Documentation is automatically built and deployed to GitHub Pages when changes a
 
 ### File Path Patterns
 All AsciiDoc files are located in the `source/` directory:
-- Operator documentation: `source/operator-*.adoc`
+- Operator documentation: modular topics in `source/vmware/`, `source/os-to-os/`, and `source/shared/` (there are no
+  `source/operator-*.adoc` files any more; only files reachable from `index.adoc` through `include::` are published)
 - Developer documentation: `source/developer-*.adoc`
 - Module reference docs: `source/reference-module-*.adoc`
 - Role reference docs: `source/reference-role-*.adoc`

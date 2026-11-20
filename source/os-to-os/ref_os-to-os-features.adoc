@@ -88,8 +88,12 @@ xref:ref_osts-migration-parameters[].
 
 NBD source migration::
 Transfer volume data directly from the source hypervisor to the destination conversion host using `qemu-nbd`, bypassing
-the source conversion host. Supports multiple disks per instance, including boot and ephemeral disks. See
+the source conversion host. Supports multiple disks per instance, including boot and ephemeral disks, migrating local
+disks and attached Cinder volumes together in a single run, and running without a source conversion host. See
 xref:con_osts-nbd-source-migration[].
+
+Boot volume image metadata::
+The `volume_image_metadata` of the source boot volume is preserved on the destination boot volume.
 
 Floating IP handling::
 Skip, create new, attach existing, or attempt existing then fall back to new. See xref:ref_osts-migration-parameters[].

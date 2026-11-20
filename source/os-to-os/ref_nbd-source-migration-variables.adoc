@@ -21,3 +21,20 @@ recommended.
 
 `os_migrate_nbdkit_nova_instances_dir`::
 Directory of the Nova instances on the hypervisor. Defaults to `/var/lib/nova/instances`.
+
+`os_migrate_hypervisor_ssh_user`::
+SSH user for the `qemu-img` and `qemu-nbd` tasks delegated to the source hypervisor. Leave it empty to use the
+connection settings of the hypervisor inventory entry. Defaults to `""`.
+
+The following variables disable the source conversion host when all disks are served by `qemu-nbd`. See
+xref:proc_osts-nbd-without-src-conversion-host[].
+
+`os_migrate_deploy_src_conversion_host`::
+Set to `false` so that `deploy_conversion_hosts.yml` deploys only the destination conversion host. Defaults to `true`.
+
+`os_migrate_link_conversion_hosts`::
+Set to `false` to skip the conversion host link step, which otherwise waits for the source conversion host to become
+reachable over SSH. Defaults to `true`.
+
+`os_migrate_requires_src_conversion_host`::
+Set to `false` so that `import_workloads.yml` tolerates a missing source conversion host instead of failing the run.

@@ -45,6 +45,8 @@ include::ref_multi-disk-migration.adoc[leveloffset=+1]
 
 include::ref_custom-nbdkit-plugin.adoc[leveloffset=+1]
 
+include::proc_using-openvixdisklib-plugin.adoc[leveloffset=+1]
+
 include::proc_running-migration-from-local-shared-nfs.adoc[leveloffset=+1]
 
 == Automating with AWX or Ansible Automation Platform

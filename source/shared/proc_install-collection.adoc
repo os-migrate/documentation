@@ -14,6 +14,8 @@ method. Installation from source is available when you customize the collection.
 .Prerequisites
 * Ansible 2.9 or later, running on Python 3.
 * Package dependencies for the OpenStack modules: `iputils`, `python3-openstackclient`, `python3-openstacksdk`.
+* For `os_migrate.os_migrate` 1.1.0 and later: `openstacksdk` 4.21.0 or later, the Python `jmespath` library, and the
+`openstack.cloud` Ansible collection 2.6.0 or later.
 
 .Procedure
 

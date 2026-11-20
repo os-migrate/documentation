@@ -1,0 +1,110 @@
+:_mod-docs-content-type: PROCEDURE
+[id="proc_vmw-using-openvixdisklib-plugin"]
+= Using the OpenVixDiskLib nbdkit plugin
+
+[role="_abstract"]
+OpenVixDiskLib is a pure-Python replacement for the NBD path of VMware VDDK. The VMware Migration Kit can serve it as an
+nbdkit Python plugin that reads the VMware VMDK disks during migration, as an alternative to the proprietary VMware VIX
+DiskLib. The plugin serves the source disk read-only over NBD, and the migration writes it to the destination Cinder
+volume with `nbdcopy`. For other alternatives to the built-in `vddk` plugin, see xref:ref_vmw-custom-nbdkit-plugin[].
+
+.Prerequisites
+
+* A conversion host with Python 3.10 or later, and an `nbdkit-python-plugin` package built against that Python version.
+Supported platforms are CentOS Stream 10, RHEL 10, and Fedora. For the conversion host deployment, see
+xref:proc_vmw-deploying-conversion-host[].
++
+[NOTE]
+====
+CentOS Stream 9 ships `nbdkit-python-plugin` linked to Python 3.9 and is not supported for this plugin. The
+`conversion_host` role fails early when the conversion host Python is older than 3.10.
+====
+
+.Procedure
+
+. Enable OpenVixDiskLib when you deploy the conversion host with the `conversion_host` role:
++
+[source,yaml]
+----
+- hosts: conversion_hosts
+  vars:
+    conversion_host_use_openvixdisklib: true
+  roles:
+    - os_migrate.vmware_migration_kit.conversion_host
+----
++
+When OpenVixDiskLib is enabled, the `conversion_host` role:
++
+.. Installs `nbdkit`, `nbdkit-python-plugin`, and the build dependencies of the library.
+.. Installs the OpenVixDiskLib library from its Git repository, if it is not already present.
+.. Deploys the nbdkit Python plugin script to the conversion host.
+.. Skips the validation of the VMware VIX DiskLib (`libdir`), which is required only for the built-in `vddk` plugin.
+
+. Enable OpenVixDiskLib for the migration, by setting `use_openvixdisklib: true` in your migration variables:
++
+[source,yaml]
+----
+use_openvixdisklib: true
+----
++
+The `import_workloads` role then passes the deployed plugin script to the `migrate` module instead of the `vddk`
+plugin. OpenVixDiskLib takes precedence over `custom_nbdkit_plugin` when both are set.
+
+. Run the migration as described in xref:proc_vmw-migrating-cli[].
+
+[id="ref_vmw-openvixdisklib-variables"]
+== OpenVixDiskLib variables
+
+The following variables control the installation and the use of OpenVixDiskLib. Each `conversion_host_` variable
+defaults to the value of the matching short variable, for example `use_openvixdisklib`, so you can set the short
+variables once for both the conversion host deployment and the migration.
+
+[options="header",cols="2,2,3"]
+|===
+| Variable | Default | Description
+
+| `conversion_host_use_openvixdisklib`
+| `false`
+| Installs OpenVixDiskLib and deploys the nbdkit plugin on the conversion host. The VMware VIX DiskLib check is skipped.
+
+| `conversion_host_openvixdisklib_plugin_path`
+| `/opt/os-migrate/openvixdisklib_nbdkit.py`
+| Path where the nbdkit Python plugin script is deployed on the conversion host.
+
+| `conversion_host_openvixdisklib_repo`
+| `https://github.com/cloudbase/OpenVixDiskLib.git`
+| Git repository URL of the OpenVixDiskLib library.
+
+| `conversion_host_openvixdisklib_version`
+| `main`
+| Git branch, tag, or commit to install from the OpenVixDiskLib repository.
+
+| `import_workloads_use_openvixdisklib`
+| `false`
+| Uses the OpenVixDiskLib plugin for the disk transfer during migration.
+
+| `import_workloads_openvixdisklib_plugin_path`
+| `/opt/os-migrate/openvixdisklib_nbdkit.py`
+| Path of the plugin script on the conversion host, used by the migration.
+|===
+
+To install a specific version of the library at a custom location:
+
+[source,yaml]
+----
+- hosts: conversion_hosts
+  vars:
+    conversion_host_use_openvixdisklib: true
+    conversion_host_openvixdisklib_plugin_path: /usr/local/share/openvixdisklib.py
+    conversion_host_openvixdisklib_version: v1.0.0
+  roles:
+    - os_migrate.vmware_migration_kit.conversion_host
+----
+
+If you change the plugin path, set `openvixdisklib_plugin_path` to the same value for the migration.
+
+[NOTE]
+====
+OpenVixDiskLib cannot query the disk geometry from the VMware APIs. The `migrate` module passes the disk size to the
+plugin explicitly, so no configuration is required.
+====

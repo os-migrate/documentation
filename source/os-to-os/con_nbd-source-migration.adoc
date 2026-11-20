@@ -33,7 +33,8 @@ intermediate source conversion host step.
 
 When `import_workloads` detects `use_nbdkit_direct: true` in a workload definition, it changes the migration workflow:
 
-* Source conversion host operations are skipped entirely.
+* Source conversion host operations are skipped for the local disks of the instance. Attached Cinder volumes still use
+the source conversion host, see xref:proc_osts-nbd-mixed-migration[].
 * The `nbdkit_disks` list is read from the workload definition.
 * One destination volume is created per disk and attached to the destination conversion host.
 * Each disk is copied from its NBD URI to its destination volume with `nbdcopy`, instead of `qemu-img convert`.
