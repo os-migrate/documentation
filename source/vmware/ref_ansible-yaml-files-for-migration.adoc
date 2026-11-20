@@ -160,3 +160,39 @@ ansible-playbook -i inventory.yml \
   -e @secrets.yml -e @myvars.yml \
   --ask-vault-pass
 ----
+
+[id="ref_vmw-proxy-vm-configuration"]
+== Proxy VM transport configuration
+
+To use proxy VM transport instead of VDDK, configure the transport method and proxy VM connection parameters.
+
+In `myvars.yml`:
+
+[source,yaml]
+----
+# Use proxy VM transport:
+transport: proxy
+
+# Proxy VM IP address or hostname:
+proxy_vm_address: 192.168.100.50
+
+# Optional: proxy VM username (default: cloud-user):
+proxy_vm_user: migration-user
+
+# Optional: proxy VM name in vCenter (default: osm-proxy):
+proxy_vm_name: migration-proxy-01
+
+# Optional: NBD port range (defaults: 10809-10869):
+proxy_port_min: 10809
+proxy_port_max: 10869
+----
+
+In `secrets.yml`:
+
+[source,yaml]
+----
+# Proxy VM user password (for VMware guest operations):
+proxy_vm_password: my-proxy-password
+----
+
+For a complete reference of proxy VM variables, see xref:ref_vmw-proxy-vm-variables[].

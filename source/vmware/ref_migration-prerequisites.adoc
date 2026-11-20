@@ -148,3 +148,17 @@ To install VMware Tools:
 Attempting a CBT-based migration without VMware Tools installed will fail.
 Ensure VMware Tools are installed and running before enabling CBT.
 ====
+
+[id="ref_vmw-proxy-vm-prerequisites"]
+== Proxy VM deployment (proxy disk transport)
+
+If you use the proxy VM disk transport method, deploy and configure a proxy VM in vCenter before migration:
+
+* Deploy a Linux VM (RHEL 9 or CentOS Stream 9) in the same vCenter as the source VMs.
+* Enable disk UUID support on the proxy VM (`disk.EnableUUID=TRUE`).
+* Install nbdkit on the proxy VM.
+* Configure passwordless sudo for the proxy VM user.
+* Configure the firewall to allow NBD traffic on the configured port range (default: 10809-10869).
+* Ensure network connectivity from the destination conversion host to the proxy VM.
+
+For detailed deployment instructions, see xref:proc_vmw-deploying-proxy-vm[].

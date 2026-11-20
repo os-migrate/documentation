@@ -57,3 +57,14 @@ This allows for minimal downtime for the VMs.
 ====
 
 image::vmware_migration_cbt_2.png[CBT Step 2]
+
+[id="con_vmw-migration-workflow-proxy"]
+== Migration workflow with proxy VM
+
+The proxy VM transport workflow eliminates the need for VDDK by using a proxy virtual machine deployed in vCenter:
+
+image::https://raw.githubusercontent.com/os-migrate/documentation/main/images/osm-migration-proxy-vmware-workflow.drawio.svg[Proxy VM workflow]
+
+The proxy VM hot-attaches source VM snapshot disks in read-only mode and exports them via NBD (Network Block Device) protocol. The destination conversion host connects to the proxy VM to transfer disk data using nbdcopy.
+
+This workflow supports Change Block Tracking (CBT) for incremental migrations and simplifies the migration architecture by removing the requirement for VDDK libraries and direct ESXi host access on port 902.

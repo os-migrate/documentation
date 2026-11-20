@@ -9,6 +9,8 @@ Use the VMware Migration Kit (os_migrate.vmware_migration_kit) Ansible collectio
 
 include::con_migration-tools-and-workflows.adoc[leveloffset=+1]
 
+include::con_proxy-vm-transport.adoc[leveloffset=+1]
+
 include::ref_migration-features.adoc[leveloffset=+1]
 
 include::ref_supported-os.adoc[leveloffset=+1]
@@ -25,6 +27,8 @@ include::proc_setting-up-migration-requirements.adoc[leveloffset=+1]
 
 include::proc_deploying-a-conversion-host.adoc[leveloffset=+1]
 
+include::proc_deploying-proxy-vm.adoc[leveloffset=+1]
+
 include::proc_building-aee-images.adoc[leveloffset=+1]
 
 == Migrating from the command line
@@ -32,6 +36,8 @@ include::proc_building-aee-images.adoc[leveloffset=+1]
 include::ref_ansible-yaml-files-for-migration.adoc[leveloffset=+1]
 
 include::ref_prelude-argument-specs.adoc[leveloffset=+1]
+
+include::ref_proxy-vm-variables.adoc[leveloffset=+1]
 
 include::ref_flavor-mapping.adoc[leveloffset=+1]
 

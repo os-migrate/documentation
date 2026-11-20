@@ -1,0 +1,57 @@
+:_mod-docs-content-type: CONCEPT
+[id="con_vmw-proxy-vm-transport"]
+= Proxy VM disk transport
+
+[role="_abstract"]
+The proxy VM transport method allows migration without relying on VDDK by using a proxy virtual machine deployed in the VMware vCenter environment. The proxy VM hot-attaches source VM disks read-only and exports them via NBD (Network Block Device) protocol to the destination conversion host.
+
+== How proxy VM transport works
+
+The proxy VM acts as an NBD server inside the VMware environment:
+
+. The proxy VM is a Linux instance deployed in vCenter with nbdkit installed.
+. During migration, the source VM's snapshot disks are hot-attached to the proxy VM in read-only mode.
+. The proxy VM runs nbdkit to export each disk over NBD on a dedicated port.
+. The destination conversion host connects to the proxy VM via NBD and uses nbdcopy to transfer disk data.
+. After migration completes, disks are detached from the proxy VM.
+
+This approach eliminates the need for VDDK libraries and direct ESXi host access (port 902), simplifying the migration architecture.
+
+== Proxy VM requirements
+
+* The proxy VM must be deployed in the same vCenter as the source VMs.
+* The proxy VM requires nbdkit to be installed and accessible via passwordless sudo.
+* The proxy VM must have sufficient SCSI controller slots to attach source disks (up to 60 disks can be attached across 4 SCSI controllers).
+* The proxy VM guest user must have passwordless sudo configured.
+* The proxy VM must enable disk UUID support (`disk.EnableUUID=TRUE` in VMware).
+* Network connectivity from the destination conversion host to the proxy VM on NBD ports (default range: 10809-10869).
+
+== When to use proxy VM transport
+
+Consider using proxy VM transport when:
+
+* You want to avoid VDDK licensing or deployment complexity.
+* Direct ESXi host access (port 902) is restricted by network policies.
+* You prefer managing migration through a centralized proxy within vCenter.
+* You need to migrate VMs from multiple ESXi hosts through a single proxy endpoint.
+
+== Comparison with VDDK transport
+
+.Proxy VM vs VDDK transport
+[options="header"]
+|===
+| Feature | Proxy VM Transport | VDDK Transport
+
+| VDDK library required | No | Yes
+| Direct ESXi access (port 902) | No | Yes
+| vCenter access (port 443) | Yes | Yes
+| CBT support | Yes | Yes
+| Proxy deployment | Manual or automated | Not applicable
+| Network path | Conversion host → Proxy VM → vCenter | Conversion host → ESXi → vCenter
+|===
+
+== Limitations
+
+* The proxy VM must be manually deployed before migration, though automation for deployment is planned.
+* The proxy VM requires sufficient SCSI slots; migrations of VMs with more than 60 disks may require multiple proxy VMs or serial migration.
+* NBD ports on the proxy VM must be accessible from the conversion host.

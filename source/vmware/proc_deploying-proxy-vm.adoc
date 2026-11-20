@@ -1,0 +1,111 @@
+:_mod-docs-content-type: PROCEDURE
+[id="proc_vmw-deploying-proxy-vm"]
+= Deploying a proxy VM for disk transport
+
+[role="_abstract"]
+Deploy and configure a proxy virtual machine in VMware vCenter to enable proxy VM disk transport. The proxy VM hot-attaches source VM disks and exports them via NBD for migration.
+
+.Prerequisites
+
+* You have access to VMware vCenter with permissions to deploy VMs.
+* You have a Linux VM template or ISO to create the proxy VM (RHEL 9 or CentOS Stream 9 recommended).
+* You have network connectivity between the destination conversion host and the vCenter network where the proxy VM will be deployed.
+
+.Procedure
+
+. Deploy a Linux VM in vCenter:
++
+** Deploy from a RHEL 9 or CentOS Stream 9 template or ISO.
+** Allocate at least 2 vCPUs and 4 GB of RAM.
+** Attach the VM to a network accessible from the destination conversion host.
+** Add at least one SCSI controller (up to 4 SCSI controllers can be added to support more parallel migrations).
+
+. Enable disk UUID support on the proxy VM:
++
+.. Power off the proxy VM.
+.. In vSphere Client, right-click the proxy VM and select *Edit Settings*.
+.. Click *VM Options*, then *Advanced*.
+.. Click *Edit Configuration*.
+.. Add the parameter `disk.EnableUUID` with value `TRUE`.
+.. Click *OK* to save.
+.. Power on the proxy VM.
+
+. Log in to the proxy VM and install nbdkit:
++
+[source,bash]
+----
+sudo dnf install -y nbdkit nbdkit-file-plugin
+----
+
+. Configure passwordless sudo for the migration user:
++
+[source,bash]
+----
+echo "cloud-user ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/cloud-user
+sudo chmod 440 /etc/sudoers.d/cloud-user
+----
++
+Replace `cloud-user` with the username you will use for migration.
+
+. Configure the firewall to allow NBD traffic:
++
+[source,bash]
+----
+sudo firewall-cmd --permanent --add-port=10809-10869/tcp
+sudo firewall-cmd --reload
+----
++
+Adjust the port range if you configure a custom `proxy_port_min` or `proxy_port_max`.
+
+. Configure SELinux to allow nbdkit to bind to NBD ports:
++
+[source,bash]
+----
+sudo semanage port -a -t nbdkit_port_t -p tcp 10809-10869
+----
++
+If `semanage` is not available, install it:
++
+[source,bash]
+----
+sudo dnf install -y policycoreutils-python-utils
+----
+
+. Verify that VMware Tools are installed and running:
++
+[source,bash]
+----
+systemctl status vmtoolsd
+----
++
+If VMware Tools are not installed, install them following VMware documentation.
+
+. Record the proxy VM IP address for use in migration variables:
++
+[source,bash]
+----
+ip addr show
+----
+
+.Verification
+
+* Verify that nbdkit is installed:
++
+[source,bash]
+----
+nbdkit --version
+----
+
+* Verify that the proxy VM can be reached from the conversion host:
++
+[source,bash]
+----
+ping <proxy-vm-ip>
+----
+
+* Verify that NBD ports are accessible:
++
+[source,bash]
+----
+nc -zv <proxy-vm-ip> 10809
+----

@@ -1,0 +1,113 @@
+:_mod-docs-content-type: REFERENCE
+[id="ref_vmw-proxy-vm-variables"]
+= Proxy VM transport variables
+
+[role="_abstract"]
+Configure proxy VM transport by setting the transport method and proxy VM connection parameters in your variables file.
+
+== Enabling proxy VM transport
+
+To use proxy VM transport instead of VDDK, set the transport variable:
+
+[source,yaml]
+----
+transport: proxy
+----
+
+Or for import-only configuration:
+
+[source,yaml]
+----
+import_workloads_transport: proxy
+----
+
+== Proxy VM connection variables
+
+`proxy_vm_address`:: IP address or hostname of the proxy VM deployed in vCenter. The destination conversion host must be able to reach this address.
++
+*Required* when `transport: proxy`.
++
+Example: `proxy_vm_address: 192.168.100.50`
+
+`proxy_vm_user`:: Username for SSH and guest operations on the proxy VM. This user must have passwordless sudo configured.
++
+*Default:* `cloud-user`
++
+Example: `proxy_vm_user: migration-user`
+
+`proxy_vm_password`:: Password for the proxy VM user. Used for vSphere guest operations (VMware Tools) to run scripts inside the proxy VM.
++
+*Required* when `transport: proxy`.
++
+Example: `proxy_vm_password: secret-password`
++
+Store this variable in the `secrets.yml` file and encrypt with Ansible Vault.
+
+`proxy_port_min`:: Minimum NBD port number to use on the proxy VM. Each attached disk uses one port in the range `[proxy_port_min, proxy_port_max]`.
++
+*Default:* `10809`
++
+Example: `proxy_port_min: 11000`
+
+`proxy_port_max`:: Maximum NBD port number to use on the proxy VM.
++
+*Default:* `10869` (60 ports, supporting up to 60 parallel disk attachments)
++
+Example: `proxy_port_max: 11059`
+
+== Proxy VM reference in vCenter
+
+The proxy VM is identified by its name in vCenter:
+
+`proxy_vm_name`:: Name of the proxy VM as it appears in vCenter. The VMware Migration Kit uses this name to locate the proxy VM and perform guest operations.
++
+*Default:* `osm-proxy` (the playbook searches for a VM with this name)
++
+Example: `proxy_vm_name: migration-proxy-01`
+
+== Example configuration
+
+Minimal proxy VM transport configuration in `myvars.yml`:
+
+[source,yaml]
+----
+transport: proxy
+proxy_vm_address: 192.168.100.50
+----
+
+In `secrets.yml`:
+
+[source,yaml]
+----
+proxy_vm_password: my-proxy-password
+----
+
+Full configuration with custom settings:
+
+[source,yaml]
+----
+transport: proxy
+proxy_vm_address: 192.168.100.50
+proxy_vm_user: migration-user
+proxy_vm_name: migration-proxy-01
+proxy_port_min: 11000
+proxy_port_max: 11059
+----
+
+== Network and firewall requirements
+
+* The proxy VM must allow inbound TCP connections on ports `[proxy_port_min, proxy_port_max]` from the destination conversion host.
+* Configure firewall rules on the proxy VM:
++
+[source,bash]
+----
+sudo firewall-cmd --permanent --add-port=10809-10869/tcp
+sudo firewall-cmd --reload
+----
+
+* SELinux configuration on the proxy VM:
++
+[source,bash]
+----
+sudo semanage port -a -t nbdkit_port_t -p tcp 10809-10869
+----
